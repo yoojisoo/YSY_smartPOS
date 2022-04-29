@@ -4,7 +4,7 @@
       <v-spacer></v-spacer>
       <v-btn>Notice</v-btn>
       <v-btn>Admin</v-btn>
-      <v-btn>Logout</v-btn>
+      <v-btn to='/signIn'>Sign In</v-btn>
     </v-system-bar>
 </template>
 

@@ -1,67 +1,57 @@
-import HomeView from '../views/HomeView.vue'
-import FavoriteView from '../views/FavoriteView.vue'
-import LayoutView from '../views/LayoutView.vue'
-import TransferView from '../views/TransferView.vue'
-import DeviceView from '../views/DeviceView.vue'
-import FunctionView from '../views/FunctionView.vue'
-import HistoryView from '../views/HistoryView.vue'
-import LogView from '../views/LogView.vue'
-import SystemView from '../views/SystemView.vue'
-
 const menus = [
     {
         path: '/',
         name: 'home',
-        component: HomeView,
         icon: 'mdi-home',
+        component: () => import('@/views/HomeView.vue'),
     },
     {
         path: '/favorite',
         name: 'favorite',
-        component: FavoriteView,
         icon: 'mdi-home',
+        component: () => import('@/views/FavoriteView.vue'),
     },
     {
         path: '/layout',
         name: 'layout',
-        component: LayoutView,
         icon: 'mdi-home',
+        component: () => import('@/views/LayoutView.vue'),
     },
     {
         path: '/transfer',
         name: 'transfer',
-        component: TransferView,
         icon: 'mdi-home',
+        component: () => import('@/views/TransferView.vue'),
     },
     {
         path: '/device',
         name: 'device',
-        component: DeviceView,
         icon: 'mdi-home',
+        component: () => import('@/views/DeviceView.vue'),
     },
     {
         path: '/function',
         name: 'function',
-        component: FunctionView,
         icon: 'mdi-home',
+        component: () => import('@/views/FunctionView.vue'),
     },
     {
         path: '/history',
         name: 'history',
-        component: HistoryView,
         icon: 'mdi-home',
+        component: () => import('@/views/HistoryView.vue'),
     },
     {
         path: '/log',
         name: 'log',
-        component: LogView,
         icon: 'mdi-home',
+        component: () => import('@/views/LogView.vue'),
     },
     {
         path: '/system',
         name: 'system',
-        component: SystemView,
         icon: 'mdi-home',
+        component: () => import('@/views/SystemView.vue'),
     },
 ]
 
