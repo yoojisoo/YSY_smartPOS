@@ -67,10 +67,17 @@ public class TestCtrl {
 		
 		return "serve data!!";
 	}
-	@GetMapping("/vueCon1")
-	public String vueCon1(){
+	
+	@GetMapping("/getAxios")
+	public String getAxios(){
 		
-		return "vueCon1!!! 깃허브테스트중...123123123";
+		return "getAxios 리턴";
+	}
+	
+	@PostMapping("/postAxios")
+	public String postAxios(@RequestBody String str){
+		System.out.println("postAxios 리턴 = " + str);
+		return "postAxios 리턴";
 	}
 	
 	
