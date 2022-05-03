@@ -67,4 +67,12 @@ public class TestCtrl {
 		
 		return "serve data!!";
 	}
+	@GetMapping("/vueCon1")
+	public String vueCon1(){
+		
+		return "vueCon1!!!";
+	}
+	
+	
+	
 }
