@@ -70,7 +70,7 @@ public class TestCtrl {
 	@GetMapping("/vueCon1")
 	public String vueCon1(){
 		
-		return "vueCon1!!!";
+		return "vueCon1!!! 깃허브테스트중...";
 	}
 	
 	
