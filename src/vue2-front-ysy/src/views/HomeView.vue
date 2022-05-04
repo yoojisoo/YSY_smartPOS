@@ -82,11 +82,13 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-btn @click="testFn">testFn click</v-btn>
       </v-container>
   </div>
 </template>
 
 <script>
+import util from "../assets/util.js"
 export default {
   data: () => ({
     alignments: [
@@ -94,6 +96,11 @@ export default {
       'center',
       'end'
     ]
-  })
+  }),
+  methods :{
+    testFn(){
+      console.log(util.isNull("12345"));
+    }
+  }
 }
 </script>

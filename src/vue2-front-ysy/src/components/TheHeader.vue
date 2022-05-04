@@ -5,7 +5,7 @@
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       </span>
       <v-app-bar-title>
-        <v-img class="hidden-xs" max-width="100" src='@/assets/img/semes.png'/>
+        <v-img class="hidden-xs" max-width="100" src='@/assets/logo.png'/>
         <span class="hidden-sm-and-up" > SEMES </span>
       </v-app-bar-title>
       <v-tabs class="hidden-xs" background-color="indigo darken-1">
