@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ysy.model.Member;
 import com.ysy.model.TestModel;
 import com.ysy.service.TestService;
 
@@ -81,5 +82,22 @@ public class TestCtrl {
 	}
 	
 	
+	@PostMapping("/signIn")
+	public String login(@RequestBody Member mbm) {
+		System.out.println(mbm.getAccount() + ", " + mbm.getPassword());
+		if(service.signIn(mbm)) {
+			return "ok";
+		}
+		return "fail";
+	}
+	
+	@PostMapping("/signUp")
+	public String signUp(@RequestBody Member mbm) {
+		System.out.println("1231455");
+		if(service.signUp(mbm)) {
+			return "ok";
+		}
+		return "fail";
+	}
 	
 }

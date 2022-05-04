@@ -1,106 +1,66 @@
 <template>
-  <div>
-    <v-container
-      v-for="align in alignments"
-      :key="align"
-      class="lighten-5 mb-6"
-      style="background-color: lightgrey;"
-    >
-      <v-row
-        :align="align"
-        no-gutters
-        style="height: 150px;"
-      >
-        <v-col
-          v-for="n in 3"
-          :key="n"
+  <v-app>
+      <v-toolbar color="primary" dark fixed>
+        <v-toolbar-title>Application</v-toolbar-title>
+      </v-toolbar>
+      <v-navigation-drawer permanent>
+          <v-list>
+            <v-list-item class="px-2">
+              <v-list-item-avatar>
+                <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
+              </v-list-item-avatar>
+            </v-list-item>
+
+            <v-list-item link>
+              <v-list-item-content>
+                <v-list-item-title class="text-h6">
+                  {{username || 'Username'}}
+                </v-list-item-title>
+                <v-list-item-subtitle v-on:click="logout">log out</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+
+        <v-divider></v-divider>
+
+        <v-list
+          dense
+          nav
         >
-          <v-card
-            class="pa-2"
-            outlined
-            tile
+          <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            link
           >
-            One of three columns
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-    <v-container class="lighten-5 mb-6" style="background-color: lightgrey;">
-      <v-row no-gutters style="height: 150px;">
-        <v-col
-          v-for="align in alignments"
-          :key="align"
-          :align-self="align"
-        >
-          <v-card
-            class="pa-2"
-            outlined
-            tile
-          >
-            One of three columns
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-
-     <v-container class="lighten-5 mb-6" style="background-color: lightgrey;">
-        <v-row no-gutters style="height: 300px;">
-          <v-col
-            clos="12"
-            sm="6"
-            md="8"
-            align-self="center"
-          >
-            <v-card
-              class="pa-5"
-              outlined
-              tile
-              color="#385F73"
-            >
-              <v-card-title class="text-h4">
-                .col-12 .col-sm-6 .col-md-8
-              </v-card-title>
-
-              <v-card-subtitle class="text-h6">Card Subtitle</v-card-subtitle>
-
-              <v-card-actions>
-                <v-btn text>Listen Now</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-          <v-col
-            cols="6"
-            md="4"
-          >
-            <v-card
-              class="pa-2"
-              outlined
-              tile
-            >
-              .col-6 .col-md-4
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-btn @click="testFn">testFn click</v-btn>
-      </v-container>
-  </div>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+  </v-app>
 </template>
 
 <script>
-import util from "../assets/util.js"
-export default {
-  data: () => ({
-    alignments: [
-      'start',
-      'center',
-      'end'
-    ]
-  }),
-  methods :{
-    testFn(){
-      console.log(util.isNull("12345"));
+  export default {
+    data () {
+      return {
+        items: [
+          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+          { title: 'Photos', icon: 'mdi-image' },
+          { title: 'About', icon: 'mdi-help-box' },
+        ],
+        username:this.$route.params.username
+      }
+    },
+    methods: {
+      logout() {
+        this.$router.replace({ name:'signIn' })
+      }
     }
   }
-}
 </script>

@@ -8,7 +8,9 @@ import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ysy.model.Member;
 import com.ysy.model.TestModel;
+import com.ysy.repository.MemberRepository;
 import com.ysy.repository.TestRepository;
 
 
@@ -19,6 +21,8 @@ public class TestService  {
 	private TestRepository repository;
 	
 	
+	@Autowired
+	private MemberRepository memberRepository;
 	public TestModel save(TestModel demo1) {
 		TestModel tt = new TestModel();
 //      Timestamp tim = new Timestamp(System.currentTimeMillis());
@@ -30,6 +34,22 @@ public class TestService  {
       tt.setReg_date(tim);
       repository.save(tt);
 		return repository.save(demo1);
+		
+	}
+	
+	public boolean signIn(Member mbm) {
+		if(memberRepository.findByAccountAndPassword(mbm.getAccount(), mbm.getPassword()).isPresent()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean signUp(Member mbm) {
+		
+		if(memberRepository.save(mbm) != null)
+			return true;
+		
+		return false;
 		
 	}
 	
