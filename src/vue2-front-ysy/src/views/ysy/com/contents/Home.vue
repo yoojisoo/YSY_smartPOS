@@ -3,7 +3,6 @@
     <!-- <v-toolbar color="primary" dark fixed>
       <v-toolbar-title>Application</v-toolbar-title>
     </v-toolbar> -->
-    <!-- <main-system-bar/> -->
     <main-header/>
     <v-navigation-drawer permanent>
         <v-list>
@@ -50,13 +49,11 @@
 </template>
 
 <script>
-import MainSystemBar from '@/components/TheSystemBar.vue'
-import MainHeader from '@/components/TheHeader.vue'
-import MainFooter from '@/components/TheFooter.vue'
+import MainHeader from '@/components/common/TheHeader.vue'
+import MainFooter from '@/components/common/TheFooter.vue'
 
   export default {
     components: {
-      'main-system-bar': MainSystemBar,
       'main-header': MainHeader,
       'main-footer': MainFooter,
     },

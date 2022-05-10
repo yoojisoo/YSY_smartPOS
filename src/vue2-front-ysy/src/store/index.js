@@ -12,7 +12,9 @@ const store = new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      paths: ["authStore"],
+      paths: ["authStore.loginData"],
+      storage: sessionStorage,
+      key: "loginData",
     }),
   ],
 });

@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import v_menus from '@/assets/vMenus.js'
+import v_menus from '@/assets/common/vMenus.js'
 
   export default {
     name: 'main-header',

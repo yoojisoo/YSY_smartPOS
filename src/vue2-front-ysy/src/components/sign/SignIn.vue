@@ -61,14 +61,13 @@ export default {
                     if(res.data === "ok") {
                         try {
                             this.$store.dispatch('setUserInfo', signInInfo.account)
-                            alert("로그인 완료");
-                            this.$router.replace({ name: "home"})
+                            this.$router.replace({ name: "home" })
                         } catch (error) {
                             alert("로그인 실패");
                         }
                     }
                     else {
-                        alert("로그인 실패 관리자 문의바람");
+                        alert("아이디나 비밀번호가 틀렸습니다.");
                     }
                 });
         },
