@@ -31,7 +31,7 @@
       // 'main-footer': MainFooter,
       // 'login-page': LoginPage,
       // 'mainNavi': MainNavi
-    }
+    },
   };
 </script>
 

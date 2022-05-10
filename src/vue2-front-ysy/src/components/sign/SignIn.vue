@@ -59,8 +59,13 @@ export default {
                 .then((res) => {
                     console.log(res.data);
                     if(res.data === "ok") {
-                        alert("로그인 완료");
-                        this.$router.replace({ name: "home", params: { username: signInInfo.account }})
+                        try {
+                            this.$store.dispatch('setUserInfo', signInInfo.account)
+                            alert("로그인 완료");
+                            this.$router.replace({ name: "home"})
+                        } catch (error) {
+                            alert("로그인 실패");
+                        }
                     }
                     else {
                         alert("로그인 실패 관리자 문의바람");

@@ -1,14 +1,16 @@
 <template>
   <header>
-    <v-app-bar color="indigo darken-1">
+    <v-app-bar color="deep-purple accent-4">
       <span class="hidden-sm-and-up">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       </span>
       <v-app-bar-title>
-        <v-img class="hidden-xs" max-width="100" src='@/assets/logo.png'/>
-        <span class="hidden-sm-and-up" > SEMES </span>
+        <!-- <v-img class="hidden-xs" max-width="100" src='@/assets/logo.png'/>
+        <span class="hidden-sm-and-up" > SEMES </span> -->
+        <span> SEMES </span>
       </v-app-bar-title>
-      <v-tabs class="hidden-xs" background-color="indigo darken-1">
+      <v-tabs centered class="hidden-xs" color="white" dark>
+        <v-tabs-slider></v-tabs-slider>
         <v-tab
           v-for="item in sideMenu"
           :key="item"
@@ -22,7 +24,7 @@
       <v-spacer/>
       <v-spacer/>
       <v-spacer/>
-      <v-radio-group
+      <!-- <v-radio-group
         v-model="row"
         row
       >
@@ -35,7 +37,31 @@
           label="Option 2"
           value="radio-2"
         ></v-radio>
-      </v-radio-group>
+      </v-radio-group> -->
+      <v-menu
+        bottom
+        left
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            color="white"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            v-for="(item, i) in items"
+            :key="i"
+          >
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -71,7 +97,13 @@ import v_menus from '@/assets/vMenus.js'
       sideMenu: v_menus,
       radioGroup: 1,
       radios: 'slide-x-transition-1',
-      row: null
+      row: null,
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
     }),
   }
 </script>
