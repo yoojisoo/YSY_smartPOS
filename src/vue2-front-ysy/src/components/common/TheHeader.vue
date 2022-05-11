@@ -9,11 +9,10 @@
         <span class="hidden-sm-and-up" > SEMES </span> -->
         <span> SEMES </span>
       </v-app-bar-title>
-      <v-tabs centered class="hidden-xs" color="white" dark>
-        <v-tabs-slider></v-tabs-slider>
+      <v-tabs centered class="hidden-xs-only" color="white" dark>
         <v-tab
-          v-for="item in sideMenu"
-          :key="item"
+          v-for="(item, idx) in sideMenu"
+          :key="idx"
           :to="item.path"
         >
           {{ item.name }}
@@ -49,14 +48,14 @@
             v-bind="attrs"
             v-on="on"
           >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon @mouseover="doMouseOver" @mouseout="doMouseOut">{{ iconImg }}</v-icon>
           </v-btn>
         </template>
 
         <v-list>
           <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
+            v-for="(item, idx) in items"
+            :key="idx"
           >
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item>
@@ -74,8 +73,8 @@
         dense
       >
         <v-list-item 
-          v-for="item in sideMenu"
-          :key="item"
+          v-for="(item, idx) in sideMenu"
+          :key="idx"
           :to="item.path">
           <v-icon>{{ item.icon }}</v-icon>
           <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -104,7 +103,18 @@ import v_menus from '@/assets/common/vMenus.js'
         { title: 'Click Me' },
         { title: 'Click Me 2' },
       ],
+      iconImg: 'mdi-dots-vertical',
     }),
+    methods: {
+      doMouseOver() {
+        this.iconImg = 'mdi-heart'
+        console.log(this.iconImg)
+      },
+      doMouseOut() {
+        this.iconImg = 'mdi-dots-vertical'
+        console.log(this.iconImg)
+      }
+    }
   }
 </script>
 

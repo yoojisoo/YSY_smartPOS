@@ -30,8 +30,8 @@
         nav
       >
         <v-list-item
-          v-for="item in items"
-          :key="item.title"
+          v-for="(item, idx) in items"
+          :key="idx"
           link
         >
           <v-list-item-icon>

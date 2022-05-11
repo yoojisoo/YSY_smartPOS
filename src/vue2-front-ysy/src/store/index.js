@@ -8,7 +8,7 @@ import authStore from "./modules/authStore.js";
 
 const store = new Vuex.Store({
   modules: {
-    authStore: authStore,
+    authStore,
   },
   plugins: [
     createPersistedState({
