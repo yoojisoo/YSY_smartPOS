@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import './plugins/axios'
+// import './plugins/axios'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -7,7 +7,7 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios'
 
 
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 // Vue.prototype.axios = axios
 // Vue.config.globalProperties.axios = axios;
 axios.defaults.baseURL = 'http://localhost:8000';

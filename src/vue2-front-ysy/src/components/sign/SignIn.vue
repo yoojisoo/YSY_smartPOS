@@ -10,7 +10,7 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-text-field
-                                    v-model="signInInfo.account"
+                                    v-model="signInInfo.username"
                                     name="user_id"
                                     label="userId"
                                     type="text"
@@ -45,22 +45,27 @@ export default {
         return {
             toggleMessage: "Sign Up",
             signInInfo : {
-                account : "",
+                username : "",
                 password : ""
             },
+           
+
         }
     },
     methods: {
-        signIn() {
-            const { signInInfo } = this;
-            console.log(signInInfo.account + ", " + signInInfo.password)
+        async signIn() {
+            // const { signInInfo } = this;
+            console.log(this.signInInfo.username + ", " + this.signInInfo.password)
 
-            this.$http.post("/testCtrl/signIn", signInInfo)
+            await this.$axios.post("/login", this.signInInfo)
                 .then((res) => {
-                    console.log(res.data);
-                    if(res.data === "ok") {
+                    debugger;
+                    console.log(res.headers.access_token);
+                    console.log(res.headers.refresh_token);
+                    if(res.headers.state === "200") {
                         try {
-                            this.$store.dispatch('setUserInfo', signInInfo.account)
+                            // this.$axios.defaults.headers.common["access_token"] = res.headers.access_token;
+                            this.$store.dispatch('setUserInfo', res.headers.access_token)
                             this.$router.replace({ name: "home" })
                         } catch (error) {
                             alert("로그인 실패");

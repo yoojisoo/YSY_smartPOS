@@ -44,6 +44,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <v-btn @click="userFn"> user접근</v-btn>
+    <v-btn @click="adminFn"> admin접근</v-btn>
     <main-footer/>
   </v-app>
 </template>
@@ -64,6 +66,12 @@ import MainFooter from '@/components/common/TheFooter.vue'
           { title: 'Photos', icon: 'mdi-image' },
           { title: 'About', icon: 'mdi-help-box' },
         ],
+        config : {
+          headers : {
+            "access_token":this.$store.state.authStore.loginData.userId
+          }
+        }
+
       }
     },
     methods: {
@@ -73,7 +81,28 @@ import MainFooter from '@/components/common/TheFooter.vue'
       logout() {
         this.$store.commit('clearUserInfo')
         this.$router.replace({ name:'signIn' })
-      }
+      },
+      userFn(){
+        console.log("userFn before = headers.access_token = "+this.config.headers.access_token);
+        this.$axios.get("/ysy/v1/user/testData" , this.config)
+        // this.$axios.get("/test21/testData")
+
+        .then(res=>{
+          console.log(res);
+        })
+        .catch(error=>{
+           console.log("userFn fn error = "+error);
+        })
+      },
+      adminFn(){
+        this.$axios.get("/ysy/v1/admin/testData")
+        .then(res=>{
+          console.log(res);
+        })
+        .catch(error=>{
+           console.log("adminFn fn error = "+error);
+        })
+      },
     },
     computed: {
       isLogin() {

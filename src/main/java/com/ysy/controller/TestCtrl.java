@@ -22,9 +22,17 @@ import com.ysy.service.TestService;
  * 문자열과 JSON 등을 전송할 수 있다.
  * */
 @RestController
-@RequestMapping("/testCtrl")
+@RequestMapping("/ysy/v1/user")
 @CrossOrigin
 public class TestCtrl {
+	
+	
+	@GetMapping("/testData")
+	public String testData() {
+		
+		
+		return "user 권한 잘 호출됨";
+	}
 	
 	/**
 	 * @Autowired를 설정한 메서드가 자동으로 호출되고, 인스턴스가 자동으로 주입된다.

@@ -127,12 +127,12 @@
     }),
     methods: {
       testAxios: function() {
-        this.$http.get('/testCtrl/getAxios')
+        this.$axios.get('/testCtrl/getAxios')
             .then(res => {
               console.log("vue: getAxios = " + res.data)
             });
 
-        this.$http.post('/testCtrl/postAxios', this.postValue)
+        this.$axios.post('/testCtrl/postAxios', this.postValue)
             .then(res => {
               console.log("vue:postAxios = " + res.data)
             });

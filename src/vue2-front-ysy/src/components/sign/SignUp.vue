@@ -10,7 +10,7 @@
                             </v-toolbar>
                             <v-card-text>
                                 <v-text-field
-                                    v-model="signUpInfo.account"
+                                    v-model="signUpInfo.username"
                                     name="user_id"
                                     label="userId"
                                     type="text"
@@ -45,6 +45,33 @@
                                     required
                                 ></v-text-field>
 
+                                <v-text-field
+                                    v-model="signUpInfo.addr"
+                                    name="user_addr"
+                                    label="user addr"
+                                    type="text"
+                                    placeholder="user addr"
+                                    required
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="signUpInfo.email"
+                                    name="user_email"
+                                    label="user email"
+                                    type="text"
+                                    placeholder="user email"
+                                    required
+                                ></v-text-field>
+
+                                <v-text-field
+                                    v-model="signUpInfo.phone"
+                                    name="user_phone"
+                                    label="user phone"
+                                    type="number"
+                                    placeholder="user phone"
+                                    required
+                                ></v-text-field>
+
                                 <div class="red--text">{{errorMessage}}</div>
                                 <v-btn class="mt-4" color="primary" value="sign up" @click="signUp">sign up</v-btn>
                                 <div class="grey--text mt-4" v-on:click="signIn">{{toggleMessage}}</div>
@@ -64,9 +91,12 @@ export default {
         return {
             toggleMessage: "Already have an Account? Sign In",
             signUpInfo : {
-                account: "",
+                username: "",
                 password: "",
                 name: "",
+                addr: "",
+                email: "",
+                phone: "",
             },
             confirmPassword: "",
             errorMessage: "",
@@ -78,15 +108,15 @@ export default {
 
             if(signUpInfo.password == this.confirmPassword) {
                 this.errorMessage = "";
-                this.$http.post("/testCtrl/signUp", signUpInfo)
+                this.$axios.post("/ysy/v1/auth/signUp", signUpInfo)
                     .then((res) => {
                         console.log(res.data);
-                        if(res.data === "ok") {
+                        if(res.data === "ok -> login page move!") {
                             alert("회원가입 성공");
                             this.$router.replace({ name: 'signIn' })
                         }
                         else{
-                            alert("회원가입 실패");
+                            alert(res.data);
                         }
                     });
             }
