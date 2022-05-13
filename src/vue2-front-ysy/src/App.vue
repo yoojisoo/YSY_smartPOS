@@ -1,5 +1,5 @@
 <template>
-  <!-- <v-app> -->
+  <v-app>
     <!-- <main-system-bar/>
     <main-header/>
 
@@ -14,11 +14,10 @@
     </v-container>
     <!-- <mainNavi/> -->
 
-  <!-- </v-app> -->
+  </v-app>
 </template>
 
 <script>
-
   export default {
     beforeCreate() {
       localStorage.clear()

@@ -1,30 +1,11 @@
 <template>
+  <!-- <v-app v-if="isLogin"> -->
   <v-app>
     <!-- <v-toolbar color="primary" dark fixed>
       <v-toolbar-title>Application</v-toolbar-title>
     </v-toolbar> -->
     <main-header/>
     <v-navigation-drawer permanent>
-        <v-list>
-          <v-list-item class="px-2">
-            <v-list-item-avatar>
-              <v-img src="https://randomuser.me/api/portraits/women/85.jpg"></v-img>
-            </v-list-item-avatar>
-          </v-list-item>
-
-          <v-list-item link>
-            <v-list-item-content>
-              <v-list-item-title class="text-h6">
-                {{ userId }}
-              </v-list-item-title>
-              <v-list-item-subtitle v-if="isLogin" v-on:click="logout">log out</v-list-item-subtitle>
-              <v-list-item-subtitle v-else v-on:click="login">log in</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-
-      <v-divider></v-divider>
-
       <v-list
         dense
         nav
@@ -48,16 +29,21 @@
     <v-btn @click="adminFn"> admin접근</v-btn>
     <main-footer/>
   </v-app>
+  <!-- <v-app v-else>
+    <sign-in-vue/>
+  </v-app> -->
 </template>
 
 <script>
 import MainHeader from '@/components/common/TheHeader.vue'
 import MainFooter from '@/components/common/TheFooter.vue'
+import SignInVue from '@/components/sign/SignIn.vue'
 
   export default {
     components: {
       'main-header': MainHeader,
       'main-footer': MainFooter,
+      'sign-in-vue': SignInVue,
     },
     data () {
       return {
@@ -76,11 +62,11 @@ import MainFooter from '@/components/common/TheFooter.vue'
     },
     methods: {
       login() {
-        this.$router.replace({ name:'signIn' })
+        this.$router.replace('/signIn')
       },
       logout() {
         this.$store.commit('clearUserInfo')
-        this.$router.replace({ name:'signIn' })
+        this.$router.replace('/signIn')
       },
       userFn(){
         console.log("userFn before = headers.access_token = "+this.config.headers.access_token);

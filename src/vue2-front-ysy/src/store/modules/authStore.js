@@ -6,6 +6,7 @@ const authStore = {
     },
     loginData: {
       userId: "",
+      userToken: "",
     },
     adminPage: {
       chartDataSet: [],
@@ -17,16 +18,17 @@ const authStore = {
     },
   },
   mutations: {
-    setUserInfo: (state, _userId) => {
+    setUserInfo: (state, _userId, _userToken) => {
       state.loginData.userId = _userId;
+      state.loginData.userToken = _userToken;
     },
     clearUserInfo: (state) => {
       state.loginData.userId = "";
     },
   },
   actions: {
-    setUserInfo: ({ commit }, _userId) => {
-      commit("setUserInfo", _userId);
+    setUserInfo: ({ commit }, _userId, _userToken) => {
+      commit("setUserInfo", _userId, _userToken);
     },
   },
 };

@@ -2,37 +2,63 @@
     <v-app>
         <v-main>
             <v-container fill-height fluid>
-                <v-layout align-center justify-center>
-                    <v-flex xs12 sm8 md4>
-                        <v-card class="elevation-12">
-                            <v-toolbar dark color="primary">
-                                <v-toolbar-title>Sign In</v-toolbar-title>
-                            </v-toolbar>
-                            <v-card-text>
-                                <v-text-field
-                                    v-model="signInInfo.username"
-                                    name="user_id"
-                                    label="userId"
-                                    type="text"
-                                    placeholder="userId"
-                                    required
-                                ></v-text-field>
-
-                                <v-text-field
-                                    v-model="signInInfo.password"
-                                    name="user_pw"
-                                    label="password"
-                                    type="password"
-                                    placeholder="password"
-                                    required
-                                ></v-text-field>
-
-                                <v-btn class="mt-4" color="primary" value="sign in" @click="signIn">login</v-btn>
-                                <div class="grey--text mt-4" v-on:click="signUp">{{toggleMessage}}</div>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
+                <v-row justify="center" no-gutters>
+                    <v-col cols="auto">
+                        <v-btn icon to="/">
+                            <v-icon>mdi-heart</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-row justify="center" no-gutters>
+                            <v-col cols="md-4 xs-12">
+                                <v-card elevation="0">
+                                    <v-card-text>
+                                        <v-row justify="space-between" no-gutters>
+                                            <v-col cols="12" class="mb-6">
+                                                <v-text-field
+                                                    v-model="signInInfo.username"
+                                                    name="user_id"
+                                                    type="text"
+                                                    prepend-inner-icon="mdi-human-greeting-variant"
+                                                    placeholder="  Hello, Donkey! What's your ID?"
+                                                    required
+                                                    filled
+                                                    hide-details
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" class="mb-6">
+                                                <v-text-field
+                                                    v-model="signInInfo.password"
+                                                    name="user_pw"
+                                                    type="password"
+                                                    prepend-inner-icon="mdi-donkey"
+                                                    placeholder="  Hmm.. My Password is..."
+                                                    required
+                                                    filled
+                                                    hide-details
+                                                ></v-text-field>
+                                            </v-col>
+                                            <v-col
+                                            cols="auto"
+                                            class="mb-1"
+                                            v-for="(item, idx) in toggleMessage"
+                                            :key="idx"
+                                            >
+                                                <span>{{ item.title }}</span>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-btn block class="my-2 deep-purple lighten-1" dark value="sign in" @click="signIn">로그인</v-btn>
+                                            </v-col>
+                                            <v-col cols="12">
+                                                <v-btn block outlined class="my-2" color="#7E57C2" value="sign up" @click="signUp">회원가입</v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
             </v-container>
         </v-main>
     </v-app>
@@ -43,13 +69,14 @@ export default {
     name: "App",
     data() {
         return {
-            toggleMessage: "Sign Up",
+            toggleMessage: [
+                {title: "REMEMBER"},
+                {title: "FORGET ID/PW?"},
+            ],
             signInInfo : {
                 username : "",
-                password : ""
+                password : "",
             },
-           
-
         }
     },
     methods: {
@@ -59,14 +86,14 @@ export default {
 
             await this.$axios.post("/login", this.signInInfo)
                 .then((res) => {
-                    debugger;
+                    console.log(res);
                     console.log(res.headers.access_token);
                     console.log(res.headers.refresh_token);
                     if(res.headers.state === "200") {
                         try {
                             // this.$axios.defaults.headers.common["access_token"] = res.headers.access_token;
-                            this.$store.dispatch('setUserInfo', res.headers.access_token)
-                            this.$router.replace({ name: "home" })
+                            this.$store.dispatch('setUserInfo', this.signInInfo.username, res.headers.access_token)
+                            this.$router.replace('/')
                         } catch (error) {
                             alert("로그인 실패");
                         }

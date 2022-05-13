@@ -13,5 +13,6 @@ public interface JwtProperties {
 	public String TOKEN_PREFIX       = "YSYV1 ";        // token 생성 후 client 전송시 token앞에 붙을 값. 인증시에 이 값으로 1차 검사 진행
 	public String HEADER_STRING      = "access_token"; // cilent 전송시 token에 대한 key Authorization
 	public String HEADER_REFRESH     = "refresh_token";  // cilent 전송시 token에 대한 key
+	public String HEADER_USER_NAME   = "user_name";
 	public int aa = 123;
 }
