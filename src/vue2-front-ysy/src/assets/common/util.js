@@ -13,7 +13,7 @@ const util = {
             return true;
         }else{
             return false;
-        }
+        } 
     }
 }
 
