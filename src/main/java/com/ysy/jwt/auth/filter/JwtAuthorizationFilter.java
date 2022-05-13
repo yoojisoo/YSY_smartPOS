@@ -78,7 +78,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 			
 			// 강제로 시큐리티의 세션에 접근하여 값 저장
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
+			chain.doFilter(request, response);
 			/** 이 부분에서 해당 token의 만료시간 체크하여 다시 response에 담아줌.
 			 *  refresh token을 가지고 오면 처리해도 됨.
 			 *  아무튼 예외처리 할 부분을 좀 있음 . */

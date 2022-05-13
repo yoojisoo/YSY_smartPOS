@@ -65,6 +65,9 @@
 </template>
 
 <script>
+import userInfo from "../../assets/common/userInfo.js"
+
+
 export default {
     name: "App",
     data() {
@@ -91,8 +94,26 @@ export default {
                     console.log(res.headers.refresh_token);
                     if(res.headers.state === "200") {
                         try {
-                            // this.$axios.defaults.headers.common["access_token"] = res.headers.access_token;
-                            this.$store.dispatch('setUserInfo', this.signInInfo.username, res.headers.access_token)
+                            this.$axios.defaults.headers.common["access_token"] = res.headers.access_token;
+                            console.log("res.headers.access_token = "+res.headers.access_token);
+                            let payload = {
+                                "access_token":res.headers.access_token
+                            }
+
+                            //;
+                            //this.$store.dispatch('setUserInfo', this.userInfo.getUserInfo())
+                            //이부분에서 user정보 요청.
+                            // this.$axios.get("ysy/v1/user/userInfo")
+                            //         .then(res =>{
+                            //             console.log(res.data.userInfo);
+                            //              this.$store.dispatch('setUserInfo', res.data.userInfo)
+                            //         })
+                            //         .catch(error=>{
+                            //             console.log(" error = "+error);
+                            //         });
+
+                            //메뉴도 가져와야함.
+
                             this.$router.replace('/')
                         } catch (error) {
                             alert("로그인 실패");

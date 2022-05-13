@@ -6,7 +6,9 @@ const authStore = {
     },
     loginData: {
       userId: "",
-      userToken: "",
+      userName : "",
+      phone : "",
+      email : "",
     },
     adminPage: {
       chartDataSet: [],
@@ -18,17 +20,19 @@ const authStore = {
     },
   },
   mutations: {
-    setUserInfo: (state, _userId, _userToken) => {
-      state.loginData.userId = _userId;
-      state.loginData.userToken = _userToken;
+    setUserInfo: (state, userInfo) => {
+      state.loginData.userId = userInfo.userId;
+      state.loginData.userName = userInfo.userName;
+      state.loginData.phone = userInfo.phone;
+      state.loginData.email = userInfo.email;
     },
     clearUserInfo: (state) => {
       state.loginData.userId = "";
     },
   },
   actions: {
-    setUserInfo: ({ commit }, _userId, _userToken) => {
-      commit("setUserInfo", _userId, _userToken);
+    setUserInfo: ({ commit }, userInfo) => {
+      commit("setUserInfo",   userInfo);
     },
   },
 };

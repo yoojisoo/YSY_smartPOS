@@ -26,7 +26,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-btn @click="userFn"> user접근</v-btn>
+    <v-btn @click="userFnGet"> get방식 user접근</v-btn>
     <v-btn @click="adminFn"> admin접근</v-btn>
+    <v-btn @click="basicFn"> 일반접근</v-btn>
     <main-footer/>
   </v-app>
   <!-- <v-app v-else>
@@ -54,7 +56,7 @@ import SignInVue from '@/components/sign/SignIn.vue'
         ],
         config : {
           headers : {
-            "access_token":this.$store.state.authStore.loginData.userId
+            "access_token":this.$store.state.authStore.loginData.userToken
           }
         }
 
@@ -70,10 +72,24 @@ import SignInVue from '@/components/sign/SignIn.vue'
       },
       userFn(){
         console.log("userFn before = headers.access_token = "+this.config.headers.access_token);
-        this.$axios.get("/ysy/v1/user/testData" , this.config)
+        this.$axios.post("/ysy/v1/user/testData1" )//,"", this.config
         // this.$axios.get("/test21/testData")
 
         .then(res=>{
+          console.log("user 접근 res = ");
+          console.log(res);
+        })
+        .catch(error=>{
+           console.log("userFn fn error = "+error);
+        })
+      },
+      userFnGet(){
+        console.log("userFn before = headers.access_token = "+this.config.headers.access_token);
+        this.$axios.get("/ysy/v1/user/gettestData1" )//,"", this.config
+        // this.$axios.get("/test21/testData")
+
+        .then(res=>{
+          console.log("user 접근 res = ");
           console.log(res);
         })
         .catch(error=>{
@@ -81,7 +97,16 @@ import SignInVue from '@/components/sign/SignIn.vue'
         })
       },
       adminFn(){
-        this.$axios.get("/ysy/v1/admin/testData")
+        this.$axios.post("/ysy/v1/admin/testData")
+        .then(res=>{
+          console.log(res);
+        })
+        .catch(error=>{
+           console.log("adminFn fn error = "+error);
+        })
+      },
+      basicFn(){//일반접근
+        this.$axios.get("/test21/testData")
         .then(res=>{
           console.log(res);
         })

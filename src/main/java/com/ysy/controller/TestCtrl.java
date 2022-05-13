@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,17 +22,8 @@ import com.ysy.service.TestService;
  * 문자열과 JSON 등을 전송할 수 있다.
  * */
 @RestController
-@RequestMapping("/ysy/v1/user")
-@CrossOrigin
+@RequestMapping(value = "/ysy/v1/user" , method = {RequestMethod.GET, RequestMethod.POST})
 public class TestCtrl {
-	
-	
-	@GetMapping("/testData")
-	public String testData() {
-		
-		
-		return "user 권한 잘 호출됨";
-	}
 	
 	/**
 	 * @Autowired를 설정한 메서드가 자동으로 호출되고, 인스턴스가 자동으로 주입된다.
@@ -40,6 +31,21 @@ public class TestCtrl {
 	 * */
 	@Autowired
 	private TestService service;
+	
+	
+	@PostMapping("/testData1")
+	public String testData1() {
+		
+		System.out.println("123456");
+		return "user 권한 잘 호출됨";
+	}
+	
+	@GetMapping(value = "/gettestData1" )
+	public String gettestData1() {
+		
+		System.out.println("123456");
+		return "get방식 user 권한 잘 호출됨";
+	}
 	
 	@PostMapping("/save")
 	public String save(@RequestBody TestModel model) {
