@@ -89,7 +89,6 @@ export default {
 
             await this.$axios.post("/login", this.signInInfo)
                 .then((res) => {
-                    console.log(res);
                     console.log(res.headers.access_token);
                     console.log(res.headers.refresh_token);
                     if(res.headers.state === "200") {
@@ -99,9 +98,7 @@ export default {
                             let payload = {
                                 "access_token":res.headers.access_token
                             }
-
-                            //;
-                            //this.$store.dispatch('setUserInfo', this.userInfo.getUserInfo())
+                            this.$store.dispatch('setUserInfo', payload)
                             //이부분에서 user정보 요청.
                             // this.$axios.get("ysy/v1/user/userInfo")
                             //         .then(res =>{
