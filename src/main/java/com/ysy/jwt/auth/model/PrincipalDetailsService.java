@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ysy.jwt.auth.entity.YsyUser;
-import com.ysy.jwt.auth.repository.YsyUserRepository;
+import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,14 +32,14 @@ import lombok.RequiredArgsConstructor;
 public class PrincipalDetailsService implements UserDetailsService{
 
 	@Autowired
-	private YsyUserRepository ysyUserRepository;
+	private YsyUserMstRepository ysyUserRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
 		System.out.println("PrincipalDetailsService : 진입");
 		
-		YsyUser user = ysyUserRepository.findByUsername(username);
+		YsyUserMst user = ysyUserRepository.findByUsername(username);
 		
 		return new PrincipalDetails(user);
 	}

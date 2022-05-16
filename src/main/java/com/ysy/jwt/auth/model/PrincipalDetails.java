@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ysy.jwt.auth.entity.YsyUser;
+import com.ysy.jwt.auth.entity.YsyUserMst;
 
 /**
  * @author clubbboy@naver.com
@@ -15,15 +15,15 @@ import com.ysy.jwt.auth.entity.YsyUser;
  */
 public class PrincipalDetails implements UserDetails{
 
-	private YsyUser user;
+	private YsyUserMst user;
 	
 	
-	public PrincipalDetails(YsyUser user) {
+	public PrincipalDetails(YsyUserMst user) {
 		System.out.println("PrincipalDetails -> PrincipalDetails 생성자 실행");
 		this.user = user;
 	}
 	
-	public YsyUser getUser() {
+	public YsyUserMst getUser() {
 		return user;
 	}
 	

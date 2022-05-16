@@ -14,24 +14,16 @@ import lombok.Data;
 public abstract class BaseEntity {
 
 
+	@Column(name="REG_ID" ,updatable = false)
+	public String regId;
 	@Column(name="REG_DT" ,updatable = false)
     protected LocalDateTime regDt;
 	
-	@Column(name="MOD_DT" )
-	protected LocalDateTime modDt;
-	
-//	@Column(name="REG_DT")
-//	private Timestamp regDt;
-	
-	@Column(name="REG_ID")
-	public String regId;
-	
-	
-//	@Column(name="MOD_DT")
-//	private Timestamp modDt;
 	
 	@Column(name="MOD_ID")
 	protected String modId;
+	@Column(name="MOD_DT" )
+	protected LocalDateTime modDt;
 	
 	@PrePersist
     public void prePersist() {

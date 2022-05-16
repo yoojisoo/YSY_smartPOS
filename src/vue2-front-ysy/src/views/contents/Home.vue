@@ -39,13 +39,13 @@
 <script>
 import MainHeader from '@/components/common/TheHeader.vue'
 import MainFooter from '@/components/common/TheFooter.vue'
-import SignInVue from '@/components/sign/SignIn.vue'
+// import SignInVue from '@/components/sign/SignIn.vue'
 
   export default {
     components: {
       'main-header': MainHeader,
       'main-footer': MainFooter,
-      'sign-in-vue': SignInVue,
+      // 'sign-in-vue': SignInVue,
     },
     data () {
       return {

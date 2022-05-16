@@ -24,11 +24,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @Table(name = "YSY_BIZ_MST")
 @Entity
-public class YsyBiz extends BaseEntity  implements Serializable{
+public class YsyBizMst extends BaseEntity  implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
 	@Column(name="BIZ_CD" , length=50 , unique = true , nullable = false)

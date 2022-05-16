@@ -10,9 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.ysy.jwt.auth.entity.YsyUser;
+import com.ysy.jwt.auth.entity.YsyUserMst;
 
-@Table(name = "SAMPLE_FAVORITE_MST")
+//@Table(name = "SAMPLE_FAVORITE_MST")
 @Entity
 public class Favorite {
 
@@ -26,6 +26,6 @@ public class Favorite {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="USER_ID" , referencedColumnName="USER_ID" , nullable = false)
-	private YsyUser ysyUser;
+	private YsyUserMst ysyUser;
 	
 }

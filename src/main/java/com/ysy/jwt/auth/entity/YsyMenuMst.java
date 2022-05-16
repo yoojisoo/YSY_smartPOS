@@ -27,7 +27,7 @@ import lombok.ToString;
 public class YsyMenuMst extends BaseEntity{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 	@Column(name="MENU_ID" , length=50 , unique = true , nullable = false)

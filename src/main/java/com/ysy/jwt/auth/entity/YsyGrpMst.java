@@ -36,12 +36,12 @@ import lombok.NoArgsConstructor;
 	    }
 	   )
 @Entity
-public class YsyGrp  extends BaseEntity implements Serializable{
+public class YsyGrpMst  extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
 //	@Enumerated
@@ -54,6 +54,6 @@ public class YsyGrp  extends BaseEntity implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="BIZ_CD",referencedColumnName="BIZ_CD" , nullable = false )
-	private YsyBiz ysyBiz; 
+	private YsyBizMst ysyBiz; 
 	
 }

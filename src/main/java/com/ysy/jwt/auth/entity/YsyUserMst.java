@@ -41,7 +41,7 @@ import lombok.ToString;
 //	   )
 @Table(name = "YSY_USER_MST")
 @Entity
-public class YsyUser extends BaseEntity implements Serializable{
+public class YsyUserMst extends BaseEntity implements Serializable{
 
 	
 	
@@ -63,17 +63,21 @@ public class YsyUser extends BaseEntity implements Serializable{
 	private String email;
 	@Column(name = "USER_PHONE")
 	private String phone;
-	@Column(name = "ROLES")
-	private String roles;
+//	@Column(name = "ROLES")
+//	private String roles;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="GRP_ID" , referencedColumnName="GRP_ID" , nullable = false)
+	private YsyGrpMst ysyGrpMst; 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="BIZ_CD" , referencedColumnName="BIZ_CD" , nullable = false)
-	private YsyBiz ysyBiz; 
+	private YsyBizMst ysyBiz;  
 	
-	
+	 
 	public List<String> getRoleList(){
-		if(this.roles.length() > 0)
-			return Arrays.asList(roles.split(",")) ;
+		if(this.ysyGrpMst.getGrpId().length() > 0)
+			return Arrays.asList(ysyGrpMst.getGrpId().split(",")) ;
 		else
 			return new ArrayList<String>();
 	}

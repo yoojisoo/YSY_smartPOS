@@ -15,9 +15,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.ysy.jwt.auth.entity.YsyUser;
+import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.model.PrincipalDetails;
-import com.ysy.jwt.auth.repository.YsyUserRepository;
+import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
 
 /**
@@ -29,10 +29,10 @@ import com.ysy.jwt.auth.repository.YsyUserRepository;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 
 	
-	private YsyUserRepository ysyUserRepository;
+	private YsyUserMstRepository ysyUserRepository;
 
 	
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, YsyUserRepository ysyUserRepository) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, YsyUserMstRepository ysyUserRepository) {
 		super(authenticationManager);
 		System.out.println("JwtAuthorizationFilter class JwtAuthorizationFilter 생성자 진입");
 		this.ysyUserRepository = ysyUserRepository;
@@ -66,7 +66,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		
 		if(username != null) {	
 			System.out.println("123456==========>" + username);
-			YsyUser user = ysyUserRepository.findByUsername(username);
+			YsyUserMst user = ysyUserRepository.findByUsername(username);
 			
 			// 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해 
 			// 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!

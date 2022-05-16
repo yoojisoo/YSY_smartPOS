@@ -66,7 +66,7 @@
 
 <script>
 import userInfo from "../../assets/common/userInfo.js"
-
+import jwt_decode from 'jwt-decode'
 
 export default {
     name: "App",
@@ -95,6 +95,12 @@ export default {
                         try {
                             this.$axios.defaults.headers.common["access_token"] = res.headers.access_token;
                             console.log("res.headers.access_token = "+res.headers.access_token);
+                            console.log("===========>")
+                            // console.log(VueJwtDecode.decode(res.headers.access_token.replace("YSYV1 ","")));
+                            console.log(jwt_decode(res.headers.access_token.replace("YSYV1 ",""), { payload: true }));
+                            var decodedPayload = jwt_decode(res.headers.access_token.replace("YSYV1 ",""), { payload: true });
+                            console.log("decodedPayload.EXPIRATION_TIME = "+decodedPayload.EXPIRATION_TIME);
+                            console.log("decodedPayload.expiration_time = "+decodedPayload.expiration_time);
                             let payload = {
                                 "access_token":res.headers.access_token
                             }
