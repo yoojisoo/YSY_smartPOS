@@ -34,9 +34,9 @@ public class YsyUserMstService {
 				}
 				
 				;
-				
-				String bizCd = "0001";
-				YsyBizMst ysyBizMst = ysyBizService.getBizData(ysyUserMst.getYsyBiz().getBizCd());
+				String bizCd = ysyUserMst.getYsyGrpMst().getYsyBizMst().getBizCd();
+//				String bizCd = "0001";
+				YsyBizMst ysyBizMst = ysyBizService.getBizData(bizCd);
 				
 				if (!ysyBizService.isBizCd(bizCd)) {
 					ysyBizMst = YsyBizMst.builder().bizCd(bizCd).bizNm("").useYn("Y").delYn("N").build();
@@ -49,7 +49,7 @@ public class YsyUserMstService {
 				
 				ysyUserMst.setPassword(bCryptPasswordEncoder.encode(ysyUserMst.getPassword()));
 //				ysyUserMst.setRoles(SysEnum.grps.ROLE_TEMP_USER.toString());// 기본 룰 셋팅 , 이후 관리자 페이지에서 role 변경
-				ysyUserMst.setYsyBiz(ysyBizMst);
+//				ysyUserMst.setYsyBiz(ysyBizMst);
 
 				ysyUserRepository.save(ysyUserMst);
 

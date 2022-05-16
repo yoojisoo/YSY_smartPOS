@@ -24,14 +24,15 @@ import lombok.ToString;
 @AllArgsConstructor
 @Table(name = "YSY_BIZ_MST")
 @Entity
-public class YsyBizMst extends BaseEntity  implements Serializable{
+public class YsyBizMst extends BaseEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private long id;
 
-	@Column(name="BIZ_CD" , length=50 , unique = true , nullable = false)
+	@Id
+	@Column(name="BIZ_CD" , length=50 , nullable = false)
 	private String bizCd;
 	@Column(name="BIZ_NM" , length=50 )
 	private String bizNm;

@@ -34,7 +34,7 @@ import lombok.NoArgsConstructor;
 	        )
 	    }
 	   ) 
-@Entity
+//@Entity
 public class YsyUserRTokenMap extends BaseEntity{
 
 	@Id 

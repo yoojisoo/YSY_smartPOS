@@ -12,10 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -30,26 +29,15 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-//@Table(
-//		name = "YSY_USER_MST",
-//	    uniqueConstraints = {
-//	        @UniqueConstraint(
-//	            name = "YSY_USER_MST_contstraintName",
-//	            columnNames = {"USER_ID", "BIZ_CD"}
-//	        )
-//	    }
-//	   )
 @Table(name = "YSY_USER_MST")
 @Entity
 public class YsyUserMst extends BaseEntity implements Serializable{
 
-	
-	
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private long id;
+	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	
 	//String username으로 한 이유는 스프링 정책상 변수를 맞춰주기 위해 , 다른걸로 하려면 셋팅을 좀 해야해서 그냥 db컬럼명을 지정해주고 처리함. 패스워드도 동일한 이유임.
 	@Column(name = "USER_ID",length = 255 , nullable = false , unique = true)
 	private String username;
@@ -63,21 +51,31 @@ public class YsyUserMst extends BaseEntity implements Serializable{
 	private String email;
 	@Column(name = "USER_PHONE")
 	private String phone;
-//	@Column(name = "ROLES")
-//	private String roles;
 	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="GRP_ID" , referencedColumnName="GRP_ID" , nullable = false)
+//	private YsyGrpMst ysyGrpMst; 
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="BIZ_CD" , referencedColumnName="BIZ_CD" , nullable = false)
+//	private YsyBizMst ysyBiz;  
+	
+	//ROLE 정보 들어있는 object
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="GRP_ID" , referencedColumnName="GRP_ID" , nullable = false)
+	@JoinColumns({@JoinColumn(name="GRP_ID" , referencedColumnName="GRP_ID"),
+		          @JoinColumn(name="BIZ_CD" , referencedColumnName="BIZ_CD")})
 	private YsyGrpMst ysyGrpMst; 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="BIZ_CD" , referencedColumnName="BIZ_CD" , nullable = false)
-	private YsyBizMst ysyBiz;  
 	
-	 
+	
+	
+	
+	
+	
+	
 	public List<String> getRoleList(){
-		if(this.ysyGrpMst.getGrpId().length() > 0)
-			return Arrays.asList(ysyGrpMst.getGrpId().split(",")) ;
+		if(this.ysyGrpMst.getPk().getGrpId().length() > 0)
+			return Arrays.asList(ysyGrpMst.getPk().getGrpId().split(",")) ;
 		else
 			return new ArrayList<String>();
 	}

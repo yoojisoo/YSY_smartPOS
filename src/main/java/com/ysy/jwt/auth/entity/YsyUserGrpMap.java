@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 	        )
 	    }
 	   )
-@Entity
+//@Entity
 public class YsyUserGrpMap extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
