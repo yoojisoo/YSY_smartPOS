@@ -8,10 +8,10 @@ const authStore = {
     },
     loginData: {
       user_id: "",
-      user_token: "",
-      user_name: "",
-      phone: "",
-      email: "",
+      access_token: "",
+      access_token_exp: "",
+      refresh_token: "",
+      refresh_token_exp: "",
     },
     adminPage: {
       chartDataSet: [],
@@ -26,10 +26,10 @@ const authStore = {
     setUserInfo: (state, userInfo) => {
       // console.log(jwt_decode(userInfo.access_token.string, { payload: true }));
       state.loginData.user_id = userInfo.user_id;
-      state.loginData.user_token = userInfo.access_token;
-      state.loginData.user_name = userInfo.user_name;
-      state.loginData.phone = userInfo.phone;
-      state.loginData.email = userInfo.email;
+      state.loginData.access_token = userInfo.access_token;
+      state.loginData.access_token_exp = userInfo.access_token_exp;
+      state.loginData.refresh_token = userInfo.refresh_token;
+      state.loginData.refresh_token_exp = userInfo.refresh_token_exp;
     },
     clearUserInfo: (state) => {
       state.loginData.user_id = "";

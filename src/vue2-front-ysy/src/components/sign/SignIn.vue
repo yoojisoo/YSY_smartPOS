@@ -66,7 +66,7 @@
 
 <script>
 import userInfo from "../../assets/common/userInfo.js"
-import jwt_decode from 'jwt-decode'
+import jwt_decode from "jwt-decode"
 
 export default {
     name: "App",
@@ -91,19 +91,26 @@ export default {
                 .then((res) => {
                     console.log(res.headers.access_token);
                     console.log(res.headers.refresh_token);
+
+                    var decodedHeader_access = jwt_decode(res.headers.access_token, { payload: true })
+                    console.log('decodedHeader_access > exp : ' + decodedHeader_access.exp)
+                    console.log('decodedHeader_access > username : ' + decodedHeader_access.username)
+                    var decodedHeader_refresh = jwt_decode(res.headers.refresh_token, { payload: true })
+                    console.log('decodedHeader_refresh > exp : ' + decodedHeader_refresh.exp)
+                    console.log('decodedHeader_refresh > username : ' + decodedHeader_refresh.username)
+
                     if(res.headers.state === "200") {
                         try {
                             this.$axios.defaults.headers.common["access_token"] = res.headers.access_token;
-                            console.log("res.headers.access_token = "+res.headers.access_token);
-                            console.log("===========>")
-                            // console.log(VueJwtDecode.decode(res.headers.access_token.replace("YSYV1 ","")));
-                            console.log(jwt_decode(res.headers.access_token.replace("YSYV1 ",""), { payload: true }));
-                            var decodedPayload = jwt_decode(res.headers.access_token.replace("YSYV1 ",""), { payload: true });
-                            console.log("decodedPayload.EXPIRATION_TIME = "+decodedPayload.EXPIRATION_TIME);
-                            console.log("decodedPayload.expiration_time = "+decodedPayload.expiration_time);
+
                             let payload = {
-                                "access_token":res.headers.access_token
+                                "user_id": decodedHeader_access.username,
+                                "access_token": res.headers.access_token,
+                                "access_token_exp": decodedHeader_access.exp,
+                                "refresh_token": res.headers.refresh_token,
+                                "refresh_token_exp": decodedHeader_refresh.exp,
                             }
+                            
                             this.$store.dispatch('setUserInfo', payload)
                             //이부분에서 user정보 요청.
                             // this.$axios.get("ysy/v1/user/userInfo")
