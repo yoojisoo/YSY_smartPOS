@@ -22,7 +22,7 @@ public class YsyUserMstService {
 	
 	/** user 등록 */
 	@Transactional
-	public String signUp(YsyUserMst ysyUserMst ) {
+	public String signUp(YsyUserMst ysyUserMst) {
 		
 		try 
 		{

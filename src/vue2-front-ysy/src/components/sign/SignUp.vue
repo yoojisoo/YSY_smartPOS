@@ -122,7 +122,7 @@
                                                     v-model="signUpInfo.username"
                                                     name="user_id"
                                                     type="text"
-                                                    placeholder="userId"
+                                                    placeholder="아이디"
                                                     required
                                                     filled
                                                     hide-details
@@ -133,7 +133,7 @@
                                                     v-model="signUpInfo.password"
                                                     name="user_pw"
                                                     type="password"
-                                                    placeholder="password"
+                                                    placeholder="비밀번호"
                                                     required
                                                     filled
                                                     hide-details
@@ -144,7 +144,7 @@
                                                     v-model="confirmPassword"
                                                     name="confirmPassword"
                                                     type="password"
-                                                    placeholder="confirm password"
+                                                    placeholder="비밀번호 확인"
                                                     required
                                                     filled
                                                     hide-details
@@ -155,7 +155,7 @@
                                                     v-model="signUpInfo.name"
                                                     name="user_name"
                                                     type="text"
-                                                    placeholder="user name"
+                                                    placeholder="이름"
                                                     required
                                                     filled
                                                     hide-details
@@ -166,7 +166,7 @@
                                                     v-model="signUpInfo.addr"
                                                     name="user_addr"
                                                     type="text"
-                                                    placeholder="user addr"
+                                                    placeholder="주소"
                                                     required
                                                     filled
                                                     hide-details
@@ -177,7 +177,7 @@
                                                     v-model="signUpInfo.email"
                                                     name="user_email"
                                                     type="text"
-                                                    placeholder="user email"
+                                                    placeholder="이메일"
                                                     required
                                                     filled
                                                     hide-details
@@ -188,7 +188,7 @@
                                                     v-model="signUpInfo.phone"
                                                     name="user_phone"
                                                     type="number"
-                                                    placeholder="user phone"
+                                                    placeholder="휴대폰번호"
                                                     required
                                                     filled
                                                     hide-details
