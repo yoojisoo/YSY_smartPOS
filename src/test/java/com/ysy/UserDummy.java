@@ -12,7 +12,7 @@ public class UserDummy {
 	
 	@Test
 	public void addUser() {
-		System.out.println("12345");
+		System.out.println("UserDummy -> addUser");
 //		System.out.println("user dummy sample data start");
 //		
 //		YsyUser user = YsyUser.builder()
@@ -22,10 +22,10 @@ public class UserDummy {
 //				.email("clubbboy@naver.com")              
 //	            .phone("01042467729").build();
 //		user.setYsyBiz(getBiz());
-////		user.setYsyGrp(getGrp());
+//		user.setYsyGrp(getGrp());
 //		ysyUserRepository.save(user);
-////		List<Object[]> temp = ysyUserRepository.getUserInfo();
-////		ysyUserRepository.findAll();
+//		List<Object[]> temp = ysyUserRepository.getUserInfo();
+//		ysyUserRepository.findAll();
 //		System.out.println("user dummy sample data end");
 		
 	}
