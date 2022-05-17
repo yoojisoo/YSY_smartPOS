@@ -11,103 +11,6 @@
                     <v-col cols="12">
                         <v-row justify="center" no-gutters>
                             <v-col cols="md-4 xs-12">
-                                <!-- <v-stepper
-                                    v-model="e6"
-                                    vertical
-                                >
-                                    <v-stepper-step
-                                        :complete="e6 > 1"
-                                        step="1"
-                                    >
-                                    Select an app
-                                    <small>Summarize if needed</small>
-                                    </v-stepper-step>
-
-                                    <v-stepper-content step="1">
-                                        <v-card
-                                            color="grey lighten-1"
-                                            class="mb-12"
-                                            height="200px"
-                                        ></v-card>
-                                        <v-btn
-                                            color="primary"
-                                            @click="e6 = 2"
-                                        >
-                                            Continue
-                                        </v-btn>
-                                        <v-btn text>
-                                            Cancel
-                                        </v-btn>
-                                        </v-stepper-content>
-
-                                        <v-stepper-step
-                                            :complete="e6 > 2"
-                                            step="2"
-                                        >
-                                        Configure analytics for this app
-                                        </v-stepper-step>
-
-                                        <v-stepper-content step="2">
-                                        <v-card
-                                            color="grey lighten-1"
-                                            class="mb-12"
-                                            height="200px"
-                                        ></v-card>
-                                        <v-btn
-                                            color="primary"
-                                            @click="e6 = 3"
-                                        >
-                                            Continue
-                                        </v-btn>
-                                        <v-btn text>
-                                            Cancel
-                                        </v-btn>
-                                        </v-stepper-content>
-
-                                        <v-stepper-step
-                                            :complete="e6 > 3"
-                                            step="3"
-                                        >
-                                        Select an ad format and name ad unit
-                                        </v-stepper-step>
-
-                                        <v-stepper-content step="3">
-                                        <v-card
-                                            color="grey lighten-1"
-                                            class="mb-12"
-                                            height="200px"
-                                        ></v-card>
-                                        <v-btn
-                                            color="primary"
-                                            @click="e6 = 4"
-                                        >
-                                            Continue
-                                        </v-btn>
-                                        <v-btn text>
-                                            Cancel
-                                        </v-btn>
-                                        </v-stepper-content>
-
-                                        <v-stepper-step step="4">
-                                        View setup instructions
-                                        </v-stepper-step>
-                                        <v-stepper-content step="4">
-                                        <v-card
-                                            color="grey lighten-1"
-                                            class="mb-12"
-                                            height="200px"
-                                        ></v-card>
-                                        <v-btn
-                                            color="primary"
-                                            @click="e6 = 1"
-                                        >
-                                            Continue
-                                        </v-btn>
-                                        <v-btn text>
-                                            Cancel
-                                        </v-btn>
-                                    </v-stepper-content>
-                                </v-stepper> -->
                                 <v-card class="elevation-0">
                                     <v-card-text>
                                         <v-row justify="space-between" no-gutters>
@@ -119,86 +22,100 @@
                                             </v-col>
                                             <v-col cols="12" class="mb-6">
                                                 <v-text-field
+                                                    v-model="signUpInfo.bizCd"
+                                                    color="deep-purple lighten-1"
+                                                    type="text"
+                                                    placeholder="회사코드"
+                                                    filled
+                                                    required
+                                                    :rules="rules.bizCd"
+                                                ></v-text-field>
+                                                <!-- required : HTML5에 새로 도입 된 속성.
+                                                              : 양식을 제출하기 전에 입력 필드를 채워야 함을 지정한다. -->
+                                            </v-col>
+                                            <v-col cols="12" class="mb-6">
+                                                <v-text-field
                                                     v-model="signUpInfo.username"
-                                                    name="user_id"
+                                                    color="deep-purple lighten-1"
                                                     type="text"
                                                     placeholder="아이디"
-                                                    required
                                                     filled
-                                                    hide-details
+                                                    required
+                                                    :rules="rules.id"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col cols="12" class="mb-6">
                                                 <v-text-field
                                                     v-model="signUpInfo.password"
-                                                    name="user_pw"
-                                                    type="password"
+                                                    color="deep-purple lighten-1"
+                                                    :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :type="passwordShow ? 'text' : 'password'"
+                                                    @click:append="passwordShow = !passwordShow"
                                                     placeholder="비밀번호"
-                                                    required
                                                     filled
-                                                    hide-details
+                                                    required
+                                                    :rules="rules.password"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col cols="12" class="mb-6">
                                                 <v-text-field
                                                     v-model="confirmPassword"
-                                                    name="confirmPassword"
-                                                    type="password"
+                                                    color="deep-purple lighten-1"
+                                                    :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+                                                    :type="passwordShow ? 'text' : 'password'"
+                                                    @click:append="passwordShow = !passwordShow"
                                                     placeholder="비밀번호 확인"
-                                                    required
                                                     filled
-                                                    hide-details
+                                                    required
+                                                    :rules="rules.confirmPassword"
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col cols="12" class="mb-6">
                                                 <v-text-field
                                                     v-model="signUpInfo.name"
-                                                    name="user_name"
+                                                    color="deep-purple lighten-1"
                                                     type="text"
                                                     placeholder="이름"
-                                                    required
                                                     filled
-                                                    hide-details
+                                                    required
+                                                    :rules="rules.name"
                                                 ></v-text-field>
                                             </v-col>
-                                            <v-col cols="12" class="mb-6">
+                                            <!-- <v-col cols="12" class="mb-6">
                                                 <v-text-field
                                                     v-model="signUpInfo.addr"
+                                                    color="deep-purple lighten-1"
                                                     name="user_addr"
                                                     type="text"
                                                     placeholder="주소"
-                                                    required
                                                     filled
-                                                    hide-details
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col cols="12" class="mb-6">
                                                 <v-text-field
                                                     v-model="signUpInfo.email"
+                                                    color="deep-purple lighten-1"
                                                     name="user_email"
                                                     type="text"
                                                     placeholder="이메일"
-                                                    required
                                                     filled
-                                                    hide-details
                                                 ></v-text-field>
                                             </v-col>
                                             <v-col cols="12" class="mb-6">
                                                 <v-text-field
                                                     v-model="signUpInfo.phone"
+                                                    color="deep-purple lighten-1"
                                                     name="user_phone"
                                                     type="number"
                                                     placeholder="휴대폰번호"
-                                                    required
                                                     filled
-                                                    hide-details
                                                 ></v-text-field>
-                                            </v-col>
+                                            </v-col> -->
 
-                                            <div class="red--text">{{errorMessage}}</div>
+                                            <!-- <div class="red--text">{{errorMessage}}</div> -->
 
                                             <v-col cols="12">
-                                                <v-btn block class="my-2 deep-purple lighten-1" dark>다음</v-btn>
+                                                <v-btn block class="my-2 deep-purple lighten-1" dark @click="signUp">회원가입</v-btn>
                                             </v-col>
                                             <v-col cols="12">
                                                 <div class="grey--text mt-4" v-on:click="signIn">{{toggleMessage}}</div>
@@ -220,42 +137,63 @@ export default {
     name: "App",
     data() {
         return {
+            passwordShow: false,
             toggleMessage: "Already have an Account? Sign In",
             signUpInfo : {
+                bizCd: "",
                 username: "",
                 password: "",
                 name: "",
-                addr: "",
-                email: "",
-                phone: "",
+                // addr: "",
+                // email: "",
+                // phone: "",
             },
             confirmPassword: "",
-            errorMessage: "",
+            // errorMessage: "",
             valueDeterminate: 50,
             e6: 1,
+            rules: {
+                bizCd: [
+                    v => !!v || '회사코드는 필수 입력사항입니다.',
+                ],
+                id: [
+                    v => !!v || '아이디는 필수 입력사항입니다.',
+                ],
+                password: [
+                    v => !!v || '비밀번호는 필수 입력사항입니다.',
+                ],
+                confirmPassword: [
+                    v => !!v || '비밀번호는 필수 입력사항입니다.',
+                    v => v === this.signUpInfo.password || '비밀번호가 일치하지 않습니다.',
+                ],
+                name: [
+                    v => !!v || '이름은 필수 입력사항입니다.',
+                    v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다.',
+                ],
+            },
         }
     },
     methods: {
         signUp (){
             const { signUpInfo } = this;
 
-            if(signUpInfo.password == this.confirmPassword) {
-                this.errorMessage = "";
-                this.$axios.post("/ysy/v1/auth/signUp", signUpInfo)
-                    .then((res) => {
-                        console.log(res.data);
-                        if(res.data === "ok -> login page move!") {
-                            alert("회원가입 성공");
-                            this.$router.replace({ name: 'signIn' })
-                        }
-                        else{
-                            alert(res.data);
-                        }
-                    });
-            }
-            else {
-                this.errorMessage = "password did not match"
-            }
+            // if(signUpInfo.password == this.confirmPassword) {
+            // this.errorMessage = "";
+            this.$axios.post("/ysy/v1/auth/signUp", signUpInfo)
+                .then((res) => {
+                    console.log(res.data);
+                    if(res.data === "ok -> login page move!") {
+                        alert("회원가입 성공");
+                        this.$router.replace({ name: 'signIn' })
+                    }
+                    else{
+                        alert(res.data);
+                    }
+                });
+            // }
+            // else {
+            //     this.errorMessage = "password did not match"
+            // }
         },
         signIn (){
             this.$router.replace({ name: 'signIn' })

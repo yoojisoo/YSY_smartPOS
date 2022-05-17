@@ -1,7 +1,6 @@
 package com.ysy.jwt.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,10 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysy.common.YsyUtil;
-import com.ysy.jwt.auth.entity.YsyBizMst;
-import com.ysy.jwt.auth.entity.YsyUserMst;
-import com.ysy.jwt.auth.service.YsyBizMstService;
+import com.ysy.jwt.auth.model.JoinModel;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
 /**
@@ -40,9 +36,9 @@ public class YsyUserMstController {
 	
 	@PostMapping("/signUp")//회원가입. 무인증.
 	@ResponseBody
-	public String signUp(@RequestBody YsyUserMst ysyUserMst ) {
+	public String signUp(@RequestBody JoinModel joinModel) {
 		
-		return ysyUserService.signUp(ysyUserMst);
+		return ysyUserService.signUp(joinModel);
 	}
 	
 	
