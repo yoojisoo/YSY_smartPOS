@@ -54,7 +54,7 @@ public class YsyPrivateRoles extends BaseEntity implements Serializable {
 	
 	@Data
 	@Embeddable
-	public class PK implements Serializable {
+	public static class PK implements Serializable {
 		private static final long serialVersionUID = 1L;
 		private String userId;
 		private String menuId;

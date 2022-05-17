@@ -75,7 +75,7 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 //	@NoArgsConstructor
 //	@AllArgsConstructor
 //	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId
-//	public class MenuPK implements Serializable{ 
+//	public static class MenuPK implements Serializable{ 
 //		
 //		private static final long serialVersionUID = 1L;
 //

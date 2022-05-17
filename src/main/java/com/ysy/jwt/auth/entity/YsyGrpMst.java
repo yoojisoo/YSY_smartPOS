@@ -71,7 +71,7 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId
-	public class GrpPK implements Serializable{
+	public static class  GrpPK implements Serializable{
 		
 		private static final long serialVersionUID = 1L;
 

@@ -46,7 +46,7 @@ public class YsyBtnMst extends BaseEntity implements Serializable{
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Embeddable
-	public class BtnPK implements Serializable{
+	public static class BtnPK implements Serializable{
 		private static final long serialVersionUID = 1L;
 
 		@Column(name = "MENU_BTN" , length = 50)

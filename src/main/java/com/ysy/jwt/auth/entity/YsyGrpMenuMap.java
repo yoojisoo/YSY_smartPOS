@@ -75,7 +75,7 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId 
-	public class GrpMenuPK implements Serializable{
+	public static class GrpMenuPK implements Serializable{
 		
 		private static final long serialVersionUID = 1L;
 //		private String bizCd;

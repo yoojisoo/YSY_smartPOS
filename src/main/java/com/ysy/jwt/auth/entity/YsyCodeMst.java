@@ -41,7 +41,7 @@ public class YsyCodeMst extends BaseEntity implements Serializable{
 
 	
 	@Embeddable
-	public class CodePK implements Serializable{
+	public static class CodePK implements Serializable{
 		
 		private String bizCd;
 		@Column(name="MST_CD")
