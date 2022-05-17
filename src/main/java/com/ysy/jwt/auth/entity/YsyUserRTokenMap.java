@@ -1,5 +1,7 @@
 package com.ysy.jwt.auth.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,8 +36,10 @@ import lombok.NoArgsConstructor;
 	        )
 	    }
 	   ) 
-//@Entity
-public class YsyUserRTokenMap extends BaseEntity{
+@Entity
+public class YsyUserRTokenMap extends BaseEntity implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO) 
@@ -50,7 +54,7 @@ public class YsyUserRTokenMap extends BaseEntity{
 	private YsyUserMst ysyUserMst;
 	
 	@Column(name="REFRESH_TOKEN" , nullable = false )
-	private String token;
+	private String refreshToken;
 
 	
 }

@@ -23,28 +23,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private YsyUserMstRepository ysyUserRepository;
 	
 	//인증된 회원
-	private String user_roles   = "hasRole('"+SysEnum.grps.ROLE_USER.toString()+"') or "
-			                    + "hasRole('"+SysEnum.grps.ROLE_USER_VIP1.toString()+"') or "
-			                    + "hasRole('"+SysEnum.grps.ROLE_USER_VIP2.toString()+"') or "
-			                    + "hasRole('"+SysEnum.grps.ROLE_MANAGER_SUPER.toString()+"') or "
-			                    + "hasRole('"+SysEnum.grps.ROLE_MANAGER.toString()+"') or "
-			                    + "hasRole('"+SysEnum.grps.ROLE_ADMIN.toString()+"')";
+	private String user_roles   = "hasRole('"+SysEnum.enumGrps.ROLE_USER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP1.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	//vip1회원
-	private String user1_roles  = "hasRole('"+SysEnum.grps.ROLE_USER_VIP1.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_USER_VIP2.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_MANAGER_SUPER.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_MANAGER.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_ADMIN.toString()+"')";
+	private String user1_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP1.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	//vip2회원
-	private String user2_roles  = "hasRole('"+SysEnum.grps.ROLE_USER_VIP2.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_MANAGER_SUPER.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_MANAGER.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_ADMIN.toString()+"')";
+	private String user2_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	//관리자
-	private String mng_roles    = "hasRole('"+SysEnum.grps.ROLE_MANAGER_SUPER.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_MANAGER.toString()+"') or "
-					            + "hasRole('"+SysEnum.grps.ROLE_ADMIN.toString()+"')";
-	private String admin_roles  = "hasRole('"+SysEnum.grps.ROLE_ADMIN.toString()+"')";
+	private String mng_roles    = "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
+	private String admin_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
