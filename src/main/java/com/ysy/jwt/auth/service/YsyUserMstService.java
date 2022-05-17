@@ -5,10 +5,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ysy.common.SysEnum;
 import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.entity.YsyBizMst;
+import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
 import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.repository.YsyGrpMstRepository;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
 @Service
@@ -19,10 +20,17 @@ public class YsyUserMstService {
 	private YsyUserMstRepository ysyUserRepository;
 	@Autowired
 	YsyBizMstService ysyBizService;
+
+	@Autowired
+	YsyGrpMstRepository ysyGrpMstRepository;
 	
 	/** user 등록 */
 	@Transactional
-	public String signUp(YsyUserMst ysyUserMst) {
+	public String signUp(YsyUserMst ysyUserMst ) {
+		
+//		GrpPK pk = new GrpPK();
+		GrpPK pk = ysyUserMst.getYsyGrpMst().getGrpPK();
+		ysyGrpMstRepository.findById(pk);
 		
 		try 
 		{

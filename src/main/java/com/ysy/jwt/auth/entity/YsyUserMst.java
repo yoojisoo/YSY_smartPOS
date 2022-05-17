@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -23,6 +24,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+/*
+ * @Table(
+		name = "YSY_USER_GRP_MAP",
+	    uniqueConstraints = {
+	        @UniqueConstraint(
+	            name = "YSY_USER_GRP_MAP_contstraintName",
+	            columnNames = {"USER_ID"}
+	        )
+	    }
+	   )
+ * */
 
 @Data
 @Builder
@@ -47,8 +60,8 @@ public class YsyUserMst extends BaseEntity implements Serializable{
 	private String name;
 	@Column(name = "USER_ADDR")
 	private String addr;
-	@Column(name = "USER_EMAIL")
-	private String email;
+//	@Column(name = "USER_EMAIL")
+//	private String email;
 	@Column(name = "USER_PHONE")
 	private String phone;
 	
@@ -74,8 +87,8 @@ public class YsyUserMst extends BaseEntity implements Serializable{
 	
 	
 	public List<String> getRoleList(){
-		if(this.ysyGrpMst.getPk().getGrpId().length() > 0)
-			return Arrays.asList(ysyGrpMst.getPk().getGrpId().split(",")) ;
+		if(this.ysyGrpMst.getGrpPK().getGrpId() != null)
+			return Arrays.asList(ysyGrpMst.getGrpPK().getGrpId().toString().split(",")) ;
 		else
 			return new ArrayList<String>();
 	}
