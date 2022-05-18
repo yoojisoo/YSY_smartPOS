@@ -41,6 +41,9 @@ public class YsyBtnMst extends BaseEntity implements Serializable{
 	@ManyToOne
 	private YsyMenuMst ysyMenuMst;  
 	
+	@Column(name = "USE_YN" , nullable = false)
+	private String useYn;
+	
 	
 	@Data
 	@NoArgsConstructor

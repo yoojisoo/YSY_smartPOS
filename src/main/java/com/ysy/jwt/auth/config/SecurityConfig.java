@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    .addFilter(new JwtAuthorizationFilter(authenticationManager() ,ysyUserRepository ))
 	    .cors().and()
 	    .authorizeRequests()
-		.antMatchers("/ysy/v1/user/basic/**")   .access(user_roles)
+		.antMatchers("/ysy/v1/user/**")   .access(user_roles)
 		.antMatchers("/ysy/v1/user/vip1/**")   .access(user1_roles)
 		.antMatchers("/ysy/v1/user/vip2/**")   .access(user2_roles)
 		.antMatchers("/ysy/v1/manager/**").access(mng_roles)
