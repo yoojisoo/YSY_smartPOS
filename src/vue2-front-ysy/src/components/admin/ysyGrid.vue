@@ -174,7 +174,7 @@
 
 <script>
   export default {
-    name: 'admin-data-table',
+    name: 'admin-user-grid',
     data: () => ({
       singleSelect: false,
       selected: [],
