@@ -67,6 +67,11 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	@Column(name="USE_YN"     , length=1   , nullable = false)
 	private String useYn;
 	
+	@Column(name="IS_ADMIN"   , length=1   , nullable = false)//admin 메뉴 여부
+	private String isAdmin;
+	
+	
+	
 	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.LAZY)
 	@JsonIgnoreProperties
 	private List<YsyBtnMst> ysyBtnMst = new ArrayList<YsyBtnMst>();
