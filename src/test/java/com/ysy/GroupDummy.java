@@ -35,7 +35,10 @@ public class GroupDummy {
 		List<YsyBizMst> bizTemp = ysyBizRepository.findAll();
 		List<enumGrps> enumTemp = Stream.of(SysEnum.enumGrps.values()).collect(Collectors.toList());
 		
+		int enumRoleNum;
+		
 		for(YsyBizMst ysyBizMst : bizTemp) {
+			enumRoleNum = 1;
 			String bizCd = ysyBizMst.getBizCd();
 			System.out.println(bizCd);
 			
@@ -47,10 +50,11 @@ public class GroupDummy {
 						.ysyBizMst(ysyBizMst)
 						.grpNm("")
 						.useYn("Y")
-						.levelId(0)
+						.levelId(enumRoleNum)
 						.build();
 				
 				ysyGrpRepository.save(grpData);
+				enumRoleNum++;
 			}
 		}
 		System.out.println("group dummy sample data end =========================");

@@ -11,6 +11,7 @@ import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
 import com.ysy.jwt.auth.model.JoinModel;
 import com.ysy.jwt.auth.repository.YsyGrpMstRepository;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
@@ -50,7 +51,6 @@ public class YsyUserMstService {
 				String bizCd = joinModel.getBizCd();
 				enumGrps grpId = SysEnum.enumGrps.ROLE_TEMP_USER;
 				
-//				YsyBizMst ysyBizMst = ysyBizService.getBizData(bizCd);
 				YsyBizMst ysyBizMst = new YsyBizMst();
 				YsyGrpMst ysyGrpMst = new YsyGrpMst();
 				
@@ -58,9 +58,9 @@ public class YsyUserMstService {
 				if (!ysyBizService.isBizCd(bizCd)) {
 					/** 존재하지 않음 -> bizCd가 존재하지 않으면 Default grpId도 없기 때문에 둘 다 새로 등록해줌 */
 					ysyBizMst = YsyBizMst.builder().bizCd(bizCd).bizNm("").useYn("Y").delYn("N").build(); // biz 등록
-					ysyGrpMst.getGrpPK().setBizCd(bizCd); // grp 등록에 쓸 Pk 정보를 넣어줌
-					ysyGrpMst.getGrpPK().setGrpId(grpId); // grp 등록에 쓸 Pk 정보를 넣어줌
-					ysyGrpMst = YsyGrpMst.builder().grpPK(ysyGrpMst.getGrpPK()).grpNm("").useYn("Y").build(); // grp 등록
+					
+					GrpPK grpPK = new GrpPK(grpId, bizCd); // grp 등록에 쓸 Pk 정보를 넣어줌
+					ysyGrpMst = YsyGrpMst.builder().grpPK(grpPK).grpNm("").useYn("Y").build(); // grp 등록
 					
 					if (!ysyBizService.createBiz(ysyBizMst)) {
 						return "회사코드가 있습니다.";
@@ -71,11 +71,12 @@ public class YsyUserMstService {
 				}
 				
 				/** 2. 최종 저장 양식은 YsyUserMst라서 정보를 옮겨 담아줌 */
-				YsyUserMst ysyUser = new YsyUserMst();
-				ysyUser.setUsername(joinModel.getUsername());
-				ysyUser.setPassword(bCryptPasswordEncoder.encode(joinModel.getPassword()));
-				ysyUser.setName(joinModel.getName());
-				ysyUser.setYsyGrpMst(ysyGrpMst);
+				YsyUserMst ysyUser = YsyUserMst.builder()
+						.username(joinModel.getUsername())
+						.password(bCryptPasswordEncoder.encode(joinModel.getPassword()))
+						.name(joinModel.getName())
+						.ysyGrpMst(ysyGrpMst)
+						.build();
 
 				ysyUserRepository.save(ysyUser);
 				
