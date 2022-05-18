@@ -1,9 +1,9 @@
 const menus = [
   {
     path: "/",
-    name: "고객관리",
+    name: "관리자",
     icon: "mdi-home",
-    component: () => import("@/views/contents/Home.vue"),
+    component: () => import("../../views/contents/admin.vue"),
   },
   {
     path: "/favorite",
