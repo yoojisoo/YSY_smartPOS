@@ -40,10 +40,8 @@ public class GroupDummy {
 		for(YsyBizMst ysyBizMst : bizTemp) {
 			enumRoleNum = 1;
 			String bizCd = ysyBizMst.getBizCd();
-			System.out.println(bizCd);
 			
 			for(enumGrps enumRole : enumTemp) {
-				System.out.println(enumRole);
 				GrpPK grpPK = new GrpPK(enumRole, bizCd);
 				YsyGrpMst grpData = YsyGrpMst.builder()
 						.grpPK(grpPK)
