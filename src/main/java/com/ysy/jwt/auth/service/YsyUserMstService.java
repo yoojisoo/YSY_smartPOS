@@ -23,12 +23,15 @@ public class YsyUserMstService {
 	@Autowired
 	private YsyUserMstRepository ysyUserRepository;
 	@Autowired
-	YsyBizMstService ysyBizService;
+	private YsyBizMstService ysyBizService;
 	@Autowired
-	YsyGrpMstService ysyGrpService;
+	private YsyGrpMstService ysyGrpService;
 
 	@Autowired
-	YsyGrpMstRepository ysyGrpMstRepository;
+	private YsyGrpMstRepository ysyGrpMstRepository;
+	
+	@Autowired
+	private YsyUtil util;
 	
 	/** user 등록 */
 	@Transactional
@@ -40,9 +43,9 @@ public class YsyUserMstService {
 		
 		try 
 		{
-			if (!YsyUtil.isNullAndEmpty(joinModel.getUsername())
-			 && !YsyUtil.isNullAndEmpty(joinModel.getPassword())
-			 && !YsyUtil.isNullAndEmpty(joinModel.getName())) {
+			if (!util.isNullAndEmpty(joinModel.getUsername())
+			 && !util.isNullAndEmpty(joinModel.getPassword())
+			 && !util.isNullAndEmpty(joinModel.getName())) {
 
 				/** 0. 유저 존재 확인 (존재하면 메세지 return / 존재하지 않으면 다음 단계) */
 				if (isUser(joinModel.getUsername())) return "error : user 존재";
