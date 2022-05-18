@@ -11,7 +11,7 @@
       </v-app-bar-title>
       <v-tabs centered class="hidden-xs-only" color="white" dark>
         <v-tab
-          v-for="(item, idx) in sideMenu"
+          v-for="(item, idx) in headerMenu"
           :key="idx"
           :to="item.path"
         >
@@ -60,11 +60,11 @@
         dense
       >
         <v-list-item 
-          v-for="(item, idx) in sideMenu"
+          v-for="(item, idx) in headerMenu"
           :key="idx"
           :to="item.path">
-          <v-icon>{{ item.icon }}</v-icon>
-          <v-list-item-title>{{ item.name }}</v-list-item-title>
+          <v-icon v-if="item.pmenuId != ''">{{ item.icon }}</v-icon>
+          <v-list-item-title v-if="item.pmenuId != ''">{{ item.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -77,6 +77,7 @@ import MyInfo from '@/components/common/TheMyInfo.vue'
 
   export default {
     name: 'main-header',
+    props: ["pageName"],
     components: {
       'my-info' : MyInfo
     },
@@ -84,7 +85,7 @@ import MyInfo from '@/components/common/TheMyInfo.vue'
       appTitle: 'Title',
       drawer: false,
       group: true,
-      sideMenu: v_menus,
+      headerMenu: null,
       radioGroup: 1,
       radios: 'slide-x-transition-1',
       row: null,
@@ -104,7 +105,89 @@ import MyInfo from '@/components/common/TheMyInfo.vue'
       doMouseOut() {
         this.iconImg = 'mdi-dots-vertical'
         console.log(this.iconImg)
-      }
+      },
+      headerMenuFilter(){
+        console.log("headerMenuFilter start");
+        console.log( v_menus);
+        console.log( "this.pageValue = " + this.pageName);
+        console.log( this.pageName.indexOf("admin") > -1);
+
+        var list = [];
+          if(this.pageName === "admin"){
+            v_menus.forEach(x=>{
+              // console.log("getMenuList start isAdmin[" + x.isAdmin + "]pmenuId [" + x.pmenuId);
+              if(x.isAdmin === "Y" && x.pmenuId == null){
+                list.push(x);
+              }
+            });
+          }
+          
+          this.headerMenu = list;
+          console.log( "this.headerMenu=");
+          console.log( this.headerMenu);
+          console.log( "header mounted end");
+      },
+      async getMenuList(){
+          console.log("getMenuList start");
+          var res1 = await this.$axios.get("ysy/v1/menu/getMenuList");
+
+          var list = res1.data; 
+          for(var i = 0 ; i < list.length ; i++){
+
+              
+            // if(list[i].menuPath != ""){
+
+                var menuData = {};
+                menuData.path = list[i].menuPath;
+                menuData.name = list[i].menuNm;
+                menuData.icon = "mdi-home";
+                menuData.component = () => import(list[i].menuFullPath);
+                menuData.pmenuId = list[i].pmenuId;
+                menuData.isAdmin = list[i].isAdmin;
+                v_menus.push(menuData);
+              // }
+          }
+          
+          
+          console.log(v_menus);
+
+          this.headerMenuFilter();
+       }
+    },
+    mounted() {
+      this.getMenuList();
+    
+    },
+
+    async created(){
+      
+      console.log("header created start");
+        // await this.$axios.get("ysy/v1/menu/getMenuList")
+        //           .then(response=>{
+        //               var list = response.data;
+        //               for(var i = 0 ; i < list.length ; i++){
+
+        //                 if(list[i].menuPath != ""){
+
+        //                     var menuData = {};
+        //                     menuData.path = list[i].menuPath;
+        //                     menuData.name = list[i].menuNm;
+        //                     menuData.icon = "mdi-home";
+        //                     menuData.component = () => import(list[i].menuFullPath);
+        //                     menuData.pmenuId = list[i].pmenuId;
+        //                     v_menus.push(menuData);
+        //                   }
+        //               }
+        //               console.log("header created end");
+        //               // console.log(this.$router);
+        //               console.log(v_menus);
+        //           })
+        //           .catch(error=>{
+        //             console.log("server error " + error);
+        //           });
+
+        // var a = 1+2;
+        //  console.log("header created end  " + a);
     }
   }
 </script>

@@ -66,6 +66,9 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	@ColumnDefault("'Y'")
 	@Column(name="USE_YN"     , length=1   , nullable = false)
 	private String useYn;
+
+	@Column(name="MENU_FULL_PATH"     , length=250   , nullable = false)
+	private String menuFullPath;
 	
 	@Column(name="IS_ADMIN"   , length=1   , nullable = false)//admin 메뉴 여부
 	private String isAdmin;

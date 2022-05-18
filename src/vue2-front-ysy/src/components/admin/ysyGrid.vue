@@ -15,7 +15,7 @@
       <v-toolbar
         flat
       >
-        <v-toolbar-title>My CRUD</v-toolbar-title>
+        <v-toolbar-title>{{gridTitle}}</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -176,6 +176,7 @@
   export default {
     name: 'admin-user-grid',
     data: () => ({
+      gridTitle : "Grid Title",
       singleSelect: false,
       selected: [],
       dialog: false,
