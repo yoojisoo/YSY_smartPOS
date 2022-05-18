@@ -18,10 +18,26 @@
 </template>
 
 <script>
+import menus1 from './assets/common/vMenus.js'
+
   export default {
-    beforeCreate() {
-      localStorage.clear()
+    components: {
     },
+    data:()=>({
+
+    }),
+     mounted() {
+
+     },
+     computed:{
+     },
+     methods: {
+     },
+    beforeCreate() {
+      localStorage.clear();
+    },
+    created(){
+    }
   };
 </script>
 

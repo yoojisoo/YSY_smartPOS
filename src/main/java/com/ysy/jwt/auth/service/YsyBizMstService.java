@@ -1,16 +1,18 @@
 package com.ysy.jwt.auth.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.repository.YsyBizMstRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class YsyBizMstService {
 
-	@Autowired
-	private YsyBizMstRepository ysyBizRepository;
+	
+	private final YsyBizMstRepository ysyBizRepository;
 	
 	
 	/** biz 등록 */
