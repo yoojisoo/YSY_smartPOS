@@ -73,7 +73,7 @@
 
 <script>
 import v_menus from '@/assets/common/vMenus.js'
-import MyInfo from '@/components/common/TheMyInfo.vue'
+import MyInfo from '@/components/TheMyInfo.vue'
 
   export default {
     name: 'main-header',
@@ -106,88 +106,59 @@ import MyInfo from '@/components/common/TheMyInfo.vue'
         this.iconImg = 'mdi-dots-vertical'
         console.log(this.iconImg)
       },
-      headerMenuFilter(){
+      setHeaderMenu(){
         console.log("headerMenuFilter start");
         console.log( v_menus);
         console.log( "this.pageValue = " + this.pageName);
         console.log( this.pageName.indexOf("admin") > -1);
 
         var list = [];
-          if(this.pageName === "admin"){
-            v_menus.forEach(x=>{
-              // console.log("getMenuList start isAdmin[" + x.isAdmin + "]pmenuId [" + x.pmenuId);
-              if(x.isAdmin === "Y" && x.pmenuId == null){
-                list.push(x);
-              }
-            });
+        v_menus.forEach(x=>{
+          if(this.pageName === "admin" && x.isAdmin === "Y" && x.pmenuId == null){ // admin 메뉴 구성
+            list.push(x);
           }
-          
-          this.headerMenu = list;
-          console.log( "this.headerMenu=");
-          console.log( this.headerMenu);
-          console.log( "header mounted end");
+          else if(this.pageName === "home" && x.isAdmin === "N" && x.pmenuId == null){// home 메뉴 구성
+            list.push(x);
+          }
+        });
+        this.headerMenu = [];
+        this.headerMenu = list;
+        console.log( "this.headerMenu=");
+        console.log( this.headerMenu);
+        console.log( "header mounted end");
       },
       async getMenuList(){
           console.log("getMenuList start");
-          var res1 = await this.$axios.get("ysy/v1/menu/getMenuList");
+          if(v_menus.length <= 0)
+          {
+            var res1 = await this.$axios.get("ysy/v1/menu/getMenuList");
+            var list = res1.data;
+            for(var i = 0 ; i < list.length ; i++){
 
-          var list = res1.data; 
-          for(var i = 0 ; i < list.length ; i++){
-
-              
-            // if(list[i].menuPath != ""){
-
-                var menuData = {};
-                menuData.path = list[i].menuPath;
-                menuData.name = list[i].menuNm;
-                menuData.icon = "mdi-home";
-                menuData.component = () => import(list[i].menuFullPath);
-                menuData.pmenuId = list[i].pmenuId;
-                menuData.isAdmin = list[i].isAdmin;
-                v_menus.push(menuData);
-              // }
+                  var menuData = {};
+                  menuData.path = list[i].menuPath;
+                  menuData.name = list[i].menuNm;
+                  menuData.icon = "mdi-home";
+                  menuData.component = () => import(list[i].menuFullPath);
+                  menuData.pmenuId = list[i].pmenuId;
+                  menuData.isAdmin = list[i].isAdmin;
+                  v_menus.push(menuData);
+            }
           }
-          
-          
+
           console.log(v_menus);
 
-          this.headerMenuFilter();
+          this.setHeaderMenu();
        }
     },
-    mounted() {
+    mounted()
+    {
       this.getMenuList();
-    
     },
 
-    async created(){
-      
+    created()
+    {
       console.log("header created start");
-        // await this.$axios.get("ysy/v1/menu/getMenuList")
-        //           .then(response=>{
-        //               var list = response.data;
-        //               for(var i = 0 ; i < list.length ; i++){
-
-        //                 if(list[i].menuPath != ""){
-
-        //                     var menuData = {};
-        //                     menuData.path = list[i].menuPath;
-        //                     menuData.name = list[i].menuNm;
-        //                     menuData.icon = "mdi-home";
-        //                     menuData.component = () => import(list[i].menuFullPath);
-        //                     menuData.pmenuId = list[i].pmenuId;
-        //                     v_menus.push(menuData);
-        //                   }
-        //               }
-        //               console.log("header created end");
-        //               // console.log(this.$router);
-        //               console.log(v_menus);
-        //           })
-        //           .catch(error=>{
-        //             console.log("server error " + error);
-        //           });
-
-        // var a = 1+2;
-        //  console.log("header created end  " + a);
     }
   }
 </script>

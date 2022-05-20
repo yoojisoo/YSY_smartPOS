@@ -10,16 +10,34 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar> -->
-        <theHeader v-bind:pageName="pageName" />
+    <div>
+      <v-row>
+        <v-col>
+          <theHeader v-bind:pageName="pageName" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <!-- left menu -->
+        </v-col>
+        <v-col>
+          <!-- content  -->
+          <router-view class="view two" name="admin"></router-view>
+        </v-col>
+      </v-row>
+    </div>
+        
+        
     <v-main>
-        <userGrid />
+        
+        
     </v-main>
   </v-app>
 </template>
 
 <script>
-import userGrid from '../../components/admin/ysyGrid.vue'
-import theHeader from '../../components/common/TheHeader.vue'
+import userGrid from '../components/ysyGrid.vue'
+import theHeader from '../components/TheHeader.vue'
 
   export default {
     name: 'admin-base',

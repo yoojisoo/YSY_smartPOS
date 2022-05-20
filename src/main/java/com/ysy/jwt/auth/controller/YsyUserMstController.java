@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysy.jwt.auth.model.JoinModel;
+import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
 /**
@@ -36,7 +36,7 @@ public class YsyUserMstController {
 	
 	@PostMapping("/signUp")//회원가입. 무인증.
 	@ResponseBody
-	public String signUp(@RequestBody JoinModel joinModel) {
+	public String signUp(@RequestBody JoinDto joinModel) {
 		
 		return ysyUserService.signUp(joinModel);
 	}

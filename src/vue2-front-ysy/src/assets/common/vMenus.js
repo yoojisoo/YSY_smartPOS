@@ -39,12 +39,12 @@
 
 import axios from 'axios'
 const menus=[
-    {
-        path: "/",
-        name: "관리자",
-        icon: "mdi-home",
-        component: () => import("../../views/contents/admin.vue"),
-    },
+    // {
+    //     path: "/",
+    //     name: "관리자",
+    //     icon: "mdi-home",
+    //     component: () => import("../../views/contents/admin.vue"),
+    // },
 ]
 
 

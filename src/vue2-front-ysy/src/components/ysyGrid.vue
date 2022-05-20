@@ -175,6 +175,7 @@
 <script>
   export default {
     name: 'admin-user-grid',
+    props : ["noticeList"],
     data: () => ({
       gridTitle : "Grid Title",
       singleSelect: false,
@@ -234,31 +235,33 @@
 
     methods: {
       initialize () {
+
+        // this.noticeList;
+
+
         this.userInfo = [
-          {
-            userId: 'clubbboy@naver.com',
-            userPw: '1234',
-            userPhone: '010-8756-9851',
-            userGroup: 'admin',
-            bizCode: '0001',
-            // actions: '1',
-          },
-          {
-            userId: 'coffeeLove@naver.com',
-            userPw: '5678',
-            userPhone: '010-9678-1331',
-            userGroup: 'manager',
-            bizCode: '0001',
-            // actions: '1',
-          },
-          {
-            userId: 's_plus7@naver.com',
-            userPw: '91011',
-            userPhone: '010-7997-7521',
-            userGroup: 'manager',
-            bizCode: '0001',
-            // actions: '1',
-          },
+          {userId: 'clubbboy@naver.com1',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com2',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com3',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com4',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com5',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com6',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com7',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com8',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com9',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com0',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com11',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com12',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com13',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com14',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com15',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com16',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com17',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com18',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com19',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com20',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          {userId: 'clubbboy@naver.com21',userPw: '1234',userPhone: '010-8756-9851',userGroup: 'admin',bizCode: '0001',},
+          
         ]
       },
 

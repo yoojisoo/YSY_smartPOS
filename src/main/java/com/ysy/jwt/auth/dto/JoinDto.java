@@ -1,4 +1,4 @@
-package com.ysy.jwt.auth.model;
+package com.ysy.jwt.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JoinModel {
+public class JoinDto {
 	
 	private String bizCd;
 	private String username;

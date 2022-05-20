@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import menus1 from './assets/common/vMenus.js'
 
   export default {
     components: {

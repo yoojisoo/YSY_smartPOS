@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ysy.common.SysEnum;
 import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.common.YsyUtil;
+import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
 import com.ysy.jwt.auth.entity.YsyUserMst;
-import com.ysy.jwt.auth.model.JoinModel;
 import com.ysy.jwt.auth.repository.YsyBizMstRepository;
 import com.ysy.jwt.auth.repository.YsyGrpMstRepository;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
@@ -40,25 +40,21 @@ public class YsyUserMstService {
 	
 	/** user 등록 */
 	@Transactional
-	public String signUp(JoinModel joinModel) {
-		
-//		GrpPK pk = new GrpPK();
-//		GrpPK pk = joinModel.getYsyGrpMst().getGrpPK();
-//		ysyGrpMstRepository.findById(pk);
+	public String signUp(JoinDto joinDto) {
 		
 		try 
 		{
-			if (!util.isNullAndEmpty(joinModel.getBizCd())
-			 && !util.isNullAndEmpty(joinModel.getUsername())
-			 && !util.isNullAndEmpty(joinModel.getPassword())
-			 && !util.isNullAndEmpty(joinModel.getName())
-			 && !util.isNullAndEmpty(joinModel.getEmail())) {
+			if (!util.isNullAndEmpty(joinDto.getBizCd())
+			 && !util.isNullAndEmpty(joinDto.getUsername())
+			 && !util.isNullAndEmpty(joinDto.getPassword())
+			 && !util.isNullAndEmpty(joinDto.getName())
+			 && !util.isNullAndEmpty(joinDto.getEmail())) {
 
 				/** 0. 유저 존재 확인 (존재하면 메세지 return / 존재하지 않으면 다음 단계) */
-				if (isUser(joinModel.getUsername())) return "error : user 존재";
+				if (isUser(joinDto.getUsername())) return "error : user 존재";
 				
 				// bizCd와 Default Group ID 셋팅
-				String bizCd = joinModel.getBizCd();
+				String bizCd = joinDto.getBizCd();
 				enumGrps grpId = SysEnum.enumGrps.ROLE_TEMP_USER;
 				List<enumGrps> enumTemp = Stream.of(SysEnum.enumGrps.values()).collect(Collectors.toList());
 				int enumRoleNum;
@@ -100,10 +96,10 @@ public class YsyUserMstService {
 				
 				/** 2. 최종 저장 양식은 YsyUserMst라서 정보를 옮겨 담아줌 */
 				YsyUserMst ysyUser = YsyUserMst.builder()
-						.username(joinModel.getUsername())
-						.password(bCryptPasswordEncoder.encode(joinModel.getPassword()))
-						.name(joinModel.getName())
-						.email(joinModel.getEmail())
+						.username(joinDto.getUsername())
+						.password(bCryptPasswordEncoder.encode(joinDto.getPassword()))
+						.name(joinDto.getName())
+						.email(joinDto.getEmail())
 						.ysyGrpMst(ysyGrpMst)
 						.build();
 
