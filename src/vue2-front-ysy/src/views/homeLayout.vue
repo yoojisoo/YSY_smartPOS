@@ -1,6 +1,12 @@
 <template>
   <v-app >
-    <theHeader v-bind:pageName="pageName" />
+      <v-header
+          fixed
+        >
+        <theHeader v-bind:pageName="pageName" />
+    </v-header>
+    
+    <v-main>
         <v-row justify="start" no-gutters>
             <v-col cols="2" class="hidden-xs-only" v-show="isLeftHidden"  height="100%">
                 <v-card >
@@ -20,8 +26,13 @@
             </v-col>
 
         </v-row>
+        </v-main>
+        <v-footer
+          fixed
+        >
+            <theFooter/>
 
-    <theFooter/>
+        </v-footer>
   </v-app>
 </template>
 
