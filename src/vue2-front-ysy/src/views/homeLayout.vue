@@ -1,38 +1,38 @@
 <template>
-  <v-app >
-      <v-header
+    <v-app >
+        <header
           fixed
         >
-        <theHeader v-bind:pageName="pageName" />
-    </v-header>
+            <theHeader v-bind:pageName="pageName" />
+        </header>
     
-    <v-main>
-        <v-row justify="start" no-gutters>
-            <v-col cols="2" class="hidden-xs-only" v-show="isLeftHidden"  height="100%">
-                <v-card >
-                    left menu
-                    left menu
-                    left menu
-                    left menu
-                    left menu
-                    left menu
-                </v-card>
-            </v-col>
-            <v-col cols="1" class="hidden-xs-only">
-                <v-btn @click="isLeftHidden = !isLeftHidden"></v-btn>
-            </v-col>
-            <v-col cols="9" height="100%">
-                <userGrid v-bind:noticeList="noticeList"/>
-            </v-col>
+        <v-main>
+            <v-row justify="start" no-gutters>
+                <v-col cols="2" class="hidden-xs-only" v-show="isLeftHidden"  height="100%">
+                    <v-card >
+                        left menu
+                        left menu
+                        left menu
+                        left menu
+                        left menu
+                        left menu
+                    </v-card>
+                </v-col>
+                <v-col cols="1" class="hidden-xs-only">
+                    <v-btn @click="isLeftHidden = !isLeftHidden"></v-btn>
+                </v-col>
+                <v-col cols="9" height="100%">
+                    <userGrid v-bind:noticeList="noticeList"/>
+                </v-col>
 
-        </v-row>
+            </v-row>
         </v-main>
-        <v-footer
+        <footer
           fixed
         >
             <theFooter/>
 
-        </v-footer>
+        </footer>
   </v-app>
 </template>
 

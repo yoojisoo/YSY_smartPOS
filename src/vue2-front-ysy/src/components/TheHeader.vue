@@ -14,8 +14,10 @@
           v-for="(item, idx) in headerMenu"
           :key="idx"
           :to="item.path"
+          @click="headerMenuClick"
         >
           {{ item.name }}
+          <!-- :to="item.path" -->
         </v-tab>
       </v-tabs>
       <v-spacer/>
@@ -74,6 +76,7 @@
 <script>
 import v_menus from '@/assets/common/vMenus.js'
 import MyInfo from '@/components/TheMyInfo.vue'
+import { eventBus } from "@/main.js";
 
   export default {
     name: 'main-header',
@@ -82,6 +85,7 @@ import MyInfo from '@/components/TheMyInfo.vue'
       'my-info' : MyInfo
     },
     data: () => ({
+      eventData : "header event data",
       appTitle: 'Title',
       drawer: false,
       group: true,
@@ -98,6 +102,12 @@ import MyInfo from '@/components/TheMyInfo.vue'
       iconImg: 'mdi-dots-vertical',
     }),
     methods: {
+      headerMenuClick (){
+        console.log("TheHeader -> headerMenuClick data: " + this.eventData);
+         eventBus.$emit("headerTabCallback", this.eventData);
+      },
+
+
       doMouseOver() {
         this.iconImg = 'mdi-heart'
         console.log(this.iconImg)
