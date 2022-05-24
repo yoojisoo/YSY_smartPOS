@@ -1,6 +1,7 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,9 +9,11 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -63,14 +66,15 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 //	@JoinColumn(name="BIZ_CD",referencedColumnName="BIZ_CD" , nullable = false )
 //	private YsyBizMst ysyBiz; 
 	
-	
+	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
+	private List<YsyGrpMenuMap> ysyGrpMenuMap;
 	
 	
 	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId
+	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId 
 	public static class  GrpPK implements Serializable{
 		
 		private static final long serialVersionUID = 1L;

@@ -2,6 +2,7 @@ package com.ysy.jwt.auth.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,13 @@ import com.ysy.jwt.auth.repository.YsyMenuMstRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class YsyMenuMstService {
-
-	private final YsyMenuMstRepository ysyMenuMstRepository;
-	private final YsyUtil util;
+	
+	@Autowired
+	private  YsyMenuMstRepository ysyMenuMstRepository;
+	@Autowired
+	private YsyUtil util;
 	
 	public List<YsyMenuMst> getMenuList() {
 	

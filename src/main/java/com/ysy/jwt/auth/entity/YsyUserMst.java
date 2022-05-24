@@ -52,7 +52,7 @@ public class YsyUserMst extends BaseEntity implements Serializable{
 	
 	@Id
 	//String username으로 한 이유는 스프링 정책상 변수를 맞춰주기 위해 , 다른걸로 하려면 셋팅을 좀 해야해서 그냥 db컬럼명을 지정해주고 처리함. 패스워드도 동일한 이유임.
-	@Column(name = "USER_ID",length = 255 , nullable = false , unique = true)
+	@Column(name = "USER_ID",length = 255 , nullable = false)
 	private String username;
 	@Column(name = "USER_PW" , length = 255 , nullable = false)
 	private String password;
