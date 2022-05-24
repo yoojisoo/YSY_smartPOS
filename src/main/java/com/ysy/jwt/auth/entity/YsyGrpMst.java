@@ -1,6 +1,7 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -67,7 +68,7 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 //	private YsyBizMst ysyBiz; 
 	
 	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
-	private List<YsyGrpMenuMap> ysyGrpMenuMap;
+	private List<YsyGrpMenuMap> ysyGrpMenuMap = new ArrayList<YsyGrpMenuMap>(); 
 	
 	
 	
