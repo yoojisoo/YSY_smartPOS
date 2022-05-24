@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -68,6 +69,7 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 //	private YsyBizMst ysyBiz; 
 	
 	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
+	@JsonIgnoreProperties
 	private List<YsyGrpMenuMap> ysyGrpMenuMap = new ArrayList<YsyGrpMenuMap>(); 
 	
 	
