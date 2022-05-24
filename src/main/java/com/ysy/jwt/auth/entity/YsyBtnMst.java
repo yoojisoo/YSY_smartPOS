@@ -39,7 +39,7 @@ public class YsyBtnMst extends BaseEntity implements Serializable{
 	
 	@MapsId("menuId") 
 	@JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private YsyMenuMst ysyMenuMst;  
 	
 	@Column(name = "USE_YN" , nullable = false)
