@@ -55,4 +55,11 @@ public class YsyUtil {
 		return sort;
 	}
 	
+	/** DB key 생성 */
+	public String getKeyCreate(String keyNm ) {
+
+		return keyNm + "_년월일"+"_시분초";
+		
+	}
+	
 }
