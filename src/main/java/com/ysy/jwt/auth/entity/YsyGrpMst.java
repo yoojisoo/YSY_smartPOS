@@ -68,8 +68,9 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 //	@JoinColumn(name="BIZ_CD",referencedColumnName="BIZ_CD" , nullable = false )
 //	private YsyBizMst ysyBiz; 
 	
+	//mappedBy -> 나와 관련된 클래스를 조회만 할 수 있게 해줌
 	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
-	@JsonIgnoreProperties
+	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
 	private List<YsyGrpMenuMap> ysyGrpMenuMap = new ArrayList<YsyGrpMenuMap>(); 
 	
 	
