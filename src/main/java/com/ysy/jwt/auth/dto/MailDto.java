@@ -7,4 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MailDto {
 	private String email;
+	private String key;
 }
