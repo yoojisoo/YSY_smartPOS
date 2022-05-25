@@ -46,10 +46,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-		
-		
-		
+
 		
 		<!-- spring security 인증 관련 start -->
 		<dependency>
@@ -68,6 +65,14 @@
 		    <version>3.19.0</version>
 		</dependency>
 		<!-- spring security 인증 관련 end -->
+		
+		
+		<!-- 이메일 인증 관련 start -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- 이메일 인증 관련 end -->
 		
 	</dependencies>
 

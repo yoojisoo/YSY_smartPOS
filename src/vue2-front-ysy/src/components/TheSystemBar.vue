@@ -1,24 +1,55 @@
 <template>
-    <v-system-bar app>
-      <span style="color:white">ㅇㅇㅇ님 환영합니다.</span>
-      <v-spacer></v-spacer>
-      <v-btn>Notice</v-btn>
-      <v-btn>Admin</v-btn>
-      <v-btn to='/signIn'>Sign In</v-btn>
-    </v-system-bar>
+  <v-system-bar app color="#bababa" window>
+    <v-container class="pa-0">
+      <v-row justify="end">
+        <v-btn-toggle
+          tile
+          group
+          color="black"
+          v-if="isLogin"
+        >
+          <v-btn value="left" plain @click="logout">로그아웃</v-btn>
+        </v-btn-toggle>
+
+        <v-btn-toggle
+          tile
+          group
+          color="black"
+          v-else
+        >
+          <v-btn value="left" plain to='/signIn'>로그인</v-btn>
+          <v-btn value="right" plain to='/signUp'>회원가입</v-btn>
+        </v-btn-toggle>
+      </v-row>
+    </v-container>
+  </v-system-bar>
 </template>
 
 <script>
 export default {
     name: 'main-system-bar',
+    methods: {
+        logout() {
+            this.$store.commit('clearUserInfo')
+            this.$router.replace('/signIn')
+        }
+    },
+    computed: {
+        isLogin() {
+            return this.$store.getters.isLogin
+        },
+        userId() {
+            return this.$store.state.authStore.loginData.userId
+        }
+    }
 }
 </script>
 
 <style scoped>
 .v-system-bar {
-  background-color: #424242;
+  color: #bababa;
 }
 .v-btn {
-  color: white;
+  color: black;
 }
 </style>

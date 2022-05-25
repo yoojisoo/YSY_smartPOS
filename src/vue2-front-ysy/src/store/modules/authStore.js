@@ -16,10 +16,16 @@ const authStore = {
     adminPage: {
       chartDataSet: [],
     },
+    singUpKey: {
+      key: "",
+    },
   },
   getters: {
     isLogin: (state) => {
       return state.loginData.user_id == "" ? false : true;
+    },
+    getSignUpKey: (state) => {
+      return state.singUpKey.key;
     },
   },
   mutations: {
@@ -34,10 +40,16 @@ const authStore = {
     clearUserInfo: (state) => {
       state.loginData.user_id = "";
     },
+    setSignUpKey: (state, key) => {
+      state.singUpKey.key = key;
+    },
   },
   actions: {
     setUserInfo: ({ commit }, userInfo) => {
       commit("setUserInfo", userInfo);
+    },
+    setSignUpKey: ({ commit }, key) => {
+      commit("setSignUpKey", key);
     },
   },
 };

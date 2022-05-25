@@ -60,8 +60,8 @@ public class YsyUserMst extends BaseEntity implements Serializable{
 	private String name;
 	@Column(name = "USER_ADDR")
 	private String addr;
-	@Column(name = "USER_EMAIL")
-	private String email;
+//	@Column(name = "USER_EMAIL")
+//	private String email;
 	@Column(name = "USER_PHONE")
 	private String phone;
 	
