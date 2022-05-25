@@ -1,5 +1,6 @@
 package com.ysy.jwt.auth.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ysy.jwt.auth.entity.YsyBizMst;
@@ -8,11 +9,11 @@ import com.ysy.jwt.auth.repository.YsyBizMstRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class YsyBizMstService {
 
-	
-	private final YsyBizMstRepository ysyBizRepository;
+	@Autowired
+	private YsyBizMstRepository ysyBizRepository;
 	
 	
 	/** biz 등록 */

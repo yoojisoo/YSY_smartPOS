@@ -1,6 +1,8 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,13 +10,16 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -63,14 +68,17 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 //	@JoinColumn(name="BIZ_CD",referencedColumnName="BIZ_CD" , nullable = false )
 //	private YsyBizMst ysyBiz; 
 	
-	
+	//mappedBy -> 나와 관련된 클래스를 조회만 할 수 있게 해줌
+	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
+	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
+	private List<YsyGrpMenuMap> ysyGrpMenuMap = new ArrayList<YsyGrpMenuMap>(); 
 	
 	
 	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId
+	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId 
 	public static class  GrpPK implements Serializable{
 		
 		private static final long serialVersionUID = 1L;

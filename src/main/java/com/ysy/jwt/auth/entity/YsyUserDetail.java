@@ -1,20 +1,19 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.ysy.common.SysEnum.enumBtns;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -28,38 +27,41 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "YSY_BTN_MST")
+@Table(name = "YSY_USER_DTL")
 @Entity
-public class YsyBtnMst extends BaseEntity implements Serializable{
-
+public class YsyUserDetail extends BaseEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+	  
 	@EmbeddedId
-	private BtnPK btnPK;
+	private PK pk;
 	
-	@MapsId("menuId") 
-	@JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")
+	@Column(name="S_TIME" )
+	protected LocalDateTime startTime;
+	@Column(name="E_TIME" )
+	protected LocalDateTime endTime;
+	@Column(name="USER_GRADE" , length = 50)
+	private String grade;
+	@Column(name="USER_POINT" )
+	private double point;
+	@Column(name="USER_COUPON" , length = 250)
+	private String coupon;//,,,,,
+
+	@MapsId("userId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	private YsyMenuMst ysyMenuMst;  
-	
-	@Column(name = "USE_YN" , nullable = false)
-	private String useYn;
-	
+	@JoinColumn(name="USER_ID" , referencedColumnName="USER_ID", updatable = false)
+	private YsyUserMst ysyUserMst1;
 	
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Embeddable
-	public static class BtnPK implements Serializable{
-		private static final long serialVersionUID = 1L;
+	public static class PK implements Serializable{
+		
+		
 
-		@Column(name = "MENU_BTN" , length = 50)
-		@Enumerated(EnumType.STRING)
-		private enumBtns menuBtn; 
-		 
-		private String menuId;
-		//a - s
-		// a - m
-		// a - save
+		private String userId;
+		
+		@Column(name = "USER_DTL_ID")
+		private String userDetailId;
 	}
 }

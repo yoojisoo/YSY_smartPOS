@@ -127,7 +127,7 @@
         </v-dialog>
 
         <!-- 진짜 삭제할건지 -->
-        <v-dialog v-model="dialogDelete" max-width="500px">
+        <v-dialog v-model="dialogDelete" max-width="500px">12
           <v-card>
             <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
             <v-card-actions>
@@ -173,6 +173,9 @@
 </template>
 
 <script>
+
+import { eventBus } from "@/main.js";
+
   export default {
     name: 'admin-user-grid',
     props : ["noticeList"],
@@ -230,7 +233,12 @@
     },
 
     created () {
-      this.initialize()
+      this.initialize();
+      //TheHeader Tab menu click Callback
+       eventBus.$on("headerTabCallback", (headerCallbackValue) => {
+        // window.alert(headerValue);
+        this.gridTitle = headerCallbackValue;
+      });
     },
 
     methods: {

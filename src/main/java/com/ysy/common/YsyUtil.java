@@ -2,6 +2,7 @@ package com.ysy.common;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +54,16 @@ public class YsyUtil {
 		Sort sort = Sort.by(sortList);  
 		
 		return sort;
+	}
+	
+	/** DB key 생성 */
+	public String createDbKey(String keyNm ) {
+		 LocalDate now = LocalDate.now();
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd HH_mm_ss");         // 포맷 적용        
+		 String formatedNow = now.format(formatter);         // 결과 출력        
+		  
+		return keyNm + "_"+formatedNow;
+		
 	}
 	
 }
