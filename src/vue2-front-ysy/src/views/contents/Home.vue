@@ -1,3 +1,4 @@
+<!-- main 화면 -->
 <template>
   <!-- <v-app v-if="isLogin"> -->
   <v-app>
@@ -16,7 +17,7 @@
           link
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon> 
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -37,8 +38,8 @@
 </template>
 
 <script>
-import MainHeader from '@/components/common/TheHeader.vue'
-import MainFooter from '@/components/common/TheFooter.vue'
+import MainHeader from '@/components/TheHeader.vue'
+import MainFooter from '@/components/TheFooter.vue'
 // import SignInVue from '@/components/sign/SignIn.vue'
 
   export default {

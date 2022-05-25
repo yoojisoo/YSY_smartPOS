@@ -12,6 +12,7 @@ const authStore = {
       access_token_exp: "",
       refresh_token: "",
       refresh_token_exp: "",
+      is_login: false, // 로그인 현재상태
     },
     adminPage: {
       chartDataSet: [],

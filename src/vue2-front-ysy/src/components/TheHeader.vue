@@ -1,3 +1,4 @@
+<!--상단 메뉴 component -->
 <template>
   <header>
     <v-app-bar color="purple lighten-2">
