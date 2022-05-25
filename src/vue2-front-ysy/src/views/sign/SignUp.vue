@@ -21,7 +21,9 @@
                                                 <v-col cols="12" class="mb-6">
                                                     <h2>POS 설치를 위해 회원정보를 입력해주세요.</h2>
                                                 </v-col>
+                                                <!-- 회원가입 정보 Start -->
                                                 <v-col cols="12" class="mb-6">
+                                                    <!-- 회사코드 -->
                                                     <v-text-field
                                                         v-model="signUpInfo.bizCd"
                                                         color="deep-purple lighten-1"
@@ -35,6 +37,7 @@
                                                                 : 양식을 제출하기 전에 입력 필드를 채워야 함을 지정한다. -->
                                                 </v-col>
                                                 <v-col cols="12" class="mb-6">
+                                                    <!-- 사용자 이름 -->
                                                     <v-text-field
                                                         v-model="signUpInfo.name"
                                                         color="deep-purple lighten-1"
@@ -45,7 +48,8 @@
                                                         :rules="rules.name"
                                                     ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="8" class="mb-4">
+                                                <v-col cols="12">
+                                                    <!-- 사용자 아이디(이메일) -->
                                                     <v-text-field
                                                         v-model="signUpInfo.username"
                                                         color="deep-purple lighten-1"
@@ -55,32 +59,61 @@
                                                         filled
                                                         required
                                                         :rules="rules.email"
+                                                        :append-icon="isConfirmKey ? 'mdi-check' : ''"
+                                                        :readonly="isConfirmKey"
                                                     ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="4" class="mb-2">
-                                                    <v-btn
-                                                        
-                                                        color="deep-purple lighten-1"
-                                                        outlined
-                                                        small
-                                                        block
-                                                        dark
-                                                    >
-                                                        중복확인
-                                                    </v-btn>
-                                                </v-col>
-                                                <!-- <v-col cols="12" class="mb-6">
+                                                <v-col cols="12" v-if="mailSended">
+                                                    <!-- 이메일 인증 버튼을 눌렀을때,
+                                                         메일 전송이 완료되면 나타나는
+                                                         인증번호 입력 필드 -->
                                                     <v-text-field
-                                                        v-model="signUpInfo.username"
+                                                        v-model="key"
                                                         color="deep-purple lighten-1"
                                                         type="text"
-                                                        placeholder="아이디"
+                                                        placeholder="인증번호 숫자 6자리"
                                                         filled
                                                         required
-                                                        :rules="rules.id"
                                                     ></v-text-field>
-                                                </v-col> -->
+                                                    <v-btn
+                                                        color="deep-purple lighten-1"
+                                                        outlined
+                                                        large
+                                                        block
+                                                        dark
+                                                        @click="confirmSignUpKey"
+                                                    >
+                                                        이메일 인증 확인
+                                                    </v-btn>
+                                                </v-col>
                                                 <v-col cols="12" class="mb-6">
+                                                    <!-- 이메일 중복확인(확인 전 : 이메일 중복 확인, 확인 후 가입 가능할때 : 이메일 중복 확인 완료) -->
+                                                    <v-btn
+                                                        color="deep-purple lighten-1"
+                                                        outlined
+                                                        large
+                                                        block
+                                                        dark
+                                                        @click="confirmEmail"
+                                                    >
+                                                        <span v-if="!isConfirmEmail"> 이메일 중복 확인 </span>
+                                                        <span v-else> 이메일 중복 확인 완료 </span>
+                                                    </v-btn>
+                                                    <!-- 이메일 인증(인증 전 : 이메일 인증, 인증 후 : 이메일 인증 완료) -->
+                                                    <v-btn
+                                                        color="deep-purple lighten-1"
+                                                        outlined
+                                                        large
+                                                        block
+                                                        dark
+                                                        @click="mailSend"
+                                                    >
+                                                        <span v-if="!isConfirmKey"> 이메일 인증 </span>
+                                                        <span v-else> 이메일 인증 완료 </span>
+                                                    </v-btn>
+                                                </v-col>
+                                                <v-col cols="12" class="mb-6">
+                                                    <!-- 비밀번호(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
                                                     <v-text-field
                                                         v-model="signUpInfo.password"
                                                         color="deep-purple lighten-1"
@@ -94,6 +127,7 @@
                                                     ></v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" class="mb-6">
+                                                    <!-- 비밀번호 확인(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
                                                     <v-text-field
                                                         v-model="confirmPassword"
                                                         color="deep-purple lighten-1"
@@ -106,27 +140,8 @@
                                                         :rules="rules.confirmPassword"
                                                     ></v-text-field>
                                                 </v-col>
-                                                <!-- <v-col cols="12" class="mb-6">
-                                                    <v-text-field
-                                                        v-model="signUpInfo.addr"
-                                                        color="deep-purple lighten-1"
-                                                        name="user_addr"
-                                                        type="text"
-                                                        placeholder="주소"
-                                                        filled
-                                                    ></v-text-field>
-                                                </v-col>
-                                                <v-col cols="12" class="mb-6">
-                                                    <v-text-field
-                                                        v-model="signUpInfo.phone"
-                                                        color="deep-purple lighten-1"
-                                                        name="user_phone"
-                                                        type="number"
-                                                        placeholder="휴대폰번호"
-                                                        filled
-                                                    ></v-text-field>
-                                                </v-col> -->
                                                 <v-col cols="12">
+                                                    <!-- 회원가입 버튼 -->
                                                     <v-btn
                                                         class="my-2"
                                                         color="deep-purple lighten-1"
@@ -153,78 +168,133 @@
 </template>
 
 <script>
-import router from '@/router'
+// import router from '@/router'
 export default {
     name: "App",
     data() {
         return {
-            passwordShow: false,
-            confirmPasswordShow: false,
-            toggleMessage: "Already have an Account? Sign In",
-            signUpInfo : {
+            isConfirmEmail: false, // 이메일 중복확인 (true:가입 가능, false: 가입 불가능)
+            key: "", // 이메일 인증용 key
+            isConfirmKey: false, // 이메일 인증 여부
+            mailSended: false, // 인증용 이메일 전송 여부
+            passwordShow: false, // 비밀번호 text type
+            confirmPasswordShow: false, // 비밀번호 확인 text type
+            toggleMessage: "Already have an Account? Sign In", // 회원가입 페이지에서 로그인 페이지로 이동 버튼 메세지
+            signUpInfo : { // 회원가입용 사용자 정보
                 bizCd: "",
                 username: "",
                 password: "",
                 name: "",
-                // addr: "",
-                email: "",
-                // phone: "",
             },
-            confirmPassword: "",
+            confirmPassword: "", // 비밀번호 확인
+            mailInfo : { // 이메일 중복확인, 이메일 인증용 사용자 이메일 정보
+                email: "",
+            },
             valueDeterminate: 50,
-            rules: {
-                bizCd: [
+            rules: { // 회원가입 기입 정보 규칙
+                bizCd: [ // 회사코드 규칙 (필수값 체크)
                     v => !!v || '회사코드는 필수 입력사항입니다.',
                 ],
-                id: [
-                    v => !!v || '아이디는 필수 입력사항입니다.',
-                ],
-                password: [
-                    v => !!v || '비밀번호는 필수 입력사항입니다.',
-                ],
-                confirmPassword: [
-                    v => !!v || '비밀번호는 필수 입력사항입니다.',
-                    v => v === this.signUpInfo.password || '비밀번호가 일치하지 않습니다.',
-                ],
-                name: [
+                name: [ // 사용자 이름 규칙 (필수값, 특수문자 체크)
                     v => !!v || '이름은 필수 입력사항입니다.',
                     v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다.',
                 ],
-                email: [
+                email: [ // 사용자 이메일(아이디) 규칙 (필수값, 이메일 형식 체크)
                     v => !!v || '이메일은 필수 입력사항입니다.',
                     v => {
                         const replaceV = v.replace(/(\s*)/g, '')
                         const pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
                         return pattern.test(replaceV) || '이메일 형식으로 입력해주세요'
                     }
-                ]
+                ],
+                password: [ // 사용자 비밀번호 규칙 (필수값 체크)
+                    v => !!v || '비밀번호는 필수 입력사항입니다.',
+                ],
+                confirmPassword: [ // 비밀번호 확인 규칙 (필수값, 비밀번호와 일치 여부 체크)
+                    v => !!v || '비밀번호는 필수 입력사항입니다.',
+                    v => v === this.signUpInfo.password || '비밀번호가 일치하지 않습니다.',
+                ],
             },
         }
     },
     methods: {
+        /** 이메일 중복 확인 btn ***********************
+         * DB에 같은 아이디(이메일)가 있는지 체크한다. */
+        confirmEmail() {
+            const { mailInfo } = this;
+            mailInfo.email = this.signUpInfo.username;
+
+            this.$axios.post("ysy/v1/auth/mailConfirm", mailInfo)
+                .then((res) => {
+                    if(!res.data) { // 이메일 중복 x : 가입 가능
+                        alert("가입 가능한 아이디입니다.");
+                        this.isConfirmEmail = true;
+                    } else { // 이메일 중복 o : 가입 불가능
+                        alert("중복된 아이디입니다. \n다른 아이디로 다시 진행해주세요.");
+                        this.isConfirmEmail = false;
+                    }
+                })
+        },
+        /** 이메일 인증 btn ****************************************
+         * 사용자가 입력한 이메일로 인증 메일을 보내고 *************
+         * 메일이 성공적으로 보내지면 인증키값을 store에 저장한다. */
+        mailSend() {
+            const { mailInfo } = this;
+            mailInfo.email = this.signUpInfo.username;
+
+            this.$axios.post("/ysy/v1/auth/mailSend", mailInfo)
+                .then((res) => {
+                    console.log(res.data);
+                    if(res.data !== "fail") { // 성공하면 store에 저장하기 위해 인증key가 리턴되기때문에 "fail이 아닐때"로 체크함
+                        alert("메일 보내기 성공 => " + res.data);
+                        this.mailSended = true; // 메일 보내기 성공 (인증번호 입력란 나타남)
+                        let key = res.data;
+                        this.$store.dispatch('setSignUpKey', key); // 받아온 이메일 인증키 store에 저장
+                    } else {
+                        alert(res.data);
+                    }
+                })
+        },
+        /** 이메일 인증 확인 btn *************
+         * store에 저장된 인증key값과 ********
+         * 사용자가 입력한 인증번호를 바교함 */
+        confirmSignUpKey() {
+            const confirmKey = this.$store.getters.getSignUpKey;
+
+            if(this.key == confirmKey) {
+                alert("인증 성공");
+                this.isConfirmKey = true;
+                this.mailSended = false;
+            } else {
+                alert("인증 번호가 일치하지 않습니다.");
+            }
+        },
+        /** 회원가입 btn */
         signUp (){
             const { signUpInfo } = this;
-            const validate = this.$refs.form.validate()
+            const validate = this.$refs.form.validate();
 
-            if(this.signUpInfo.password === this.confirmPassword) {
-                if(validate) {
-                    this.$axios.post("/ysy/v1/auth/signUp", signUpInfo)
-                        .then((res) => {
-                            console.log(res.data);
-                            if(res.data === "ok") {
-                                alert("회원가입 성공");
-                                this.$router.replace({ name: 'signIn' })
-                            }
-                            else{
-                                alert(res.data);
-                            }
-                        });
-                } else alert("양식에 맞게 작성해주세요.")
-            } else alert("비밀번호가 일치하지 않습니다.")
+            if(this.isConfirmEmail && this.isConfirmKey) {
+                if(this.signUpInfo.password === this.confirmPassword) {
+                    if(validate) {
+                        this.$axios.post("/ysy/v1/auth/signUp", signUpInfo)
+                            .then((res) => {
+                                console.log(res.data);
+                                if(res.data === "ok") {
+                                    alert("회원가입 성공");
+                                    this.$router.replace({ name: 'signIn' });
+                                }
+                                else{
+                                    alert(res.data);
+                                }
+                            });
+                    } else alert("양식에 맞게 작성해주세요.");
+                } else alert("비밀번호가 일치하지 않습니다.");
+            } else alert("이메일 중복확인과 인증은 필수 항목입니다.");
         },
         signIn (){
-            this.$router.replace({ name: 'signIn' })
-        }
+            this.$router.replace({ name: 'signIn' });
+        },
     },
 }
 </script>

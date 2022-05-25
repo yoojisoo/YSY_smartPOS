@@ -1,13 +1,37 @@
 <!--상단 메뉴 component -->
 <template>
   <header>
-    <v-app-bar color="purple lighten-2">
-      <span class="hidden-sm-and-up">
+    <header-system-bar/>
+    <!-- flat : remove box-shadow -->
+    <v-app-bar color="purple lighten-2" app dense flat>
+      <v-container>
+        <v-row align="center" justify="center">
+          <v-col cols="1" class="ma-0 pa-0">
+            <span class="hidden-sm-and-up">
+              <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+            </span>
+            <v-app-bar-title>
+              <v-btn plain color="white" to="/">SEMES</v-btn>
+            </v-app-bar-title>
+          </v-col>
+          <v-col cols="11" class="ma-0 pa-0">
+            <v-tabs left class="hidden-xs-only" color="purple lighten-1" background-color="purple lighten-1" dark>
+              <v-tab
+                v-for="(item, idx) in headerMenu"
+                :key="idx"
+                :to="item.path"
+              >
+                {{ item.name }}
+              </v-tab>
+            </v-tabs>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-app-bar>
+      <!-- <span class="hidden-sm-and-up">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
       </span>
       <v-app-bar-title>
-        <!-- <v-img class="hidden-xs" max-width="100" src='@/assets/logo.png'/>
-        <span class="hidden-sm-and-up" > SEMES </span> -->
         <v-btn plain color="white" to="/">SEMES</v-btn>
       </v-app-bar-title>
       <v-tabs centered class="hidden-xs-only" color="white" dark>
@@ -18,39 +42,10 @@
           @click="headerMenuClick"
         >
           {{ item.name }}
-          <!-- :to="item.path" -->
+          :to="item.path"
         </v-tab>
       </v-tabs>
-      <v-spacer/>
-      <v-spacer/>
-      <v-spacer/>
-      <v-spacer/>
-      <v-spacer/>
       <my-info/>
-      <!-- <v-menu
-        bottom
-        left
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            color="white"
-            v-bind="attrs"
-            v-on="on"
-          >
-            <v-icon @mouseover="doMouseOver" @mouseout="doMouseOut">{{ iconImg }}</v-icon>
-          </v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item
-            v-for="(item, idx) in items"
-            :key="idx"
-          >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu> -->
     </v-app-bar>
 
     <v-navigation-drawer
@@ -70,7 +65,7 @@
           <v-list-item-title v-if="item.pmenuId != ''">{{ item.name }}</v-list-item-title>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer> -->
   </header>
 </template>
 
@@ -83,7 +78,8 @@ import { eventBus } from "@/main.js";
     name: 'main-header',
     props: ["pageName"],
     components: {
-      'my-info' : MyInfo
+      'my-info' : MyInfo,
+      'header-system-bar' : headerSystemBar,
     },
     data: () => ({
       eventData : "header event data",

@@ -47,8 +47,7 @@ public class YsyUserMstService {
 			if (!util.isNullAndEmpty(joinDto.getBizCd())
 			 && !util.isNullAndEmpty(joinDto.getUsername())
 			 && !util.isNullAndEmpty(joinDto.getPassword())
-			 && !util.isNullAndEmpty(joinDto.getName())
-			 && !util.isNullAndEmpty(joinDto.getEmail())) {
+			 && !util.isNullAndEmpty(joinDto.getName())) {
 
 				/** 0. 유저 존재 확인 (존재하면 메세지 return / 존재하지 않으면 다음 단계) */
 				if (isUser(joinDto.getUsername())) return "error : user 존재";
@@ -99,7 +98,6 @@ public class YsyUserMstService {
 						.username(joinDto.getUsername())
 						.password(bCryptPasswordEncoder.encode(joinDto.getPassword()))
 						.name(joinDto.getName())
-						.email(joinDto.getEmail())
 						.ysyGrpMst(ysyGrpMst)
 						.build();
 

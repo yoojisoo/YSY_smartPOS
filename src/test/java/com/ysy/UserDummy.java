@@ -27,6 +27,7 @@ public class UserDummy {
 
 	
 	@Test
+	@Transactional
 	public void addUser() {
 //		List<YsyBizMst> bizList = ysyBizMstRepository.findAll();
 		
