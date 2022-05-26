@@ -7,10 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ysy.common.YsyUtil;
+import com.ysy.jwt.auth.dto.MenuDtoIf;
 import com.ysy.jwt.auth.entity.YsyMenuMst;
+import com.ysy.jwt.auth.repository.YsyGrpMenuMapRepository;
 import com.ysy.jwt.auth.repository.YsyMenuMstRepository;
-
-import lombok.AllArgsConstructor;
 
 @Service
 //@AllArgsConstructor
@@ -19,13 +19,20 @@ public class YsyMenuMstService {
 	@Autowired
 	private  YsyMenuMstRepository ysyMenuMstRepository;
 	@Autowired
+	private  YsyGrpMenuMapRepository ysyGrpMenuMapRepository;
+	@Autowired
 	private YsyUtil util;
 	
-	public List<YsyMenuMst> getMenuList() {
+	public List<MenuDtoIf> getMenuList() {
 	
 		Sort sort = util.getSort("pMenuId","menuSeq");
 		System.out.println("sorttttttttttttt");
-		return ysyMenuMstRepository.findByUseYn("Y" , sort);
+		
+		List<MenuDtoIf> menuList = ysyMenuMstRepository.getDefaultMenuList();
+		
+//		List<Object[]> list = ysyGrpMenuMapRepository.getDefaultMenu();
+		
+		return menuList;
 //		return ysyMenuMstRepository.findAll();
 		
 	}

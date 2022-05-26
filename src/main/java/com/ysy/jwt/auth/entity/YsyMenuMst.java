@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -74,10 +75,11 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	private String isAdmin;
 	
 	
-	@BatchSize(size = 5) // Batch size를 지정한다
-	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.EAGER)
-	@JsonIgnoreProperties
-	private List<YsyBtnMst> ysyBtnMst = new ArrayList<YsyBtnMst>();
+//	@BatchSize(size = 5) // Batch size를 지정한다
+//	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.EAGER)
+////	@JsonIgnoreProperties
+//	@JsonIgnore
+//	private List<YsyBtnMst> ysyBtnMst = new ArrayList<YsyBtnMst>();
 	
 //	@Data
 //	@NoArgsConstructor

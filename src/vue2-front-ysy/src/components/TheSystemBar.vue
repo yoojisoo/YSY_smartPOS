@@ -1,6 +1,6 @@
 <template>
-  <v-system-bar app color="#bababa" window>
-    <v-container class="pa-0">
+  <v-system-bar app color="#bababa">
+    <v-container class="pa-0" style="max-width:69%">
       <v-row justify="end">
         <v-btn-toggle
           tile
@@ -18,6 +18,7 @@
           v-else
         >
           <v-btn value="left" plain to='/signIn'>로그인</v-btn>
+          <v-divider vertical></v-divider>
           <v-btn value="right" plain to='/signUp'>회원가입</v-btn>
         </v-btn-toggle>
       </v-row>

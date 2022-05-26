@@ -1,18 +1,22 @@
 package com.ysy.jwt.auth.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MenuDto {
 
-	private String menuId;
-	private String menuName;
-	private String menuPath;
-	private String isAdmin;
-	private List<MenuDto> childMenuDto = new ArrayList<MenuDto>();
-	
+	private String menu_id;
+	private String p_menu_id;
+	private String menu_nm;
+	private String menu_path;
+	private String menu_full_path;
+	private int    menu_seq;
+	private String is_admin;
 	
 }

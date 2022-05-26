@@ -35,6 +35,8 @@ import lombok.ToString;
 @Entity
 public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 
+	
+	
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId

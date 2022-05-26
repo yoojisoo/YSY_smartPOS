@@ -1,66 +1,75 @@
 <!-- main 화면 -->
 <template>
-  <!-- <v-app v-if="isLogin"> -->
   <v-app>
-    <!-- <v-toolbar color="primary" dark fixed>
-      <v-toolbar-title>Application</v-toolbar-title>
-    </v-toolbar> -->
-    <main-header/>
-    <v-navigation-drawer permanent>
-      <v-list
-        dense
-        nav
-      >
-        <v-list-item
-          v-for="(item, idx) in items"
-          :key="idx"
-          link
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon> 
-          </v-list-item-icon>
+      <TheHeader :pageName="pageName"/>
+      <v-main>
+        <v-container fluid>
+          <v-row justify="center" no-gutters>
+            <v-col cols="2">
+              <v-btn
+                class="ma-2"
+                color="secondary"
+              >
+                Accept Terms
+              </v-btn>
+            </v-col>
+            <v-col cols="10">
+              <v-row justify="center" no-gutters>
+                <v-col align-self="center">
+                  <v-btn
+                    class="ma-2"
+                    color="secondary"
+                  >
+                    Accept Terms
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col><ysyGrid/></v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-main>
+      <v-footer class="ma-0 pa-0" fixed>
+        <TheFooter/>
+      </v-footer>
+       
+      
+  
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-btn @click="userFn"> user접근</v-btn>
-    <v-btn @click="userFnGet"> get방식 user접근</v-btn>
-    <v-btn @click="adminFn"> admin접근</v-btn>
-    <v-btn @click="basicFn"> 일반접근</v-btn>
-    <main-footer/>
   </v-app>
-  <!-- <v-app v-else>
-    <sign-in-vue/>
-  </v-app> -->
+
 </template>
 
 <script>
-import MainHeader from '@/components/TheHeader.vue'
-import MainFooter from '@/components/TheFooter.vue'
+import TheHeader from '@/components/TheHeader.vue'
+import TheFooter from '@/components/TheFooter.vue'
+import ysyGrid from '@/components/ysyGrid.vue'
+
 // import SignInVue from '@/components/sign/SignIn.vue'
 
   export default {
     components: {
-      'main-header': MainHeader,
-      'main-footer': MainFooter,
+      TheHeader,
+      TheFooter,
+      ysyGrid,
       // 'sign-in-vue': SignInVue,
     },
     data () {
       return {
-        items: [
-          { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
-        ],
+        pageName : "home",
+        items: [],
+        loading: false,
+        loading2: false,
+        loading3: false,
+        loading4: false,
+        loading5: false,
         config : {
           headers : {
             "access_token":this.$store.state.authStore.loginData.userToken
           }
         }
-
       }
     },
     methods: {

@@ -3,7 +3,7 @@
     flat
     tile
     width="100%"
-    class="text-center"
+    class="text-center ma-0 pa-0"
   >
     <v-card-text class="black--text">
       Copy Right YSY
