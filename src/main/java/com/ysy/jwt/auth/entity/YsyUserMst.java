@@ -52,28 +52,25 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 	@Id
 	// String username으로 한 이유는 스프링 정책상 변수를 맞춰주기 위해 , 다른걸로 하려면 셋팅을 좀 해야해서 그냥 db컬럼명을
 	// 지정해주고 처리함. 패스워드도 동일한 이유임.
+	// user id = email임.
 	@Column(name = "USER_ID", length = 255, nullable = false)
 	private String username;
 	@Column(name = "USER_PW", length = 255, nullable = false)
 	private String password;
 	@Column(name = "USER_NM", length = 255, nullable = false)
 	private String name;
-	@Column(name = "USER_ADDR")
+	@Column(name = "USER_ADDR" , length = 255)
 	private String addr;
-	// @Column(name = "USER_EMAIL")
-	// private String email;
 
 	@Embedded
 	private Address address;
-	@Column(name = "USER_EMAIL")
-	private String email;
-	@Column(name = "USER_PHONE")
-	private String phone;
+	@Column(name = "IS_EMAIL_AUTH" , length = 1)
+	private String isEmailAuth;
 
 	// ROLE 정보 들어있는 object
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "GRP_ID", referencedColumnName = "GRP_ID"),
-			@JoinColumn(name = "BIZ_CD", referencedColumnName = "BIZ_CD") })
+			       @JoinColumn(name = "BIZ_CD", referencedColumnName = "BIZ_CD") })
 	private YsyGrpMst ysyGrpMst;
 
 	public List<String> getRoleList() {
@@ -93,5 +90,7 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 		private String addrDetail;
 		@Column(name = "ADDR_ETC")
 		private String addrEtc;
+		@Column(name = "USER_PHONE")
+		private String phone;
 	}
 }

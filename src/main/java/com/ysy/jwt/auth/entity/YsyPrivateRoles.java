@@ -6,13 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.ysy.jwt.auth.entity.YsyBtnMst.BtnPK;
+import com.ysy.common.SysEnum.enumBtns;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -49,14 +50,16 @@ public class YsyPrivateRoles extends BaseEntity implements Serializable {
 	@ManyToOne
 	private YsyUserMst ysyUserMst; 
 	
-	@Column(name="BTNS" , length = 255 , nullable = false)
-	private String btns;//search , mod
-	
 	@Data
 	@Embeddable
 	public static class PK implements Serializable {
 		private static final long serialVersionUID = 1L;
+		
 		private String userId;
 		private String menuId;
+		
+		@Column(name="BTN" , length = 50)
+		@Enumerated(EnumType.STRING)
+		private enumBtns btn;
 	}
 }

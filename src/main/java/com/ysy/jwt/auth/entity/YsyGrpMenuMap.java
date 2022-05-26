@@ -42,15 +42,6 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	@EmbeddedId
 	private GrpMenuPK mapPK;
 	
-//	@MapsId("bizCd")
-//	@ManyToOne
-//	@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD")
-//	private YsyBizMst ysyBizMst;
-//	
-//	@MapsId("grpId")
-//	@JoinColumn(name = "GRP_ID" , referencedColumnName = "GRP_ID")
-//	private YsyGrpMst ysyGrpMst;
-//
 	@MapsId("menuId") 
 	@ManyToOne
 	@JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")
@@ -61,17 +52,6 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	@JoinColumns({@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD"),
 		          @JoinColumn(name = "GRP_ID" , referencedColumnName = "GRP_ID")})
 	private YsyGrpMst ysyGrpMst ; 
-//	
-//	@MapsId("menuPK")
-//	@ManyToOne
-////	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumns({@JoinColumn(name = "BIZ_CD"  , referencedColumnName = "BIZ_CD"),
-//		          @JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")})
-//	private YsyMenuMst ysyMenuMst ;
-	
-//	@MapsId("menuId")
-//	@JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")
-//	private YsyMenuMst ysyMenuMst ;
 	
 	@Data
 	@NoArgsConstructor
@@ -80,10 +60,6 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	public static class GrpMenuPK implements Serializable{
 		
 		private static final long serialVersionUID = 1L;
-//		private String bizCd;
-//		private String grpId;  
-//		@Column(name = "MENU_ID")
-//		private String menuId;
 		private String menuId;
 		private GrpPK grgPK;
 	}

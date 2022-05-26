@@ -56,8 +56,10 @@ public class YsyBtnMst extends BaseEntity implements Serializable{
 		@Column(name = "MENU_BTN" , length = 50)
 		@Enumerated(EnumType.STRING)
 		private enumBtns menuBtn; 
-		 
+		
+		@Column(name = "MENU_ID")
 		private String menuId;
+		
 		//a - s
 		// a - m
 		// a - save

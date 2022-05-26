@@ -41,19 +41,8 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-//	@EmbeddedId
-//	private MenuPK menuPK;
-	
-//	@MapsId("bizCd")
-//	@ManyToOne
-//	@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD")
-//	private YsyBizMst ysyBizMst;
-	//a 1
-	// a-1 1 a-2 2
-	// b 2
 	@Id
 	@Column(name = "MENU_ID" , length = 50)
-//	@JsonIgnore
 	private String menuId;
 	
 	@Column(name="P_MENU_ID"  , length=50 )
@@ -75,24 +64,5 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	private String isAdmin;
 	
 	
-//	@BatchSize(size = 5) // Batch size를 지정한다
-//	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.EAGER)
-////	@JsonIgnoreProperties
-//	@JsonIgnore
-//	private List<YsyBtnMst> ysyBtnMst = new ArrayList<YsyBtnMst>();
-	
-//	@Data
-//	@NoArgsConstructor
-//	@AllArgsConstructor
-//	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId
-//	public static class MenuPK implements Serializable{ 
-//		
-//		private static final long serialVersionUID = 1L;
-//
-//		@Column(name = "MENU_ID" , length = 50)
-//		private String menuId;
-//		
-////		private String bizCd;
-//	}
 	
 }
