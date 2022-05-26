@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 // vMenus.getMenuList();
 // const routes = vMenus.concat(v_pages);
 const routes = [
-  { path: "/"         , name: "home"  , icon: "mdi-home", component: () => import("../views/homeLayout.vue"),},
+  { path: "/"         , name: "home"  , icon: "mdi-home", component: () => import("../views/contents/Home.vue"),},
   { path: "/userPage" , name: "user"  , icon: "mdi-home", component: () => import("../views/userLayout.vue"), },
   
   

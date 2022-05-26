@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ysy.jwt.auth.dto.MenuDtoIf;
 import com.ysy.jwt.auth.entity.YsyMenuMst;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
@@ -21,7 +22,7 @@ public class YsyMenuController {
 	private  YsyMenuMstService ysyMenuMstService;
 	
 	@GetMapping("/getMenuList")
-	public List<YsyMenuMst> getMenuList() {
+	public List<MenuDtoIf> getMenuList() {
 		System.out.println("123423123123");
 		return ysyMenuMstService.getMenuList();
 	}
