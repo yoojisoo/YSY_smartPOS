@@ -1,6 +1,7 @@
 package com.ysy.jwt.auth.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,21 +15,27 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/ysy/v1/auth")
+@RequestMapping("/ysy/v1/mail")
 public class YsyMailController {
 	private final YsyMailService mailService;
 	private final YsyUserMstService userService;
 	
 	@PostMapping("/mailConfirm")
 	@ResponseBody
-	public Boolean confirmMail(@RequestBody MailDto mailDto) {
+	public Boolean mailConfirm(@RequestBody MailDto mailDto) {
 		System.out.println(userService.isUser(mailDto.getEmail()));
 		return userService.isUser(mailDto.getEmail());
 	}
 	
 	@PostMapping("/mailSend")
 	@ResponseBody
-	public String execMail(@RequestBody MailDto mailDto) throws Exception {
+	public Boolean mailSend(@RequestBody MailDto mailDto) throws Exception {
 		return mailService.mailSend(mailDto);
+	}
+	
+	@GetMapping("/mailKeyConfirm")
+	@ResponseBody
+	public Boolean mailKeyConfirm( MailDto mailDto) {
+		return mailService.mailKeyConfirm(mailDto);
 	}
 }

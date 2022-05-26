@@ -60,14 +60,14 @@
                                                         required
                                                         :rules="rules.email"
                                                         :append-icon="isConfirmKey ? 'mdi-check' : ''"
-                                                        :readonly="isConfirmKey"
+                                                        :readonly="isConfirmEmail"
                                                     ></v-text-field>
                                                 </v-col>
-                                                <v-col cols="12" v-if="mailSended">
+                                                <!-- <v-col cols="12" v-if="mailSended"> -->
                                                     <!-- 이메일 인증 버튼을 눌렀을때,
                                                          메일 전송이 완료되면 나타나는
                                                          인증번호 입력 필드 -->
-                                                    <v-text-field
+                                                    <!-- <v-text-field
                                                         v-model="key"
                                                         color="deep-purple lighten-1"
                                                         type="text"
@@ -85,7 +85,7 @@
                                                     >
                                                         이메일 인증 확인
                                                     </v-btn>
-                                                </v-col>
+                                                </v-col> -->
                                                 <v-col cols="12" class="mb-6">
                                                     <!-- 이메일 중복확인(확인 전 : 이메일 중복 확인, 확인 후 가입 가능할때 : 이메일 중복 확인 완료) -->
                                                     <v-btn
@@ -93,14 +93,14 @@
                                                         outlined
                                                         large
                                                         block
-                                                        dark
                                                         @click="confirmEmail"
+                                                        :disabled="isConfirmEmail"
                                                     >
                                                         <span v-if="!isConfirmEmail"> 이메일 중복 확인 </span>
                                                         <span v-else> 이메일 중복 확인 완료 </span>
                                                     </v-btn>
                                                     <!-- 이메일 인증(인증 전 : 이메일 인증, 인증 후 : 이메일 인증 완료) -->
-                                                    <v-btn
+                                                    <!-- <v-btn
                                                         color="deep-purple lighten-1"
                                                         outlined
                                                         large
@@ -110,7 +110,7 @@
                                                     >
                                                         <span v-if="!isConfirmKey"> 이메일 인증 </span>
                                                         <span v-else> 이메일 인증 완료 </span>
-                                                    </v-btn>
+                                                    </v-btn> -->
                                                 </v-col>
                                                 <v-col cols="12" class="mb-6">
                                                     <!-- 비밀번호(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
@@ -224,7 +224,7 @@ export default {
             const { mailInfo } = this;
             mailInfo.email = this.signUpInfo.username;
 
-            this.$axios.post("ysy/v1/auth/mailConfirm", mailInfo)
+            this.$axios.post("ysy/v1/mail/mailConfirm", mailInfo)
                 .then((res) => {
                     if(!res.data) { // 이메일 중복 x : 가입 가능
                         alert("가입 가능한 아이디입니다.");
@@ -238,59 +238,67 @@ export default {
         /** 이메일 인증 btn ****************************************
          * 사용자가 입력한 이메일로 인증 메일을 보내고 *************
          * 메일이 성공적으로 보내지면 인증키값을 store에 저장한다. */
-        mailSend() {
-            const { mailInfo } = this;
-            mailInfo.email = this.signUpInfo.username;
+        // mailSend() {
+        //     const { mailInfo } = this;
+        //     mailInfo.email = this.signUpInfo.username;
 
-            this.$axios.post("/ysy/v1/auth/mailSend", mailInfo)
-                .then((res) => {
-                    console.log(res.data);
-                    if(res.data !== "fail") { // 성공하면 store에 저장하기 위해 인증key가 리턴되기때문에 "fail이 아닐때"로 체크함
-                        alert("메일 보내기 성공 => " + res.data);
-                        this.mailSended = true; // 메일 보내기 성공 (인증번호 입력란 나타남)
-                        let key = res.data;
-                        this.$store.dispatch('setSignUpKey', key); // 받아온 이메일 인증키 store에 저장
-                    } else {
-                        alert(res.data);
-                    }
-                })
-        },
+        //     this.$axios.post("/ysy/v1/mail/mailSend", mailInfo)
+        //         .then((res) => {
+        //             console.log(res.data);
+        //             if(res.data !== "fail") { // 성공하면 store에 저장하기 위해 인증key가 리턴되기때문에 "fail이 아닐때"로 체크함
+        //                 alert("메일 보내기 성공 => " + res.data);
+        //                 this.mailSended = true; // 메일 보내기 성공 (인증번호 입력란 나타남)
+        //                 // let key = res.data;
+        //                 // this.$store.dispatch('setSignUpKey', key); // 받아온 이메일 인증키 store에 저장
+        //             } else {
+        //                 alert(res.data);
+        //             }
+        //         })
+        // },
         /** 이메일 인증 확인 btn *************
          * store에 저장된 인증key값과 ********
          * 사용자가 입력한 인증번호를 바교함 */
-        confirmSignUpKey() {
-            const confirmKey = this.$store.getters.getSignUpKey;
+        // confirmSignUpKey() {
+        //     const confirmKey = this.$store.getters.getSignUpKey;
 
-            if(this.key == confirmKey) {
-                alert("인증 성공");
-                this.isConfirmKey = true;
-                this.mailSended = false;
-            } else {
-                alert("인증 번호가 일치하지 않습니다.");
-            }
-        },
+        //     if(this.key == confirmKey) {
+        //         alert("인증 성공");
+        //         this.isConfirmKey = true;
+        //         this.mailSended = false;
+        //     } else {
+        //         alert("인증 번호가 일치하지 않습니다.");
+        //     }
+        // },
         /** 회원가입 btn */
         signUp (){
             const { signUpInfo } = this;
             const validate = this.$refs.form.validate();
+            this.mailInfo.email = this.signUpInfo.username;
 
-            if(this.isConfirmEmail && this.isConfirmKey) {
+            // if(this.isConfirmEmail && this.isConfirmKey) {
+            if(this.isConfirmEmail) {
                 if(this.signUpInfo.password === this.confirmPassword) {
                     if(validate) {
                         this.$axios.post("/ysy/v1/auth/signUp", signUpInfo)
-                            .then((res) => {
-                                console.log(res.data);
-                                if(res.data === "ok") {
-                                    alert("회원가입 성공");
-                                    this.$router.replace({ name: 'signIn' });
+                            .then((res1) => {
+                                console.log(res1.data);
+                                if(res1.data === "ok") {
+                                    this.$axios.post("/ysy/v1/mail/mailSend", this.mailInfo)
+                                        .then((res2) => {
+                                            if(res2.data) {
+                                                alert("메일을 확인해주세요.");
+                                                this.$router.replace({ name: 'signIn' });
+                                            } else alert("메일 보내기 실패");
+                                        })
                                 }
                                 else{
-                                    alert(res.data);
+                                    alert(res1.data);
                                 }
                             });
                     } else alert("양식에 맞게 작성해주세요.");
                 } else alert("비밀번호가 일치하지 않습니다.");
-            } else alert("이메일 중복확인과 인증은 필수 항목입니다.");
+            } else alert("이메일 중복확인은 필수 항목입니다.");
+            // } else alert("이메일 중복확인과 인증은 필수 항목입니다.");
         },
         signIn (){
             this.$router.replace({ name: 'signIn' });
