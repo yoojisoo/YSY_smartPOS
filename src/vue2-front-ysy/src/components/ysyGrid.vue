@@ -1,172 +1,160 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="max-width:70%; background-color: lightgoldenrodyellow;">
     <!-- singleSelect : false - 전체선택, selected : [] -->
     <v-data-table
     v-model="selected"
     :headers="headers"
     :items="userInfo"
-    :single-select="singleSelect"
+    single-select
     item-key="userId"
-    show-select
     sort-by="group"
     class="elevation-1"
+    @click:row="rowClick"
     >  
-    <template v-slot:top>
-      <v-toolbar
-        flat
-      >
-        <v-toolbar-title>{{gridTitle}}</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-
-        <v-spacer />
-
-        <v-dialog
-          v-model="dialog"
-          max-width="500px"
+      <template v-slot:top>
+        <v-toolbar
+          flat
         >
-          <!-- $attrs는 이제 class와 style를 포함하여, 컴포넌트에 전달되는 모든 속성을 포함
-              on : onClick 같은 이벤트 발생인거 같다...
-          -->
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              New Item
-            </v-btn>
-          </template>
+          <v-toolbar-title>{{gridTitle}}</v-toolbar-title>
+          <v-divider
+            class="mx-4"
+            inset
+            vertical
+          ></v-divider>
 
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">{{ formTitle }}</span>
-            </v-card-title>
+          <v-spacer />
 
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedData.userId"
-                      label="ID"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedData.userPw"
-                      label="Password"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedData.userPhone"
-                      label="Cell phone number"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedData.userGroup"
-                      label="Authority"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="4"
-                  >
-                    <v-text-field
-                      v-model="editedData.bizCode"
-                      label="Business registration number"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <!-- 수정 또는 저장 - 팝업창에서의 선택  -->
-            <v-card-actions>
-              <v-spacer></v-spacer>
+          <v-dialog
+            v-model="dialog"
+            max-width="500px"
+          >
+            <!-- $attrs는 이제 class와 style를 포함하여, 컴포넌트에 전달되는 모든 속성을 포함
+                on : onClick 같은 이벤트 발생인거 같다...
+            -->
+            <template v-slot:activator="{ on, attrs }">
               <v-btn
-                color="blue darken-1"
-                text
-                @click="close"
+                color="primary"
+                dark
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
               >
-                Cancel
+                New Item
               </v-btn>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="save"
-              >
-                Save
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+            </template>
 
-        <!-- 진짜 삭제할건지 -->
-        <v-dialog v-model="dialogDelete" max-width="500px">12
-          <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
+            <v-card>
+              <v-card-title>
+                <span class="text-h5">{{ formTitle }}</span>
+              </v-card-title>
 
-    <!-- 수정, 삭제 아이콘 -->
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editIcon(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteIcon(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <v-text-field
+                        v-model="editedData.userId"
+                        label="ID"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <v-text-field
+                        v-model="editedData.userPw"
+                        label="Password"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <v-text-field
+                        v-model="editedData.userPhone"
+                        label="Cell phone number"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <v-text-field
+                        v-model="editedData.userGroup"
+                        label="Authority"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                    >
+                      <v-text-field
+                        v-model="editedData.bizCode"
+                        label="Business registration number"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
 
-    <!-- 아무 데이터도 없을때 나오는 버튼 -->
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
-        Reset
-      </v-btn>
-    </template>
+              <!-- 수정 또는 저장 - 팝업창에서의 선택  -->
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="close"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="save"
+                >
+                  Save
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <!-- 진짜 삭제할건지 -->
+          <v-dialog v-model="dialogDelete" max-width="500px">12
+            <v-card>
+              <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-toolbar>
+      </template>
+      
+
+      
+      <!-- 수정, 삭제 아이콘 -->
+    
+
+      <!-- 아무 데이터도 없을때 나오는 버튼 -->
+      <template v-slot:no-data>
+        <v-btn
+          color="primary"
+          @click="initialize"
+        >
+          Reset
+        </v-btn>
+      </template>
 
     </v-data-table>
   </v-container>
@@ -180,6 +168,7 @@ import { eventBus } from "@/main.js";
     name: 'admin-user-grid',
     props : ["noticeList"],
     data: () => ({
+      selectedRow: -1,
       gridTitle : "Grid Title",
       singleSelect: false,
       selected: [],
@@ -242,6 +231,15 @@ import { eventBus } from "@/main.js";
     },
 
     methods: {
+      /** grid click event */
+      rowClick(item, row){
+        console.log( item);
+        console.log( row);
+        
+        row.select(true);
+         this.selectedRow=item.userId;
+        
+      },
       initialize () {
 
         // this.noticeList;
@@ -343,3 +341,9 @@ import { eventBus } from "@/main.js";
     },
   }
 </script>
+<style>
+tr.v-data-table__selected {
+    background: #7d92f5 !important;
+  }
+
+</style>

@@ -1,20 +1,18 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -35,24 +33,27 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "YSY_MENU_MST")
+@SqlResultSetMapping(
+        name="menuInfoMapping",
+        classes = @ConstructorResult(
+                targetClass = MenuDto.class,
+                columns = {
+                        @ColumnResult(name="menu_id"        , type = String.class),
+                        @ColumnResult(name="p_menu_id"      , type = String.class),
+                        @ColumnResult(name="menu_nm"        , type = String.class),
+                        @ColumnResult(name="menu_path"      , type = String.class),
+                        @ColumnResult(name="menu_full_path" , type = String.class),
+                        @ColumnResult(name="menu_seq"       , type = Integer.class),
+                        @ColumnResult(name="is_admin"       , type = String.class),
+                })
+)
 @Entity
 public class YsyMenuMst extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-//	@EmbeddedId
-//	private MenuPK menuPK;
-	
-//	@MapsId("bizCd")
-//	@ManyToOne
-//	@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD")
-//	private YsyBizMst ysyBizMst;
-	//a 1
-	// a-1 1 a-2 2
-	// b 2
 	@Id
 	@Column(name = "MENU_ID" , length = 50)
-//	@JsonIgnore
 	private String menuId;
 	
 	@Column(name="P_MENU_ID"  , length=50 )
@@ -74,23 +75,5 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	private String isAdmin;
 	
 	
-	@BatchSize(size = 5) // Batch size를 지정한다
-	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.EAGER)
-	@JsonIgnoreProperties
-	private List<YsyBtnMst> ysyBtnMst = new ArrayList<YsyBtnMst>();
-	
-//	@Data
-//	@NoArgsConstructor
-//	@AllArgsConstructor
-//	@Embeddable //pk 여러개 생성시 사용 : @EmbeddedId
-//	public static class MenuPK implements Serializable{ 
-//		
-//		private static final long serialVersionUID = 1L;
-//
-//		@Column(name = "MENU_ID" , length = 50)
-//		private String menuId;
-//		
-////		private String bizCd;
-//	}
 	
 }

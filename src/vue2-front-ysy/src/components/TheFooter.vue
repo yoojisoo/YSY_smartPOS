@@ -3,11 +3,9 @@
     flat
     tile
     width="100%"
-    class="text-center"
-    elevation="2"
+    class="text-center ma-0 pa-0"
   >
     <v-card-text class="black--text">
-      <!-- {{ new Date().getFullYear() }} — <strong>㉧㉦㉧ Framework</strong> -->
       Copy Right YSY
     </v-card-text>
   </v-card>

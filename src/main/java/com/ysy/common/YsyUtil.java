@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class YsyUtil {
 	
+	public String PJT_NAME = "S-POS";
+	
 	
 	private  boolean isLog = true;
 	
