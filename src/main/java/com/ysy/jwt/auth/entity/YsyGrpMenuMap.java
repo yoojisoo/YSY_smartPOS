@@ -2,6 +2,7 @@ package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -46,6 +47,9 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")
 	private YsyMenuMst ysyMenuMst;
+	
+	@Column(name = "MENU_NM" , length=200)
+	private String menuNm;
 
 	@MapsId("grgPK")
 	@ManyToOne

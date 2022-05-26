@@ -1,21 +1,18 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnDefault;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -36,6 +33,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "YSY_MENU_MST")
+@SqlResultSetMapping(
+        name="menuInfoMapping",
+        classes = @ConstructorResult(
+                targetClass = MenuDto.class,
+                columns = {
+                        @ColumnResult(name="menu_id"        , type = String.class),
+                        @ColumnResult(name="p_menu_id"      , type = String.class),
+                        @ColumnResult(name="menu_nm"        , type = String.class),
+                        @ColumnResult(name="menu_path"      , type = String.class),
+                        @ColumnResult(name="menu_full_path" , type = String.class),
+                        @ColumnResult(name="menu_seq"       , type = Integer.class),
+                        @ColumnResult(name="is_admin"       , type = String.class),
+                })
+)
 @Entity
 public class YsyMenuMst extends BaseEntity implements Serializable{
 

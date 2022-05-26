@@ -22,7 +22,7 @@ public class YsyMenuController {
 	private  YsyMenuMstService ysyMenuMstService;
 	
 	@GetMapping("/getMenuList")
-	public List<MenuDtoIf> getMenuList() {
+	public List<Object[]> getMenuList() {
 		System.out.println("123423123123");
 		return ysyMenuMstService.getMenuList();
 	}
