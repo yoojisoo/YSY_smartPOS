@@ -36,28 +36,18 @@ public class UserDummy {
 		List<YsyGrpMst> grpList = ysyGrpMstRepository.findAll();
 		System.out.println(grpList.get(0).getGrpPK().getBizCd() + ", " + grpList.get(0).getGrpPK().getGrpId());
 		
+		//username = ID = email
 		YsyUserMst ysyUserMst = YsyUserMst.builder()
-										  .username("YYYYY")
-										  .password("1234")
-										  .name("sss")
-										  .email("splus7@naver.com")
+										  .username("yoojisoo@naver.com")
+										  .password("pass7521")
+										  .name("유지수")
 										  .phone("01079977521")
 										  .ysyGrpMst(grpList.get(0))
 										  .build();
 					  ysyUserMstRepository.save(ysyUserMst);
 					  System.out.println("유저마스터 더미 데이터 끝");
 				
-//				.username("yjh")
-//				.password("1234")
-//				.name("윤정호")
-//				.email("clubbboy@naver.com")              
-//	            .phone("01042467729").build();
-//		user.setYsyBiz(getBiz());
-//		user.setYsyGrp(getGrp());
-//		ysyUserRepository.save(user);
-//		List<Object[]> temp = ysyUserRepository.getUserInfo();
-//		ysyUserRepository.findAll();
-//		System.out.println("user dummy sample data end");
+
 		
 	}
 }
