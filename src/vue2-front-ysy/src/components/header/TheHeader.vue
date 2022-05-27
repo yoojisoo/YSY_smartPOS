@@ -1,21 +1,29 @@
 <!--상단 메뉴 component -->
 <template>
-  <header>
-    <header-system-bar/>
+  <!-- <header>
+    <header-system-bar/> -->
     <!-- flat : remove box-shadow -->
     <!-- web 메뉴 start -->
     <v-app-bar color="purple lighten-2" app dense flat>
-      <v-container style="max-width:70%">
-        <v-row align="center" justify="center" class="purple lighten-1">
-          <v-col cols="1" class="ma-0 pa-0">
-            <span class="hidden-sm-and-up">
-              <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-            </span>
-            <v-app-bar-title>
-              <v-btn plain color="white" to="/">SEMES</v-btn>
-            </v-app-bar-title>
+      <v-container style="max-width:70%; height: 100%;"> <!-- background-color: lightblue; -->
+        <v-row justify="space-between">
+          <v-col cols="2" class="ma-0 pa-0" style="contain: size;"> <!--  background-color: lightgreen; -->
+            <v-row justify="center" class="ma-0 pa-0">
+              <v-col cols="0" class="mb-6 ma-0 pa-0" style="contain: size;">
+                <span class="hidden-sm-and-up">
+                  <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+                </span>
+              </v-col>
+              <v-col cols="12" class="mb-6 ma-0 pa-0">
+                <v-app-bar-title>
+                  <div align="center">
+                    <v-btn plain color="white" to="/">SEMES</v-btn>
+                  </div>
+                </v-app-bar-title>
+              </v-col>
+            </v-row>
           </v-col>
-          <v-col cols="11" class="ma-0 pa-0">
+          <v-col cols="10" class="ma-0 pa-0">
             <v-tabs
               centered
               class="hidden-xs-only"
@@ -40,7 +48,7 @@
     <!-- web 메뉴 end -->
 
     <!-- mobile 메뉴 start -->
-    <v-navigation-drawer
+    <!-- <v-navigation-drawer
       v-model="drawer"
       absolute
       temporary
@@ -58,13 +66,13 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-  </header>
+  </header> -->
 </template>
 
 <script>
 import v_menus from '@/assets/common/vMenus.js'
 import MyInfo from '@/components/TheMyInfo.vue'
-import headerSystemBar from '@/components/TheSystemBar.vue'
+import headerSystemBar from '@/components/header/TheSystemBar.vue'
 import { eventBus } from "@/main.js";
 
   export default {
@@ -164,7 +172,8 @@ import { eventBus } from "@/main.js";
 </script>
 
 <style scoped>
-.v-icon {
-  padding-right: 10px;
+.v-container {
+  max-width:70%;
+  height: 100%;
 }
 </style>

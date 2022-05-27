@@ -13,7 +13,7 @@
     <div>
       <v-row>
         <v-col>
-          <theHeader v-bind:pageName="pageName" />
+          <!-- <theHeader v-bind:pageName="pageName" /> -->
         </v-col>
       </v-row>
       <v-row>
@@ -37,7 +37,7 @@
 
 <script>
 import userGrid from '../components/ysyGrid.vue'
-import theHeader from '../components/TheHeader.vue'
+// import theHeader from '../components/header/TheHeader.vue'
 
   export default {
     name: 'admin-base',
@@ -47,7 +47,7 @@ import theHeader from '../components/TheHeader.vue'
     }),
     components: {
       userGrid,
-      theHeader
+      // theHeader
     }
     
   }

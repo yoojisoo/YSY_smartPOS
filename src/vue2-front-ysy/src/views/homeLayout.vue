@@ -3,7 +3,7 @@
         <header
           fixed
         >
-            <theHeader v-bind:pageName="pageName" />
+            <!-- <theHeader v-bind:pageName="pageName" /> -->
         </header>
     
         <v-main>
@@ -38,7 +38,7 @@
 
 <script>
 import userGrid from '@/components/ysyGrid.vue'
-import theHeader from '@/components/TheHeader.vue'
+// import theHeader from '@/components/TheHeader.vue'
 import theFooter from '@/components/TheFooter.vue'
 
   export default {
@@ -51,7 +51,7 @@ import theFooter from '@/components/TheFooter.vue'
     }),
     components: {
       userGrid,
-      theHeader,
+      // theHeader,
       theFooter
     },
     created()
