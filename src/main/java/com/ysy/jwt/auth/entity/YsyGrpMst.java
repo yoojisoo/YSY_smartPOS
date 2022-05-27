@@ -64,10 +64,6 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 	@Column(name="LEVEL_ID" , length = 20 , nullable = false)
 	private int levelId;//desc 보면됨/  0: admin , 200 : manager , 300 : user 
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="BIZ_CD",referencedColumnName="BIZ_CD" , nullable = false )
-//	private YsyBizMst ysyBiz; 
-	
 	//mappedBy -> 나와 관련된 클래스를 조회만 할 수 있게 해줌
 	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
 	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.

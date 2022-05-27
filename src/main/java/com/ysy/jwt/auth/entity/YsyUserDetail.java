@@ -57,8 +57,6 @@ public class YsyUserDetail extends BaseEntity implements Serializable{
 	@Embeddable
 	public static class PK implements Serializable{
 		
-		
-
 		private String userId;
 		
 		@Column(name = "USER_DTL_ID")
