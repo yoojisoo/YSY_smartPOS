@@ -16,13 +16,13 @@ public interface YsyMenuMstRepository extends JpaRepository<YsyMenuMst, String>{
 	
 	/** default 메뉴 목록 */
 	@Query(value=" SELECT                                         "
-			+ "           a.menu_id           as menuId           " // " //
-				+ "     , a.p_menu_id         as pMenuId          " // " //
-				+ "     , a.menu_nm           as menuNm           " // " //
-				+ "     , a.menu_path         as menuPath         " // " //
-				+ "     , a.menu_full_path    as menuFullPath     " // " //
-				+ "     , a.menu_seq          as menuSeq          " // " //
-				+ "     , a.is_admin          as isAdmin          " // " //
+			+ "           a.menu_id                               " // " //as menuId        
+				+ "     , a.p_menu_id                             " // " //as pMenuId       
+				+ "     , a.menu_nm                               " // " //as menuNm        
+				+ "     , a.menu_path                             " // " //as menuPath      
+				+ "     , a.menu_full_path                        " // " //as menuFullPath  
+				+ "     , a.menu_seq                              " // " //as menuSeq       
+				+ "     , a.is_admin                              " // " //as isAdmin       
 				+ " FROM  (                                       "
 				+ "         SELECT a.*                            "
 				+ "         FROM   Ysy_Menu_Mst a                 " 
