@@ -13,7 +13,10 @@
                       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
                   </v-col>
                   <v-col cols="10" align-self="center" class="ma-0 pa-0">
-                      <v-btn plain color="white" to="/">홈페이지 로고</v-btn>
+                      <v-btn plain color="white" to="/">
+                        <!-- 체크하기 : 이미지 사이즈 조절 -->
+                        <v-img :aspect-ratio="3" width="80" src="@/assets/img/svg/logoWhite.svg"/>
+                      </v-btn>
                   </v-col>
                 </v-row>
               </v-col>
@@ -80,15 +83,7 @@ import { eventBus } from "@/main.js";
       drawer: false,
       group: true,
       headerMenu: null,
-      radioGroup: 1,
-      radios: 'slide-x-transition-1',
       row: null,
-      items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
       iconImg: 'mdi-dots-vertical',
     }),
     methods: {
@@ -114,16 +109,16 @@ import { eventBus } from "@/main.js";
 
         var list = [];
         v_menus.forEach(x=>{
-          if(this.pageName === "admin" && x.isAdmin === "Y" && x.pmenuId== null){ // admin 메뉴 구성
+          if(this.pageName === "admin" && x.isAdmin === "Y" && x.pmenuId == null){ // admin 메뉴 구성
             list.push(x);
           }
-          else if(this.pageName === "home" && x.isAdmin === "N" && x.pmenuId== null){// home 메뉴 구성
+          else if(this.pageName === "home" && x.isAdmin === "N" && (x.pmenuId == null || x.pmenuId == '')){// home 메뉴 구성
             list.push(x);
           }
         });
         this.headerMenu = [];
         this.headerMenu = list;
-        console.log( "this.headerMenu=");
+        console.log( "this.headerMenu=");4
         console.log( this.headerMenu);
         console.log( "header mounted end");
       },
@@ -133,14 +128,17 @@ import { eventBus } from "@/main.js";
           {
             var res1 = await this.$axios.get("ysy/v1/menu/getMenuList");
             var list = res1.data;
+            console.log('list => ' + list);
             for(var i = 0 ; i < list.length ; i++){
 
                   var menuData = {};
                   menuData.path = list[i].menu_path;
                   menuData.name = list[i].menu_nm;
+                  menuData.menuId = list[i].menu_id;
+                  menuData.menuSeq = list[i].menu_seq;
                   menuData.icon = "mdi-home";
                   menuData.component = () => import(list[i].menu_pull_path);
-                  menuData.pmenuId = list[i].pmenu_id;
+                  menuData.pmenuId = list[i].p_menu_id;
                   menuData.isAdmin = list[i].is_admin;
                   v_menus.push(menuData);
             }
@@ -159,6 +157,17 @@ import { eventBus } from "@/main.js";
     created()
     {
       console.log("header created start");
+    },
+    computed : {
+      logoHeight() {
+        switch (this.$vuetify.breakpoint.name) {
+            case 'xs' : return 100
+            case 'sm' : return 150
+            case 'md' : return 200
+            case 'lg' : return 250
+            default: return 300
+        }
+      }
     }
   }
 </script>

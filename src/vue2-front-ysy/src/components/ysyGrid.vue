@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid style="background-color: lightgoldenrodyellow;">
+  <!-- style="background-color: lightgoldenrodyellow;" -->
+  <v-container fluid>
     <!-- singleSelect : false - 전체선택, selected : [] -->
     <v-data-table
     v-model="selected"

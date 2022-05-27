@@ -16,8 +16,7 @@
                 <v-card v-if="filterShow" height="100%" tile color="indigo" flat></v-card>
               </v-col>
               <v-col :cols="mainCols">
-                <v-row justify="center" no-gutters>
-                  <!-- web filter button Start -->
+                <!-- <v-row justify="center" no-gutters>
                   <v-col align-self="center" class="hidden-xs-only">
                     <v-btn
                       class="ma-2 hidden-xs-only"
@@ -26,8 +25,6 @@
                       web filter
                     </v-btn>
                   </v-col>
-                  <!-- web filter button End -->
-                  <!-- mobile filter button Start -->
                   <v-col align-self="center" class="hidden-sm-and-up">
                     <v-btn
                       class="ma-2"
@@ -36,7 +33,26 @@
                       mobile filter
                     </v-btn>
                   </v-col>
-                  <!-- mobile filter button End -->
+                </v-row> -->
+                <v-row justify="center" no-gutters>
+                  <v-col clos="12">
+                    <v-card
+                      color="#385F73"
+                      dark
+                    >
+                      <v-card-title class="text-h5">
+                        Unlimited music now
+                      </v-card-title>
+
+                      <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
+
+                      <v-card-actions>
+                        <v-btn text>
+                          Listen Now
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
                 </v-row>
                 <v-row align="start" justify="center" no-gutters>
                   <v-col cols="12"><ysyGrid/></v-col>
