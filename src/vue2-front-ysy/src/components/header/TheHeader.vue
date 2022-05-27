@@ -136,12 +136,12 @@ import { eventBus } from "@/main.js";
             for(var i = 0 ; i < list.length ; i++){
 
                   var menuData = {};
-                  menuData.path = list[i].menuPath;
-                  menuData.name = list[i].menuNm;
+                  menuData.path = list[i].menu_path;
+                  menuData.name = list[i].menu_nm;
                   menuData.icon = "mdi-home";
-                  menuData.component = () => import(list[i].menuFullPath);
-                  menuData.pmenuId = list[i].pmenuId;
-                  menuData.isAdmin = list[i].isAdmin;
+                  menuData.component = () => import(list[i].menu_pull_path);
+                  menuData.pmenuId = list[i].pmenu_id;
+                  menuData.isAdmin = list[i].is_admin;
                   v_menus.push(menuData);
             }
           }
