@@ -1,46 +1,38 @@
-<!--상단 메뉴 component -->
 <template>
-  <!-- <header>
-    <header-system-bar/> -->
     <!-- flat : remove box-shadow -->
+
     <!-- web 메뉴 start -->
     <v-app-bar color="purple lighten-2" app dense flat>
-      <v-container style="max-width:70%; height: 100%;"> <!-- background-color: lightblue; -->
-        <v-row justify="space-between">
-          <v-col cols="2" class="ma-0 pa-0" style="contain: size;"> <!--  background-color: lightgreen; -->
-            <v-row justify="center" class="ma-0 pa-0">
-              <v-col cols="0" class="mb-6 ma-0 pa-0" style="contain: size;">
-                <span class="hidden-sm-and-up">
-                  <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-                </span>
+      <v-container fluid class="ma-0 pa-0">
+        <v-row justify="center" no-gutters>
+          <v-col cols="12" xs="12" sm="12" md="8" lg="8" xl="8">
+            <v-row justify="center" no-gutters>
+              <v-col cols="12" xs="12" sm="2" md="2" lg="2" xl="2" class="pa-0 ma-0" style="display: contents;">
+                <v-row justify="center" class="ma-0 pa-0" style="text-align: center; align-self: center;" no-gutters>
+                  <v-col cols="2" class="ma-0 pa-0 hidden-sm-and-up">
+                      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+                  </v-col>
+                  <v-col cols="10" align-self="center" class="ma-0 pa-0">
+                      <v-btn plain color="white" to="/">홈페이지 로고</v-btn>
+                  </v-col>
+                </v-row>
               </v-col>
-              <v-col cols="12" class="mb-6 ma-0 pa-0">
-                <v-app-bar-title>
-                  <div align="center">
-                    <v-btn plain color="white" to="/">SEMES</v-btn>
-                  </div>
-                </v-app-bar-title>
+              <v-col cols="10" class="ma-0 pa-0 hidden-xs-only">
+                <v-tabs
+                  centered
+                  background-color="purple lighten-1"
+                  dark
+                >
+                  <v-tab
+                    v-for="(item, idx) in headerMenu"
+                    :key="idx"
+                    :to="item.path"
+                  >
+                      {{ item.name }}
+                  </v-tab>
+                </v-tabs>
               </v-col>
             </v-row>
-          </v-col>
-          <v-col cols="10" class="ma-0 pa-0">
-            <v-tabs
-              centered
-              class="hidden-xs-only"
-              background-color="purple lighten-1"
-              dark
-            >
-              <!-- :to="item.path" -->
-              <v-tab
-                v-for="(item, idx) in headerMenu"
-                :key="idx"
-                :to="item.path"
-              >
-               
-                  {{ item.name }}
-               
-              </v-tab>
-            </v-tabs>
           </v-col>
         </v-row>
       </v-container>
