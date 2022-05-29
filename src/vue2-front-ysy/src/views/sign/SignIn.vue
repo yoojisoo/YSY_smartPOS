@@ -53,6 +53,13 @@
                                                 <v-btn block outlined class="my-2" color="#7E57C2" value="sign up" @click="signUp">회원가입</v-btn>
                                             </v-col>
                                         </v-row>
+                                        <v-row>
+                                            
+                                            <a href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code">
+                                                <v-img src="@/assets/img/png/kakao_btn.png" ></v-img>
+                                            </a>
+                                            
+                                        </v-row>
                                     </v-card-text>
                                 </v-card>
                             </v-col>
@@ -137,6 +144,9 @@ export default {
         signUp() {
             this.$router.replace({ name: 'signUp' })
         },
+        kakaoLogin(){
+            console.log("kakao login click");
+        }
     },
 }
 </script>

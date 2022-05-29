@@ -57,7 +57,10 @@ public class GroupMenuMapDummy {
 			if(pmenu.getMenuNm().equals("공지사항")) {
 				System.out.println("공지사항 save");
 				pkey = pmenu.getMenuId();
-				YsyGrpMst yy = grpList.stream().filter(x->x.getYsyBizMst().getBizCd().equals("0001") && x.getGrpPK().getGrpId().toString().equals("DEFAULT_USER")).findAny().orElse(null);
+				YsyGrpMst yy = grpList.stream()
+						              .filter(x->x.getYsyBizMst().getBizCd().equals("0001") 
+						            		  && x.getGrpPK().getGrpId().toString().equals("DEFAULT_USER"))
+						              .findAny().orElse(null);
 				setEntity(pmenu, yy);
 				List<YsyMenuMst> resultList = new ArrayList<YsyMenuMst>();
 				for (YsyMenuMst childMenu : childMenuList) 

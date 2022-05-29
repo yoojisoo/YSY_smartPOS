@@ -16,6 +16,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Comment;
+
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -61,6 +63,7 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 	private String name;
 	@Column(name = "USER_ADDR" , length = 255)
 	private String addr;
+	
 
 	@Embedded
 	private Address address;
@@ -72,8 +75,13 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 	@JoinColumns({ @JoinColumn(name = "GRP_ID", referencedColumnName = "GRP_ID"),
 			       @JoinColumn(name = "BIZ_CD", referencedColumnName = "BIZ_CD") })
 	private YsyGrpMst ysyGrpMst;
+	
+	//가입경로 : 홈페이지일 경우 빈값임. 현재는 kakao 만 구현됨
+	@Column(name = "OAuth_PATH" , length = 50)
+	@Comment(value="kakao 또는 naver / google 등의 간편 로그인 사용자 가입경로")
+	private String oAuthPath;
 
-	public List<String> getRoleList() {
+	public List<String> getRoleList() { 
 		if (this.ysyGrpMst.getGrpPK().getGrpId() != null)
 			return Arrays.asList(ysyGrpMst.getGrpPK().getGrpId().toString().split(","));
 		else

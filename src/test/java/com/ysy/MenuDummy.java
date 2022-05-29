@@ -100,7 +100,7 @@ public class MenuDummy {
 							.menuNm(userChildList.get(i))
 							.menuPath("")
 							.menuSeq(seq)
-							.pMenuId("menu_2022-05-26T17:27:57.519")
+							.pMenuId("")
 							.useYn("Y")
 							.menuFullPath("")
 							.useYn("Y")
