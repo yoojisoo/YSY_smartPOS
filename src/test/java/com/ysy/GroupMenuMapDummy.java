@@ -112,37 +112,6 @@ public class GroupMenuMapDummy {
 				}
 			}
 			
-//			String pMenuId = pmenu.getMenuId();
-//			
-//			for(YsyMenuMst cmenu : childMenuList)
-//			{
-//				for(YsyGrpMst grp : grpList)
-//				{
-//					
-//					if(!grp.getGrpPK().getBizCd().equals("0001")) continue;
-//					
-//					/* 관리자 페이지 */
-//					if(pmenu.getIsAdmin().equals("Y") && cmenu.getIsAdmin().equals("Y"))
-//					{
-//						if(grp.getGrpPK().getGrpId().toString().indexOf("MANAGER") > -1) {
-//							setEntity(pmenu, grp);
-//							setEntity(cmenu, grp);
-//						}
-//					}
-//					
-//					/* 유저 페이지 */
-//					if(pmenu.getIsAdmin().equals("N") && cmenu.getIsAdmin().equals("N"))
-//					{
-//						if(pMenuId.equals(pmenu.getMenuNm()) && pMenuId.equals(cmenu.getPMenuId()) && grp.getGrpPK().getGrpId().equals(SysEnum.enumGrps.DEFAULT_USER))
-//						{
-//							setEntity(pmenu, grp);
-//							setEntity(cmenu, grp);
-//						}
-//				
-//						
-//					}
-//				}
-//			}
 		}
 		
 		System.out.println("group_menu_map dummy sample data end =========================");
