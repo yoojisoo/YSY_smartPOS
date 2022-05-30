@@ -64,7 +64,7 @@ public class OAuthController {
 		
 		boolean isSave = kakaoUserSave(profile);
 		
-		return "redirect:/";
+		return "redirect:/error.html";
 	}
 	
 	

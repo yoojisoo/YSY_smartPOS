@@ -99,6 +99,7 @@ public class YsyUserMstService {
 						.password(bCryptPasswordEncoder.encode(joinDto.getPassword()))
 						.name(joinDto.getName())
 						.ysyGrpMst(ysyGrpMst)
+						.oAuthPath(joinDto.getOAuthPath())
 						.build();
 
 				ysyUserRepository.save(ysyUser);
