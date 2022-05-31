@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <!-- <main-system-bar/>
+	<v-app>
+		<!-- <main-system-bar/>
     <main-header/>
 
     <v-main app>
@@ -8,41 +8,31 @@
         <router-view/>
       </v-container>
     </v-main> -->
-    <!-- <login-page/> -->
-    <v-container fluid class="grey lighten-5">
-      <router-view/>
-    </v-container>
-    <!-- <mainNavi/> -->
-
-  </v-app>
+		<!-- <login-page/> -->
+		<v-container fluid class="grey lighten-5">
+			<router-view />
+		</v-container>
+		<!-- <mainNavi/> -->
+	</v-app>
 </template>
 
 <script>
-
-  export default {
-    components: {
-    },
-    data:()=>({
-
-    }),
-     mounted() {
-
-     },
-     computed:{
-     },
-     methods: {
-     },
-    beforeCreate() {
-      localStorage.clear();
-    },
-    created(){
-    }
-  };
+export default {
+	components: {},
+	data: () => ({}),
+	mounted() {},
+	computed: {},
+	methods: {},
+	beforeCreate() {
+		localStorage.clear();
+	},
+	created() {},
+};
 </script>
 
 <style scoped>
-.container{
-     max-width: 100vw;
-     padding:0px;
-  }
+.container {
+	max-width: 100vw;
+	padding: 0px;
+}
 </style>
