@@ -22,7 +22,7 @@
                     <v-btn @click="isLeftHidden = !isLeftHidden"></v-btn>
                 </v-col>
                 <v-col cols="9" height="100%">
-                    <userGrid v-bind:noticeList="noticeList" />
+                    <!-- <userGrid v-bind:noticeList="noticeList" /> -->
                 </v-col>
 
             </v-row>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import userGrid from '@/components/ysyGrid.vue'
+// import userGrid from '@/components/YsyGrid.vue'
 // import theHeader from '@/components/TheHeader.vue'
 import theFooter from '@/components/TheFooter.vue'
 
@@ -50,7 +50,7 @@ import theFooter from '@/components/TheFooter.vue'
       noticeList : ["asdasd"],
     }),
     components: {
-      userGrid,
+      // userGrid,
       // theHeader,
       theFooter
     },

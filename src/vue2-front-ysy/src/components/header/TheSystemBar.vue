@@ -1,9 +1,9 @@
 <template>
-  <v-system-bar app color="#bababa">
-    <v-container fluid class="ma-0 pa-0">
+  <v-system-bar color="#bababa" app>
+    <v-container class="ma-0 pa-0" fluid>
       <v-row justify="center" no-gutters>
         <v-col cols="12" xs="12" sm="12" md="8" lg="8" xl="8">
-          <v-row justify="end">
+          <v-row justify="end" no-gutters>
             <v-btn-toggle
               tile
               group

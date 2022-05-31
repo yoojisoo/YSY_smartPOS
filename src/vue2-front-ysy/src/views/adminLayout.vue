@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import userGrid from '../components/ysyGrid.vue'
+// import userGrid from '../components/YsyGrid.vue'
 // import theHeader from '../components/header/TheHeader.vue'
 
   export default {
@@ -46,7 +46,7 @@ import userGrid from '../components/ysyGrid.vue'
       pageName : "admin",
     }),
     components: {
-      userGrid,
+      // userGrid,
       // theHeader
     }
     
