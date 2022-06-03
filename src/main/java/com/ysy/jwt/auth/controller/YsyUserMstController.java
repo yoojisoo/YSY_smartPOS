@@ -1,14 +1,20 @@
 package com.ysy.jwt.auth.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysy.jwt.auth.dto.JoinDto;
+import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
 /**
@@ -41,6 +47,20 @@ public class YsyUserMstController {
 		return ysyUserService.signUp(joinModel);
 	}
 	
+	
+	@Autowired
+	private YsyUserMstRepository ysyUserRepository;
+	
+	/** 2022 06 02 yjs  get data sample */
+	@GetMapping("/test/userList")
+	public List<YsyUserMst> getUserMst(@RequestParam String id){
+//		id = "mnew2m@gmail.com";
+		System.out.println("뿅");
+		
+		List<YsyUserMst> list = ysyUserRepository.findAll();
+		list.get(0).getAddressList();
+		return list;
+	}
 	
 	
 	

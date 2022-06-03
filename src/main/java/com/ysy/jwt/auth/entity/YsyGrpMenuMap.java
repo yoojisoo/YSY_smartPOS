@@ -13,6 +13,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -55,6 +56,7 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	@ManyToOne
 	@JoinColumns({@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD"),
 		          @JoinColumn(name = "GRP_ID" , referencedColumnName = "GRP_ID")})
+	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
 	private YsyGrpMst ysyGrpMst ; 
 	
 	@Data
