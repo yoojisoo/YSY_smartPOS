@@ -1,7 +1,16 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import vMenus from "../assets/common/vMenus.js";
-// import v_pages from "../assets/common/vPages.js";
+import store from 'vuex';
+
+/** 로그인 상태를 체크해서
+ * 이동가능한 페이지인지 확인 */
+const isLoginChk = () => (to, from, next) => {
+	if (store.mapGetters(['isLogin'])) {
+		alert('로그인 상태로는 이동하실 수 없는 페이지입니다.\n로그아웃을 먼저 진행해주세요.');
+		next('/');
+	}
+	return next();
+};
 
 Vue.use(VueRouter);
 // vMenus.getMenuList();
@@ -13,6 +22,12 @@ const routes = [
 		name: 'home',
 		icon: 'mdi-home',
 		component: () => import('../views/contents/Home.vue'),
+	},
+	{
+		path: '/userInfo',
+		name: 'userInfo',
+		icon: 'mdi-account',
+		component: () => import('../views/contents/UserInfo.vue'),
 	},
 	{
 		path: '/userPage',
@@ -28,8 +43,18 @@ const routes = [
 	},
 
 	// 회원가입 로그인 페이지
-	{ path: '/signIn', name: 'signIn', component: () => import('../views/sign/SignIn.vue') },
-	{ path: '/signUp', name: 'signUp', component: () => import('../views/sign/SignUp.vue') },
+	{
+		path: '/signIn',
+		name: 'signIn',
+		component: () => import('../views/sign/SignIn.vue'),
+		beforeEnter: isLoginChk(),
+	},
+	{
+		path: '/signUp',
+		name: 'signUp',
+		component: () => import('../views/sign/SignUp.vue'),
+		beforeEnter: isLoginChk(),
+	},
 
 	// 에러페이지
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기
