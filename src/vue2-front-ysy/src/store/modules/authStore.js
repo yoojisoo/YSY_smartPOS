@@ -8,6 +8,7 @@ const authStore = {
 		},
 		loginData: {
 			user_id: '',
+			user_name: '',
 			access_token: '',
 			access_token_exp: '',
 			refresh_token: '',
@@ -28,11 +29,21 @@ const authStore = {
 		getSignUpKey: state => {
 			return state.singUpKey.key;
 		},
+		getUserId: state => {
+			return state.loginData.user_id;
+		},
+		getUserName: state => {
+			return state.loginData.user_name;
+		},
+		getUser: state => {
+			return state.loginData;
+		},
 	},
 	mutations: {
 		setUserInfo: (state, userInfo) => {
 			// console.log(jwt_decode(userInfo.access_token.string, { payload: true }));
 			state.loginData.user_id = userInfo.user_id;
+			state.loginData.user_name = userInfo.user_name;
 			state.loginData.access_token = userInfo.access_token;
 			state.loginData.access_token_exp = userInfo.access_token_exp;
 			state.loginData.refresh_token = userInfo.refresh_token;
