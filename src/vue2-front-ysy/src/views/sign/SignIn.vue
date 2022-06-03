@@ -126,6 +126,7 @@ export default {
 
 						let payload = {
 							user_id: decodedHeader_access.username,
+							user_name: decodedHeader_access.name,
 							access_token: res.headers.access_token,
 							access_token_exp: decodedHeader_access.exp,
 							refresh_token: res.headers.refresh_token,
