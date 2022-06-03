@@ -33,20 +33,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "YSY_MENU_MST")
-@SqlResultSetMapping(
-        name="menuInfoMapping",
-        classes = @ConstructorResult(
-                targetClass = MenuDto.class,
-                columns = {
-                        @ColumnResult(name="menu_id"        , type = String.class),
-                        @ColumnResult(name="p_menu_id"      , type = String.class),
-                        @ColumnResult(name="menu_nm"        , type = String.class),
-                        @ColumnResult(name="menu_path"      , type = String.class),
-                        @ColumnResult(name="menu_full_path" , type = String.class),
-                        @ColumnResult(name="menu_seq"       , type = Integer.class),
-                        @ColumnResult(name="is_admin"       , type = String.class),
-                })
-)
+//@SqlResultSetMapping(
+//        name="menuInfoMapping",
+//        classes = @ConstructorResult(
+//                targetClass = MenuDto.class,
+//                columns = {
+//                        @ColumnResult(name="menu_id"        , type = String.class),
+//                        @ColumnResult(name="p_menu_id"      , type = String.class),
+//                        @ColumnResult(name="menu_nm"        , type = String.class),
+//                        @ColumnResult(name="menu_path"      , type = String.class),
+//                        @ColumnResult(name="menu_full_path" , type = String.class),
+//                        @ColumnResult(name="menu_seq"       , type = Integer.class),
+//                        @ColumnResult(name="is_admin"       , type = String.class),
+//                })
+//)
 @Entity
 public class YsyMenuMst extends BaseEntity implements Serializable{
 

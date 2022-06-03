@@ -46,9 +46,15 @@
 									</v-col>
 								</v-row>
 								<v-row align="start" justify="center" no-gutters>
-									<v-col cols="12"><ysyGrid /></v-col>
-									<v-col cols="6"><ysyGrid /></v-col>
-									<v-col cols="6"><ysyGrid /></v-col>
+									<v-col cols="12"
+										><ysyGrid :headers="gridHeaders" :userInfo="userData"
+									/></v-col>
+									<v-col cols="6"
+										><ysyGrid :headers="gridHeaders" :userInfo="userData"
+									/></v-col>
+									<v-col cols="6"
+										><ysyGrid :headers="gridHeaders" :userInfo="userData"
+									/></v-col>
 								</v-row>
 							</v-col>
 						</v-row>
@@ -72,6 +78,7 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -93,6 +100,14 @@ export default {
 					access_token: this.$store.state.authStore.loginData.userToken,
 				},
 			},
+			// gridHeaders: [
+			// 	{ text: '아이디'     , value: 'userId'},
+			// 	{ text: '비밀번호'   , value: 'userPw'},
+			// 	{ text: '전화번호'   , value: 'userPhone'},
+			// 	{ text: '그룹'       , value: 'userGroup'},
+			// 	{ text: '비즈코드'   , value: 'bizCode'},
+			// 	{ text: '날짜'       , value: 'dateVal'},
+			// ],
 		};
 	},
 	methods: {
@@ -113,6 +128,10 @@ export default {
 			if (this.mainCols < 12) this.mainCols = 12;
 			else this.mainCols = 10;
 		},
+
+		getUserData() {
+			this.$store.dispatch('getUserData');
+		},
 	},
 	computed: {
 		isLogin() {
@@ -121,6 +140,17 @@ export default {
 		userId() {
 			return this.$store.state.authStore.loginData.userId;
 		},
+
+		gridHeaders() {
+			console.log('computed - gridHeaders() -------->');
+			return this.$store.state.gridStore.gridHeaders;
+		},
+		...mapGetters({
+			userData: 'getUserData',
+		}),
+	},
+	mounted() {
+		this.getUserData();
 	},
 };
 </script>

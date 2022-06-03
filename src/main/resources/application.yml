@@ -4,6 +4,11 @@ spring:
     url: jdbc:mariadb://192.168.0.114:3306/semes_db
     username: root
     password: password
+    
+# 
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
 
   jpa:
     hibernate:
