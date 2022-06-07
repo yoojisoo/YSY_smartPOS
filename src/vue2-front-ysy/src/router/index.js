@@ -4,13 +4,13 @@ import store from 'vuex';
 
 /** 로그인 상태를 체크해서
  * 이동가능한 페이지인지 확인 */
-const isLoginChk = () => (to, from, next) => {
-	if (store.mapGetters(['isLogin'])) {
-		alert('로그인 상태로는 이동하실 수 없는 페이지입니다.\n로그아웃을 먼저 진행해주세요.');
-		next('/');
-	}
-	return next();
-};
+//const isLoginChk = () => (to, from, next) => {
+//	if (store.mapGetters(['isLogin'])) {
+//		alert('로그인 상태로는 이동하실 수 없는 페이지입니다.\n로그아웃을 먼저 진행해주세요.');
+//		next('/');
+//	}
+//	return next();
+//};
 
 Vue.use(VueRouter);
 // vMenus.getMenuList();
@@ -47,13 +47,13 @@ const routes = [
 		path: '/signIn',
 		name: 'signIn',
 		component: () => import('../views/sign/SignIn.vue'),
-		beforeEnter: isLoginChk(),
+		//beforeEnter: isLoginChk(),
 	},
 	{
 		path: '/signUp',
 		name: 'signUp',
 		component: () => import('../views/sign/SignUp.vue'),
-		beforeEnter: isLoginChk(),
+		//beforeEnter: isLoginChk(),
 	},
 
 	// 에러페이지
