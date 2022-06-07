@@ -1,15 +1,9 @@
 <template>
-  <v-app>
-     user page
-  </v-app>
+	<v-app> user page </v-app>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

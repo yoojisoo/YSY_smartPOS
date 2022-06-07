@@ -6,18 +6,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Comment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -61,12 +62,14 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 	private String password;
 	@Column(name = "USER_NM", length = 255, nullable = false)
 	private String name;
-	@Column(name = "USER_ADDR" , length = 255)
-	private String addr;
+
 	
 
-	@Embedded
-	private Address address;
+	@OneToMany(mappedBy = "ysyUserMst" , fetch = FetchType.LAZY)
+	@JsonBackReference //순환참조 방지
+	private List<YsyUserAddress> addressList = new ArrayList<YsyUserAddress>();
+	
+	
 	@Column(name = "IS_EMAIL_AUTH" , length = 1)
 	private String isEmailAuth;
 
@@ -74,6 +77,7 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "GRP_ID", referencedColumnName = "GRP_ID"),
 			       @JoinColumn(name = "BIZ_CD", referencedColumnName = "BIZ_CD") })
+//	@JsonIgnore
 	private YsyGrpMst ysyGrpMst;
 	
 	//가입경로 : 홈페이지일 경우 빈값임. 현재는 kakao 만 구현됨
@@ -88,17 +92,5 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 			return new ArrayList<String>();
 	}
 
-	@Embeddable
-	public class Address {
-		@Column(name = "ADDR_ZIP_CODE")
-		private String addrZipCode;
-		@Column(name = "ADDR_CITY")
-		private String addrCity;
-		@Column(name = "ADDR_DETAIL")
-		private String addrDetail;
-		@Column(name = "ADDR_ETC")
-		private String addrEtc;
-		@Column(name = "USER_PHONE")
-		private String phone;
-	}
+	
 }
