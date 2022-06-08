@@ -216,7 +216,6 @@ export default {
 							access_token_exp: this.getUser.access_token_exp,
 							refresh_token: this.getUser.refresh_token,
 							refresh_token_exp: this.getUser.refresh_token_exp,
-							is_login: this.getUser.is_login,
 						};
 						this.$store.dispatch('setUserInfo', payload);
 						alert('프로필이 수정되었습니다.');
