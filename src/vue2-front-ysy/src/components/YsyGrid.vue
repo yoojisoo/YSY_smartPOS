@@ -15,7 +15,7 @@
 
     <v-data-table
                 :headers="gridInfo.headers"
-                :hide-default-header="true" 
+                :hide-default-header="false"
                 :items="gridInfo.dataList"
                 :page.sync="page"
                 :items-per-page="rowCnt"
@@ -25,9 +25,10 @@
                 :item-key="gridKey"
                 @page-count="pageCount = $event"
                 @click:row="rowClick"
+                @dblclick:row="rowDbClick"
                 :dense = "gridDense"
     >
-    <template v-slot:header="{ props }">
+    <!-- <template v-slot:header="{ props }">
         <thead class="v-data-table-header">
             <tr width="100%">
                 <th rowspan="2" class="text-center parent-header" style="border:1px solid rgb(0, 0, 0);width:50%">
@@ -46,7 +47,43 @@
                 </th>
            </tr>
       </thead>
-    </template>
+    </template> -->
+
+
+    <!-- <template v-if="gridInfo.multiHeader" #header="{ }">
+        <thead class="v-data-table-header">
+          <tr>
+            <th v-for="(h,i) in surgeryInformationHeaders" :key="i" class="text-center parent-header td-border-style" :rowspan="h.children?1:2" :colspan="h.children?h.children.length:1">
+              {{ h.text }}
+            </th>
+          </tr>
+          <tr>
+            <th v-for="(h1,i1) in getSubHeader(surgeryInformationHeaders)" :key="i1" class="text-center child-header td-border-style">
+              {{ h1.text }}
+            </th>
+          </tr>
+        </thead>
+      </template>
+      <template #item="props">
+        <tr>
+          <td v-for="(c,ci) in getRows(props.item)" :key="ci">
+            {{ c }}
+          </td>
+        </tr>
+      </template> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
         <template #item.regDt="{item}">
             <dateForm :dateVal="item.regDt" :gubun="gridInfo.dateGubun" />
         </template>
@@ -54,6 +91,11 @@
 
     </v-data-table>
     
+
+
+
+
+
         <template>
             <!-- 
                 *****설명
@@ -96,6 +138,9 @@ circle Square
                     this.gridInfo.rowClick(row , this.gridInfo.gridNm);
                 }
 		    },
+		    rowDbClick(item, row) {
+                console.log("rowDbClick index = "+ row.index);
+		    },
         },
         computed : {
             rowCnt(){
@@ -110,7 +155,9 @@ circle Square
             gridKey(){
                 let keys = "";
                 this.gridInfo.headers.forEach(x => {
-                    if(x.key != undefined) keys += x.value;
+                    if(x.key != undefined && x.key !== "") {
+                        keys = x.value;
+                    }
                 });
                 console.log("keys = " + keys);
                 return keys ;
@@ -124,44 +171,64 @@ circle Square
     }
 </script>
 <style>
-/* .v-data-table
-    td
-      padding: 12px 8px
-      font-size: $record-text-size
-      border-color: rgba(0,0,0,0.12)
-      border-style: solid
-      border-left-width: 0px
-      border-right-width: 1px
-      border-top-width: 0px
-      border-bottom-width: 1px
-    th
-      border-color: rgba(0,0,0,0.12)
-      border-style: solid
-      border-left-width: 0px
-      border-right-width: 1px
-      border-top-width: 0px
-      border-bottom-width: 1px
-  .v-data-table table
-    border: solid 1px #a1a1a1
-    border-radius: 5px
-  .v-data-table table thead tr th
-    font-weight: bold
-    font-size: $record-text-size
-    padding: 0px 8px
-
-  .v-data-table table tbody tr td .v-btn
-    margin-right: 0px !important
-
-  .v-data-table .v-data-table-header__sort-badge
-    font-size: 10px
-
-  .v-data-table.theme--dark
-    tr th
-      color: #fff !important
-
-  .theme--light
-    .v-data-table table thead tr th
-      color: black
-    .v-data-table table thead tr td
-      color: black */
+#medicalRecordHome .record-item-value {
+  font-size: 14px;
+  border-bottom: 1px solid #a1a1a1;
+}
+#medicalRecordHome .record-item-unit {
+  font-size: 14px;
+}
+#medicalRecordHome .record-item-value-border {
+  border: 1px solid #a1a1a1;
+  margin-right: 4px;
+}
+#medicalRecordHome .record-item-key {
+  font-weight: bold;
+  font-size: 14px;
+}
+#medicalRecordHome .record-content {
+  border: 1px solid #a1a1a1;
+}
+#medicalRecordHome .v-data-table td {
+  padding: 12px 8px;
+  font-size: 14px;
+  border-color: rgba(0, 0, 0, 0.12);
+  border-style: solid;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-top-width: 0px;
+  border-bottom-width: 1px;
+}
+#medicalRecordHome .v-data-table th {
+  border-color: rgba(0, 0, 0, 0.12);
+  border-style: solid;
+  border-left-width: 0px;
+  border-right-width: 1px;
+  border-top-width: 0px;
+  border-bottom-width: 1px;
+}
+#medicalRecordHome .v-data-table table {
+  border: solid 1px #a1a1a1;
+  border-radius: 5px;
+}
+#medicalRecordHome .v-data-table table thead tr th {
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0px 8px;
+}
+#medicalRecordHome .v-data-table table tbody tr td .v-btn {
+  margin-right: 0px !important;
+}
+#medicalRecordHome .v-data-table .v-data-table-header__sort-badge {
+  font-size: 10px;
+}
+#medicalRecordHome .v-data-table.theme--dark tr th {
+  color: #fff !important;
+}
+#medicalRecordHome .theme--light .v-data-table table thead tr th {
+  color: black;
+}
+#medicalRecordHome .theme--light .v-data-table table thead tr td {
+  color: black;
+}
 </style>

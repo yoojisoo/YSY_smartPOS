@@ -120,12 +120,12 @@ export default {
 				pageTotCnt: 7,
 				rowClick : (row,gridNm) => {this.rowClick(row,gridNm);},//로우 클릭 이벤트 콜백
 				dataList : [
-				            {"username":"d" , "userPhone":"444" , "regDt1":"44"},
+				            {"username":"d" , "phone":"444" , "regDt1":"44"},
 				           ],
-				headers  :[{ text: '아이디'     , value: 'username'   , width:"40%"},
-							 { text: '전화번호'   , width:"40%",
-							   divider: true,
-          					   children: [{ text: "phone" , value: 'userPhone'}, { text: "날짜" , value: 'regDt1'}]
+				headers  :[{ text: '아이디'     , value: 'username'   , width:"40%" , key:true},
+							 { text: '전화번호'  , value:"phone", width:"40%",
+							//    divider: true,
+          					//    children: [{ text: "phone" , value: 'userPhone'}, { text: "날짜" , value: 'regDt1'}]
 							 },
 							 
 							],
@@ -167,7 +167,7 @@ export default {
 			for (let index = 1; index < 100; index++) {
 				let json = {};
 				json.username = "aa"+index;
-				json.userPhone = "111";
+				json.phone = ""+index;
 				json.regDt1 = "222";
 				this.storeNoticeInfo.dataList.push(json);
 			
