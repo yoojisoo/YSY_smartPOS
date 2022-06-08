@@ -47,13 +47,13 @@ const routes = [
 		path: '/signIn',
 		name: 'signIn',
 		component: () => import('../views/sign/SignIn.vue'),
-		beforeEnter: isLoginChk(),
+		//beforeEnter: isLoginChk(),
 	},
 	{
 		path: '/signUp',
 		name: 'signUp',
 		component: () => import('../views/sign/SignUp.vue'),
-		beforeEnter: isLoginChk(),
+		//beforeEnter: isLoginChk(),
 	},
 
 	// 에러페이지
