@@ -13,7 +13,6 @@ const authStore = {
 			access_token_exp: '',
 			refresh_token: '',
 			refresh_token_exp: '',
-			is_login: false, // 로그인 현재상태
 		},
 		adminPage: {
 			chartDataSet: [],
@@ -51,6 +50,11 @@ const authStore = {
 		},
 		clearUserInfo: state => {
 			state.loginData.user_id = '';
+			state.loginData.user_name = '';
+			state.loginData.access_token = '';
+			state.loginData.access_token_exp = '';
+			state.loginData.refresh_token = '';
+			state.loginData.refresh_token_exp = '';
 		},
 		setSignUpKey: (state, key) => {
 			state.singUpKey.key = key;
