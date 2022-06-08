@@ -24,7 +24,6 @@ const authStore = {
 	},
 	getters: {
 		isLogin: state => {
-			console.log('getters -> isLogin');
 			return state.loginData.user_id == '' ? false : true;
 		},
 		getSignUpKey: state => {

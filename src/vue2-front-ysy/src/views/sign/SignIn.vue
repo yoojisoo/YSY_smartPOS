@@ -104,8 +104,6 @@ export default {
 	methods: {
 		async signIn() {
 			// const { signInInfo } = this;
-			console.log(this.signInInfo.username + ', ' + this.signInInfo.password);
-
 			await this.$axios.post('/login', this.signInInfo).then(res => {
 				console.log(res.headers.access_token);
 				console.log(res.headers.refresh_token);

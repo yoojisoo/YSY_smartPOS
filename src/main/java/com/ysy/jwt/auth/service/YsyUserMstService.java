@@ -13,6 +13,7 @@ import com.ysy.common.SysEnum;
 import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.JoinDto;
+import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
@@ -114,6 +115,31 @@ public class YsyUserMstService {
 			return "error : user register error!";
 		}
 		
+	}
+	
+	public String modUserInfo(ModUserDto modUserDto) {
+		try {
+			if(!util.isNullAndEmpty(modUserDto.getUsername())
+			&& !util.isNullAndEmpty(modUserDto.getName())
+			&& !util.isNullAndEmpty(modUserDto.getPassword())) {
+				YsyUserMst orgYsyUser = ysyUserRepository.findByUsername(modUserDto.getUsername());
+				YsyUserMst ysyUser = YsyUserMst.builder()
+						.username(modUserDto.getUsername())
+						.password(bCryptPasswordEncoder.encode(modUserDto.getPassword()))
+						.name(modUserDto.getName())
+						.ysyGrpMst(orgYsyUser.getYsyGrpMst())
+						.oAuthPath(orgYsyUser.getOAuthPath())
+						.build();
+				ysyUserRepository.save(ysyUser);
+				
+				return "ok";
+			} else {
+				return  "[YsyUserMstService/modUserInfo] ModUserDto 정보 error !!";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "[YsyUserMstService/modUserInfo] catch error !!";
+		}
 	}
 	
 	/** user 존재여부 확인 존재 : true */
