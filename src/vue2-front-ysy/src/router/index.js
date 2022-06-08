@@ -17,44 +17,14 @@ Vue.use(VueRouter);
 // const routes = vMenus.concat(v_pages);
 const routes = [
 	// 메인 메뉴들
-	{
-		path: '/',
-		name: 'home',
-		icon: 'mdi-home',
-		component: () => import('../views/contents/Home.vue'),
-	},
-	{
-		path: '/userInfo',
-		name: 'userInfo',
-		icon: 'mdi-account',
-		component: () => import('../views/contents/UserInfo.vue'),
-	},
-	{
-		path: '/userPage',
-		name: 'user',
-		icon: 'mdi-home',
-		component: () => import('../views/userLayout.vue'),
-	},
-	{
-		path: '/adminPage',
-		name: 'admin',
-		icon: 'mdi-home',
-		component: () => import('../views/adminLayout.vue'),
-	},
-
+	{ path: '/'          , name: 'home'    , icon: 'mdi-home'   , component: () => import('../views/contents/Home.vue'),},
+	{ path: '/userInfo'  , name: 'userInfo', icon: 'mdi-account', component: () => import('../views/contents/UserInfo.vue'),},
+	{ path: '/userPage'  , name: 'user'    , icon: 'mdi-home'   , component: () => import('../views/userLayout.vue'), },
+	{ path: '/adminPage' , name: 'admin'   , icon: 'mdi-home'   , component: () => import('../views/adminLayout.vue'), }, 
+   
 	// 회원가입 로그인 페이지
-	{
-		path: '/signIn',
-		name: 'signIn',
-		component: () => import('../views/sign/SignIn.vue'),
-		//beforeEnter: isLoginChk(),
-	},
-	{
-		path: '/signUp',
-		name: 'signUp',
-		component: () => import('../views/sign/SignUp.vue'),
-		//beforeEnter: isLoginChk(),
-	},
+	{ path: '/signIn', name: 'signIn', component: () => import('../views/sign/SignIn.vue'),  },//beforeEnter: isLoginChk(),
+	{ path: '/signUp', name: 'signUp', component: () => import('../views/sign/SignUp.vue'), },//beforeEnter: isLoginChk(),
 
 	// 에러페이지
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기

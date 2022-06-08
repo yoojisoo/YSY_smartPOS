@@ -10,7 +10,7 @@ export const eventBus = new Vue()
 Vue.prototype.$axios = axios
 // Vue.prototype.axios = axios
 // Vue.config.globalProperties.axios = axios;
-axios.defaults.baseURL = 'http://localhost:8000';
+// axios.defaults.baseURL = 'http://localhost:8000';
 
 Vue.config.productionTip = false
 

@@ -20,10 +20,11 @@
 export default {
 	components: {},
 	data: () => ({}),
-	mounted() {},
+	mounted() {console.log("app.vue mounted ");},
 	computed: {},
 	methods: {},
 	beforeCreate() {
+		console.log("app.vue beforeCreate ");
 		localStorage.clear();
 	},
 	created() {},
