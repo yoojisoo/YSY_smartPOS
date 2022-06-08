@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import dateForm from '@/components/DateForm.vue'
+    import dateForm from '@/components/gridModule/DateForm.vue'
     export default {
         props: ["headers", "userInfo"],
         components: {

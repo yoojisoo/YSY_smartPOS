@@ -10,7 +10,7 @@ const gridStore = {
  *  */
 
     state: {
-        userInfo: [],
+        userList: [],
         gridHeaders: [
             { text: '아이디'     , value: 'username'},
             { text: '전화번호'   , value: 'userPhone'},
@@ -18,40 +18,31 @@ const gridStore = {
         ],
     },
     getters: {
-        getUserData: state => {
-			return state.userInfo;
-		},
+        getUserList: state =>  state.userList ,
     },
     mutations: {
-        SET_USER(state, userInfo) {
-            console.log("mutations - SET_USER ~~~~~~~~~")
-            state.userInfo =  userInfo;
-            console.log(userInfo); 
-        },
-        // SET_HEADERS(state, headers) {
-        //      state.headers = headers;
-        // },
+        setUserList(state, userList) { state.userList =  userList; },
     },
     actions: {
-        async getUserData( {commit} ) {
-            console.log('getUserData start------------>');
-            // var url = 'http://localhost:8000/ysy/v1/auth/test/userList?id=s_plus7@naver.com';
-            var url = 'ysy/v1/auth/test/userList?id=s_plus7@naver.com';
-            await axios.get(url)
-							.then( res => {
-                                let list = res.data.map( x => {
-                                    x.regDt = new Date(x.regDt);
-                                    return x;
-                                });
-                                console.log("list ========================================");
-                                console.log(list);
-								commit("SET_USER", res.data);
-							})
-							.catch(function (error) {
-								console.log(error);
-							})
-            console.log("getUserData end~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        	},
+        async setUserList( {commit} ) {
+            let url = 'ysy/v1/auth/test/getUserList?id=s_plus7@naver.com';
+            let res = await axios.get(url);
+            if(res){
+                let list = res.data.map( x => {
+                    if(x.regDt != undefined && x.regDt !== "") x.regDt = new Date(x.regDt);
+                    if(x.modDt != undefined && x.modDt !== "") x.modDt = new Date(x.modDt);
+
+                    return x;
+                });
+                console.log("gridStore setUserList ========================================start");
+                console.log(list);
+                console.log("gridStore setUserList ========================================end");
+                commit("setUserList", res.data);
+            }
+            else{
+                console.log("gridStore setUserList error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            }
+        },
     },
   };
 

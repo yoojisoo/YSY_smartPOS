@@ -52,8 +52,8 @@ public class YsyUserMstController {
 	private YsyUserMstRepository ysyUserRepository;
 	
 	/** 2022 06 02 yjs  get data sample */
-	@GetMapping("/test/userList")
-	public List<YsyUserMst> getUserMst(@RequestParam String id){
+	@GetMapping("/test/getUserList")
+	public List<YsyUserMst> getUserList(@RequestParam String id){
 //		id = "mnew2m@gmail.com";
 		System.out.println("뿅");
 		

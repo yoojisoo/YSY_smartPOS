@@ -46,15 +46,15 @@
 									</v-col>
 								</v-row>
 								<v-row align="start" justify="center" no-gutters>
-									<v-col cols="12"
-										><ysyGrid :headers="gridHeaders" :userInfo="userData"
-									/></v-col>
-									<v-col cols="6"
-										><ysyGrid :headers="gridHeaders" :userInfo="userData"
-									/></v-col>
-									<v-col cols="6"
-										><ysyGrid :headers="gridHeaders" :userInfo="userData"
-									/></v-col>
+									<v-col cols="12">
+										<ysyGrid :gridInfo="sysNoticeInfo"/>
+									</v-col>
+									<v-col cols="6">
+										<ysyGrid :gridInfo="storeNoticeInfo"/>
+									</v-col>
+									<v-col cols="6">
+										<!-- <ysyGrid :gridInfo="gridInfo"/> -->
+									</v-col>
 								</v-row>
 							</v-col>
 						</v-row>
@@ -95,19 +95,46 @@ export default {
 			filterShow: false,
 			pageName: 'home',
 			pageNameKo: '메인페이지',
+			
+			sysNoticeInfo : {
+				dataList : [],
+				headers  :[{ text: '아이디'   , value: 'username' , width:"40%", key:true},
+						   { text: '이름' , value: 'name', width:"40%"},
+						   { text: '날짜'     , value: 'regDt'    , width:"20%"},
+							],
+				dateGubun : "/",
+				gridNm:"시스템 공지사항",
+				isCheckBox:true,
+				isSingleSelect : false,
+				gridDense: true,
+				
+				rowClick : (row,gridNm) => {this.rowClick(row ,gridNm);},//로우 클릭 이벤트 콜백
+				
+			},
+			storeNoticeInfo : {
+				dateGubun : "-",
+				gridNm : "가게 공지사항",
+				isCheckBox:true,
+				isSingleSelect : false,
+				rowCnt : 10,
+				pageTotCnt: 7,
+				rowClick : (row,gridNm) => {this.rowClick(row,gridNm);},//로우 클릭 이벤트 콜백
+				dataList : [
+				            {"username":"d" , "userPhone":"444" , "regDt1":"44"},
+				           ],
+				headers  :[{ text: '아이디'     , value: 'username'   , width:"40%"},
+							 { text: '전화번호'   , width:"40%",
+							   divider: true,
+          					   children: [{ text: "phone" , value: 'userPhone'}, { text: "날짜" , value: 'regDt1'}]
+							 },
+							 
+							],
+			},
 			config: {
 				headers: {
 					access_token: this.$store.state.authStore.loginData.userToken,
 				},
 			},
-			// gridHeaders: [
-			// 	{ text: '아이디'     , value: 'userId'},
-			// 	{ text: '비밀번호'   , value: 'userPw'},
-			// 	{ text: '전화번호'   , value: 'userPhone'},
-			// 	{ text: '그룹'       , value: 'userGroup'},
-			// 	{ text: '비즈코드'   , value: 'bizCode'},
-			// 	{ text: '날짜'       , value: 'dateVal'},
-			// ],
 		};
 	},
 	methods: {
@@ -129,9 +156,37 @@ export default {
 			else this.mainCols = 10;
 		},
 
-		getUserData() {
-			this.$store.dispatch('getUserData');
+		async setSystemNoticeList() {
+			await this.$store.dispatch('setUserList');
+			if (this.systemNoticeList){
+				this.sysNoticeInfo.dataList = this.systemNoticeList;
+			}
 		},
+		setStoreNoticeList() {
+			// await this.$store.dispatch('setUserList');
+			for (let index = 1; index < 100; index++) {
+				let json = {};
+				json.username = "aa"+index;
+				json.userPhone = "111";
+				json.regDt1 = "222";
+				this.storeNoticeInfo.dataList.push(json);
+			
+			}
+
+				// this.storeNoticeInfo.dataList = this.storeNoticeList;
+			
+		},
+
+		rowClick(row, gridNm){
+			
+			console.log("rowClick= " + gridNm);
+			console.log(row);
+			if(gridNm === "시스템 공지사항"){
+				// if(this.sysNoticeInfo.dataList.includes(row.item)){
+				// 	row.item.username = "aaa";
+				// }
+			}
+		}
 	},
 	computed: {
 		isLogin() {
@@ -140,17 +195,21 @@ export default {
 		userId() {
 			return this.$store.state.authStore.loginData.userId;
 		},
-
-		gridHeaders() {
-			console.log('computed - gridHeaders() -------->');
-			return this.$store.state.gridStore.gridHeaders;
+		systemNoticeList(){
+			return this.$store.state.gridStore.userList;
 		},
-		...mapGetters({
-			userData: 'getUserData',
-		}),
+		storeNoticeList(){
+			return this.storeNoticeInfo.dataList;
+		},
 	},
 	mounted() {
-		this.getUserData();
+		 this.setSystemNoticeList();
+		 this.setStoreNoticeList();
+
+		
 	},
+	created(){
+		 
+	}
 };
 </script>
