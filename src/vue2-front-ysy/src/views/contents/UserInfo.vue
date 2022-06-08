@@ -42,10 +42,16 @@
 											<h4 v-if="formDisabled">********</h4>
 											<v-text-field
 												v-else
-												type="password"
+												v-model="userInfoChange.password"
+												:append-icon="
+													passwordShow ? 'mdi-eye' : 'mdi-eye-off'
+												"
+												:type="passwordShow ? 'text' : 'password'"
+												@click:append="passwordShow = !passwordShow"
 												filled
-												hide-details
 												dense
+												required
+												:rules="rules.password"
 											></v-text-field>
 										</v-col>
 									</v-row>
@@ -57,10 +63,18 @@
 										</v-col>
 										<v-col cols="7" md="4" lg="4" xl="4" align-self="center">
 											<v-text-field
-												type="password"
+												v-model="confirmPassword"
+												:append-icon="
+													confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'
+												"
+												:type="confirmPasswordShow ? 'text' : 'password'"
+												@click:append="
+													confirmPasswordShow = !confirmPasswordShow
+												"
 												filled
-												hide-details
 												dense
+												required
+												:rules="rules.confirmPassword"
 											></v-text-field>
 										</v-col>
 									</v-row>
@@ -74,9 +88,11 @@
 											<h4 v-if="formDisabled">{{ getUser.user_name }}</h4>
 											<v-text-field
 												v-else
+												v-model="userInfoChange.name"
 												filled
-												hide-details
 												dense
+												required
+												:rules="rules.name"
 											></v-text-field>
 										</v-col>
 									</v-row>
@@ -101,6 +117,7 @@
 									dark
 									depressed
 									large
+									@click="userInfoSave"
 									>저장</v-btn
 								>
 								<v-btn
@@ -132,7 +149,7 @@
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/TheFooter.vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import pageHistory from '@/components/PageHistory.vue';
 
 export default {
@@ -148,10 +165,67 @@ export default {
 			pageNameKo: '내프로필',
 			formDisabled: true,
 			id: 'ggg',
+			userInfoChange: {
+				username: '',
+				name: '',
+				password: '',
+			},
+			confirmPassword: '',
+			passwordShow: false, // 비밀번호 text type
+			confirmPasswordShow: false, // 비밀번호 확인 text type
+			rules: {
+				name: [
+					// 사용자 이름 규칙 (필수값, 특수문자 체크)
+					v => !!v || '이름은 필수 입력사항입니다.',
+					v =>
+						!/[~!@#$%^&*()_+|<>?:{}]/.test(v) ||
+						'이름에는 특수문자를 사용할 수 없습니다.',
+				],
+				password: [
+					// 사용자 비밀번호 규칙 (필수값 체크)
+					v => !!v || '비밀번호는 필수 입력사항입니다.',
+				],
+				confirmPassword: [
+					// 비밀번호 확인 규칙 (필수값, 비밀번호와 일치 여부 체크)
+					v => !!v || '비밀번호는 필수 입력사항입니다.',
+					v => v === this.userInfoChange.password || '비밀번호가 일치하지 않습니다.',
+				],
+			},
 		};
 	},
 	computed: {
 		...mapGetters(['getUser']),
+	},
+	mounted() {
+		if (this.getUser) {
+			this.userInfoChange.username = this.getUser.user_id;
+		}
+	},
+	methods: {
+		userInfoSave() {
+			//const validate = this.$refs.form.validate();
+
+			if (this.userInfoChange.password === this.confirmPassword) {
+				//if (validate) {
+				this.$axios.post('/ysy/v1/auth/modUserInfo', this.userInfoChange).then(res => {
+					if (res.data) {
+						let payload = {
+							user_id: this.getUser.user_id,
+							user_name: this.userInfoChange.name,
+							access_token: this.getUser.access_token,
+							access_token_exp: this.getUser.access_token_exp,
+							refresh_token: this.getUser.refresh_token,
+							refresh_token_exp: this.getUser.refresh_token_exp,
+							is_login: this.getUser.is_login,
+						};
+						this.$store.dispatch('setUserInfo', payload);
+						alert('프로필이 수정되었습니다.');
+						this.formDisabled = true;
+					} else alert('프로필 수정 실패');
+				});
+				//} else alert('양식에 맞게 작성해주세요.');
+			} else alert('비밀번호가 일치하지 않습니다.');
+		},
 	},
 };
 </script>
