@@ -1,8 +1,8 @@
 <template>
 	<!-- flat : remove box-shadow -->
-	<div>
+	<div class="mb-3">
 		<!-- web 메뉴 start -->
-		<v-app-bar color="purple lighten-2" app flat dense>
+		<v-app-bar app flat color="white">
 			<v-container class="ma-0 pa-0" fluid>
 				<v-row justify="center" no-gutters>
 					<v-col cols="12" md="8" lg="8" xl="8">
@@ -31,7 +31,7 @@
 								<!-- 2022 06 02 smk : menu in tab이 안돼서 버튼으로 변경 -->
 								<v-menu offset-y v-for="(item, idx) in headerMenu" :key="idx" tile>
 									<template v-slot:activator="{ on }">
-										<v-btn v-on="on" plain dark>
+										<v-btn v-on="on" plain>
 											{{ item.name }}
 										</v-btn>
 									</template>

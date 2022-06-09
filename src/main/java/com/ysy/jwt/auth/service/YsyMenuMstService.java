@@ -25,21 +25,12 @@ public class YsyMenuMstService {
 	@Autowired
 	private YsyUtil util;
 	
-//	public List<Object[]> getMenuList() {
 	public List<MenuDto> getMenuList() {
-//	public MenuDto getMenuList() {
 	
 		Sort sort = util.getSort("pMenuId","menuSeq");
 		System.out.println("sorttttttttttttt");
 		
 		List<Object[]> resultList = ysyMenuMstRepository.getDefaultMenuList();
-//		private String menu_id;
-//		private String p_menu_id;
-//		private String menu_nm;
-//		private String menu_path;
-//		private String menu_full_path;
-//		private Integer menu_seq;
-//		private String is_admin;
 		
 		List<MenuDto> menuList = 
 				resultList
@@ -68,7 +59,6 @@ public class YsyMenuMstService {
 //		EntityToDto<MenuDto> dto = new EntityToDto<MenuDto>(new MenuDto() , resultList);
 		MenuDto m = new MenuDto();
 		m.setObj(resultList);
-//		return m;
 		return menuList;
 		
 	}
