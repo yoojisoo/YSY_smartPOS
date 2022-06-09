@@ -68,12 +68,55 @@
 												>
 											</v-col>
 										</v-row>
-										<v-row>
-											<a
-												href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
-											>
-												<v-img src="@/assets/img/png/kakao_btn.png"></v-img>
-											</a>
+										<v-row justify="center">
+											<v-col cols="4">
+												<v-btn
+													block
+													large
+													color="#ffe812"
+													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
+												>
+													<v-img
+														contain
+														max-height="40"
+														max-width="40"
+														src="@/assets/img/png/kakao_logo.png"
+													></v-img>
+													<h4 style="color: black">카카오 로그인</h4>
+												</v-btn>
+											</v-col>
+											<v-col cols="4">
+												<v-btn
+													block
+													large
+													color="#03c75a"
+													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
+												>
+													<v-img
+														contain
+														max-height="40"
+														max-width="40"
+														src="@/assets/img/png/naver_logo.png"
+													></v-img>
+													<h4 style="color: white">네이버 로그인</h4>
+												</v-btn>
+											</v-col>
+											<v-col cols="4">
+												<v-btn
+													block
+													large
+													color="white"
+													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
+												>
+													<v-img
+														contain
+														max-height="40"
+														max-width="40"
+														src="@/assets/img/png/google_logo.png"
+													></v-img>
+													<h4 style="color: black">구글 로그인</h4>
+												</v-btn>
+											</v-col>
 										</v-row>
 									</v-card-text>
 								</v-card>

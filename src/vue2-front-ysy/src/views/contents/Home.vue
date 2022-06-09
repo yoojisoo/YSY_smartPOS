@@ -8,10 +8,20 @@
 
 		<!-- Main Start -->
 		<v-main>
-			<v-container fluid pa-0 ma-0 style="background-color: lightgray">
-				<v-row justify="center" no-gutters>
-					<v-col cols="12" md="8" lg="8" xl="8" style="background-color: lightslategray">
+			<v-container fluid pa-0 ma-0 style="height: 100%">
+				<!-- style="background-color: white" -->
+				<v-row justify="center" no-gutters style="height: 100%">
+					<!-- 슬라이드 배너 가로 폭 : 전체 -->
+					<v-col cols="12">
+						<carousel />
+					</v-col>
+					<v-col cols="12" md="8" lg="8" xl="8">
+						<!-- style="background-color: #6667ab" -->
 						<v-row justify="center" no-gutters style="height: inherit">
+							<!-- 슬라이드 배너 가로 폭 : 맞춤 -->
+							<!--<v-col cols="12">
+								<carousel />
+							</v-col>-->
 							<v-col :cols="filterCols" class="hidden-xs-only">
 								<v-card
 									v-if="filterShow"
@@ -40,20 +50,20 @@
 										</v-btn>
 									</v-col>
 								</v-row>-->
-								<v-row justify="center" no-gutters>
+								<!--<v-row justify="center" no-gutters>
 									<v-col clos="12">
 										<pageHistory :pageNameKo="pageNameKo" />
 									</v-col>
-								</v-row>
+								</v-row>-->
 								<v-row align="start" justify="center" no-gutters>
 									<v-col cols="12">
-										<ysyGrid :gridInfo="sysNoticeInfo"/>
+										<ysyGrid :gridInfo="sysNoticeInfo" />
 									</v-col>
-									<v-col cols="6">
-										<ysyGrid :gridInfo="storeNoticeInfo"/>
+									<v-col cols="12" md="6" lg="6" xl="6">
+										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
-									<v-col cols="6">
-										<!-- <ysyGrid :gridInfo="gridInfo"/> -->
+									<v-col cols="12" md="6" lg="6" xl="6">
+										<ysyGrid :gridInfo="sysNoticeInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
@@ -79,6 +89,7 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
+import carousel from '@/components/Carousel.vue';
 import { mapGetters } from 'vuex';
  import noticeDialog from '@/components/gridModule/noticeDialog.vue'
 
@@ -89,6 +100,7 @@ export default {
 		mainFooter,
 		ysyGrid,
 		pageHistory,
+		carousel,
 		noticeDialog,
 	},
 	data() {
@@ -98,47 +110,51 @@ export default {
 			filterShow: false,
 			pageName: 'home',
 			pageNameKo: '메인페이지',
-			currentRow: {},
-			
-			
-			sysNoticeInfo : {
-				dataList : [],
-				headers  :[{ text: '아이디'   , value: 'username' , width:"40%", key:true},
-						   { text: '이름' , value: 'name', width:"40%"},
-						   { text: '날짜'     , value: 'regDt'    , width:"20%"},
-							],
-				dateGubun : "/",
-				gridNm:"시스템 공지사항",
-				isCheckBox:true,
-				isSingleSelect : false,
+			sysNoticeInfo: {
+				dataList: [],
+				headers: [
+					{ text: '아이디', value: 'username', width: '40%', key: true },
+					{ text: '이름', value: 'name', width: '40%' },
+					{ text: '날짜', value: 'regDt', width: '20%' },
+				],
+				dateGubun: '/',
+				gridNm: '시스템 공지사항',
+				path: '/systemNotice',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
 				gridDense: true,
-				
-				rowClick : (row, gridNm) => {this.rowClick(row ,gridNm);},//로우 클릭 이벤트 콜백
+				isDetail: false,
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
 				rowDbClick : (row, gridNm) =>  { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
-				
-
 			},
-			storeNoticeInfo : {
-				dateGubun : "-",
-				gridNm : "가게 공지사항",
-				isCheckBox:true,
-				isSingleSelect : false,
-				rowCnt : 10,
-				pageTotCnt: 7,
-
-				rowClick : (row,gridNm) => { this.rowClick(row,gridNm); },//로우 클릭 이벤트 콜백
+			storeNoticeInfo: {
+				dataList: [{ username: 'd', phone: '444', regDt1: '44' }],
+				headers: [
+					{ text: '아이디', value: 'username', width: '40%', key: true },
+					{
+						text: '전화번호',
+						value: 'phone',
+						width: '40%',
+						//    divider: true,
+						//    children: [{ text: "phone" , value: 'userPhone'}, { text: "날짜" , value: 'regDt1'}]
+					},
+				],
+				dateGubun: '-',
+				gridNm: '스토어 공지사항',
+				path: '/storeNotice',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
+				gridDense: true,
+				//pageTotCnt: 7,
+				isDetail: false,
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
 				rowDbClick : (row, gridNm) =>  { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
-
-				dataList : [
-				            {"username":"d" , "userPhone":"444" , "regDt1":"44"},
-				           ],
-				headers  :[{ text: '아이디'     , value: 'username'   , width:"40%"},
-							 { text: '전화번호'   , width:"40%",
-							   divider: true,
-          					   children: [{ text: "phone" , value: 'userPhone'}, { text: "날짜" , value: 'regDt1'}]
-							 },
-							 
-							],
 			},
 			config: {
 				headers: {
@@ -168,7 +184,7 @@ export default {
 
 		async setSystemNoticeList() {
 			await this.$store.dispatch('setUserList');
-			if (this.systemNoticeList){
+			if (this.systemNoticeList) {
 				this.sysNoticeInfo.dataList = this.systemNoticeList;
 			}
 		},
@@ -176,22 +192,19 @@ export default {
 			// await this.$store.dispatch('setUserList');
 			for (let index = 1; index < 100; index++) {
 				let json = {};
-				json.username = "aa"+index;
-				json.userPhone = "111";
-				json.regDt1 = "222";
+				json.username = 'aa' + index;
+				json.phone = '' + index;
+				json.regDt1 = '222';
 				this.storeNoticeInfo.dataList.push(json);
-			
 			}
 
-				// this.storeNoticeInfo.dataList = this.storeNoticeList;
-			
+			// this.storeNoticeInfo.dataList = this.storeNoticeList;
 		},
 
-		rowClick(row, gridNm){
-			
-			console.log("rowClick= " + gridNm);
+		rowClick(row, gridNm) {
+			console.log('rowClick= ' + gridNm);
 			console.log(row);
-			if(gridNm === "시스템 공지사항"){
+			if (gridNm === '시스템 공지사항') {
 				// if(this.sysNoticeInfo.dataList.includes(row.item)){
 				// 	row.item.username = "aaa";
 				// }
@@ -211,10 +224,10 @@ export default {
 		userId() {
 			return this.$store.state.authStore.loginData.userId;
 		},
-		systemNoticeList(){
+		systemNoticeList() {
 			return this.$store.state.gridStore.userList;
 		},
-		storeNoticeList(){
+		storeNoticeList() {
 			return this.storeNoticeInfo.dataList;
 		},
 		curRow() {
@@ -222,13 +235,9 @@ export default {
 		}
 	},
 	mounted() {
-		 this.setSystemNoticeList();
-		 this.setStoreNoticeList();
-
-		
+		this.setSystemNoticeList();
+		this.setStoreNoticeList();
 	},
-	created(){
-		 
-	}
+	created() {},
 };
 </script>
