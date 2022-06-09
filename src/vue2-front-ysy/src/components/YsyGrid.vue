@@ -131,6 +131,7 @@ export default {
 		},
 		rowDbClick(item, row) {
 			console.log('rowDbClick index = ' + row.index);
+			this.gridInfo.rowDbClick(row, this.gridInfo.gridNm);
 		},
 		goToTable(path) {
 			console.log(path);

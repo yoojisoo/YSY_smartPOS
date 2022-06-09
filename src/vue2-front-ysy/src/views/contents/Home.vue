@@ -91,7 +91,7 @@ import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
 import { mapGetters } from 'vuex';
- import noticeDialog from '@/components/gridModule/noticeDialog.vue'
+ import noticeDialog from '@/components/noticeDialog.vue'
 
 export default {
 	components: {
@@ -110,6 +110,7 @@ export default {
 			filterShow: false,
 			pageName: 'home',
 			pageNameKo: '메인페이지',
+			currentRow: {},
 			sysNoticeInfo: {
 				dataList: [],
 				headers: [
@@ -214,7 +215,6 @@ export default {
 			this.currentRow = row;
 			console.log(" 더블클릭 row ===> ");
 			console.log(row);
-			
 		}
 	},
 	computed: {
