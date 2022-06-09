@@ -28,6 +28,28 @@
                 @dblclick:row="rowDbClick"
                 :dense = "gridDense"
     >
+
+        <template v-if="isConvert" v-slot:header="{ props }">
+            <thead class="v-data-table-header">
+                <tr v-for="(header, idx) in gridInfo.headers.filter(x=>x.children != undefined)"
+                           :key="idx"
+                           width="100%">
+                    <th v-for="(tmpTh , thIdx) in gridInfo.headers"
+                                :key="thIdx"
+                                class="text-center parent-header"
+                                style="border:1px solid rgb(0, 0, 0);width:50%">
+                        변경된 아이디
+                    </th>
+                    <th :rowspan="headerLayer" class="text-center parent-header" style="border:1px solid rgb(0, 0, 0);width:50%">
+                        변경된 아이디
+                    </th>
+                    <th colspan="2"  class="text-center parent-header" style="border:1px solid rgb(0, 0, 0);width:50%">
+                    병합
+                    </th>
+                </tr>
+            </thead>
+        </template>
+
     <!-- <template v-slot:header="{ props }">
         <thead class="v-data-table-header">
             <tr width="100%">
@@ -84,7 +106,7 @@
 
 
 
-        <template #item.regDt="{item}">
+        <template #item.regDt="{item}"  >
             <dateForm :dateVal="item.regDt" :gubun="gridInfo.dateGubun" />
         </template>
         
@@ -112,10 +134,8 @@ circle Square
                         v-model="page"
                         :length="pageCount"
                         :total-visible="pageTotCnt"
-                         
             >
             </v-pagination>
-           
         </template>
   </v-container>
 </template>
@@ -130,6 +150,8 @@ circle Square
         data: () => ({
             page: 1,    // 최초 나타나는 페이지
             pageCount: 0, // 데이터 겟수에 따라 변경됨 ->  @page-count="pageCount = $event"
+            isConvert : false, // header converting 여부
+            headerLayer : 2,   // 
         }),
         methods: {
             /** grid click event */
@@ -143,6 +165,14 @@ circle Square
                     this.gridInfo.rowDbClick(row , this.gridInfo.gridNm);
                 }
 		    },
+            isHeaderConvert(){
+                if(this.gridInfo.headers.filter(x=>x.children != undefined).length){
+                    setHeaderConvert(this.gridInfo.headers);
+                }
+            },
+            setHeaderConvert(convertHeaders){
+                
+            }
         },
         computed : {
             rowCnt(){
