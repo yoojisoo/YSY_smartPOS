@@ -139,7 +139,9 @@ circle Square
                 }
 		    },
 		    rowDbClick(item, row) {
-                console.log("rowDbClick index = "+ row.index);
+                if(this.gridInfo.rowDbClick){
+                    this.gridInfo.rowDbClick(row , this.gridInfo.gridNm);
+                }
 		    },
         },
         computed : {
@@ -166,6 +168,10 @@ circle Square
         mounted (){
 
             console.log("mounted grid =========================================");
+            console.log(this.gridInfo);
+        },
+        created(){
+             console.log("created grid =========================================");
             console.log(this.gridInfo);
         }
     }

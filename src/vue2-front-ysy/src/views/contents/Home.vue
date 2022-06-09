@@ -180,11 +180,12 @@ export default {
 		rowClick(row, gridNm){
 			
 			console.log("rowClick= " + gridNm);
-			console.log(row);
+			console.log(row.item);
+			//팝업
 			if(gridNm === "시스템 공지사항"){
-				// if(this.sysNoticeInfo.dataList.includes(row.item)){
-				// 	row.item.username = "aaa";
-				// }
+				if(this.sysNoticeInfo.dataList.includes(row.item)){
+					row.item.username = "aaa";
+				}
 			}
 		}
 	},
