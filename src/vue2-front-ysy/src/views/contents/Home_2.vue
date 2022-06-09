@@ -60,7 +60,7 @@
 										<ysyGrid :gridInfo="sysNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="sysNoticeInfo" />
+										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
 										<ysyGrid :gridInfo="sysNoticeInfo" />
@@ -114,9 +114,9 @@ export default {
 			sysNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '제목', value: 'title', width: '40%', key: true },
-					{ text: '작성자', value: 'regId', width: '40%' },
-					// { text: '날짜', value: 'regDt', width: '20%' },
+					{ text: '아이디', value: 'username', width: '40%', key: true },
+					{ text: '이름', value: 'name', width: '40%' },
+					{ text: '날짜', value: 'regDt', width: '20%' },
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',
@@ -125,6 +125,32 @@ export default {
 				isSingleSelect: false,
 				rowCnt: 7,
 				gridDense: true,
+				isDetail: false,
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick : (row, gridNm) =>  { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+			},
+			storeNoticeInfo: {
+				dataList: [{ username: 'd', phone: '444', regDt1: '44' }],
+				headers: [
+					{ text: '아이디', value: 'username', width: '40%', key: true },
+					{
+						text: '전화번호',
+						value: 'phone',
+						width: '40%',
+						//    divider: true,
+						//    children: [{ text: "phone" , value: 'userPhone'}, { text: "날짜" , value: 'regDt1'}]
+					},
+				],
+				dateGubun: '-',
+				gridNm: '스토어 공지사항',
+				path: '/storeNotice',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
+				gridDense: true,
+				//pageTotCnt: 7,
 				isDetail: false,
 				rowClick: (row, gridNm) => {
 					this.rowClick(row, gridNm);
@@ -157,14 +183,10 @@ export default {
 			else this.mainCols = 10;
 		},
 
-		// data -> sysNoticeInfo -> dataList에 state 값을 세팅해줌
 		async setSystemNoticeList() {
-			// actions -> findNoticeInfo를 하면 state에 값이 저장되고
 			await this.$store.dispatch('findNoticeInfo');
-			if (this.getSystemNoticeList) {
-				/** state -> noticeList 값이 있으면
-				 * data -> sysNoticeInfo -> dataList에 값을 넣어줌 */
-				this.sysNoticeInfo.dataList = this.getSystemNoticeList;
+			if (this.systemNoticeList) {
+				this.sysNoticeInfo.dataList = this.systemNoticeList;
 			}
 		},
 		setStoreNoticeList() {
@@ -174,7 +196,7 @@ export default {
 				json.username = 'aa' + index;
 				json.phone = '' + index;
 				json.regDt1 = '222';
-				// this.storeNoticeInfo.dataList.push(json);
+				this.storeNoticeInfo.dataList.push(json);
 			}
 
 			// this.storeNoticeInfo.dataList = this.storeNoticeList;
@@ -183,6 +205,11 @@ export default {
 		rowClick(row, gridNm) {
 			console.log('rowClick= ' + gridNm);
 			console.log(row);
+			if (gridNm === '시스템 공지사항') {
+				// if(this.sysNoticeInfo.dataList.includes(row.item)){
+				// 	row.item.username = "aaa";
+				// }
+			}
 		},
 		rowDbClick( row, gridNm ) {
 			this.currentRow = row;
@@ -198,9 +225,8 @@ export default {
 		userId() {
 			return this.$store.state.authStore.loginData.userId;
 		},
-		// state -> noticeList 값을 가져옴
-		getSystemNoticeList() {
-			return this.$store.state.noticeStore.noticeList;
+		systemNoticeList() {
+			return this.$store.state.gridStore.userList;
 		},
 		storeNoticeList() {
 			return this.storeNoticeInfo.dataList;

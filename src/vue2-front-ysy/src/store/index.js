@@ -6,11 +6,13 @@ Vue.use(Vuex);
 
 import authStore from './modules/authStore.js';
 import gridStore from './modules/GridStore';
+import noticeStore from './modules/NoticeStore';
 
 const store = new Vuex.Store({
 	modules: {
 		authStore,
-		gridStore
+		gridStore,
+		noticeStore
 	},
 	plugins: [
 		createPersistedState({

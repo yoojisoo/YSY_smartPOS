@@ -20,7 +20,7 @@
 				:items-per-page="rowCnt"
 				:show-select="gridInfo.isCheckBox"
 				:single-select="gridInfo.isSingleSelect"
-				hide-default-header
+				:hide-default-header="false"
 				hide-default-footer
 				:item-key="gridKey"
 				@page-count="pageCount = $event"
