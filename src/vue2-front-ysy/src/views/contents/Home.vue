@@ -60,6 +60,7 @@
 						</v-row>
 					</v-col>
 				</v-row>
+				<noticeDialog :content="curRow"/>
 			</v-container>
 		</v-main>
 		<!-- Main End -->
@@ -79,6 +80,7 @@ import mainFooter from '@/components/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import { mapGetters } from 'vuex';
+ import noticeDialog from '@/components/gridModule/noticeDialog.vue'
 
 export default {
 	components: {
@@ -87,6 +89,7 @@ export default {
 		mainFooter,
 		ysyGrid,
 		pageHistory,
+		noticeDialog,
 	},
 	data() {
 		return {
@@ -95,6 +98,8 @@ export default {
 			filterShow: false,
 			pageName: 'home',
 			pageNameKo: '메인페이지',
+			currentRow: {},
+			
 			
 			sysNoticeInfo : {
 				dataList : [],
@@ -108,8 +113,10 @@ export default {
 				isSingleSelect : false,
 				gridDense: true,
 				
-				rowClick : (row,gridNm) => {this.rowClick(row ,gridNm);},//로우 클릭 이벤트 콜백
+				rowClick : (row, gridNm) => {this.rowClick(row ,gridNm);},//로우 클릭 이벤트 콜백
+				rowDbClick : (row, gridNm) =>  { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
 				
+
 			},
 			storeNoticeInfo : {
 				dateGubun : "-",
@@ -118,7 +125,10 @@ export default {
 				isSingleSelect : false,
 				rowCnt : 10,
 				pageTotCnt: 7,
-				rowClick : (row,gridNm) => {this.rowClick(row,gridNm);},//로우 클릭 이벤트 콜백
+
+				rowClick : (row,gridNm) => { this.rowClick(row,gridNm); },//로우 클릭 이벤트 콜백
+				rowDbClick : (row, gridNm) =>  { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+
 				dataList : [
 				            {"username":"d" , "userPhone":"444" , "regDt1":"44"},
 				           ],
@@ -186,6 +196,12 @@ export default {
 				// 	row.item.username = "aaa";
 				// }
 			}
+		},
+		rowDbClick( row, gridNm ) {
+			this.currentRow = row;
+			console.log(" 더블클릭 row ===> ");
+			console.log(row);
+			
 		}
 	},
 	computed: {
@@ -201,6 +217,9 @@ export default {
 		storeNoticeList(){
 			return this.storeNoticeInfo.dataList;
 		},
+		curRow() {
+			return this.currentRow;
+		}
 	},
 	mounted() {
 		 this.setSystemNoticeList();
