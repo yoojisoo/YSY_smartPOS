@@ -70,7 +70,12 @@
 						</v-row>
 					</v-col>
 				</v-row>
-				<noticeDialog :content="curRow"/>
+				<template v-if="isDetail">
+					<div>
+						<noticeDialog  :boardObj="curRow" :callback="dialogCallback"/>
+					</div>
+				</template>
+				
 			</v-container>
 		</v-main>
 		<!-- Main End -->
@@ -105,6 +110,7 @@ export default {
 	},
 	data() {
 		return {
+			ispopup : false,
 			filterCols: 0,
 			mainCols: 12,
 			filterShow: false,
@@ -183,12 +189,19 @@ export default {
 		rowClick(row, gridNm) {
 			console.log('rowClick= ' + gridNm);
 			console.log(row);
+			this.currentRow = row;
+			this.ispopup = true;
 		},
 		rowDbClick( row, gridNm ) {
-			this.currentRow = row;
+			
 			console.log(" 더블클릭 row ===> ");
 			console.log(row);
+			
 		},
+		dialogCallback(dialogObj){
+			console.log("dialogObj.msg = "+dialogObj.msg);
+			this.ispopup = false;
+		}
 	},
 	computed: {
 		// ...mapActions(['findNoticeInfo']),
@@ -207,7 +220,16 @@ export default {
 		},
 		curRow() {
 			return this.currentRow;
-		}
+		},
+		isDetail() {
+			return this.ispopup;
+		},
+		
+	},
+	watch:{
+		isDetail() {
+			
+		},
 	},
 	mounted() {
 		this.setSystemNoticeList();

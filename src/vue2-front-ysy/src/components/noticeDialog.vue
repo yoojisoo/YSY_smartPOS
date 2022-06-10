@@ -1,3 +1,4 @@
+<!-- v-model="isDialog" -->
 <template>
 	<v-row justify="center">
 		<!-- persistent : overlay를 클릭해도 닫히지 않도록 한다 -->
@@ -18,7 +19,7 @@
 					<div class="text-xs-center pb-1 pr-2">
     					<v-chip small outlined color="#6667AB">공지</v-chip>
   					</div>
-					<div class="text-h5">1.0.1 업데이트 안내</div>
+					<div class="text-h5">{{ boardObj.item.title }}</div>
 				</v-card-title>
 
 <!-- 	align-center, justify-space-around, wrap, row, spacer -->
@@ -58,9 +59,9 @@
 				<v-divider class="mx-6 py-2"/>
 
 				<v-card-text>
-					<div>업데이트1. 다크 테마 추가</div>
-					<div>업데이트2. 세션 오류 수정</div>
-					<div>업데이트3. 내 정보 바로가기 기능 추가</div>
+					<div>{{ boardObj.item.content }}</div>
+					<!-- <div>업데이트2. 세션 오류 수정</div>
+					<div>업데이트3. 내 정보 바로가기 기능 추가</div> -->
 				</v-card-text>
 
 				<v-card-actions>
@@ -68,7 +69,7 @@
 					<v-btn
 						color="#6667AB"
 						text
-						@click="isDialog = false">
+						@click="clickConfirm">
 							확인
 					</v-btn>
 				</v-card-actions>
@@ -80,15 +81,31 @@
 <script>
 
 	export default {
-		props: ["content"],
+		props: ["boardObj" , "callback"],
 		data: () => ({
-			isDialog:null
+			isDialog:true,
+			dialogMsg : {
+				isConfirm : null, // 확인버튼 클릭 여부 true면 확인 클릭
+				msg : "1234356677",
+			},
 		}),
-		watch: {
-			content() {
-				this.isDialog = !this.isDialog
+		// watch: {
+		// 	content() {
+		// 		this.isDialog = !this.isDialog
+		// 	}
+		// }
+		created (){
+			console.log("this.boardObj");
+			console.log(this.boardObj.item.content);
+		},
+		methods: {
+			//확인버튼 클릭시 콜백함수 줘야함.
+			clickConfirm(){
+				if(this.callback){
+					this.callback(this.dialogMsg);
+				}
 			}
-		}
+		},
 
 	}
 </script>
