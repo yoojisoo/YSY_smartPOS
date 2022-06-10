@@ -226,11 +226,7 @@ export default {
 		},
 		
 	},
-	watch:{
-		isDetail() {
-			
-		},
-	},
+	
 	mounted() {
 		this.setSystemNoticeList();
 		this.setStoreNoticeList();		
