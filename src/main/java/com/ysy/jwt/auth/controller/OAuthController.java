@@ -59,7 +59,7 @@ public class OAuthController {
 	@Autowired
 	private YsyUserMstService ysyUserMstService; 
 	
-	private static String KAKAO_PWD = "kakao_login_tmp_password";
+	private static String KAKAO_PWD = "kakao_login_tmp_password";//Kakao login시 default password 변경안되게 처리하자. 
 	
 	
 	private final String kakao_Content_type = "application/x-www-form-urlencoded;charset=utf-8";
