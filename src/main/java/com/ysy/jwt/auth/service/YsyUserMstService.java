@@ -55,14 +55,16 @@ public class YsyUserMstService {
 				if (isUser(joinDto.getUsername())) {
 					//이전에 카카오로 가입했고 카카오로 로그인 중인 유저 
 					YsyUserMst tmpUser = ysyUserRepository.findByUsername(joinDto.getUsername());
-					if(tmpUser.getOAuthPath().equals(joinDto.getOAuthPath())) 
+					String orgPath = joinDto.getOAuthPath()==null || joinDto.getOAuthPath().equals("")?"사이트":joinDto.getOAuthPath();
+					if(tmpUser.getOAuthPath().equals(orgPath)) 
 					{
 						return "ok";
 					}
+					
 					String errorMsg =  "error : \n"
-							         + "이전가입은 " + tmpUser.getOAuthPath() + "로 가입되었으며 , "
+							         + "이전가입은 " + orgPath + "로 가입되었으며 , "
 							         + "로그인은 " + joinDto.getOAuthPath() + " 진행중입니다.\n"
-					                 + tmpUser.getOAuthPath() +"로 로그인 해주세요!!";
+					                 + orgPath +"아이디 비번으로 로그인 해주세요!!";
 					return errorMsg ;
 				}
 				

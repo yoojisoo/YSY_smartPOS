@@ -30,6 +30,11 @@ export default {
 			}
 			await this.$axios.post('/ysy/v1/auth/kakao/setCode' , params)
 				.then(res=>{
+					if(res.data !== "ok"){
+						alert(res.data);
+						 this.$router.replace('/signIn');
+						return;
+					}
 					this.$axios.defaults.headers.common['access_token'] = res.headers.access_token;
 					authService.setLoginData(res.headers);
 					console.log(res.data);

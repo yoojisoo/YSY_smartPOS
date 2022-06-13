@@ -89,10 +89,10 @@ public class OAuthController {
 		
 		KakaoProfile profile = getKakaoProfile(access_token);
 		
-		boolean isSave = kakaoUserSave(profile);
+		String msg = kakaoUserSave(profile);
 		
 		/** kakao login시 강제로 토큰 생성해서 클라이언트에 전송함. */
-		if(isSave) {
+		if(msg.equals("ok")) {
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(
 							profile.getKakao_account().getEmail(),
@@ -126,7 +126,7 @@ public class OAuthController {
 			return "ok";
 		}
 		
-		return "fail";
+		return msg;
 	}
 	
 	
@@ -230,7 +230,7 @@ public class OAuthController {
 	
 	/** 카카오 정보 가져와서 db에 저장 후 token 생성하여 클라이언트로 보내줌.
 	 * */
-	public boolean kakaoUserSave(KakaoProfile profile) {
+	public String kakaoUserSave(KakaoProfile profile) {
 		
 		
 		JoinDto joinDto = JoinDto.builder()
@@ -242,7 +242,7 @@ public class OAuthController {
 				.build();
 		String msg = ysyUserMstService.signUp(joinDto);
 		
-		return msg.equals("ok")?true: false;
+		return msg;
 	}
 	
 	@GetMapping("logout")
