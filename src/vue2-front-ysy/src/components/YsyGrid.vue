@@ -32,7 +32,7 @@
 						<v-toolbar-title>{{ gridInfo.gridNm }}</v-toolbar-title>
 						<v-divider class="mx-4" inset vertical />
 						<v-spacer />
-						<v-btn v-if="!gridInfo.isDetail" plain :to="gridInfo.path">전체보기</v-btn>
+						<v-btn v-if='!gridInfo.isDetail' plain :to='gridInfo.path'>전체보기</v-btn>
 						<v-btn-toggle v-else group>
 							<v-btn plain>
 								<h3 style="color: black">추가</h3>

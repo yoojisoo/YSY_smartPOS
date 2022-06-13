@@ -19,7 +19,7 @@
 					<div class="text-xs-center pb-1 pr-2">
     					<v-chip small outlined color="#6667AB">공지</v-chip>
   					</div>
-					<div class="text-h5">{{ boardObj.item.title }}</div>
+					<div class="text-h5">{{ boardObj.title }}</div>
 				</v-card-title>
 
 <!-- 	align-center, justify-space-around, wrap, row, spacer -->
@@ -32,36 +32,21 @@
 						</v-col>
 						<v-col cols="3">
 							<v-row class="mt-1 mb-n2 pa-0" no-gutters>
-								<span style="font-size: 13px;">admin</span>
+								<span style="font-size: 13px;"> {{ boardObj.regId }} </span>
 							</v-row>
-							<v-row class="ma-0 pa-0" no-gutters>
-								<span style="font-size: 10px;">22-06-09</span>
+							<v-row class="ma-0 pa-0" no-gutters style="font-size: 10px;">
+								<span>{{dateVal}}</span>
+								<!-- <dateForm :dateVal="dateVal" :gubun="gubun"/> -->
+								<!-- <span style="font-size: 10px;">22-06-09</span> -->
 							</v-row>
 						</v-col>
 					</v-row>
 				</v-card-subtitle>
 
-				<!-- <v-card-subtitle class="pt-2 pb-0">
-								<v-chip
-										class="ma-2"
-										color="#6667AB"
-										outlined
-										pill
-										small
-								>
-										Admin
-										<v-icon right>
-											mdi-account-outline
-										</v-icon>
-								</v-chip>
-				</v-card-subtitle> -->
-
 				<v-divider class="mx-6 py-2"/>
 
 				<v-card-text>
-					<div>{{ boardObj.item.content }}</div>
-					<!-- <div>업데이트2. 세션 오류 수정</div>
-					<div>업데이트3. 내 정보 바로가기 기능 추가</div> -->
+					{{ boardObj.content }}
 				</v-card-text>
 
 				<v-card-actions>
@@ -79,6 +64,7 @@
 </template>
 
 <script>
+	import dateForm from '@/components/gridModule/DateForm.vue';
 
 	export default {
 		props: ["boardObj" , "callback"],
@@ -88,15 +74,17 @@
 				isConfirm : null, // 확인버튼 클릭 여부 true면 확인 클릭
 				msg : "1234356677",
 			},
+			// dateVal: (boardObj.regDt != null || boardObj.regDt != "") ? boardObj.regDt : '220613',
+			dateVal: '220613',
+			// gubun: '-'
+
 		}),
-		// watch: {
-		// 	content() {
-		// 		this.isDialog = !this.isDialog
-		// 	}
-		// }
+		components: {
+			dateForm
+		},
 		created (){
-			console.log("this.boardObj");
-			console.log(this.boardObj.item.content);
+			console.log("this.boardObj ***************");
+			console.log(this.boardObj);
 		},
 		methods: {
 			//확인버튼 클릭시 콜백함수 줘야함.

@@ -72,7 +72,7 @@ public class OAuthController {
 	 * POST /oauth/token HTTP/1.1
 		Host: kauth.kakao.com
 		Content-type: application/x-www-form-urlencoded;charset=utf-8
-		<<params>>
+		<<params>>kdska
 		1.grant_type	String	authorization_code로 고정
 		2.client_id	String	앱 REST API 키 [내 애플리케이션] > [앱 키]에서 확인 가능
 		3.redirect_uri	String	인가 코드가 리다이렉트된 URI

@@ -60,19 +60,19 @@
 										<ysyGrid :gridInfo="sysNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="sysNoticeInfo" />
+										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="sysNoticeInfo" />
+										<ysyGrid :gridInfo="userMngInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
 						</v-row>
 					</v-col>
 				</v-row>
-				<template v-if="isDetail">
+				<template v-if="ispopup">
 					<div>
-						<noticeDialog  :boardObj="curRow" :callback="dialogCallback"/>
+						<noticeDialog :boardObj="currentRow" :callback="dialogCallback"/>
 					</div>
 				</template>
 				
@@ -117,12 +117,17 @@ export default {
 			pageName: 'home',
 			pageNameKo: '메인페이지',
 			currentRow: {},
+			config: {
+				headers: {
+					access_token: this.$store.state.authStore.loginData.userToken,
+				},
+			},
 			sysNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '제목', value: 'title', width: '40%', key: true },
-					{ text: '작성자', value: 'regId', width: '40%' },
-					// { text: '날짜', value: 'regDt', width: '20%' },
+					{ text: '번호',   value: 'boardId',  width: '20%', key: true },
+					{ text: '제목',   value: 'title',    width: '40%' },
+					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',
@@ -132,16 +137,52 @@ export default {
 				rowCnt: 7,
 				gridDense: true,
 				isDetail: false,
-				rowClick: (row, gridNm) => {
-					this.rowClick(row, gridNm);
-				}, //로우 클릭 이벤트 콜백
-				rowDbClick : (row, gridNm) =>  { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
 			},
-			config: {
-				headers: {
-					access_token: this.$store.state.authStore.loginData.userToken,
-				},
+			storeNoticeInfo: {
+				dataList: [],
+				headers: [
+					{ text: '번호',   value: 'boardId',  width: '20%', key: true },
+					{ text: '제목',   value: 'title',    width: '40%' },
+					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
+				],
+				dateGubun: '-',
+				gridNm: '스토어 공지사항',
+				path: '/storeNotice',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
+				gridDense: true,
+				//pageTotCnt: 7,
+				isDetail: false,
+				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
 			},
+			userMngInfo: {
+				dataList: [],
+				headers: [
+					{ text: '아이디',	value: 'username', key: true },
+					{ text: '전화번호',	value: 'addressList.phone1',
+						//    divider: true,
+						//    children: [{ text: 'phone' , value: 'phone1', width: '35%'}]
+					},
+					{ text: '이름',	value: 'name'},
+					{ text: '날짜',	value: 'regDt'},
+					{ text: '권한',	value: 'roleList'},
+				],
+				dateGubun: '/',
+				gridNm: '사용자 관리',
+				path: '/userMng',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
+				gridDense: true,
+				isDetail: false,
+				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+			},
+			
 		};
 	},
 	methods: {
@@ -162,7 +203,7 @@ export default {
 			if (this.mainCols < 12) this.mainCols = 12;
 			else this.mainCols = 10;
 		},
-
+		// notice data vuex의 action에서 가져오기 - mounted에서 호출
 		// data -> sysNoticeInfo -> dataList에 state 값을 세팅해줌
 		async setSystemNoticeList() {
 			// actions -> findNoticeInfo를 하면 state에 값이 저장되고
@@ -171,32 +212,33 @@ export default {
 				/** state -> noticeList 값이 있으면
 				 * data -> sysNoticeInfo -> dataList에 값을 넣어줌 */
 				this.sysNoticeInfo.dataList = this.getSystemNoticeList;
+				this.storeNoticeInfo.dataList = this.getSystemNoticeList;
+				console.log("this.sysNoticeInfo.dataList ---------------->")
+				console.log(this.sysNoticeInfo.dataList)
 			}
 		},
-		setStoreNoticeList() {
-			// await this.$store.dispatch('setUserList');
-			for (let index = 1; index < 100; index++) {
-				let json = {};
-				json.username = 'aa' + index;
-				json.phone = '' + index;
-				json.regDt1 = '222';
-				// this.storeNoticeInfo.dataList.push(json);
+		async setUserMngList() {
+			await this.$store.dispatch('findUserList');
+			if (this.getUserList) {
+				this.userMngInfo.dataList = this.getUserList;
+				console.log("this.userMngInfo.dataList ---------------->")
+				console.log(this.userMngInfo.dataList)
 			}
-
-			// this.storeNoticeInfo.dataList = this.storeNoticeList;
 		},
-
 		rowClick(row, gridNm) {
 			console.log('rowClick= ' + gridNm);
 			console.log(row);
-			this.currentRow = row;
-			this.ispopup = true;
+			this.currentRow = row.item;
+			console.log('this.currentRow 확인중 ~~~')
+			console.log(this.currentRow)
+
+			if(gridNm !== '사용자 관리') {
+				this.ispopup = true;
+			}
 		},
 		rowDbClick( row, gridNm ) {
-			
 			console.log(" 더블클릭 row ===> ");
 			console.log(row);
-			
 		},
 		dialogCallback(dialogObj){
 			console.log("dialogObj.msg = "+dialogObj.msg);
@@ -204,7 +246,6 @@ export default {
 		}
 	},
 	computed: {
-		// ...mapActions(['findNoticeInfo']),
 		isLogin() {
 			return this.$store.getters.isLogin;
 		},
@@ -215,22 +256,16 @@ export default {
 		getSystemNoticeList() {
 			return this.$store.state.noticeStore.noticeList;
 		},
-		storeNoticeList() {
-			return this.storeNoticeInfo.dataList;
+		getUserList() {
+			return this.$store.state.userStore.userList;
 		},
-		curRow() {
-			return this.currentRow;
-		},
-		isDetail() {
-			return this.ispopup;
-		},
-		
+		// curRow() {
+		// 	return this.currentRow;
+		// },
 	},
-	
 	mounted() {
 		this.setSystemNoticeList();
-		this.setStoreNoticeList();		
+		this.setUserMngList();
 	},
-	created() {},
 };
 </script>

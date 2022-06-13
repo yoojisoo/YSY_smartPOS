@@ -1,7 +1,7 @@
 <!--  날짜 포맷 변환 -->
 <template>
   <span v-if="dateVal">
-    {{ chgDate }}
+      {{ chgDate }}
   </span>
 </template>
 

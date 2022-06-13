@@ -64,6 +64,23 @@ const routes = [
 		name: 'systemNotice',
 		component: () => import('../views/contents/SystemNotice.vue'),
 	},
+	{
+		path: '/storeNotice',
+		name: 'storeNotice',
+		component: () => import('../views/contents/storeNotice.vue'),
+	},
+	{
+		path: '/qnaNotice',
+		name: 'qnaNotice',
+		component: () => import('../views/contents/qnaNotice.vue'),
+	},
+
+	// 사용자관리 관련
+	{
+		path: '/userMng',
+		name: 'userMng',
+		component: () => import('../views/contents/userMng.vue'),
+	},
 
 	// 에러페이지
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기

@@ -82,7 +82,7 @@ export default {
 	},
 	computed: {
 		systemNoticeList() {
-			return this.$store.state.gridStore.userList;
+			return this.$store.state.userStore.userList;
 		},
 	},
 	mounted() {

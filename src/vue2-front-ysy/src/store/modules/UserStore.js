@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const gridStore = {
+const userStore = {
     
 /** 
  * vuex에 정의된 상태를 가져올 때는 computed에서 return 받는다.
@@ -11,11 +11,6 @@ const gridStore = {
 
     state: {
         userList: [],
-        gridHeaders: [
-            { text: '아이디'     , value: 'username'},
-            { text: '전화번호'   , value: 'userPhone'},
-            { text: '날짜'       , value: 'regDt'},
-        ],
     },
     getters: {
         getUserList: state =>  state.userList ,
@@ -24,8 +19,8 @@ const gridStore = {
         setUserList(state, userList) { state.userList =  userList; },
     },
     actions: {
-        async setUserList( {commit} ) {
-            let url = 'ysy/v1/auth/test/getUserList?id=s_plus7@naver.com';
+        async findUserList( {commit} ) {
+            let url = 'ysy/v1/auth/test/getUserList';
             let res = await axios.get(url);
             if(res){
                 let list = res.data.map( x => {
@@ -34,16 +29,16 @@ const gridStore = {
 
                     return x;
                 });
-                console.log("gridStore setUserList ========================================start");
+                console.log("userStore setUserList ========================================start");
                 console.log(list);
-                console.log("gridStore setUserList ========================================end");
+                console.log("userStore setUserList ========================================end");
                 commit("setUserList", res.data);
             }
             else{
-                console.log("gridStore setUserList error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                console.log("userStore setUserList error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             }
         },
     },
   };
 
-  export default gridStore;
+  export default userStore;
