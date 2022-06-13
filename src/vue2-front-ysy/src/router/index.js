@@ -74,12 +74,7 @@ const routes = [
 	},
 
 
-	{
-		path: '/systemNoticeMod',
-		name: 'systemNoticeMod',
-		icon: 'mdi-home',
-		component: () => import('../views/contents/notice/SystemNoticeMod.vue'),
-	},
+	
 
 
 
