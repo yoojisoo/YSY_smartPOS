@@ -60,12 +60,12 @@ public class YsyUserMstController {
 	
 	/** 2022 06 02 yjs  get data sample */
 	@GetMapping("/test/getUserList")
-	public List<YsyUserMst> getUserList(@RequestParam String id){
+	public List<YsyUserMst> getUserList(){
 //		id = "mnew2m@gmail.com";
 		System.out.println("뿅");
 		
 		List<YsyUserMst> list = ysyUserRepository.findAll();
-		list.get(0).getAddressList();
+//		list.get(0).getAddressList();
 		return list;
 	}
 	

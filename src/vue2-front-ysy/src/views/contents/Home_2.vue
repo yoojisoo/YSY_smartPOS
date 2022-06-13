@@ -114,7 +114,7 @@ export default {
 			sysNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디', value: 'username', width: '40%', key: true },
+					{ text: '아이디', value: 'boardId', width: '40%', key: true },
 					{ text: '이름', value: 'name', width: '40%' },
 					{ text: '날짜', value: 'regDt', width: '20%' },
 				],
@@ -182,7 +182,7 @@ export default {
 			if (this.mainCols < 12) this.mainCols = 12;
 			else this.mainCols = 10;
 		},
-
+		
 		async setSystemNoticeList() {
 			await this.$store.dispatch('findNoticeInfo');
 			if (this.systemNoticeList) {
@@ -226,7 +226,7 @@ export default {
 			return this.$store.state.authStore.loginData.userId;
 		},
 		systemNoticeList() {
-			return this.$store.state.gridStore.userList;
+			return this.$store.state.userStore.userList;
 		},
 		storeNoticeList() {
 			return this.storeNoticeInfo.dataList;

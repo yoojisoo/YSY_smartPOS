@@ -64,6 +64,23 @@ const routes = [
 		name: 'systemNotice',
 		component: () => import('../views/contents/SystemNotice.vue'),
 	},
+	{
+		path: '/storeNotice',
+		name: 'storeNotice',
+		component: () => import('../views/contents/storeNotice.vue'),
+	},
+	{
+		path: '/qnaNotice',
+		name: 'qnaNotice',
+		component: () => import('../views/contents/qnaNotice.vue'),
+	},
+
+	// 사용자관리 관련
+	{
+		path: '/userMng',
+		name: 'userMng',
+		component: () => import('../views/contents/userMng.vue'),
+	},
 
 	
 	{
