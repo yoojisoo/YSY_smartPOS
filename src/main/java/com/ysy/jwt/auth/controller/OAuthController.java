@@ -1,26 +1,41 @@
 package com.ysy.jwt.auth.controller;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ysy.jwt.auth.config.SystemConfig;
 import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.model.KakaoProfile;
+import com.ysy.jwt.auth.filter.JwtProperties;
 import com.ysy.jwt.auth.model.KakaoOAuthToken;
+import com.ysy.jwt.auth.model.KakaoProfile;
+import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.service.YsyUserMstService;
+
+import lombok.Data;
 /**
  * @author clubbboy@naver.com
  *  2022. 5. 28.
@@ -32,39 +47,86 @@ import com.ysy.jwt.auth.service.YsyUserMstService;
 		Redirect URI 로그인 요청 콜백 : http://localhost:8000/ysy/v1/auth/kakao/redirect
 		Logout Redirect URI : http://localhost:8000/ysy/v1/auth/kakao/logout
  */
-@Controller
-//@RestController
+//@Controller
+@RestController
 @RequestMapping("/ysy/v1/auth/kakao")
+//@RequiredArgsConstructor
 public class OAuthController {
 
 	@Autowired
+	private  AuthenticationManager authenticationManager;
+	
+	@Autowired
 	private YsyUserMstService ysyUserMstService; 
+	
+	private static String KAKAO_PWD = "kakao_login_tmp_password";
 	
 	
 	private final String kakao_Content_type = "application/x-www-form-urlencoded;charset=utf-8";
 	private final String kakao_client_id    = "4c9e081b17404f289741f6792bd4c6e7";
 	private final String kakao_grant_type   = "authorization_code";
-	private final String kakao_redirect_uri = SystemConfig.SEVER_URL + "/ysy/v1/auth/kakao/redirect";
+//	private final String kakao_redirect_uri = SystemConfig.SEVER_URL + "/ysy/v1/auth/kakao/redirect";
+	private final String kakao_redirect_uri = "http://localhost:8080/kakaoLogin";
 	private final String kakao_auth_addr    = "https://kauth.kakao.com/oauth/token";
 	
 	
 	private final String kakao_auth_before  = "Bearer ";
 	private final String kakao_profile_url  = "https://kapi.kakao.com/v2/user/me";
-	private final String kakao_default_pwd  = "0000";//가입 후 변경요망.
 	
 	
+	
+	@Data
+	public static class KakaoCode{
+		String code;
+		String path ;
+	}
 	
 	//kakao 인증 콜백
-	@GetMapping("/redirect")
-	public String kakaoCallback(@RequestParam String code) {
+	@PostMapping("/setCode")
+	public String setCode(@RequestBody KakaoCode kCode , HttpServletResponse response) {
 		
-		String access_token = getKakaoAuth(code);
+		String access_token = getKakaoAuth(kCode.getCode());
 		
 		KakaoProfile profile = getKakaoProfile(access_token);
 		
 		boolean isSave = kakaoUserSave(profile);
 		
-		return "redirect:/error.html";
+		/** kakao login시 강제로 토큰 생성해서 클라이언트에 전송함. */
+		if(isSave) {
+			UsernamePasswordAuthenticationToken authenticationToken = 
+					new UsernamePasswordAuthenticationToken(
+							profile.getKakao_account().getEmail(),
+							KAKAO_PWD); 
+			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+			
+			PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
+			System.out.println("principalDetails.getUser().getUsername() = > "+principalDetails.getUser().getUsername());
+//			SecurityContext context = SecurityContextHolder.createEmptyContext(); 
+//			context.setAuthentication(authentication);
+			
+			String jwtToken = JWT.create()
+					.withSubject("jwtToken")
+					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
+					.withClaim("name"    , profile.getKakao_account().getProfile().getNickname())
+					.withClaim("username", profile.getKakao_account().getEmail())
+					.sign(Algorithm.HMAC512(JwtProperties.SECRET));
+			
+			String jwtTokenRe = JWT.create()
+					.withSubject("jwtToken")
+					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
+					.withClaim("name"    , profile.getKakao_account().getProfile().getNickname())
+					.withClaim("username", profile.getKakao_account().getEmail())
+					.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
+			
+			
+			response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
+			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
+			response.addHeader("state","200");
+			
+			return "ok";
+		}
+		
+		return "fail";
 	}
 	
 	
@@ -174,13 +236,13 @@ public class OAuthController {
 		JoinDto joinDto = JoinDto.builder()
 				.bizCd("0001")//카카오 로그인 전 비즈코드 받는 부분 필수.
 				.username(profile.getKakao_account().getEmail())
-				.password("0000")//default password -> 가입 후 변경 요망.
+				.password(KAKAO_PWD)//default password -> 가입 후 변경 요망.
 				.name(profile.getKakao_account().getProfile().getNickname())
 				.oAuthPath("kakao")
 				.build();
-		ysyUserMstService.signUp(joinDto);
+		String msg = ysyUserMstService.signUp(joinDto);
 		
-		return true;
+		return msg.equals("ok")?true: false;
 	}
 	
 	@GetMapping("logout")

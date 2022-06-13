@@ -48,10 +48,23 @@ public class YsyUserMstService {
 			if (!util.isNullAndEmpty(joinDto.getBizCd())
 			 && !util.isNullAndEmpty(joinDto.getUsername())
 			 && !util.isNullAndEmpty(joinDto.getPassword())
-			 && !util.isNullAndEmpty(joinDto.getName())) {
+			 && !util.isNullAndEmpty(joinDto.getName())) 
+			{
 
 				/** 0. 유저 존재 확인 (존재하면 메세지 return / 존재하지 않으면 다음 단계) */
-				if (isUser(joinDto.getUsername())) return "error : user 존재";
+				if (isUser(joinDto.getUsername())) {
+					//이전에 카카오로 가입했고 카카오로 로그인 중인 유저 
+					YsyUserMst tmpUser = ysyUserRepository.findByUsername(joinDto.getUsername());
+					if(tmpUser.getOAuthPath().equals(joinDto.getOAuthPath())) 
+					{
+						return "ok";
+					}
+					String errorMsg =  "error : \n"
+							         + "이전가입은 " + tmpUser.getOAuthPath() + "로 가입되었으며 , "
+							         + "로그인은 " + joinDto.getOAuthPath() + " 진행중입니다.\n"
+					                 + tmpUser.getOAuthPath() +"로 로그인 해주세요!!";
+					return errorMsg ;
+				}
 				
 				// bizCd와 Default Group ID 셋팅
 				String bizCd = joinDto.getBizCd();

@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -99,8 +100,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	}
 
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response
+			, FilterChain chain
+			, Authentication authResult) throws IOException, ServletException {
 		
 		System.out.println("JwtAuthenticationFilter class --->  successfulAuthentication 진입 ");
 		
@@ -116,8 +118,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String jwtTokenRe = JWT.create()
 				.withSubject("jwtToken")
 				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
-				.withClaim("name"    , principalDetails.getUser().getName())
-				.withClaim("username", principalDetails.getUser().getUsername())
+				.withClaim("name"    , principalDetails.getUser().getName())// 이름
+				.withClaim("username", principalDetails.getUser().getUsername())//id
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
 		
 		

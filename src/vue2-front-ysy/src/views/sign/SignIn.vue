@@ -70,12 +70,26 @@
 										</v-row>
 										<v-row justify="center">
 											<v-col cols="4">
-												<v-btn
+												<!-- <v-btn
 													block
 													large
 													color="#ffe812"
 													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
+												> -->
+												<!-- javascript 방식 -->
+												<v-btn
+													block
+													large
+													color="#ffe812"
+													                                                        
+													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://localhost:8080/kakaoLogin&response_type=code"
 												>
+												<!-- <v-btn
+													block
+													large
+													color="#ffe812"
+													@click="kakaoLogin"
+												> -->
 													<v-img
 														contain
 														max-height="40"
@@ -199,8 +213,18 @@ export default {
 		signUp() {
 			this.$router.replace({ name: 'signUp' });
 		},
-		kakaoLogin() {
+		async kakaoLogin() {
 			console.log('kakao login click');
+			///                      ysy/v1/auth/kakao/login
+			await this.$axios.get('/ysy/v1/auth/kakao/login')
+				.then(res => {
+					console.log("kakao login = > " + res.data);
+
+				
+				})
+				.catch(error=>{
+					console.log("error => "+error);
+				});
 		},
 	},
 };

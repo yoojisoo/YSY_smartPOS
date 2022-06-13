@@ -65,7 +65,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				             .asString();
 		
 		if(username != null) {	
-			System.out.println("123456==========>" + username);
+			System.out.println("doFilterInternal username==========>" + username);
 			YsyUserMst user = ysyUserRepository.findByUsername(username);
 			
 			// 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해 
