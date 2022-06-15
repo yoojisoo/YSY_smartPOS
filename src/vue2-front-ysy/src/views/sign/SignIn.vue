@@ -103,7 +103,7 @@
 													block
 													large
 													color="#03c75a"
-													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
+													@click="naverLogin"
 												>
 													<v-img
 														contain
@@ -189,19 +189,14 @@ export default {
 		signUp() {
 			this.$router.replace({ name: 'signUp' });
 		},
-		async kakaoLogin() {
-			console.log('kakao login click');
-			///                      ysy/v1/auth/kakao/login
-			await this.$axios.get('/ysy/v1/auth/kakao/login')
-				.then(res => {
-					console.log("kakao login = > " + res.data);
-
-				
-				})
-				.catch(error=>{
-					console.log("error => "+error);
-				});
+		
+		naverLogin(){
+			var client_id = "75NEjj6MeqfW6we4eFlJ";//naver client key
+      		var callbackUrl = 'http://localhost:8080/naverLogin';//서버 주소
+			var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+client_id+'&redirect_uri='+callbackUrl+'';
+        	window.location.replace(url);
 		},
+		
 	},
 };
 </script>

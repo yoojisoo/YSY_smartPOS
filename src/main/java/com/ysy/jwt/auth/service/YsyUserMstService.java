@@ -55,7 +55,7 @@ public class YsyUserMstService {
 				if (isUser(joinDto.getUsername())) {
 					//이전에 카카오로 가입했고 카카오로 로그인 중인 유저 
 					YsyUserMst tmpUser = ysyUserRepository.findByUsername(joinDto.getUsername());
-					String orgPath     = tmpUser.getOAuthPath()==null || tmpUser.getOAuthPath().equals("")?"사이트":joinDto.getOAuthPath();
+					String orgPath     = tmpUser.getOAuthPath()==null || tmpUser.getOAuthPath().equals("")?"사이트":tmpUser.getOAuthPath();
 					String joinDtoPath = joinDto.getOAuthPath()==null || joinDto.getOAuthPath().equals("")?"사이트":joinDto.getOAuthPath();
 					if(orgPath.equals(joinDtoPath)) 
 					{
