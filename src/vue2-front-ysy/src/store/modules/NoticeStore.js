@@ -24,6 +24,7 @@ const noticeStore = {
                 console.log("findtNoticeInfo error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             }
         },
+       
     },
   };
 

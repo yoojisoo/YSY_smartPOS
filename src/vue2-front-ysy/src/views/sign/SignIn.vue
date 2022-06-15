@@ -81,7 +81,6 @@
 													block
 													large
 													color="#ffe812"
-													                                                        
 													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://localhost:8080/kakaoLogin&response_type=code"
 												>
 												<!-- <v-btn
@@ -146,6 +145,7 @@
 <script>
 import userInfo from '../../assets/common/userInfo.js';
 import jwt_decode from 'jwt-decode';
+import AuthService from '@/service/auth/AuthService.js';
 
 export default {
 	name: 'App',
@@ -165,46 +165,22 @@ export default {
 				console.log(res.headers.access_token);
 				console.log(res.headers.refresh_token);
 
-				var decodedHeader_access = jwt_decode(res.headers.access_token, { payload: true });
-				console.log('decodedHeader_access > exp : ' + decodedHeader_access.exp);
-				console.log('decodedHeader_access > username : ' + decodedHeader_access.username);
-				var decodedHeader_refresh = jwt_decode(res.headers.refresh_token, {
-					payload: true,
-				});
-				console.log('decodedHeader_refresh > exp : ' + decodedHeader_refresh.exp);
-				console.log('decodedHeader_refresh > username : ' + decodedHeader_refresh.username);
+				let flag = AuthService.setLoginData(res.headers);
+
+				// var decodedHeader_access = jwt_decode(res.headers.access_token, { payload: true });
+				// console.log('decodedHeader_access > exp : ' + decodedHeader_access.exp);
+				// console.log('decodedHeader_access > username : ' + decodedHeader_access.username);
+				// var decodedHeader_refresh = jwt_decode(res.headers.refresh_token, {
+				// 	payload: true,
+				// });
+				// console.log('decodedHeader_refresh > exp : ' + decodedHeader_refresh.exp);
+				// console.log('decodedHeader_refresh > username : ' + decodedHeader_refresh.username);
 
 				if (res.headers.state === '200') {
-					try {
-						this.$axios.defaults.headers.common['access_token'] =
-							res.headers.access_token;
-
-						let payload = {
-							user_id: decodedHeader_access.username,
-							user_name: decodedHeader_access.name,
-							access_token: res.headers.access_token,
-							access_token_exp: decodedHeader_access.exp,
-							refresh_token: res.headers.refresh_token,
-							refresh_token_exp: decodedHeader_refresh.exp,
-						};
-
-						this.$store.dispatch('setUserInfo', payload);
-						//이부분에서 user정보 요청.
-						// this.$axios.get("ysy/v1/user/userInfo")
-						//         .then(res =>{
-						//             console.log(res.data.userInfo);
-						//              this.$store.dispatch('setUserInfo', res.data.userInfo)
-						//         })
-						//         .catch(error=>{
-						//             console.log(" error = "+error);
-						//         });
-
-						//메뉴도 가져와야함.
+					
 
 						this.$router.replace('/');
-					} catch (error) {
-						alert('로그인 실패');
-					}
+					
 				} else {
 					alert('아이디나 비밀번호가 틀렸습니다.');
 				}

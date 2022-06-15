@@ -27,14 +27,26 @@ import { mapGetters } from 'vuex';
 
 export default {
 	name: 'main-system-bar',
+	data(){
+		return {
+			// isLogin : false,
+		}
+	},
+	mounted(){
+		console.log("this.$store.getters.isLogin = "+this.$store.getters.isLogin);
+	},
 	methods: {
 		logout() {
-			this.$store.commit('clearUserInfo');
+			// this.$axios.defaults.headers.common.access_token = "";
+			this.$store.dispatch('clearUserInfo');
 			this.$router.replace('/signIn');
 		},
 	},
 	computed: {
-		...mapGetters(['isLogin']),
+		isLogin(){
+			return this.$store.getters.isLogin;
+		}
+		// ...mapGetters(['isLogin']),
 		//isLogin() {
 		//	return this.$store.getters.isLogin;
 		//},

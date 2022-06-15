@@ -1,19 +1,9 @@
 import jwt_decode from 'jwt-decode';
+import Axios from 'axios';
 
 const authStore = {
 	state: {
-		loginSession: {
-			header: '',
-			token: '',
-		},
-		loginData: {
-			user_id: '',
-			user_name: '',
-			access_token: '',
-			access_token_exp: '',
-			refresh_token: '',
-			refresh_token_exp: '',
-		},
+		loginData: {},
 		adminPage: {
 			chartDataSet: [],
 		},
@@ -23,7 +13,8 @@ const authStore = {
 	},
 	getters: {
 		isLogin: state => {
-			return state.loginData.user_id == '' ? false : true;
+			console.log("state.loginData.user_id=>"+state.loginData.user_id)
+			return state.loginData.user_id == undefined || state.loginData.user_id == "" ? false : true;
 		},
 		getSignUpKey: state => {
 			return state.singUpKey.key;
@@ -40,21 +31,23 @@ const authStore = {
 	},
 	mutations: {
 		setUserInfo: (state, userInfo) => {
-			// console.log(jwt_decode(userInfo.access_token.string, { payload: true }));
-			state.loginData.user_id = userInfo.user_id;
-			state.loginData.user_name = userInfo.user_name;
-			state.loginData.access_token = userInfo.access_token;
-			state.loginData.access_token_exp = userInfo.access_token_exp;
-			state.loginData.refresh_token = userInfo.refresh_token;
-			state.loginData.refresh_token_exp = userInfo.refresh_token_exp;
+			/*  기본 셋팅 키
+				user_id
+				user_name
+				access_token
+				access_token_exp
+				refresh_token
+				refresh_token_exp
+			*/
+			var keys = Object.keys(userInfo);
+			keys.forEach(key=>{
+				state.loginData[key] = userInfo[key];
+			});
 		},
 		clearUserInfo: state => {
-			state.loginData.user_id = '';
-			state.loginData.user_name = '';
-			state.loginData.access_token = '';
-			state.loginData.access_token_exp = '';
-			state.loginData.refresh_token = '';
-			state.loginData.refresh_token_exp = '';
+			console.log("authStore mutations clearUserInfo");
+			Axios.defaults.headers.common['access_token'] ="";
+			state.loginData = {};
 		},
 		setSignUpKey: (state, key) => {
 			state.singUpKey.key = key;
@@ -66,6 +59,10 @@ const authStore = {
 		},
 		setSignUpKey: ({ commit }, key) => {
 			commit('setSignUpKey', key);
+		},
+		clearUserInfo: ({ commit }) => {
+			console.log("auth store clearUserInfo");
+			commit('clearUserInfo');
 		},
 	},
 };
