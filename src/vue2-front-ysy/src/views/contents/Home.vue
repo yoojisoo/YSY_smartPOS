@@ -70,7 +70,7 @@
 						</v-row>
 					</v-col>
 				</v-row>
-				<template v-if="ispopup">
+				<template v-if="isPopup">
 					<div>
 						<noticeDialog :boardObj="currentRow" :callback="dialogCallback" />
 					</div>
@@ -110,7 +110,7 @@ export default {
 
 	data() {
 		return {
-			ispopup: false,
+			isPopup: false,
 			filterCols: 0,
 			mainCols: 12,
 			filterShow: false,
@@ -198,13 +198,6 @@ export default {
 	},
 
 	methods: {
-		login() {
-			this.$router.replace('/signIn');
-		},
-		logout() {
-			this.$store.commit('clearUserInfo');
-			this.$router.replace('/signIn');
-		},
 		colsChange() {
 			// 필터와 메인 그리드 cols 변경 (아이콘 눌렀을때)
 			this.filterShow = !this.filterShow;
@@ -242,7 +235,7 @@ export default {
 			console.log(this.currentRow);
 
 			if (gridNm !== '사용자 관리') {
-				this.ispopup = true;
+				this.isPopup = true;
 			}
 		},
 		rowDbClick(row, gridNm) {
@@ -251,17 +244,11 @@ export default {
 		},
 		dialogCallback(dialogObj) {
 			console.log('dialogObj.msg = ' + dialogObj.msg);
-			this.ispopup = false;
+			this.isPopup = false;
 		},
 	},
 	computed: {
-		isLogin() {
-			return this.$store.getters.isLogin;
-		},
-		userId() {
-			return this.$store.state.authStore.loginData.userId;
-		},
-		// state -> noticeList 값을 가져옴
+		...mapGetters({ getUser: 'authStore/getUser' }),
 		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
 	},
 };

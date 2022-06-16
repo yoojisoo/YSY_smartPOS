@@ -15,9 +15,8 @@ const authStore = {
 	getters: {
 		isLogin: state => {
 			console.log('isLogin state.loginData.user_id=>' + state.loginData.user_id);
-			return state.loginData.user_id == undefined || state.loginData.user_id == ''
-				? false
-				: true;
+			console.log(state.loginData.user_id !== undefined || state.loginData.user_id !== '');
+			return state.loginData.user_id !== undefined || state.loginData.user_id !== '';
 		},
 		getSignUpKey: state => {
 			return state.singUpKey.key;
@@ -46,7 +45,6 @@ const authStore = {
 			keys.forEach(key => {
 				state.loginData[key] = userInfo[key];
 			});
-			state.loginData.isLogin = true;
 		},
 		clearUserInfo: state => {
 			console.log('authStore mutations clearUserInfo');
