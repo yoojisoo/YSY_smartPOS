@@ -145,7 +145,7 @@
 <script>
 import userInfo from '../../assets/common/userInfo.js';
 import jwt_decode from 'jwt-decode';
-import AuthService from '@/service/auth/authService.js';
+import AuthService from '@/service/auth/AuthService.js';
 
 export default {
 	name: 'App',

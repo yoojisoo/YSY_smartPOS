@@ -24,7 +24,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import authService from '@/service/auth/authService.js';
+import authService from '@/service/auth/AuthService.js';
 
 export default {
 	name: 'main-system-bar',

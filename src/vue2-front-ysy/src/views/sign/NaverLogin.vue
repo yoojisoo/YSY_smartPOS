@@ -2,7 +2,7 @@
 
 <script>
 // import axios from 'axios';
-import authService from '@/service/auth/authService.js';
+import authService from '@/service/auth/AuthService.js';
 export default {
 	created() {},
 	mounted() {

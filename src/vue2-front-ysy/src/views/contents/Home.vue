@@ -90,7 +90,7 @@
 <script>
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/TheFooter.vue';
+import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';

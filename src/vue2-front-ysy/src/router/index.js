@@ -31,18 +31,6 @@ const routes = [
 		icon: 'mdi-account',
 		component: () => import('../views/contents/UserInfo.vue'),
 	},
-	{
-		path: '/userPage',
-		name: 'user',
-		icon: 'mdi-home',
-		component: () => import('../views/userLayout.vue'),
-	},
-	{
-		path: '/adminPage',
-		name: 'admin',
-		icon: 'mdi-home',
-		component: () => import('../views/adminLayout.vue'),
-	},
 
 	// 회원가입 로그인 페이지
 	{

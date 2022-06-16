@@ -34,7 +34,7 @@
 <script>
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/TheFooter.vue';
+import mainFooter from '@/components/footer/TheFooter.vue';
 import userMng from '@/views/admin/UserMng.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 // import pageHistory from '@/components/PageHistory.vue';
@@ -53,11 +53,11 @@ export default {
 			userMngInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디',   value: 'username', key: true },
+					{ text: '아이디', value: 'username', key: true },
 					{ text: '전화번호', value: 'addressList.phone1' },
-					{ text: '이름',     value: 'name' },
-					{ text: '날짜',     value: 'regDt' },
-					{ text: '권한',     value: 'roleList' },
+					{ text: '이름', value: 'name' },
+					{ text: '날짜', value: 'regDt' },
+					{ text: '권한', value: 'roleList' },
 				],
 				dateGubun: '/',
 				gridNm: '사용자 관리',
@@ -67,8 +67,12 @@ export default {
 				rowCnt: 5,
 				gridDense: true,
 				isDetail: false,
-				rowClick: (row, gridNm) => { this.rowClick(row, gridNm) }, //로우 클릭 이벤트 콜백
-				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm) }, //로우 더블클릭 이벤트 콜백
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => {
+					this.rowDbClick(row, gridNm);
+				}, //로우 더블클릭 이벤트 콜백
 			},
 			async setUserMngList() {
 				await this.$store.dispatch('findUserList');
@@ -79,10 +83,8 @@ export default {
 		};
 	},
 	methods: {
-		rowClick(row, gridNm) {
-		},
-		rowDbClick( row, gridNm ) {
-		},
+		rowClick(row, gridNm) {},
+		rowDbClick(row, gridNm) {},
 	},
 	computed: {
 		getUserMgnList() {
@@ -95,5 +97,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
