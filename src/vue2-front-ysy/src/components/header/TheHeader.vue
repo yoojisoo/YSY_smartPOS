@@ -43,6 +43,7 @@
 										>
 											<v-list-item-title
 												v-text="menus.name"
+												@click="goPage(menus.path)"
 											></v-list-item-title>
 										</v-list-item>
 									</v-list>
@@ -140,7 +141,10 @@
 
 						<v-list-item v-for="menus in item.childMenus" :key="menus.name" link>
 							<v-list-item-content>
-								<v-list-item-title v-text="menus.name" />
+								<v-list-item-title
+									v-text="menus.name"
+									@click="goPage(menus.path)"
+								/>
 							</v-list-item-content>
 						</v-list-item>
 					</v-list-group>
@@ -151,7 +155,7 @@
 							<v-icon> {{ item.icon }} </v-icon>
 						</v-list-item-icon>
 						<v-list-item-content>
-							<v-list-item-title v-text="item.name" />
+							<v-list-item-title v-text="item.name" @click="goPage(menus.path)" />
 						</v-list-item-content>
 					</v-list-item>
 				</div>
@@ -172,6 +176,8 @@ import v_menus from '@/assets/common/vMenus.js';
 import { eventBus } from '@/main.js';
 import navigationDrawer from '@/components/header/TheNavigationDrawer.vue';
 import { mapGetters } from 'vuex';
+
+const authStore = 'authStore';
 
 export default {
 	name: 'main-header',
@@ -207,7 +213,7 @@ export default {
 	},
 
 	computed: {
-		...mapGetters(['isLogin', 'getUserId', 'getUserName']),
+		...mapGetters(authStore, ['isLogin', 'getUserId', 'getUserName']),
 	},
 
 	methods: {
@@ -310,6 +316,9 @@ export default {
 			console.log(v_menus);
 			this.setHeaderMenu();
 			console.log(' ↑↑↑ getMenuList End ↑↑↑ ');
+		},
+		goPage(path) {
+			this.$router.push({ path: path });
 		},
 	},
 };

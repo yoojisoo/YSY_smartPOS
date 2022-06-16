@@ -23,36 +23,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+
+const authStore = 'authStore';
 
 export default {
 	name: 'main-system-bar',
-	data(){
-		return {
-			// isLogin : false,
-		}
+	data() {
+		return {};
 	},
-	mounted(){
-		console.log("this.$store.getters.isLogin = "+this.$store.getters.isLogin);
-	},
+	mounted() {},
 	methods: {
+		...mapActions(authStore, ['clearUserInfo']),
 		logout() {
-			// this.$axios.defaults.headers.common.access_token = "";
-			this.$store.dispatch('clearUserInfo');
+			this.clearUserInfo;
+			//this.$store.dispatch('clearUserInfo');
 			this.$router.replace('/signIn');
 		},
 	},
 	computed: {
-		isLogin(){
-			return this.$store.getters.isLogin;
-		}
-		// ...mapGetters(['isLogin']),
-		//isLogin() {
-		//	return this.$store.getters.isLogin;
-		//},
-		//userId() {
-		//	return this.$store.state.authStore.loginData.userId;
-		//},
+		...mapGetters(authStore, ['isLogin']),
 	},
 };
 </script>

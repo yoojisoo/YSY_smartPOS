@@ -2,6 +2,7 @@ import jwt_decode from 'jwt-decode';
 import Axios from 'axios';
 
 const authStore = {
+	namespaced: true,
 	state: {
 		loginData: {},
 		adminPage: {
@@ -13,8 +14,10 @@ const authStore = {
 	},
 	getters: {
 		isLogin: state => {
-			console.log("state.loginData.user_id=>"+state.loginData.user_id)
-			return state.loginData.user_id == undefined || state.loginData.user_id == "" ? false : true;
+			console.log('state.loginData.user_id=>' + state.loginData.user_id);
+			return state.loginData.user_id == undefined || state.loginData.user_id == ''
+				? false
+				: true;
 		},
 		getSignUpKey: state => {
 			return state.singUpKey.key;
@@ -40,13 +43,13 @@ const authStore = {
 				refresh_token_exp
 			*/
 			var keys = Object.keys(userInfo);
-			keys.forEach(key=>{
+			keys.forEach(key => {
 				state.loginData[key] = userInfo[key];
 			});
 		},
 		clearUserInfo: state => {
-			console.log("authStore mutations clearUserInfo");
-			Axios.defaults.headers.common['access_token'] ="";
+			console.log('authStore mutations clearUserInfo');
+			Axios.defaults.headers.common['access_token'] = '';
 			state.loginData = {};
 		},
 		setSignUpKey: (state, key) => {
@@ -61,7 +64,7 @@ const authStore = {
 			commit('setSignUpKey', key);
 		},
 		clearUserInfo: ({ commit }) => {
-			console.log("auth store clearUserInfo");
+			console.log('auth store clearUserInfo');
 			commit('clearUserInfo');
 		},
 	},
