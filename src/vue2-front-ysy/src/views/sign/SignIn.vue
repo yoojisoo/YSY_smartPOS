@@ -145,7 +145,7 @@
 <script>
 import userInfo from '../../assets/common/userInfo.js';
 import jwt_decode from 'jwt-decode';
-import AuthService from '@/service/auth/AuthService.js';
+import authService from '@/service/auth/AuthService.js';
 
 export default {
 	name: 'App',
@@ -160,25 +160,9 @@ export default {
 	},
 	methods: {
 		async signIn() {
-			// const { signInInfo } = this;
 			await this.$axios.post('/login', this.signInInfo).then(res => {
-				console.log(res.headers.access_token);
-				console.log(res.headers.refresh_token);
-				console.log('res.headers ====== ');
-				console.log(res.headers);
-
-				let flag = AuthService.setLoginData(res.headers);
-
-				// var decodedHeader_access = jwt_decode(res.headers.access_token, { payload: true });
-				// console.log('decodedHeader_access > exp : ' + decodedHeader_access.exp);
-				// console.log('decodedHeader_access > username : ' + decodedHeader_access.username);
-				// var decodedHeader_refresh = jwt_decode(res.headers.refresh_token, {
-				// 	payload: true,
-				// });
-				// console.log('decodedHeader_refresh > exp : ' + decodedHeader_refresh.exp);
-				// console.log('decodedHeader_refresh > username : ' + decodedHeader_refresh.username);
-
-				if (res.headers.state === '200') {
+				let flag = authService.setLoginData(res.headers);
+				if (flag) {
 					this.$router.replace('/');
 				} else {
 					alert('아이디나 비밀번호가 틀렸습니다.');
