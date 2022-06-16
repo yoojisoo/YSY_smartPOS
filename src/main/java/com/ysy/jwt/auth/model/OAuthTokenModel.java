@@ -3,7 +3,7 @@ package com.ysy.jwt.auth.model;
 import lombok.Data;
 
 @Data
-public class KakaoOAuthToken {
+public class OAuthTokenModel {
 
 	private String access_token;
 	private String token_type;

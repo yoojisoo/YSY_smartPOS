@@ -89,6 +89,12 @@ const routes = [
 		component: () => import('../views/sign/KakaoLogin.vue'),
 		props: true,
 	},
+	{
+		path: '/naverLogin',
+		name: 'naverLogin',
+		component: () => import('../views/sign/NaverLogin.vue'),
+		props: true,
+	},
 
 
 	

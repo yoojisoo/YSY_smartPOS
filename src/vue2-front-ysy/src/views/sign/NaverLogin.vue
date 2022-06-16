@@ -7,7 +7,11 @@
 import authService from "@/service/auth/AuthService.js"
 export default {
 	created() {
-		this.kakaoLogin();
+		
+	},
+	mounted(){
+		this.naverLogin();
+		console.log("this.code naverLogin ==========================> "+this.$route.query.code);
 	},
 	data() {
 		return {
@@ -15,17 +19,17 @@ export default {
 		};
 	},
 	methods: {
-		async kakaoLogin() {
-			console.log("this.code ==========================> "+this.$route.query.code);
+		async naverLogin() {
+			
+			console.log("this.code naver ==========================> "+this.$route.query.code);
 			this.code = this.$route.query.code;
 			let params = {
 				code : this.code,
-				path : "kakao",
+				path : "naver",
 			}
-			await this.$axios.post('/ysy/v1/oauth/kakao/setCode' , params)
+			await this.$axios.post('/ysy/v1/oauth/naver/setCode' , params)
 				.then(res=>{
 					if(res.data !== "ok"){
-						alert(res.data);
 						this.$router.replace('/signIn');
 						return;
 					}

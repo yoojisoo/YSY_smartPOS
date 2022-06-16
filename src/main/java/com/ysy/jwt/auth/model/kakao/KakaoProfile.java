@@ -1,4 +1,4 @@
-package com.ysy.jwt.auth.model;
+package com.ysy.jwt.auth.model.kakao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
