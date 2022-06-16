@@ -83,7 +83,7 @@
 													color="#ffe812"
 													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://localhost:8080/kakaoLogin&response_type=code"
 												>
-												<!-- <v-btn
+													<!-- <v-btn
 													block
 													large
 													color="#ffe812"
@@ -164,6 +164,8 @@ export default {
 			await this.$axios.post('/login', this.signInInfo).then(res => {
 				console.log(res.headers.access_token);
 				console.log(res.headers.refresh_token);
+				console.log('res.headers ====== ');
+				console.log(res.headers);
 
 				let flag = AuthService.setLoginData(res.headers);
 
@@ -177,10 +179,7 @@ export default {
 				// console.log('decodedHeader_refresh > username : ' + decodedHeader_refresh.username);
 
 				if (res.headers.state === '200') {
-					
-
-						this.$router.replace('/');
-					
+					this.$router.replace('/');
 				} else {
 					alert('아이디나 비밀번호가 틀렸습니다.');
 				}
@@ -189,14 +188,18 @@ export default {
 		signUp() {
 			this.$router.replace({ name: 'signUp' });
 		},
-		
-		naverLogin(){
-			var client_id = "75NEjj6MeqfW6we4eFlJ";//naver client key
-      		var callbackUrl = 'http://localhost:8080/naverLogin';//서버 주소
-			var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id='+client_id+'&redirect_uri='+callbackUrl+'';
-        	window.location.replace(url);
+
+		naverLogin() {
+			var client_id = '75NEjj6MeqfW6we4eFlJ'; //naver client key
+			var callbackUrl = 'http://localhost:8080/naverLogin'; //서버 주소
+			var url =
+				'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
+				client_id +
+				'&redirect_uri=' +
+				callbackUrl +
+				'';
+			window.location.replace(url);
 		},
-		
 	},
 };
 </script>

@@ -67,7 +67,7 @@ const routes = [
 	{
 		path: '/storeNotice',
 		name: 'storeNotice',
-		component: () => import('../views/contents/storeNotice.vue'),
+		component: () => import('../views/contents/StoreNotice.vue'),
 	},
 	{
 		path: '/qnaNotice',
@@ -82,7 +82,6 @@ const routes = [
 		component: () => import('../views/contents/userMng.vue'),
 	},
 
-	
 	{
 		path: '/kakaoLogin',
 		name: 'kakaoLogin',
@@ -95,16 +94,6 @@ const routes = [
 		component: () => import('../views/sign/NaverLogin.vue'),
 		props: true,
 	},
-
-
-	
-
-
-
-
-
-
-
 
 	// 에러페이지
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기

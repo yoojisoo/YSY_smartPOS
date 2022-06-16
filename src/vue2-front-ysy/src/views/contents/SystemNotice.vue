@@ -16,7 +16,7 @@
 								<pageHistory :pageNameKo="pageNameKo" />
 							</v-col>-->
 							<v-col cols="12">
-								<ysyGrid :gridInfo="sysNoticeInfo" />
+								<ysyGrid :gridInfo="systemNoticeInfo" />
 							</v-col>
 						</v-row>
 					</v-col>
@@ -39,6 +39,9 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
+import { mapActions, mapGetters } from 'vuex';
+
+//const noticeStore = 'noticeStore';
 
 export default {
 	components: {
@@ -52,7 +55,7 @@ export default {
 		return {
 			pageName: 'systemNotice',
 			pageNameKo: '시스템 공지사항',
-			sysNoticeInfo: {
+			systemNoticeInfo: {
 				dataList: [],
 				headers: [
 					{ text: '번호', value: 'boardId', width: '20%', key: true },
@@ -72,22 +75,20 @@ export default {
 			},
 		};
 	},
+	mounted() {
+		this.findSystemNoticeList();
+	},
 	methods: {
-		async setSystemNoticeList() {
-			await this.$store.dispatch('findNoticeInfo');
-			if (this.systemNoticeList) {
-				this.sysNoticeInfo.dataList = this.systemNoticeList;
+		//...mapActions(noticeStore, ['findSystemNoticeInfo']),
+		async findSystemNoticeList() {
+			await this.$store.dispatch('noticeStore/findSystemNoticeInfo');
+			if (this.getNoticeList) {
+				this.systemNoticeInfo.dataList = this.getNoticeList;
 			}
 		},
 	},
 	computed: {
-		systemNoticeList() {
-			return this.$store.state.noticeStore.noticeList;
-		},
+		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
 	},
-	mounted() {
-		this.setSystemNoticeList();
-	},
-	created() {},
 };
 </script>

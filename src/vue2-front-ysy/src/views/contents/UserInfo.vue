@@ -152,6 +152,8 @@ import mainFooter from '@/components/TheFooter.vue';
 import { mapActions, mapGetters } from 'vuex';
 import pageHistory from '@/components/PageHistory.vue';
 
+const authStore = 'authStore';
+
 export default {
 	components: {
 		mainSystemBar,
@@ -194,7 +196,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(['getUser']),
+		...mapGetters(authStore, ['getUser']),
 	},
 	mounted() {
 		if (this.getUser) {
