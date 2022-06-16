@@ -4,9 +4,9 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-import authStore from './modules/AuthStore.js';
-import userStore from './modules/UserStore';
-import noticeStore from './modules/NoticeStore';
+import authStore from './modules/authStore.js';
+import userStore from './modules/userStore';
+import noticeStore from './modules/noticeStore';
 
 const store = new Vuex.Store({
 	modules: {

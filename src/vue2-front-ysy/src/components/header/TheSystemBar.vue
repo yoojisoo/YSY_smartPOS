@@ -24,7 +24,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import AuthService from '@/service/auth/AuthService.js';
+import authService from '@/service/auth/authService.js';
 
 //const authStore = 'authStore';
 
@@ -37,7 +37,7 @@ export default {
 	methods: {
 		//...mapActions('authStore', ['clearUserInfo']),
 		logout() {
-			AuthService.setLoginClear();
+			authService.setLoginClear();
 			//this.clearUserInfo;
 			//this.$store.dispatch('clearUserInfo');
 			//this.$router.replace('/');

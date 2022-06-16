@@ -81,7 +81,7 @@ export default {
 	methods: {
 		//...mapActions(noticeStore, ['findSystemNoticeInfo']),
 		async findSystemNoticeList() {
-			await this.$store.dispatch('noticeStore/findSystemNoticeInfo');
+			await this.$store.dispatch('findSystemNoticeInfo');
 			if (this.getNoticeList) {
 				this.systemNoticeInfo.dataList = this.getNoticeList;
 			}

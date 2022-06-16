@@ -95,6 +95,7 @@ import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
 import noticeDialog from '@/components/NoticeDialog.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -194,7 +195,6 @@ export default {
 	mounted() {
 		this.setSystemNoticeList();
 		this.setStoreNoticeList();
-		this.setUserMngList();
 	},
 
 	methods: {
@@ -219,7 +219,7 @@ export default {
 		// data -> systemNoticeInfo -> dataList에 state 값을 세팅해줌
 		async setSystemNoticeList() {
 			// actions -> findNoticeInfo를 하면 state에 값이 저장되고
-			await this.$store.dispatch('findSystemNoticeInfo');
+			await this.$store.dispatch('noticeStore/findSystemNoticeInfo');
 
 			if (this.getNoticeList) {
 				/** state -> noticeList 값이 있으면
@@ -228,17 +228,10 @@ export default {
 			}
 		},
 		async setStoreNoticeList() {
-			await this.$store.dispatch('findStoreNoticeInfo');
+			await this.$store.dispatch('noticeStore/findStoreNoticeInfo');
 
 			if (this.getNoticeList) {
 				this.storeNoticeInfo.dataList = this.getNoticeList;
-			}
-		},
-		async setUserMngList() {
-			await this.$store.dispatch('findUserList');
-
-			if (this.getUserList) {
-				this.userMngInfo.dataList = this.getUserList;
 			}
 		},
 		rowClick(row, gridNm) {
@@ -269,12 +262,7 @@ export default {
 			return this.$store.state.authStore.loginData.userId;
 		},
 		// state -> noticeList 값을 가져옴
-		getNoticeList() {
-			return this.$store.getters.getNoticeList;
-		},
-		getUserList() {
-			return this.$store.state.userStore.userList;
-		},
+		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
 	},
 };
 </script>
