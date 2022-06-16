@@ -58,15 +58,18 @@ public class YsyUserMstController {
 	@Autowired
 	private YsyUserMstRepository ysyUserRepository;
 	
-	/** 2022 06 02 yjs  get data sample */
-	@GetMapping("/test/getUserList")
+	/** 2022 06 02 yoojisoo get data sample */
+	@GetMapping("/getUserList")
 	public List<YsyUserMst> getUserList(){
-//		id = "mnew2m@gmail.com";
-		System.out.println("뿅");
-		
-		List<YsyUserMst> list = ysyUserRepository.findAll();
-//		list.get(0).getAddressList();
-		return list;
+		System.out.println("getUserList 들어옴 ~~~~~~~~~~~~");
+		return ysyUserService.getUserList();
+	}
+	
+	/** 2022 06 16 yoojisoo delete userInfo from the grid */
+	@PostMapping("/delGridUserInfo")
+	public void delGridUserInfo(@RequestBody List<String> usernameList) {
+		System.out.println("/delGridUserInfo 들어옴 ---------------------------> ");
+		ysyUserService.delGridUserInfo(usernameList);
 	}
 	
 	

@@ -67,19 +67,24 @@ const routes = [
 	{
 		path: '/storeNotice',
 		name: 'storeNotice',
-		component: () => import('../views/contents/storeNotice.vue'),
+		component: () => import('../views/contents/StoreNotice.vue'),
 	},
 	{
 		path: '/qnaNotice',
 		name: 'qnaNotice',
-		component: () => import('../views/contents/qnaNotice.vue'),
+		component: () => import('../views/contents/QnaNotice.vue'),
 	},
 
 	// 사용자관리 관련
 	{
+		path: '/userHome',
+		name: 'userHome',
+		component: () => import('../views/admin/UserHome.vue'),
+	},
+	{
 		path: '/userMng',
 		name: 'userMng',
-		component: () => import('../views/contents/userMng.vue'),
+		component: () => import('../views/admin/UserMng.vue'),
 	},
 
 	

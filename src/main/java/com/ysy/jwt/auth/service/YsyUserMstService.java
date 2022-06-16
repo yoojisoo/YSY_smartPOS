@@ -1,5 +1,6 @@
 package com.ysy.jwt.auth.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -165,5 +166,21 @@ public class YsyUserMstService {
 			return false;
 		
 		return true;
+	}
+	
+	/** grid에서 get user info */
+	public List<YsyUserMst> getUserList() {
+		List<YsyUserMst> userlist = ysyUserRepository.findAll();
+		return userlist;
+	}
+	
+	/** grid에서 user 삭제 */
+	public void delGridUserInfo(List<String> usernameList) {
+		for(String username : usernameList) {
+			System.out.println("서비스 delGridUserInfo 들어옴--------------->");
+//			ysyUserRepository.deleteByUsername(username);
+			ysyUserRepository.deleteById(username);
+			System.out.println("레포지토리에서 id로 딜리트함 -------------->");
+		}
 	}
 }

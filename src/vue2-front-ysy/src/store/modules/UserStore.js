@@ -20,7 +20,7 @@ const userStore = {
     },
     actions: {
         async findUserList( {commit} ) {
-            let url = 'ysy/v1/auth/test/getUserList';
+            let url = 'ysy/v1/auth/getUserList';
             let res = await axios.get(url);
             if(res){
                 let list = res.data.map( x => {

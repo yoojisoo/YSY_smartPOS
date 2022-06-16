@@ -63,7 +63,7 @@
 										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="userMngInfo" />
+										<ysyGrid :gridInfo="qnaNoticeInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
@@ -96,7 +96,7 @@ import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
 import { mapGetters, mapActions } from 'vuex';
- import noticeDialog from '@/components/noticeDialog.vue'
+ import noticeDialog from '@/components/NoticeDialog.vue'
 
 export default {
 	components: {
@@ -159,21 +159,16 @@ export default {
 				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
 				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
 			},
-			userMngInfo: {
+			qnaNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디',	value: 'username', key: true },
-					{ text: '전화번호',	value: 'addressList.phone1',
-						//    divider: true,
-						//    children: [{ text: 'phone' , value: 'phone1', width: '35%'}]
-					},
-					{ text: '이름',	value: 'name'},
-					{ text: '날짜',	value: 'regDt'},
-					{ text: '권한',	value: 'roleList'},
+					{ text: '번호',   value: 'boardId',  width: '20%', key: true },
+					{ text: '제목',   value: 'title',    width: '40%' },
+					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '/',
-				gridNm: '사용자 관리',
-				path: '/userMng',
+				gridNm: 'QnA 공지사항',
+				path: '/qnaNotice',
 				isCheckBox: true,
 				isSingleSelect: false,
 				rowCnt: 7,
@@ -213,16 +208,9 @@ export default {
 				 * data -> sysNoticeInfo -> dataList에 값을 넣어줌 */
 				this.sysNoticeInfo.dataList = this.getSystemNoticeList;
 				this.storeNoticeInfo.dataList = this.getSystemNoticeList;
+				this.qnaNoticeInfo.dataList = this.getSystemNoticeList;
 				console.log("this.sysNoticeInfo.dataList ---------------->")
 				console.log(this.sysNoticeInfo.dataList)
-			}
-		},
-		async setUserMngList() {
-			await this.$store.dispatch('findUserList');
-			if (this.getUserList) {
-				this.userMngInfo.dataList = this.getUserList;
-				console.log("this.userMngInfo.dataList ---------------->")
-				console.log(this.userMngInfo.dataList)
 			}
 		},
 		rowClick(row, gridNm) {
@@ -256,16 +244,12 @@ export default {
 		getSystemNoticeList() {
 			return this.$store.state.noticeStore.noticeList;
 		},
-		getUserList() {
-			return this.$store.state.userStore.userList;
-		},
 		// curRow() {
 		// 	return this.currentRow;
 		// },
 	},
 	mounted() {
 		this.setSystemNoticeList();
-		this.setUserMngList();
 	},
 };
 </script>
