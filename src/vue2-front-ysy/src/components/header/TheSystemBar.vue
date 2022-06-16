@@ -23,24 +23,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+
+const authStore = 'authStore';
 
 export default {
 	name: 'main-system-bar',
+	data() {
+		return {};
+	},
+	mounted() {},
 	methods: {
+		...mapActions(authStore, ['clearUserInfo']),
 		logout() {
-			this.$store.commit('clearUserInfo');
+			this.clearUserInfo;
+			//this.$store.dispatch('clearUserInfo');
 			this.$router.replace('/signIn');
 		},
 	},
 	computed: {
-		...mapGetters(['isLogin']),
-		//isLogin() {
-		//	return this.$store.getters.isLogin;
-		//},
-		//userId() {
-		//	return this.$store.state.authStore.loginData.userId;
-		//},
+		...mapGetters(authStore, ['isLogin']),
 	},
 };
 </script>

@@ -20,9 +20,17 @@
 export default {
 	components: {},
 	data: () => ({}),
-	mounted() {console.log("app.vue mounted ");},
+	mounted() {
+		console.log("app.vue mounted ");
+		
+	},
 	computed: {},
-	methods: {},
+	methods: {
+		refreshAll() {
+            // 새로고침
+            console.log("새로고침");
+        }
+	},
 	beforeCreate() {
 		console.log("app.vue beforeCreate ");
 		localStorage.clear();

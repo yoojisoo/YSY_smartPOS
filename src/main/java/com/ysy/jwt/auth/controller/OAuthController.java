@@ -12,11 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +27,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.filter.JwtProperties;
-import com.ysy.jwt.auth.model.KakaoOAuthToken;
-import com.ysy.jwt.auth.model.KakaoProfile;
+import com.ysy.jwt.auth.model.OAuthTokenModel;
 import com.ysy.jwt.auth.model.PrincipalDetails;
+import com.ysy.jwt.auth.model.kakao.KakaoProfile;
+import com.ysy.jwt.auth.model.naver.NaverProfile;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
 import lombok.Data;
@@ -49,7 +47,7 @@ import lombok.Data;
  */
 //@Controller
 @RestController
-@RequestMapping("/ysy/v1/auth/kakao")
+@RequestMapping("/ysy/v1/oauth")
 //@RequiredArgsConstructor
 public class OAuthController {
 
@@ -59,7 +57,7 @@ public class OAuthController {
 	@Autowired
 	private YsyUserMstService ysyUserMstService; 
 	
-	private static String KAKAO_PWD = "kakao_login_tmp_password";
+	private static String OAUTH_PWD = "oauth_login_tmp_password";//Kakao login시 default password 변경안되게 처리하자. 
 	
 	
 	private final String kakao_Content_type = "application/x-www-form-urlencoded;charset=utf-8";
@@ -70,65 +68,140 @@ public class OAuthController {
 	private final String kakao_auth_addr    = "https://kauth.kakao.com/oauth/token";
 	
 	
-	private final String kakao_auth_before  = "Bearer ";
+	private final String bearer  = "Bearer ";
 	private final String kakao_profile_url  = "https://kapi.kakao.com/v2/user/me";
 	
 	
+	//비즈코드 default 등록 -> 비즈코드가 있는 곳에서는 회원가입을 자동으로 해주면 안되고 
+	//원래 회원 정보를 각 kakao나 naver에 요청 후 추가정보를 입력받고 현 db에 저장해야 함.
+	// 지금은 테스트로 그냥 바로 회원가입 진행중임.
+	private final String tmp_biz_cd = "0001";
+	
 	
 	@Data
-	public static class KakaoCode{
+	public static class OAuthCode{
 		String code;
 		String path ;
 	}
+	//naver 인증 콜백
+	@PostMapping("/naver/setCode")
+	public String naverSetCode(@RequestBody OAuthCode oAuthCode , HttpServletResponse response) {
+		System.out.println("naverSetCode code = [" + oAuthCode.getCode() + "] path = ["  + oAuthCode.getPath() +"]");
+		
+		String token = getNaverToken(oAuthCode.getCode());
+		NaverProfile naverProfile = getNaverProfile(token);
+		
+		JoinDto joinDto = JoinDto.builder()
+				.bizCd(tmp_biz_cd)//카카오 로그인 전 비즈코드 받는 부분 필수.
+				.username(naverProfile.getResponse().getEmail())
+				.password(OAUTH_PWD)//default password -> 가입 후 변경 요망.
+				.name(naverProfile.getResponse().getName())
+				.oAuthPath("naver")//kakao or naver ....
+				.build();
+		String msg = oAuthUserSave(joinDto );
+		
+//		createClientToken(msg , joinDto, response);
+		
+		return createClientToken(msg , joinDto, response);
+	}
+	
+	//get naver oAuth token 발급
+	public String getNaverToken(String code) {
+		
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-type", kakao_Content_type);
+		
+		MultiValueMap<String , String > params = new LinkedMultiValueMap<String ,String>();
+		params.add("grant_type"   , kakao_grant_type);
+		params.add("client_id"    , "75NEjj6MeqfW6we4eFlJ");
+		params.add("client_secret", "uuaPVTTtVm");
+		params.add("code"         , code);
+		
+		HttpEntity<MultiValueMap<String,String>> naverTokenReq = new HttpEntity<>(params,headers);
+		ResponseEntity<String> response =  rt.exchange("https://nid.naver.com/oauth2.0/token?", HttpMethod.POST, naverTokenReq, String.class) ;
+		
+		
+		System.out.println("getNaverToken response.getBody = "+response.getBody());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		OAuthTokenModel oToken = null;
+		try {
+			oToken = mapper.readValue(response.getBody(), OAuthTokenModel.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("oToken.getAccess_token() = "+oToken.getAccess_token());
+		
+		return oToken.getAccess_token();
+	}
+    
+	//get naver profile 
+	public NaverProfile getNaverProfile(String accessToken) {
+		
+		String naverProfileUrl = "https://openapi.naver.com/v1/nid/me";
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-type" , "application/xml");
+		headers.add("Authorization", bearer + accessToken);
+		
+		
+		HttpEntity<MultiValueMap<String,String>> naverInfoReq = new HttpEntity<>(headers);
+		
+		ResponseEntity<String> response2 =  
+				rt.exchange(naverProfileUrl, HttpMethod.POST, naverInfoReq, String.class) ;
+		
+		System.out.println("2.naverProfile response.getBody = "+response2.getBody());
+		
+		
+		ObjectMapper mapper2 = new ObjectMapper();
+		NaverProfile naverProfile = null;
+		try {
+			naverProfile = mapper2.readValue(response2.getBody(), NaverProfile.class);
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		System.out.println(naverProfile.getResponse().getEmail());
+		System.out.println(naverProfile.getResponse().getMobile());
+		System.out.println(naverProfile.getResponse().getName());
+		
+		return naverProfile;
+	}
+    
+    
+    
+    
+    
+	
+	
+	
+	
 	
 	//kakao 인증 콜백
-	@PostMapping("/setCode")
-	public String setCode(@RequestBody KakaoCode kCode , HttpServletResponse response) {
+	@PostMapping("/kakao/setCode")
+	public String kakaoSetCode(@RequestBody OAuthCode kCode , HttpServletResponse response) {
 		
-		String access_token = getKakaoAuth(kCode.getCode());
+		String access_token = getKakaoToken(kCode.getCode());
 		
 		KakaoProfile profile = getKakaoProfile(access_token);
 		
-		String msg = kakaoUserSave(profile);
 		
-		/** kakao login시 강제로 토큰 생성해서 클라이언트에 전송함. */
-		if(msg.equals("ok")) {
-			UsernamePasswordAuthenticationToken authenticationToken = 
-					new UsernamePasswordAuthenticationToken(
-							profile.getKakao_account().getEmail(),
-							KAKAO_PWD); 
-			Authentication authentication = authenticationManager.authenticate(authenticationToken);
-			
-			PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
-			System.out.println("principalDetails.getUser().getUsername() = > "+principalDetails.getUser().getUsername());
-//			SecurityContext context = SecurityContextHolder.createEmptyContext(); 
-//			context.setAuthentication(authentication);
-			
-			String jwtToken = JWT.create()
-					.withSubject("jwtToken")
-					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-					.withClaim("name"    , profile.getKakao_account().getProfile().getNickname())
-					.withClaim("username", profile.getKakao_account().getEmail())
-					.sign(Algorithm.HMAC512(JwtProperties.SECRET));
-			
-			String jwtTokenRe = JWT.create()
-					.withSubject("jwtToken")
-					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
-					.withClaim("name"    , profile.getKakao_account().getProfile().getNickname())
-					.withClaim("username", profile.getKakao_account().getEmail())
-					.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
-			
-			
-			response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
-			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
-			response.addHeader("state","200");
-			
-			return "ok";
-		}
+		JoinDto joinDto = JoinDto.builder()
+				.bizCd(tmp_biz_cd)//카카오 로그인 전 비즈코드 받는 부분 필수.
+				.username(profile.getKakao_account().getEmail())
+				.password(OAUTH_PWD)//default password -> 가입 후 변경 요망.
+				.name(profile.getKakao_account().getProfile().getNickname())
+				.oAuthPath("kakao")//kakao or naver ....
+				.build();
+		String msg = oAuthUserSave(joinDto );
 		
-		return msg;
+		return createClientToken(msg , joinDto, response);
 	}
-	
 	
 	/* token 받기
 	 * POST /oauth/token HTTP/1.1
@@ -146,7 +219,7 @@ public class OAuthController {
 	 *  
 	 *  인증받은 access_token return
 	 * */
-	public String getKakaoAuth(String code) {
+	public String getKakaoToken(String code) {
 		
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -165,9 +238,9 @@ public class OAuthController {
 		System.out.println("getKakaoAuth response.getBody = "+response.getBody());
 		
 		ObjectMapper mapper = new ObjectMapper();
-		KakaoOAuthToken oToken = null;
+		OAuthTokenModel oToken = null;
 		try {
-			oToken = mapper.readValue(response.getBody(), KakaoOAuthToken.class);
+			oToken = mapper.readValue(response.getBody(), OAuthTokenModel.class);
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
@@ -178,7 +251,6 @@ public class OAuthController {
 		
 		return oToken.getAccess_token();
 	}
-	
 	
 	/** 사용자 정보 요청
 	 * Request: 액세스 토큰 사용
@@ -200,7 +272,7 @@ public class OAuthController {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", kakao_Content_type);
-		headers.add("Authorization", kakao_auth_before + accessToken);
+		headers.add("Authorization", bearer + accessToken);
 		
 		
 		HttpEntity<MultiValueMap<String,String>> kakaoInfoReq = new HttpEntity<>(headers);
@@ -228,29 +300,69 @@ public class OAuthController {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
 	/** 카카오 정보 가져와서 db에 저장 후 token 생성하여 클라이언트로 보내줌.
 	 * */
-	public String kakaoUserSave(KakaoProfile profile) {
+	public String oAuthUserSave(JoinDto joinDto ) {
 		
 		
-		JoinDto joinDto = JoinDto.builder()
-				.bizCd("0001")//카카오 로그인 전 비즈코드 받는 부분 필수.
-				.username(profile.getKakao_account().getEmail())
-				.password(KAKAO_PWD)//default password -> 가입 후 변경 요망.
-				.name(profile.getKakao_account().getProfile().getNickname())
-				.oAuthPath("kakao")
-				.build();
+		
 		String msg = ysyUserMstService.signUp(joinDto);
 		
 		return msg;
 	}
 	
-	@GetMapping("logout")
-	public String kakaoLogout() {
+	
+	
+	
+	
+	
+	
+	/** client token resopnse */
+	public String createClientToken(String msg , JoinDto joinDto , HttpServletResponse response) {
 		
+		if(msg.equals("ok")) {
+			UsernamePasswordAuthenticationToken authenticationToken = 
+					new UsernamePasswordAuthenticationToken(
+							joinDto.getUsername(),
+							OAUTH_PWD); 
+			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+			
+			PrincipalDetails principalDetails = (PrincipalDetails)authentication.getPrincipal();
+			System.out.println("principalDetails.getUser().getUsername() = > "+principalDetails.getUser().getUsername());
+//			SecurityContext context = SecurityContextHolder.createEmptyContext(); 
+//			context.setAuthentication(authentication);
+			
+			String jwtToken = JWT.create()
+					.withSubject("jwtToken")
+					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
+					.withClaim("name"    , joinDto.getName())
+					.withClaim("username", joinDto.getUsername())
+					.sign(Algorithm.HMAC512(JwtProperties.SECRET));
+			
+			String jwtTokenRe = JWT.create()
+					.withSubject("jwtToken")
+					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
+					.withClaim("name"    , joinDto.getName())
+					.withClaim("username", joinDto.getUsername())
+					.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
+			
+			
+			response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
+			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
+			response.addHeader("state","200");
+			
+			return "ok";
+		}
 		
-		return "logout";
+		return msg;
 	}
+	
 	
 	
 }
