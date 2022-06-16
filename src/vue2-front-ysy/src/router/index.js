@@ -72,7 +72,7 @@ const routes = [
 	{
 		path: '/qnaNotice',
 		name: 'qnaNotice',
-		component: () => import('../views/contents/qnaNotice.vue'),
+		component: () => import('../views/contents/qnaNotice2.vue'),
 	},
 
 	// 사용자관리 관련

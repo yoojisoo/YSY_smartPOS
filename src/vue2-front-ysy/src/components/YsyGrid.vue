@@ -14,6 +14,7 @@
 	<v-container fluid pa-0 ma-0 mt-3>
 		<v-card class="mb-3 pa-0" outlined tile>
 			<v-data-table
+				v-model="selected"
 				:headers="gridInfo.headers"
 				:items="gridInfo.dataList"
 				:page.sync="page"
@@ -35,14 +36,15 @@
 						<v-btn v-if='!gridInfo.isDetail' plain :to='gridInfo.path'>전체보기</v-btn>
 						<v-btn-toggle v-else group>
 							<v-btn plain>
-								<h3 style="color: black">추가</h3>
+								<h3 style="color: black" slot="">추가</h3>
 							</v-btn>
 							<v-btn plain>
-								<h3 style="color: black">삭제</h3>
+								<h3 style="color: black" @click="deleteItem">삭제</h3>
 							</v-btn>
 						</v-btn-toggle>
 					</v-toolbar>
 				</template>
+
 				<!-- <template v-slot:header="{ props }">
 			<thead class="v-data-table-header">
 				<tr width="100%">
@@ -119,6 +121,7 @@ export default {
 		dateForm,
 	},
 	data: () => ({
+		selected: [],
 		page: 1, // 최초 나타나는 페이지
 		pageCount: 0, // 데이터 겟수에 따라 변경됨 ->  @page-count="pageCount = $event"
 	}),
@@ -130,12 +133,29 @@ export default {
 			}
 		},
 		rowDbClick(item, row) {
-			console.log('rowDbClick index = ' + row.index);
+			// console.log('rowDbClick index = ' + row.index);
 			this.gridInfo.rowDbClick(row, this.gridInfo.gridNm);
 		},
 		goToTable(path) {
 			console.log(path);
 			this.$router.replace(path);
+		},
+
+		/** 그리드 row item 추가 */
+		createItem() {
+		},
+		async deleteItem() {
+			let username = [];
+			for (const item of this.selected) {
+				username.push(item.username)
+			}
+			await this.$axios.post('/ysy/v1/auth/delGridUserInfo', username)
+							 .then(res => {
+								if(res.statusText === 'OK') {
+									console.log('ID = ' + res.config.data + '삭제완료');
+								}
+								else alert('유저 정보 그리드 삭제 에러');
+							 })
 		},
 	},
 	computed: {

@@ -58,8 +58,8 @@ export default {
 			systemNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
-					{ text: '제목', value: 'title', width: '40%' },
+					{ text: '번호',   value: 'boardId',  width: '20%', key: true },
+					{ text: '제목',   value: 'title',    width: '40%' },
 					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '/',
@@ -79,16 +79,29 @@ export default {
 		this.findSystemNoticeList();
 	},
 	methods: {
+<<<<<<< HEAD
 		//...mapActions(noticeStore, ['findSystemNoticeInfo']),
 		async findSystemNoticeList() {
 			await this.$store.dispatch('noticeStore/findSystemNoticeInfo');
 			if (this.getNoticeList) {
 				this.systemNoticeInfo.dataList = this.getNoticeList;
+=======
+		async setSystemNoticeList() {
+			await this.$store.dispatch('findNoticeInfo');
+			if (this.getSystemNoticeList) {
+				this.sysNoticeInfo.dataList = this.getSystemNoticeList;
+>>>>>>> 9f5a8ec84d2e77a930193600d05a960f47d54aac
 			}
 		},
 	},
 	computed: {
+<<<<<<< HEAD
 		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
+=======
+		getSystemNoticeList() {
+			return this.$store.state.noticeStore.noticeList;
+		},
+>>>>>>> 9f5a8ec84d2e77a930193600d05a960f47d54aac
 	},
 };
 </script>

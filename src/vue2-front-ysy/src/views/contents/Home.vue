@@ -63,7 +63,7 @@
 										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="userMngInfo" />
+										<ysyGrid :gridInfo="qnaNoticeInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
@@ -94,7 +94,7 @@ import mainFooter from '@/components/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
-import noticeDialog from '@/components/noticeDialog.vue';
+import noticeDialog from '@/components/NoticeDialog.vue';
 
 export default {
 	components: {
@@ -166,23 +166,16 @@ export default {
 					this.rowDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
-			userMngInfo: {
+			qnaNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디', value: 'username', key: true },
-					//{
-					//	text: '전화번호',
-					//	value: 'addressList.phone1',
-					//	//    divider: true,
-					//	//    children: [{ text: 'phone' , value: 'phone1', width: '35%'}]
-					//},
-					{ text: '이름', value: 'name' },
-					{ text: '날짜', value: 'regDt' },
-					{ text: '권한', value: 'roleList' },
+					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
+					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '/',
-				gridNm: '사용자 관리',
-				path: '/userMng',
+				gridNm: 'QnA 공지사항',
+				path: '/qnaNotice',
 				isCheckBox: true,
 				isSingleSelect: false,
 				rowCnt: 7,
