@@ -1,0 +1,10 @@
+/* global layout 적용 css
+    
+*/
+body { 
+    margin: 0;
+    padding: 0;
+    font-family: 'applesdgothicneo-ultralight', 'Noto Sans', '나눔고딕', 'NanumGothic', '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 28px;
+  }

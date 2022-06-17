@@ -77,9 +77,15 @@ const routes = [
 
 	// 사용자관리 관련
 	{
-		path: '/userMng',
-		name: 'userMng',
-		component: () => import('../views/contents/userMng.vue'),
+		path: '/userManager',
+		name: 'userManager',
+		component: () => import('../views/admin/auth/UserManager.vue'),
+	},
+	// 메뉴 관련
+	{
+		path: '/menuManager',
+		name: 'menuManager',
+		component: () => import('../views/admin/auth/MenuManager.vue'),
 	},
 
 	

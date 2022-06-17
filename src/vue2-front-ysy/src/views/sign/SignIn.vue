@@ -81,7 +81,7 @@
 													block
 													large
 													color="#ffe812"
-													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://localhost:8080/kakaoLogin&response_type=code"
+													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://192.168.0.77:8080/kakaoLogin&response_type=code"
 												>
 												<!-- <v-btn
 													block
@@ -119,7 +119,7 @@
 													block
 													large
 													color="white"
-													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
+													href=""
 												>
 													<v-img
 														contain
