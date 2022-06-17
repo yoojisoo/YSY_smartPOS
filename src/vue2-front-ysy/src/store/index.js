@@ -4,7 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-import authStore from './modules/authStore.js';
+import authStore from './modules/AuthStore.js';
 import userStore from './modules/UserStore';
 import noticeStore from './modules/NoticeStore';
 
@@ -12,7 +12,7 @@ const store = new Vuex.Store({
 	modules: {
 		authStore,
 		userStore,
-		noticeStore
+		noticeStore,
 	},
 	plugins: [
 		createPersistedState({

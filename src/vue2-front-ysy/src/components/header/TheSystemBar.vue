@@ -23,9 +23,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-
-const authStore = 'authStore';
+import { mapGetters } from 'vuex';
+import authService from '@/service/auth/AuthService.js';
 
 export default {
 	name: 'main-system-bar',
@@ -34,15 +33,12 @@ export default {
 	},
 	mounted() {},
 	methods: {
-		...mapActions(authStore, ['clearUserInfo']),
 		logout() {
-			this.clearUserInfo;
-			//this.$store.dispatch('clearUserInfo');
-			this.$router.replace('/signIn');
+			authService.setLoginClear();
 		},
 	},
 	computed: {
-		...mapGetters(authStore, ['isLogin']),
+		...mapGetters({ isLogin: 'authStore/isLogin' }),
 	},
 };
 </script>

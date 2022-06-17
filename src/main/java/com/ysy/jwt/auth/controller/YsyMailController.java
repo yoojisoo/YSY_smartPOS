@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysy.jwt.auth.dto.MailDto;
@@ -34,8 +35,8 @@ public class YsyMailController {
 	}
 	
 	@GetMapping("/mailKeyConfirm")
-	@ResponseBody
-	public Boolean mailKeyConfirm( MailDto mailDto) {
+//	@ResponseBody
+	public Boolean mailKeyConfirm(@RequestParam MailDto mailDto) {
 		return mailService.mailKeyConfirm(mailDto);
 	}
 }

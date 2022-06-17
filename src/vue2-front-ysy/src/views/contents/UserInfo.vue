@@ -6,6 +6,7 @@
 		<mainHeader :pageName="pageName" />
 		<!-- Header End -->
 
+		<!-- Main Start -->
 		<v-main>
 			<v-container fluid pa-0 ma-0 style="background-color: lightgray; height: 100%">
 				<v-row justify="center" no-gutters style="height: 100%">
@@ -136,6 +137,7 @@
 				</v-row>
 			</v-container>
 		</v-main>
+		<!-- Main End -->
 
 		<!-- Footer Start -->
 		<v-footer class="ma-0 pa-0" fixed app>
@@ -148,9 +150,11 @@
 <script>
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/TheFooter.vue';
+import mainFooter from '@/components/footer/TheFooter.vue';
 import { mapActions, mapGetters } from 'vuex';
 import pageHistory from '@/components/PageHistory.vue';
+
+const authStore = 'authStore';
 
 export default {
 	components: {
@@ -194,7 +198,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(['getUser']),
+		...mapGetters(authStore, ['getUser']),
 	},
 	mounted() {
 		if (this.getUser) {

@@ -57,25 +57,24 @@
 								</v-row>-->
 								<v-row align="start" justify="center" no-gutters>
 									<v-col cols="12">
-										<ysyGrid :gridInfo="sysNoticeInfo" />
+										<ysyGrid :gridInfo="systemNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
 										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="userMngInfo" />
+										<ysyGrid :gridInfo="qnaNoticeInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
 						</v-row>
 					</v-col>
 				</v-row>
-				<template v-if="ispopup">
+				<template v-if="isPopup">
 					<div>
-						<noticeDialog :boardObj="currentRow" :callback="dialogCallback"/>
+						<noticeDialog :boardObj="currentRow" :callback="dialogCallback" />
 					</div>
 				</template>
-				
 			</v-container>
 		</v-main>
 		<!-- Main End -->
@@ -91,12 +90,12 @@
 <script>
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/TheFooter.vue';
+import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
-import { mapGetters, mapActions } from 'vuex';
- import noticeDialog from '@/components/noticeDialog.vue'
+import noticeDialog from '@/components/NoticeDialog.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -108,9 +107,10 @@ export default {
 		carousel,
 		noticeDialog,
 	},
+
 	data() {
 		return {
-			ispopup : false,
+			isPopup: false,
 			filterCols: 0,
 			mainCols: 12,
 			filterShow: false,
@@ -122,11 +122,11 @@ export default {
 					access_token: this.$store.state.authStore.loginData.userToken,
 				},
 			},
-			sysNoticeInfo: {
+			systemNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호',   value: 'boardId',  width: '20%', key: true },
-					{ text: '제목',   value: 'title',    width: '40%' },
+					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
 					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '/',
@@ -137,14 +137,18 @@ export default {
 				rowCnt: 7,
 				gridDense: true,
 				isDetail: false,
-				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
-				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => {
+					this.rowDbClick(row, gridNm);
+				}, //로우 더블클릭 이벤트 콜백
 			},
 			storeNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호',   value: 'boardId',  width: '20%', key: true },
-					{ text: '제목',   value: 'title',    width: '40%' },
+					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
 					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '-',
@@ -156,43 +160,44 @@ export default {
 				gridDense: true,
 				//pageTotCnt: 7,
 				isDetail: false,
-				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
-				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => {
+					this.rowDbClick(row, gridNm);
+				}, //로우 더블클릭 이벤트 콜백
 			},
-			userMngInfo: {
+			qnaNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디',	value: 'username', key: true },
-					{ text: '전화번호',	value: 'addressList.phone1',
-						//    divider: true,
-						//    children: [{ text: 'phone' , value: 'phone1', width: '35%'}]
-					},
-					{ text: '이름',	value: 'name'},
-					{ text: '날짜',	value: 'regDt'},
-					{ text: '권한',	value: 'roleList'},
+					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
+					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
 				],
 				dateGubun: '/',
-				gridNm: '사용자 관리',
-				path: '/userMng',
+				gridNm: 'QnA 공지사항',
+				path: '/qnaNotice',
 				isCheckBox: true,
 				isSingleSelect: false,
 				rowCnt: 7,
 				gridDense: true,
 				isDetail: false,
-				rowClick: 	(row, gridNm) => { this.rowClick(row, gridNm); }, //로우 클릭 이벤트 콜백
-				rowDbClick: (row, gridNm) => { this.rowDbClick(row, gridNm); }, //로우 더블클릭 이벤트 콜백
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => {
+					this.rowDbClick(row, gridNm);
+				}, //로우 더블클릭 이벤트 콜백
 			},
-			
 		};
 	},
+
+	mounted() {
+		this.setSystemNoticeList();
+		this.setStoreNoticeList();
+	},
+
 	methods: {
-		login() {
-			this.$router.replace('/signIn');
-		},
-		logout() {
-			this.$store.commit('clearUserInfo');
-			this.$router.replace('/signIn');
-		},
 		colsChange() {
 			// 필터와 메인 그리드 cols 변경 (아이콘 눌렀을때)
 			this.filterShow = !this.filterShow;
@@ -204,68 +209,47 @@ export default {
 			else this.mainCols = 10;
 		},
 		// notice data vuex의 action에서 가져오기 - mounted에서 호출
-		// data -> sysNoticeInfo -> dataList에 state 값을 세팅해줌
+		// data -> systemNoticeInfo -> dataList에 state 값을 세팅해줌
 		async setSystemNoticeList() {
 			// actions -> findNoticeInfo를 하면 state에 값이 저장되고
-			await this.$store.dispatch('findNoticeInfo');
-			if (this.getSystemNoticeList) {
+			await this.$store.dispatch('noticeStore/findSystemNoticeInfo');
+
+			if (this.getNoticeList) {
 				/** state -> noticeList 값이 있으면
-				 * data -> sysNoticeInfo -> dataList에 값을 넣어줌 */
-				this.sysNoticeInfo.dataList = this.getSystemNoticeList;
-				this.storeNoticeInfo.dataList = this.getSystemNoticeList;
-				console.log("this.sysNoticeInfo.dataList ---------------->")
-				console.log(this.sysNoticeInfo.dataList)
+				 * data -> systemNoticeInfo -> dataList에 값을 넣어줌 */
+				this.systemNoticeInfo.dataList = this.getNoticeList;
 			}
 		},
-		async setUserMngList() {
-			await this.$store.dispatch('findUserList');
-			if (this.getUserList) {
-				this.userMngInfo.dataList = this.getUserList;
-				console.log("this.userMngInfo.dataList ---------------->")
-				console.log(this.userMngInfo.dataList)
+		async setStoreNoticeList() {
+			await this.$store.dispatch('noticeStore/findStoreNoticeInfo');
+
+			if (this.getNoticeList) {
+				this.storeNoticeInfo.dataList = this.getNoticeList;
 			}
 		},
 		rowClick(row, gridNm) {
 			console.log('rowClick= ' + gridNm);
 			console.log(row);
 			this.currentRow = row.item;
-			console.log('this.currentRow 확인중 ~~~')
-			console.log(this.currentRow)
+			console.log('this.currentRow 확인중 ~~~');
+			console.log(this.currentRow);
 
-			if(gridNm !== '사용자 관리') {
-				this.ispopup = true;
+			if (gridNm !== '사용자 관리') {
+				this.isPopup = true;
 			}
 		},
-		rowDbClick( row, gridNm ) {
-			console.log(" 더블클릭 row ===> ");
+		rowDbClick(row, gridNm) {
+			console.log(' 더블클릭 row ===> ');
 			console.log(row);
 		},
-		dialogCallback(dialogObj){
-			console.log("dialogObj.msg = "+dialogObj.msg);
-			this.ispopup = false;
-		}
+		dialogCallback(dialogObj) {
+			console.log('dialogObj.msg = ' + dialogObj.msg);
+			this.isPopup = false;
+		},
 	},
 	computed: {
-		isLogin() {
-			return this.$store.getters.isLogin;
-		},
-		userId() {
-			return this.$store.state.authStore.loginData.userId;
-		},
-		// state -> noticeList 값을 가져옴
-		getSystemNoticeList() {
-			return this.$store.state.noticeStore.noticeList;
-		},
-		getUserList() {
-			return this.$store.state.userStore.userList;
-		},
-		// curRow() {
-		// 	return this.currentRow;
-		// },
-	},
-	mounted() {
-		this.setSystemNoticeList();
-		this.setUserMngList();
+		...mapGetters({ getUser: 'authStore/getUser' }),
+		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
 	},
 };
 </script>

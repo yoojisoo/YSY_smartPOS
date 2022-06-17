@@ -7,4 +7,5 @@ import com.ysy.jwt.auth.entity.YsyUserMst;
 public interface YsyUserMstRepository extends JpaRepository<YsyUserMst, String>{
 
 	public YsyUserMst findByUsername(String username);
+//	public YsyUserMst deleteByUsername(String username);
 }
