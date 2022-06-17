@@ -31,18 +31,6 @@ const routes = [
 		icon: 'mdi-account',
 		component: () => import('../views/contents/UserInfo.vue'),
 	},
-	{
-		path: '/userPage',
-		name: 'user',
-		icon: 'mdi-home',
-		component: () => import('../views/userLayout.vue'),
-	},
-	{
-		path: '/adminPage',
-		name: 'admin',
-		icon: 'mdi-home',
-		component: () => import('../views/adminLayout.vue'),
-	},
 
 	// 회원가입 로그인 페이지
 	{
@@ -67,12 +55,12 @@ const routes = [
 	{
 		path: '/storeNotice',
 		name: 'storeNotice',
-		component: () => import('../views/contents/storeNotice.vue'),
+		component: () => import('../views/contents/StoreNotice.vue'),
 	},
 	{
 		path: '/qnaNotice',
 		name: 'qnaNotice',
-		component: () => import('../views/contents/qnaNotice.vue'),
+		component: () => import('../views/contents/QnaNotice.vue'),
 	},
 
 	// 사용자관리 관련
@@ -88,7 +76,6 @@ const routes = [
 		component: () => import('../views/admin/auth/MenuManager.vue'),
 	},
 
-	
 	{
 		path: '/kakaoLogin',
 		name: 'kakaoLogin',
@@ -101,16 +88,6 @@ const routes = [
 		component: () => import('../views/sign/NaverLogin.vue'),
 		props: true,
 	},
-
-
-	
-
-
-
-
-
-
-
 
 	// 에러페이지
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기
