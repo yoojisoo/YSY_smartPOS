@@ -7,10 +7,17 @@
 
 		<!-- Main Start -->
 		<v-main>
-			<v-container fluid pa-0 ma-0 style="height: 100%">
+			<v-container fluid pa-0 ma-0>
 				<v-row justify="center" no-gutters>
-					<v-col cols="12">
-						<ysy-grid :gridInfo="userMngInfo" />
+					<v-col cols="12" md="8" lg="8" xl="8">
+						<v-row justify="center" no-gutters style="height: inherit">
+							<!--<v-col cols="12">
+								<pageHistory :pageNameKo="pageNameKo" />
+							</v-col>-->
+							<v-col cols="12">
+								<ysyGrid :gridInfo="userInfo" />
+							</v-col>
+						</v-row>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -31,6 +38,7 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import { mapGetters, mapActions } from 'vuex';
+import userService from '@/service/auth/UserService.js';
 
 export default {
 	components: {
@@ -42,7 +50,7 @@ export default {
 	data() {
 		return {
 			pageName: 'User Manager',
-			userMngInfo: {
+			userInfo: {
 				dataList: [],
 				headers: [
 					{ text: '아이디', value: 'username', key: true },
@@ -69,21 +77,22 @@ export default {
 		};
 	},
 	computed: {
-		getUserMgnList() {
-			return this.$store.state.userStore.userList;
-		},
+		...mapGetters({getUserList: 'userStore/getUserList'}),
 	},
+
 	mounted() {
-		this.setUserMngList();
+		this.setUserList();
 	},
 
 	methods: {
 		rowClick(row, gridNm) {},
 		rowDbClick(row, gridNm) {},
-		async setUserMngList() {
-			await this.$store.dispatch('findUserList');
-			if (this.getUserMgnList) {
-				this.userMngInfo.dataList = this.getUserMgnList;
+		async setUserList() {
+			await userService.setUserList();
+			if(this.getUserList) {
+				this.userInfo.dataList = this.getUserList;
+			} else {
+				console.log('this.getUserList 실패 !!');
 			}
 		},
 	},
