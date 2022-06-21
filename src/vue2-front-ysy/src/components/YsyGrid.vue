@@ -112,8 +112,7 @@
 </template>
 
 <script>
-import dateForm from '@/components/gridModule/DateForm.vue';
-import v_menu from '@/assets/common/vMenus.js';
+import dateForm from '@/components/DateForm.vue';
 
 export default {
 	props: ['gridInfo', 'cardHeight'],
@@ -187,64 +186,4 @@ export default {
 };
 </script>
 <style>
-#medicalRecordHome .record-item-value {
-	font-size: 14px;
-	border-bottom: 1px solid #a1a1a1;
-}
-#medicalRecordHome .record-item-unit {
-	font-size: 14px;
-}
-#medicalRecordHome .record-item-value-border {
-	border: 1px solid #a1a1a1;
-	margin-right: 4px;
-}
-#medicalRecordHome .record-item-key {
-	font-weight: bold;
-	font-size: 14px;
-}
-#medicalRecordHome .record-content {
-	border: 1px solid #a1a1a1;
-}
-#medicalRecordHome .v-data-table td {
-	padding: 12px 8px;
-	font-size: 14px;
-	border-color: rgba(0, 0, 0, 0.12);
-	border-style: solid;
-	border-left-width: 0px;
-	border-right-width: 1px;
-	border-top-width: 0px;
-	border-bottom-width: 1px;
-}
-#medicalRecordHome .v-data-table th {
-	border-color: rgba(0, 0, 0, 0.12);
-	border-style: solid;
-	border-left-width: 0px;
-	border-right-width: 1px;
-	border-top-width: 0px;
-	border-bottom-width: 1px;
-}
-#medicalRecordHome .v-data-table table {
-	border: solid 1px #a1a1a1;
-	border-radius: 5px;
-}
-#medicalRecordHome .v-data-table table thead tr th {
-	font-weight: bold;
-	font-size: 14px;
-	padding: 0px 8px;
-}
-#medicalRecordHome .v-data-table table tbody tr td .v-btn {
-	margin-right: 0px !important;
-}
-#medicalRecordHome .v-data-table .v-data-table-header__sort-badge {
-	font-size: 10px;
-}
-#medicalRecordHome .v-data-table.theme--dark tr th {
-	color: #fff !important;
-}
-#medicalRecordHome .theme--light .v-data-table table thead tr th {
-	color: black;
-}
-#medicalRecordHome .theme--light .v-data-table table thead tr td {
-	color: black;
-}
 </style>

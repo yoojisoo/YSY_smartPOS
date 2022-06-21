@@ -23,13 +23,13 @@ const routes = [
 		path: '/',
 		name: 'home',
 		icon: 'mdi-home',
-		component: () => import('../views/contents/Home.vue'),
+		component: () => import('../views/user/Home.vue'),
 	},
 	{
 		path: '/userInfo',
 		name: 'userInfo',
 		icon: 'mdi-account',
-		component: () => import('../views/contents/UserInfo.vue'),
+		component: () => import('../views/user/MyInfo.vue'),
 	},
 
 	// 회원가입 로그인 페이지
@@ -50,30 +50,30 @@ const routes = [
 	{
 		path: '/systemNotice',
 		name: 'systemNotice',
-		component: () => import('../views/contents/SystemNotice.vue'),
+		component: () => import('../views/user/NoticeSystem.vue'),
 	},
 	{
 		path: '/storeNotice',
 		name: 'storeNotice',
-		component: () => import('../views/contents/StoreNotice.vue'),
+		component: () => import('../views/user/NoticeStore.vue'),
 	},
 	{
 		path: '/qnaNotice',
 		name: 'qnaNotice',
-		component: () => import('../views/contents/QnaNotice.vue'),
+		component: () => import('../views/user/Qna.vue'),
 	},
 
 	// 사용자관리 관련
 	{
 		path: '/userManager',
 		name: 'userManager',
-		component: () => import('../views/admin/auth/UserManager.vue'),
+		component: () => import('../views/admin/auth/UserMng.vue'),
 	},
 	// 메뉴 관련
 	{
 		path: '/menuManager',
 		name: 'menuManager',
-		component: () => import('../views/admin/auth/MenuManager.vue'),
+		component: () => import('../views/admin/auth/MenuMng.vue'),
 	},
 
 	{

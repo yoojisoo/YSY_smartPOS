@@ -94,7 +94,7 @@ import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
-import noticeDialog from '@/components/NoticeDialog.vue';
+import noticeDialog from '@/components/Dialog.vue';
 import { mapGetters } from 'vuex';
 
 export default {

@@ -172,7 +172,7 @@
 </template>
 
 <script>
-import v_menus from '@/assets/common/vMenus.js';
+import v_menus from '@/assets/util/vMenus.js';
 import { eventBus } from '@/main.js';
 import navigationDrawer from '@/components/header/TheNavigationDrawer.vue';
 import { mapGetters } from 'vuex';
