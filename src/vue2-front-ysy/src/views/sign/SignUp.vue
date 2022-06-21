@@ -1,26 +1,30 @@
 <template>
 	<v-app>
 		<v-main>
-			<v-container fill-height fluid>
-				<v-row justify="center" no-gutters>
-					<v-col cols="auto">
-						<v-btn icon to="/">
-							<v-icon>mdi-heart</v-icon>
-						</v-btn>
-					</v-col>
-					<v-col cols="12">
-						<v-row justify="center" no-gutters>
-							<v-col cols="md-4 xs-12">
+			<v-container class="signUp_container">
+				<v-row class="signUp_row">
+					<v-col class="signUp_col" cols="12">
+						<v-row class="signUp_row">
+							<v-col class="col_logo" cols="12">
+								<v-btn class="btn_remove_hover" text x-large to="/">
+									<v-img
+										contain
+										height="50"
+										src="@/assets/img/svg/logoWhite.svg"
+									/>
+								</v-btn>
+							</v-col>
+							<v-col class="signUp_col" cols="md-4 xs-12">
 								<v-card class="elevation-0">
 									<v-card-text>
 										<v-form ref="form" @submit.prevent="signUp">
 											<v-row justify="space-between" no-gutters>
-												<v-col cols="12" class="mb-6">
+												<!--<v-col cols="12" class="mb-6">
 													<v-progress-linear
 														v-model="valueDeterminate"
-														color="deep-purple lighten-1"
+														class="progress_linear"
 													></v-progress-linear>
-												</v-col>
+												</v-col>-->
 												<v-col cols="12" class="mb-6">
 													<h2>
 														POS 설치를 위해 회원정보를 입력해주세요.
@@ -31,7 +35,7 @@
 													<!-- 회사코드 -->
 													<v-text-field
 														v-model="signUpInfo.bizCd"
-														color="deep-purple lighten-1"
+														class="signUp_txt_field"
 														type="text"
 														placeholder="회사코드"
 														filled
@@ -45,7 +49,7 @@
 													<!-- 사용자 이름 -->
 													<v-text-field
 														v-model="signUpInfo.name"
-														color="deep-purple lighten-1"
+														class="signUp_txt_field"
 														type="text"
 														placeholder="이름"
 														filled
@@ -57,7 +61,7 @@
 													<!-- 사용자 아이디(이메일) -->
 													<v-text-field
 														v-model="signUpInfo.username"
-														color="deep-purple lighten-1"
+														class="signUp_txt_field"
 														name="user_email"
 														type="text"
 														placeholder="이메일"
@@ -76,14 +80,14 @@
                                                          인증번호 입력 필드 -->
 												<!-- <v-text-field
                                                         v-model="key"
-                                                        color="deep-purple lighten-1"
+                                                        class="signUp_txt_field"
                                                         type="text"
                                                         placeholder="인증번호 숫자 6자리"
                                                         filled
                                                         required
                                                     ></v-text-field>
                                                     <v-btn
-                                                        color="deep-purple lighten-1"
+                                                        color="primary"
                                                         outlined
                                                         large
                                                         block
@@ -96,7 +100,7 @@
 												<v-col cols="12" class="mb-6">
 													<!-- 이메일 중복확인(확인 전 : 이메일 중복 확인, 확인 후 가입 가능할때 : 이메일 중복 확인 완료) -->
 													<v-btn
-														color="deep-purple lighten-1"
+														color="primary"
 														outlined
 														large
 														block
@@ -110,7 +114,7 @@
 													</v-btn>
 													<!-- 이메일 인증(인증 전 : 이메일 인증, 인증 후 : 이메일 인증 완료) -->
 													<!-- <v-btn
-                                                        color="deep-purple lighten-1"
+                                                        color="primary"
                                                         outlined
                                                         large
                                                         block
@@ -125,7 +129,7 @@
 													<!-- 비밀번호(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
 													<v-text-field
 														v-model="signUpInfo.password"
-														color="deep-purple lighten-1"
+														class="signUp_txt_field"
 														:append-icon="
 															passwordShow ? 'mdi-eye' : 'mdi-eye-off'
 														"
@@ -141,7 +145,7 @@
 													<!-- 비밀번호 확인(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
 													<v-text-field
 														v-model="confirmPassword"
-														color="deep-purple lighten-1"
+														class="signUp_txt_field"
 														:append-icon="
 															confirmPasswordShow
 																? 'mdi-eye'
@@ -165,14 +169,14 @@
 												<v-col cols="12">
 													<!-- 회원가입 버튼 -->
 													<v-btn
-														class="my-2"
-														color="deep-purple lighten-1"
+														class="signUp_btn"
 														block
-														dark
+														large
 														@click="signUp"
 														@keyup.enter="signUp"
-														>회원가입</v-btn
 													>
+														<span class="signUp_btn_txt">회원가입</span>
+													</v-btn>
 												</v-col>
 												<v-col cols="12">
 													<div

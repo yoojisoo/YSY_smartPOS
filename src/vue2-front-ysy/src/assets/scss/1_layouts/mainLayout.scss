@@ -1,0 +1,15 @@
+.main_layout_container {
+	height: 100%;
+	min-width: 100%;
+	padding: 0%;
+	.main_layout_row {
+		height: 100%;
+		margin: 0%;
+        padding: 0%;
+		justify-content: center;
+		.main_layout_col {
+            padding: 0%;
+			align-self: center;
+		}
+	}
+}

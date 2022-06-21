@@ -1,0 +1,15 @@
+/**
+ * @author 신민경
+ * @create date 2022-06-20 16:09:26
+ * @desc 모든 scss를 한 곳으로 모으는 css (단, variables.scss는 여기에 포함되지 않음)
+ *       이 파일은 src/plugins/vuetify.js에 정의해야함
+ */
+
+// vuetify의 변수를 사용할 경우 써야함
+@import "~vuetify/src/styles/main.sass";
+
+@import "1_layouts/mainLayout.scss";
+
+@import "2_pages/signUp.scss";
+
+@import "4_components/button.scss";
