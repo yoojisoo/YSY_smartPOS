@@ -43,6 +43,7 @@ public class YsyMenuMstService {
 						 	.menu_full_path((String)x[4])
 						 	.menu_seq      ((Integer)x[5])
 						 	.is_admin      ((String)x[6])
+						 	.menu_icon     ((String)x[7])
 						 	.build()
 						)
 					.collect(Collectors.toList());

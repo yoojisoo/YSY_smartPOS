@@ -11,7 +11,7 @@
 								<v-row justify="center" align="center" class="ma-0 pa-0" no-gutters>
 									<v-col cols="2" class="ma-0 pa-0 hidden-md-and-up">
 										<v-btn icon color="black" @click="drawer = true">
-											<v-icon>mdi-format-list-bulleted-square</v-icon>
+											<v-icon>mdi-menu</v-icon>
 										</v-btn>
 									</v-col>
 									<v-col cols="8" style="text-align: center" class="ma-0 pa-0">
@@ -32,7 +32,7 @@
 								<v-menu offset-y v-for="(item, idx) in headerMenu" :key="idx" tile>
 									<template v-slot:activator="{ on }">
 										<v-btn v-on="on" plain>
-											{{ item.name }}
+											{{ item.menu_nm }}
 										</v-btn>
 									</template>
 									<v-list v-if="item.childMenus.length > 0">
@@ -42,46 +42,12 @@
 											link
 										>
 											<v-list-item-title
-												v-text="menus.name"
-												@click="goPage(menus.path)"
+												v-text="menus.menu_nm"
+												@click="goPage(menus.menu_path)"
 											></v-list-item-title>
 										</v-list-item>
 									</v-list>
 								</v-menu>
-								<!--<v-tabs
-									centered
-									dark
-									show-arrows
-									background-color="purple lighten-2"
-								>
-									<v-tab
-										v-for="(item, idx) in headerMenu"
-										:key="idx"
-										:to="item.path"
-									>
-										<v-menu v-if="item.childMenus.length > 0" offset-y>
-											<template v-slot:activator="{ on, attrs }">
-												<span v-bind="attrs" v-on="on">
-													{{ item.name }}
-													<v-icon right> mdi-menu-down </v-icon>
-												</span>
-											</template>
-
-											<v-list>
-												<v-list-item
-													v-for="(menus, idx) in item.childMenus"
-													:key="idx"
-													link
-												>
-													<v-list-item-title
-														v-text="menus.name"
-													></v-list-item-title>
-												</v-list-item>
-											</v-list>
-										</v-menu>
-										<div v-else>{{ item.name }}</div>
-									</v-tab>
-								</v-tabs>-->
 							</v-col>
 						</v-row>
 					</v-col>
@@ -128,45 +94,42 @@
 			<v-divider />
 
 			<v-list>
-				<div v-for="item in headerMenu" :key="item.name">
+				<div v-for="item in headerMenu" :key="item.menu_nm">
 					<!-- 하위 메뉴가 존재할때 -->
 					<v-list-group
 						v-if="item.childMenus.length > 0"
-						:prepend-icon="item.icon"
+						:prepend-icon="item.menu_icon"
 						no-action
 					>
 						<template v-slot:activator>
-							<v-list-item-title v-text="item.name" />
+							<v-list-item-title v-text="item.menu_nm" />
 						</template>
 
-						<v-list-item v-for="menus in item.childMenus" :key="menus.name" link>
+						<v-list-item v-for="menus in item.childMenus" :key="menus.menu_nm" link>
 							<v-list-item-content>
 								<v-list-item-title
-									v-text="menus.name"
-									@click="goPage(menus.path)"
+									v-text="menus.menu_nm"
+									@click="goPage(menus.menu_path)"
 								/>
 							</v-list-item-content>
 						</v-list-item>
+						<v-divider />
 					</v-list-group>
 
 					<!-- 하위 메뉴가 존재하지 않을때 -->
-					<v-list-item v-else :to="item.path">
+					<v-list-item v-else :to="item.menu_path">
 						<v-list-item-icon>
-							<v-icon> {{ item.icon }} </v-icon>
+							<v-icon> {{ item.menu_icon }} </v-icon>
 						</v-list-item-icon>
 						<v-list-item-content>
-							<v-list-item-title v-text="item.name" @click="goPage(menus.path)" />
+							<v-list-item-title
+								v-text="item.menu_nm"
+								@click="goPage(menus.menu_path)"
+							/>
 						</v-list-item-content>
 					</v-list-item>
 				</div>
 			</v-list>
-
-			<!--<template v-slot:append>
-				<div class="pa-2">
-					<v-btn v-if="isLogin" block plain @click="logout"> 로그아웃 </v-btn>
-					<v-btn v-else block plain to="/signIn"> 로그인 </v-btn>
-				</div>
-			</template>-->
 		</v-navigation-drawer>
 	</div>
 </template>
@@ -176,6 +139,7 @@ import v_menus from '@/assets/util/vMenus.js';
 import { eventBus } from '@/main.js';
 import navigationDrawer from '@/components/header/TheNavigationDrawer.vue';
 import { mapGetters } from 'vuex';
+import menuService from '@/service/auth/MenuService.js';
 
 const authStore = 'authStore';
 
@@ -185,6 +149,7 @@ export default {
 	components: { navigationDrawer },
 
 	data: () => ({
+		menuList: [],
 		windowWidth: 0, // 화면 사이즈 변경되면 drawer false 처리하기 위해서 저장
 		drawer: null,
 		eventData: 'header event data',
@@ -196,7 +161,8 @@ export default {
 	}),
 
 	mounted() {
-		this.getMenuList();
+		//this.getMenuList();
+		this.setMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
 		window.addEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 추가
 	},
@@ -214,6 +180,7 @@ export default {
 
 	computed: {
 		...mapGetters(authStore, ['isLogin', 'getUserId', 'getUserName']),
+		...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
 	},
 
 	methods: {
@@ -247,8 +214,8 @@ export default {
 
 			var parentList = [];
 			var childList = [];
-			v_menus.forEach(x => {
-				if (this.pageName === 'admin' && x.isAdmin === 'Y' && x.pmenuId == null) {
+			this.menuList.forEach(x => {
+				if (this.pageName === 'admin' && x.is_admin === 'Y' && x.p_menu_id == null) {
 					// admin 메뉴 구성
 					parentList.push(x);
 				} else {
@@ -256,8 +223,8 @@ export default {
 						//this.pageName === 'home' &&
 						//x.isAdmin === 'N' &&
 						//(x.pmenuId == null || x.pmenuId == '')
-						x.pmenuId == null ||
-						x.pmenuId == ''
+						x.p_menu_id == null ||
+						x.p_menu_id == ''
 					) {
 						// home 메뉴 구성
 						parentList.push(x);
@@ -265,8 +232,8 @@ export default {
 						//this.pageName === 'home' &&
 						//x.isAdmin === 'N' &&
 						//(x.pmenuId != null || x.pmenuId != '')
-						x.pmenuId != null ||
-						x.pmenuId != ''
+						x.p_menu_id != null ||
+						x.p_menu_id != ''
 					) {
 						childList.push(x);
 					}
@@ -276,7 +243,7 @@ export default {
 			parentList.forEach(h => {
 				h.childMenus = [];
 				childList.forEach(c => {
-					if (c.pmenuId === h.menuId) {
+					if (c.p_menu_id === h.menu_id) {
 						h.childMenus.push(c);
 					}
 				});
@@ -292,41 +259,22 @@ export default {
 			console.log(' ↑↑↑ headerMenuFilter End ↑↑↑ ');
 		},
 
-		async getMenuList() {
-			console.log(' ↓↓↓ getMenuList Start ↓↓↓ ');
-			if (v_menus.length <= 0) {
-				var res1 = await this.$axios.get('ysy/v1/menu/getMenuList');
-				var list = res1.data;
-
-				for (var i = 0; i < list.length; i++) {
-					var menuData = {};
-					menuData.path = list[i].menu_path;
-					menuData.name = list[i].menu_nm;
-					menuData.menuId = list[i].menu_id;
-					menuData.menuSeq = list[i].menu_seq;
-					menuData.icon = 'mdi-home';
-					menuData.component = () => import(list[i].menu_pull_path);
-					menuData.pmenuId = list[i].p_menu_id;
-					menuData.isAdmin = list[i].is_admin;
-					v_menus.push(menuData);
-				}
+		async setMenuList() {
+			console.log('ㅇㅅㅇ');
+			await menuService.setMenuList();
+			if (this.getMenuList) {
+				this.menuList = this.getMenuList;
+				console.log(' →→→ v_menus');
+				console.log(v_menus);
+				this.setHeaderMenu();
+			} else {
+				console.log('this.getMenuList 실패 !!');
 			}
-
-			console.log(' →→→ v_menus');
-			console.log(v_menus);
-			this.setHeaderMenu();
-			console.log(' ↑↑↑ getMenuList End ↑↑↑ ');
 		},
+
 		goPage(path) {
 			this.$router.push({ path: path });
 		},
 	},
 };
 </script>
-
-<style scoped>
-.v-container {
-	max-width: 70%;
-	height: 100%;
-}
-</style>
