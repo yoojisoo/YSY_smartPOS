@@ -1,15 +1,13 @@
 <template>
 	<v-app>
 		<v-main>
-			<v-container fill-height fluid>
-				<v-row justify="center" no-gutters>
-					<v-col cols="auto">
-						<v-btn class="btn_remove_hover" text x-large to="/">
-							<v-img contain height="50" src="@/assets/img/svg/logoWhite.svg" />
-						</v-btn>
+			<v-container class="sign_container">
+				<v-row class="sign_row">
+					<v-col class="sign_logo" cols="12">
+						<logoBtn />
 					</v-col>
-					<v-col cols="12">
-						<v-row justify="center" no-gutters>
+					<v-col class="sign_col" cols="12">
+						<v-row class="sign_row">
 							<v-col cols="md-4 xs-12">
 								<v-card elevation="0">
 									<v-card-text>
@@ -81,7 +79,7 @@
 													block
 													large
 													color="#ffe812"
-													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://192.168.0.77:8080/kakaoLogin&response_type=code"
+													href="https://kauth.kakao.com/oauth/authorize?client_id=f21217ecb3112aa4791cbdc7d7e8b4ed&redirect_uri=http://localhost:8080/kakaoLogin&response_type=code"
 												>
 													<!-- <v-btn
 													block
@@ -139,9 +137,12 @@
 
 <script>
 import authService from '@/service/auth/AuthService.js';
+import logoBtn from '@/components/sign/TheLogo.vue';
 
 export default {
 	name: 'App',
+	components: { logoBtn },
+
 	data() {
 		return {
 			toggleMessage: [{ title: 'REMEMBER' }, { title: 'FORGET ID/PW?' }],

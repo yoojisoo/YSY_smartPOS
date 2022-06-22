@@ -1,20 +1,14 @@
 <template>
 	<v-app>
 		<v-main>
-			<v-container class="signUp_container">
-				<v-row class="signUp_row">
-					<v-col class="signUp_col" cols="12">
-						<v-row class="signUp_row">
-							<v-col class="col_logo" cols="12">
-								<v-btn class="btn_remove_hover" text x-large to="/">
-									<v-img
-										contain
-										height="50"
-										src="@/assets/img/svg/logoWhite.svg"
-									/>
-								</v-btn>
+			<v-container class="sign_container">
+				<v-row class="sign_row">
+					<v-col class="sign_col" cols="12">
+						<v-row class="sign_row">
+							<v-col class="sign_logo" cols="12">
+								<logoBtn />
 							</v-col>
-							<v-col class="signUp_col" cols="md-4 xs-12">
+							<v-col class="sign_col" cols="md-4 xs-12">
 								<v-card class="elevation-0">
 									<v-card-text>
 										<v-form ref="form" @submit.prevent="signUp">
@@ -35,7 +29,7 @@
 													<!-- 회사코드 -->
 													<v-text-field
 														v-model="signUpInfo.bizCd"
-														class="signUp_txt_field"
+														class="sign_txt_field"
 														type="text"
 														placeholder="회사코드"
 														filled
@@ -49,7 +43,7 @@
 													<!-- 사용자 이름 -->
 													<v-text-field
 														v-model="signUpInfo.name"
-														class="signUp_txt_field"
+														class="sign_txt_field"
 														type="text"
 														placeholder="이름"
 														filled
@@ -61,7 +55,7 @@
 													<!-- 사용자 아이디(이메일) -->
 													<v-text-field
 														v-model="signUpInfo.username"
-														class="signUp_txt_field"
+														class="sign_txt_field"
 														name="user_email"
 														type="text"
 														placeholder="이메일"
@@ -80,7 +74,7 @@
                                                          인증번호 입력 필드 -->
 												<!-- <v-text-field
                                                         v-model="key"
-                                                        class="signUp_txt_field"
+                                                        class="sign_txt_field"
                                                         type="text"
                                                         placeholder="인증번호 숫자 6자리"
                                                         filled
@@ -129,7 +123,7 @@
 													<!-- 비밀번호(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
 													<v-text-field
 														v-model="signUpInfo.password"
-														class="signUp_txt_field"
+														class="sign_txt_field"
 														:append-icon="
 															passwordShow ? 'mdi-eye' : 'mdi-eye-off'
 														"
@@ -145,7 +139,7 @@
 													<!-- 비밀번호 확인(아이콘을 누르면 비밀번호 표시 형식이 바뀜) -->
 													<v-text-field
 														v-model="confirmPassword"
-														class="signUp_txt_field"
+														class="sign_txt_field"
 														:append-icon="
 															confirmPasswordShow
 																? 'mdi-eye'
@@ -169,13 +163,13 @@
 												<v-col cols="12">
 													<!-- 회원가입 버튼 -->
 													<v-btn
-														class="signUp_btn"
+														class="sign_btn"
 														block
 														large
 														@click="signUp"
 														@keyup.enter="signUp"
 													>
-														<span class="signUp_btn_txt">회원가입</span>
+														<span class="sign_btn_txt">회원가입</span>
 													</v-btn>
 												</v-col>
 												<v-col cols="12">
@@ -200,9 +194,12 @@
 </template>
 
 <script>
-// import router from '@/router'
+import logoBtn from '@/components/sign/TheLogo.vue';
+
 export default {
 	name: 'App',
+	components: { logoBtn },
+
 	data() {
 		return {
 			isConfirmEmail: false, // 이메일 중복확인 (true:가입 가능, false: 가입 불가능)
