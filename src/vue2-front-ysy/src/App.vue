@@ -21,19 +21,18 @@ export default {
 	components: {},
 	data: () => ({}),
 	mounted() {
-		console.log("app.vue mounted ");
-		
+		console.log('app.vue mounted ');
 	},
 	computed: {},
 	methods: {
 		refreshAll() {
-            // 새로고침
-            console.log("새로고침");
-        }
+			// 새로고침
+			console.log('새로고침');
+		},
 	},
 	beforeCreate() {
-		console.log("app.vue beforeCreate ");
-		localStorage.clear();
+		console.log('app.vue beforeCreate ');
+		//localStorage.clear();
 	},
 	created() {},
 };

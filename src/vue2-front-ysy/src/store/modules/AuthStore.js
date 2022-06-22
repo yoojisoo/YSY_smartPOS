@@ -1,10 +1,14 @@
-import jwt_decode from 'jwt-decode';
-import Axios from 'axios';
+import authService from '@/service/auth/AuthService.js';
+import axios from 'axios';
 
 const authStore = {
 	namespaced: true,
 	state: {
-		loginData: {},
+		loginData: {
+			isLogin: null,
+			user_id: null,
+			user_name: null,
+		},
 		adminPage: {
 			chartDataSet: [],
 		},
@@ -14,9 +18,8 @@ const authStore = {
 	},
 	getters: {
 		isLogin: state => {
-			console.log('isLogin state.loginData.user_id=>' + state.loginData.user_id);
-			console.log(state.loginData.user_id !== undefined || state.loginData.user_id !== '');
-			return state.loginData.user_id !== undefined && state.loginData.user_id !== '';
+			console.log('🎀 isLogin ===> ' + state.loginData.isLogin);
+			return state.loginData.isLogin;
 		},
 		getSignUpKey: state => {
 			return state.singUpKey.key;
@@ -32,7 +35,7 @@ const authStore = {
 		},
 	},
 	mutations: {
-		setUserInfo: (state, userInfo) => {
+		setUserInfo: (state, payload) => {
 			/*  기본 셋팅 키
 				user_id
 				user_name
@@ -41,29 +44,41 @@ const authStore = {
 				refresh_token
 				refresh_token_exp
 			*/
-			var keys = Object.keys(userInfo);
+			var keys = Object.keys(payload);
 			keys.forEach(key => {
-				state.loginData[key] = userInfo[key];
+				state.loginData[key] = payload[key];
 			});
-		},
-		clearUserInfo: state => {
-			console.log('authStore mutations clearUserInfo');
-			Axios.defaults.headers.common['access_token'] = '';
-			state.loginData = {};
+			state.loginData.isLogin = true;
 		},
 		setSignUpKey: (state, key) => {
 			state.singUpKey.key = key;
 		},
+		clearUserInfo: state => {
+			axios.defaults.headers.common['access_token'] = '';
+			var keys = Object.keys(state.loginData);
+			keys.forEach(key => {
+				state.loginData[key] = '';
+			});
+		},
 	},
 	actions: {
-		setUserInfo: ({ commit }, userInfo) => {
-			commit('setUserInfo', userInfo);
+		async setUserInfo({ commit }, userInfo) {
+			let payload = await authService.setLoginData(userInfo);
+			console.log('AuthStore setUserInfo ✔️✔️✔️✔️✔️✔️✔️');
+			console.log(payload);
+			if (payload !== null && payload !== undefined) {
+				console.log('authStore setUserInfo ✔️');
+				commit('setUserInfo', payload);
+				return true;
+			} else {
+				console.log('authStore setUserInfo ERROR !!!!!!!!!!!');
+				return false;
+			}
 		},
 		setSignUpKey: ({ commit }, key) => {
 			commit('setSignUpKey', key);
 		},
 		clearUserInfo: ({ commit }) => {
-			console.log('auth store clearUserInfo');
 			commit('clearUserInfo');
 		},
 	},

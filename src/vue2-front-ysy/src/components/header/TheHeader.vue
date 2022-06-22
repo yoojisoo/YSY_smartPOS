@@ -15,7 +15,13 @@
 										</v-btn>
 									</v-col>
 									<v-col cols="8" style="text-align: center" class="ma-0 pa-0">
-										<v-btn block plain to="/" retain-focus-on-click>
+										<v-btn
+											:ripple="false"
+											block
+											text
+											class="btn_remove_bg"
+											to="/"
+										>
 											<v-img
 												contain
 												height="30"
@@ -135,11 +141,10 @@
 </template>
 
 <script>
-import v_menus from '@/assets/util/vMenus.js';
+import store from '@/store/index';
 import { eventBus } from '@/main.js';
-import navigationDrawer from '@/components/header/TheNavigationDrawer.vue';
 import { mapGetters } from 'vuex';
-import menuService from '@/service/auth/MenuService.js';
+import navigationDrawer from '@/components/header/TheNavigationDrawer.vue';
 
 const authStore = 'authStore';
 
@@ -161,7 +166,6 @@ export default {
 	}),
 
 	mounted() {
-		//this.getMenuList();
 		this.setMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
 		window.addEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 추가
@@ -253,19 +257,16 @@ export default {
 			this.headerMenu = parentList;
 
 			console.log(' ↓↓↓ this.headerMenu ↓↓↓ ');
-			console.log(' →→→ this.headerMenu (parent & child)');
 			console.log(this.headerMenu);
 			console.log(' ↑↑↑ this.headerMenu ↑↑↑ ');
 			console.log(' ↑↑↑ headerMenuFilter End ↑↑↑ ');
 		},
 
 		async setMenuList() {
-			console.log('ㅇㅅㅇ');
-			await menuService.setMenuList();
+			await store.dispatch('menuStore/findMenuList');
+
 			if (this.getMenuList) {
 				this.menuList = this.getMenuList;
-				console.log(' →→→ v_menus');
-				console.log(v_menus);
 				this.setHeaderMenu();
 			} else {
 				console.log('this.getMenuList 실패 !!');

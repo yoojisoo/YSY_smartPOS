@@ -136,7 +136,6 @@
 </template>
 
 <script>
-import authService from '@/service/auth/AuthService.js';
 import logoBtn from '@/components/sign/TheLogo.vue';
 
 export default {
@@ -154,14 +153,12 @@ export default {
 	},
 	methods: {
 		async signIn() {
-			await this.$axios.post('/login', this.signInInfo).then(res => {
-				let flag = authService.setLoginData(res.headers);
-				if (flag) {
-					this.$router.replace('/');
-				} else {
-					alert('아이디나 비밀번호가 틀렸습니다.');
-				}
-			});
+			let flag = await this.$store.dispatch('authStore/setUserInfo', this.signInInfo);
+			if (flag) {
+				this.$router.replace('/');
+			} else {
+				alert('아이디나 비밀번호가 틀렸습니다.');
+			}
 		},
 		signUp() {
 			this.$router.replace({ name: 'signUp' });

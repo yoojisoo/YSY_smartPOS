@@ -23,8 +23,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import authService from '@/service/auth/AuthService.js';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
 	name: 'main-system-bar',
@@ -34,20 +33,15 @@ export default {
 	mounted() {},
 	methods: {
 		logout() {
-			authService.setLoginClear();
+			this.$store.dispatch('authStore/clearUserInfo');
+			// [ '/' 오류 뜨는 이유 ]
+			// 현재 '/' 경로에 있기 때문에 뜨는거라서 catch로 오류를 잡아줌
+			this.$router.replace('/').catch(() => {});
 		},
 	},
 	computed: {
 		...mapGetters({ isLogin: 'authStore/isLogin' }),
+		...mapGetters({ getUserId: 'authStore/getUserId' }),
 	},
 };
 </script>
-
-<style scoped>
-.v-system-bar {
-	color: #bababa;
-}
-.v-btn {
-	color: black;
-}
-</style>

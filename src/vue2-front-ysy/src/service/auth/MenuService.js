@@ -4,15 +4,21 @@
  * @desc 메뉴 가져오는 service
  */
 
-import store from '@/store/index';
+import axios from 'axios';
 
 class MenuService {
 	async setMenuList() {
-		console.log('MenuService - setMenuList 진입');
-		await store.dispatch('menuStore/findMenuList');
-		if (store.state.menuStore.menuList) {
-			return true;
-		} else return false;
+		let url = 'ysy/v1/menu/getMenuList';
+		let res = await axios.get(url);
+		if (res) {
+			console.log('MenuService setMenuList ==> start');
+			console.log(res.data);
+			console.log('MenuService setMenuList ==> end');
+			return res.data;
+		} else {
+			console.log('MenuService setMenuList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			return null;
+		}
 	}
 }
 
