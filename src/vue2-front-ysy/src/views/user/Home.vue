@@ -8,14 +8,14 @@
 
 		<!-- Main Start -->
 		<v-main>
-			<v-container fluid pa-0 ma-0 style="height: 100%">
+			<v-container class="main_layout_container">
 				<!-- style="background-color: white" -->
-				<v-row justify="center" no-gutters style="height: 100%">
+				<v-row class="main_layout_row">
 					<!-- 슬라이드 배너 가로 폭 : 전체 -->
-					<v-col cols="12">
+					<v-col class="main_layout_col" cols="12">
 						<carousel />
 					</v-col>
-					<v-col cols="12" md="8" lg="8" xl="8">
+					<v-col class="main_layout_col" cols="12" md="8" lg="8" xl="8">
 						<!-- style="background-color: #6667ab" -->
 						<v-row justify="center" no-gutters style="height: inherit">
 							<!-- 슬라이드 배너 가로 폭 : 맞춤 -->
@@ -94,7 +94,7 @@ import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
-import noticeDialog from '@/components/NoticeDialog.vue';
+import noticeDialog from '@/components/Dialog.vue';
 import { mapGetters } from 'vuex';
 
 export default {

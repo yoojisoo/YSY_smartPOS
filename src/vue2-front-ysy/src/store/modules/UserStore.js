@@ -8,7 +8,7 @@ const userStore = {
  * actions는 dispatch로 호출
  * mutations와 actions는 methods에서 사용
  *  */
-
+    namespaced: true,
     state: {
         userList: [],
     },
@@ -20,7 +20,7 @@ const userStore = {
     },
     actions: {
         async findUserList( {commit} ) {
-            let url = 'ysy/v1/auth/getUserList';
+            let url = 'ysy/v1/getUserList';
             let res = await axios.get(url);
             if(res){
                 let list = res.data.map( x => {

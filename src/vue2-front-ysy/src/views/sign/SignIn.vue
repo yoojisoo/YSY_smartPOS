@@ -4,8 +4,8 @@
 			<v-container fill-height fluid>
 				<v-row justify="center" no-gutters>
 					<v-col cols="auto">
-						<v-btn icon to="/">
-							<v-icon>mdi-heart</v-icon>
+						<v-btn class="btn_remove_hover" text x-large to="/">
+							<v-img contain height="50" src="@/assets/img/svg/logoWhite.svg" />
 						</v-btn>
 					</v-col>
 					<v-col cols="12">
@@ -115,12 +115,7 @@
 												</v-btn>
 											</v-col>
 											<v-col cols="4">
-												<v-btn
-													block
-													large
-													color="white"
-													href=""
-												>
+												<v-btn block large color="white" href="">
 													<v-img
 														contain
 														max-height="40"
@@ -143,8 +138,6 @@
 </template>
 
 <script>
-import userInfo from '../../assets/common/userInfo.js';
-import jwt_decode from 'jwt-decode';
 import authService from '@/service/auth/AuthService.js';
 
 export default {

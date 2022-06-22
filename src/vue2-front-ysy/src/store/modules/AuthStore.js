@@ -16,7 +16,7 @@ const authStore = {
 		isLogin: state => {
 			console.log('isLogin state.loginData.user_id=>' + state.loginData.user_id);
 			console.log(state.loginData.user_id !== undefined || state.loginData.user_id !== '');
-			return state.loginData.user_id !== undefined || state.loginData.user_id !== '';
+			return state.loginData.user_id !== undefined && state.loginData.user_id !== '';
 		},
 		getSignUpKey: state => {
 			return state.singUpKey.key;

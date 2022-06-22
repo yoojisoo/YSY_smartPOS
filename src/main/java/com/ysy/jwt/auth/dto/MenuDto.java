@@ -20,6 +20,7 @@ public class MenuDto {
 	private String menu_full_path;
 	private Integer menu_seq;
 	private String is_admin;
+	private String menu_icon;
 	
 	private List<Object[]> obj;
 	

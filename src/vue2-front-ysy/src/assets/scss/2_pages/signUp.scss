@@ -1,0 +1,32 @@
+.signUp_container {
+	height: 100%;
+	min-width: 100%;
+	padding: 0%;
+	.signUp_row {
+		height: 100%;
+		margin: 0%;
+		justify-content: center;
+		.col_logo {
+			align-self: center;
+			text-align: center;
+		}
+		.signUp_col {
+			align-self: center;
+		}
+	}
+}
+.theme--light {
+	//.progress_linear {
+	//	color: $color-primary;
+	//}
+	.signUp_btn {
+		box-shadow: none;
+		background-color: $color-primary !important;
+		.signUp_btn_txt {
+			color: white;
+		}
+	}
+	.signUp_txt_field {
+		color: $color-primary !important;
+	}
+}

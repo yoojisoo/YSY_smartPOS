@@ -1,45 +1,56 @@
-<!-- amdin -> 사용자관리 페이지 -->
 <template>
 	<v-app>
-		<main-system-bar />
-		<main-header />
+		<!-- Header Start -->
+		<mainSystemBar />
+		<mainHeader :pageName="pageName" />
+		<!-- Header End -->
 
+		<!-- Main Start -->
 		<v-main>
-			<v-container>
+			<v-container fluid pa-0 ma-0>
 				<v-row justify="center" no-gutters>
-					<!-- xs < sm < md < lg < xl -->
-					<v-col cols="12">
-						<!-- {{ this.$vuetify.breakpoint.name }} -->
-						<ysy-grid :gridInfo="userMngInfo" />
+					<v-col cols="12" md="8" lg="8" xl="8">
+						<v-row justify="center" no-gutters style="height: inherit">
+							<!--<v-col cols="12">
+								<pageHistory :pageNameKo="pageNameKo" />
+							</v-col>-->
+							<v-col cols="12">
+								<ysyGrid :gridInfo="userInfo" />
+							</v-col>
+						</v-row>
 					</v-col>
 				</v-row>
 			</v-container>
 		</v-main>
+		<!-- Main End -->
 
+		<!-- Footer Start -->
 		<v-footer class="ma-0 pa-0" fixed app>
-			<main-footer />
+			<mainFooter />
 		</v-footer>
+		<!-- Footer End -->
 	</v-app>
 </template>
 
 <script>
-import ysyGrid from '@/components/YsyGrid.vue';
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
-// import pageHistory from '@/components/PageHistory.vue';
+import ysyGrid from '@/components/YsyGrid.vue';
+import { mapGetters, mapActions } from 'vuex';
+import userService from '@/service/auth/UserService.js';
 
 export default {
 	components: {
-		ysyGrid,
 		mainSystemBar,
 		mainHeader,
 		mainFooter,
-		// pageHistory
+		ysyGrid,
 	},
 	data() {
 		return {
-			userMngInfo: {
+			pageName: 'User Manager',
+			userInfo: {
 				dataList: [],
 				headers: [
 					{ text: '아이디', value: 'username', key: true },
@@ -63,28 +74,31 @@ export default {
 					this.rowDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
-			async setUserMngList() {
-				await this.$store.dispatch('findUserList');
-				if (this.getUserMgnList) {
-					this.userMngInfo.dataList = this.getUserMgnList;
-				}
-			},
 		};
 	},
 	computed: {
-		getUserMgnList() {
-			return this.$store.state.userStore.userList;
-		},
+		...mapGetters({getUserList: 'userStore/getUserList'}),
 	},
+
 	mounted() {
-		this.setUserMngList();
+		this.setUserList();
 	},
 
 	methods: {
 		rowClick(row, gridNm) {},
 		rowDbClick(row, gridNm) {},
+		async setUserList() {
+			await userService.setUserList();
+			if(this.getUserList) {
+				this.userInfo.dataList = this.getUserList;
+			} else {
+				console.log('this.getUserList 실패 !!');
+			}
+		},
 	},
 };
 </script>
 
-<style></style>
+<style>
+@import '../../../assets/css/global_layout.css';
+</style>

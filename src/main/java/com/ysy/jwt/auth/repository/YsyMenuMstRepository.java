@@ -22,7 +22,8 @@ public interface YsyMenuMstRepository extends JpaRepository<YsyMenuMst, String>{
 				+ "     , a.menu_path                             " // " //as menuPath      
 				+ "     , a.menu_full_path                        " // " //as menuFullPath  
 				+ "     , a.menu_seq                              " // " //as menuSeq       
-				+ "     , a.is_admin                              " // " //as isAdmin       
+				+ "     , a.is_admin                              " // " //as isAdmin    
+				+ "     , a.menu_icon                             " // " //as menuIcon
 				+ " FROM  (                                       "
 				+ "         SELECT a.*                            "
 				+ "         FROM   Ysy_Menu_Mst a                 " 

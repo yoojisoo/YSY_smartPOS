@@ -64,7 +64,7 @@
 </template>
 
 <script>
-	import dateForm from '@/components/gridModule/DateForm.vue';
+	import dateForm from '@/components/DateForm.vue';
 
 	export default {
 		props: ["boardObj" , "callback"],
