@@ -18,6 +18,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
+import com.ysy.jwt.auth.service.JwtService;
 
 
 /**
@@ -31,11 +32,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 	
 	private YsyUserMstRepository ysyUserRepository;
 
+	private JwtService jwtService;
 	
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, YsyUserMstRepository ysyUserRepository) {
+	
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager
+			, YsyUserMstRepository ysyUserRepository
+			, JwtService jwtService) 
+	{
 		super(authenticationManager);
 		System.out.println("JwtAuthorizationFilter class JwtAuthorizationFilter 생성자 진입");
 		this.ysyUserRepository = ysyUserRepository;
+		this.jwtService = jwtService;
 	}
 	
 
@@ -44,29 +51,54 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 			throws IOException, ServletException {
 		System.out.println("JwtAuthorizationFilter class doFilterInternal  진입");
 		
-		String header = request.getHeader(JwtProperties.HEADER_STRING);
+		String header = request.getHeader(jwtService.HEADER_STRING);
 //		printPostData(request);
 		
 		
 		
-		if(header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {//내가 보낸 해더인지 검사
+		if(header == null || !header.startsWith(jwtService.TOKEN_PREFIX)) {//내가 보낸 해더인지 검사
 			chain.doFilter(request, response);
 			return;
 		}
 	
 		
-		System.out.println("header : "+header);
+		System.out.println("header : "+header); 
 		
-		String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
-		String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET))
-				             .build()
-				             .verify(token)
-				             .getClaim("username")
-				             .asString();
+		String token = request.getHeader(jwtService.HEADER_STRING).replace(jwtService.TOKEN_PREFIX, "");
+		String username  = jwtService.getClaim(token, "username" );
+		String     name  = jwtService.getClaim(token, "name"     );
+		String tokenType = jwtService.getClaim(token, "tokenType");
 		
 		if(username != null) {	
 			System.out.println("doFilterInternal username==========>" + username);
 			YsyUserMst user = ysyUserRepository.findByUsername(username);
+			
+			if(user == null || user.getUsername().isEmpty()) {
+//				chain.doFilter(request, response);
+				response.addHeader("biz_error"  , "user 정보 없음.");
+				return;
+			}
+			
+			if(tokenType != null && tokenType.toUpperCase().indexOf("ACCESS") > -1) {
+				
+				if(jwtService.tokenExpirationCheck(token)) 
+				{//만료시간 지남 : 만료 message 
+					response.addHeader("biz_error"  , "Access Token 만료됨");
+					return;
+				}
+			}
+			else 
+			if(tokenType != null && tokenType.toUpperCase().indexOf("REFRESH") > -1) {
+				if(jwtService.tokenExpirationCheck(token)) 
+				{//만료시간 지남 : 만료 message 
+					response.addHeader("biz_error"  , "Refresh Token 만료됨! 다시 로그인 바람. login page 이동");
+					return;
+				}
+				//refresh token 확인 후 access token 재발급
+				String accessToken = jwtService.createJwtAccessToken(username,name);
+				jwtService.tokenSend(response , accessToken , token);
+				return;
+			}
 			
 			// 인증은 토큰 검증시 끝. 인증을 하기 위해서가 아닌 스프링 시큐리티가 수행해주는 권한 처리를 위해 
 			// 아래와 같이 토큰을 만들어서 Authentication 객체를 강제로 만들고 그걸 세션에 저장!

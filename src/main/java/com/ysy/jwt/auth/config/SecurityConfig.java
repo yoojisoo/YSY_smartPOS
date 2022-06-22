@@ -1,6 +1,7 @@
 package com.ysy.jwt.auth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import com.ysy.common.SysEnum;
 import com.ysy.jwt.auth.filter.JwtAuthenticationFilter;
 import com.ysy.jwt.auth.filter.JwtAuthorizationFilter;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
+import com.ysy.jwt.auth.service.JwtService;
 
 @Configuration
 @EnableWebSecurity // 시큐리티 활성화 -> 기본 스프링 필터체인에 등록
@@ -23,6 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private YsyUserMstRepository ysyUserRepository;
+	
+	@Autowired
+	private JwtService jwtUtil;
+	
 	
 	//인증된 회원
 	private String user_roles   = "hasRole('"+SysEnum.enumGrps.ROLE_USER.toString()+"') or "
@@ -61,8 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    .httpBasic().disable() //
 	    
 	    .addFilter(corsConfig.corsFilter())
-	    .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-	    .addFilter(new JwtAuthorizationFilter(authenticationManager() ,ysyUserRepository ))
+	    .addFilter(new JwtAuthenticationFilter(authenticationManager() , jwtUtil))
+	    .addFilter(new JwtAuthorizationFilter(authenticationManager() ,ysyUserRepository , jwtUtil ))
 	    .cors().and()
 	    .authorizeRequests()
 		.antMatchers("/ysy/v1/user/**")   .access(user_roles)

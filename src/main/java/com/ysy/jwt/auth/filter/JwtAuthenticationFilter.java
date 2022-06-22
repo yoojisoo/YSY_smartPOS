@@ -1,27 +1,22 @@
 package com.ysy.jwt.auth.filter;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ysy.jwt.auth.model.LoginReqData;
 import com.ysy.jwt.auth.model.PrincipalDetails;
-
-import lombok.RequiredArgsConstructor;
+import com.ysy.jwt.auth.service.JwtService;
 
 /**
  * @author clubbboy@naver.com
@@ -49,16 +44,19 @@ import lombok.RequiredArgsConstructor;
  *         - token만료시간 처리로 인해서 2개의 토근을 생성하고 하나는 인증용으로 만료시간을 짧게 생성
  *           하나는 토근 갱신용으로 인증시간을 길게 생성해서 클라인언트에서 요청시 토근 갱신해서 넘겨주면 댐. 
  */
-@RequiredArgsConstructor//해당 클래스를 필터로 등록시 인자로 받기위해 어노테이션 선언
+//@RequiredArgsConstructor//해당 클래스를 필터로 등록시 인자로 받기위해 어노테이션 선언
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 
 	
-	private final AuthenticationManager authenticationManager;
+	private  AuthenticationManager authenticationManager;
 	
 	
-//	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-//		this.authenticationManager = authenticationManager;
-//	}
+	private  JwtService jwtUtil;
+	
+	public JwtAuthenticationFilter(AuthenticationManager authenticationManager , JwtService jwtUtil) {
+		this.authenticationManager = authenticationManager;
+		this.jwtUtil = jwtUtil;
+	}
 	
 	/*/login 요청시 실행되는 함수 */
 	@Override
@@ -108,27 +106,34 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 		
-		String jwtToken = JWT.create()
-				.withSubject("jwtToken")
-				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-				.withClaim("name"    , principalDetails.getUser().getName())
-				.withClaim("username", principalDetails.getUser().getUsername())
-				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
+		String jwtToken   = jwtUtil.createJwtAccessToken(principalDetails.getUser().getUsername(), principalDetails.getUser().getName());
+		String jwtTokenRe = jwtUtil.createJwtRefreshToken(principalDetails.getUser().getUsername(), principalDetails.getUser().getName());
 		
-		String jwtTokenRe = JWT.create()
-				.withSubject("jwtToken")
-				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
-				.withClaim("name"    , principalDetails.getUser().getName())// 이름
-				.withClaim("username", principalDetails.getUser().getUsername())//id
-				.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
+		jwtUtil.tokenSend(response, jwtToken, jwtTokenRe);
 		
-		
-		response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
-		response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
-		response.addHeader("state","200");
-		
-		System.out.println("header key ["+JwtProperties.HEADER_STRING+"] \njwt token = " + jwtToken);
+//		String jwtToken = JWT.create()
+//				.withSubject("jwtToken")
+//				.withExpiresAt(new Date(System.currentTimeMillis()+JwtUtil.EXPIRATION_TIME))
+//				.withClaim("name"    , principalDetails.getUser().getName())
+//				.withClaim("username", principalDetails.getUser().getUsername())
+//				.sign(Algorithm.HMAC512(JwtUtil.SECRET));
+//		
+//		String jwtTokenRe = JWT.create()
+//				.withSubject("jwtToken")
+//				.withExpiresAt(new Date(System.currentTimeMillis()+JwtUtil.EXPIRATION_TIME_RE))
+//				.withClaim("name"    , principalDetails.getUser().getName())// 이름
+//				.withClaim("username", principalDetails.getUser().getUsername())//id
+//				.sign(Algorithm.HMAC512(JwtUtil.SECRET+"refresh"));
+//		
+//		
+//		response.addHeader(jwtUtil.HEADER_STRING  , jwtUtil.TOKEN_PREFIX+jwtToken);
+//		response.addHeader(jwtUtil.HEADER_REFRESH , jwtUtil.TOKEN_PREFIX+jwtTokenRe);
+//		response.addHeader("state","200");
+//		
+//		System.out.println("header key ["+jwtUtil.HEADER_STRING+"] \njwt token = " + jwtToken);
 	}
+	
+	
 	
 	
 

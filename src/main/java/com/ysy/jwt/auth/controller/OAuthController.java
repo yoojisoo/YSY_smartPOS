@@ -1,7 +1,5 @@
 package com.ysy.jwt.auth.controller;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.filter.JwtProperties;
 import com.ysy.jwt.auth.model.OAuthTokenModel;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.model.kakao.KakaoProfile;
 import com.ysy.jwt.auth.model.naver.NaverProfile;
+import com.ysy.jwt.auth.service.JwtService;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
 import lombok.Data;
@@ -51,6 +47,9 @@ import lombok.Data;
 //@RequiredArgsConstructor
 public class OAuthController {
 
+	
+	@Autowired
+	private JwtService authUtil;
 	@Autowired
 	private  AuthenticationManager authenticationManager;
 	
@@ -338,26 +337,31 @@ public class OAuthController {
 //			SecurityContext context = SecurityContextHolder.createEmptyContext(); 
 //			context.setAuthentication(authentication);
 			
-			String jwtToken = JWT.create()
-					.withSubject("jwtToken")
-					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-					.withClaim("name"    , joinDto.getName())
-					.withClaim("username", joinDto.getUsername())
-					.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 			
-			String jwtTokenRe = JWT.create()
-					.withSubject("jwtToken")
-					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
-					.withClaim("name"    , joinDto.getName())
-					.withClaim("username", joinDto.getUsername())
-					.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
+			String jwtToken   = authUtil.createJwtAccessToken(joinDto.getUsername(), joinDto.getName());
+			String jwtTokenRe = authUtil.createJwtRefreshToken(joinDto.getUsername(), joinDto.getName());
 			
+			String tokenMsg = authUtil.tokenSend(response, jwtToken, jwtTokenRe);
 			
-			response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
-			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
-			response.addHeader("state","200");
+//			String jwtToken = JWT.create()
+//					.withSubject("jwtToken")
+//					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
+//					.withClaim("name"    , joinDto.getName())
+//					.withClaim("username", joinDto.getUsername())
+//					.sign(Algorithm.HMAC512(JwtProperties.SECRET));
+//			
+//			String jwtTokenRe = JWT.create()
+//					.withSubject("jwtToken")
+//					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
+//					.withClaim("name"    , joinDto.getName())
+//					.withClaim("username", joinDto.getUsername())
+//					.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
+//			
+//			response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
+//			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
+//			response.addHeader("state","200");
 			
-			return "ok";
+			return tokenMsg;
 		}
 		
 		return msg;

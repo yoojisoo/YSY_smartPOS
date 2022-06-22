@@ -4,19 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author clubbboy@naver.com
@@ -28,33 +27,38 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(
-		name = "YSY_USER_RTOKEN_MAP",
-	    uniqueConstraints = {
-	        @UniqueConstraint(
-	            name = "YSY_USER_RTOKEN_MAP_contstraintName",
-	            columnNames = {"USER_ID", "BIZ_CD","REFRESH_TOKEN"}
-	        )
-	    }
+		name = "YSY_USER_RTOKEN_MAP"
+//	    uniqueConstraints = {
+//	        @UniqueConstraint(
+//	            name = "YSY_USER_RTOKEN_MAP_contstraintName",
+//	            columnNames = {"USER_ID", "REFRESH_TOKEN"}
+//	        )
+//	    }
 	   ) 
 @Entity
+@Builder
+@ToString
 public class YsyUserRTokenMap extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private long id;
+	
+	@Id
+    @Column(name = "USER_ID")
+    private String userId;
+
 	
 	@OneToOne
-	@JoinColumn(name="BIZ_CD",referencedColumnName="BIZ_CD" , nullable = false  )
-	private YsyBizMst ysyBizMst;
-	
-	@OneToOne
-	@JoinColumn(name="USER_ID",referencedColumnName="USER_ID" , nullable = false )
+	@PrimaryKeyJoinColumn(name="USER_ID",referencedColumnName="USER_ID"  )
 	private YsyUserMst ysyUserMst;
 	
-	@Column(name="REFRESH_TOKEN" , nullable = false )
+	
+	@Column(name="REFRESH_TOKEN"  , columnDefinition = "TEXT" )
 	private String refreshToken;
 
+	public YsyUserRTokenMap(YsyUserMst userMst) {
+        this.userId = userMst.getUsername();
+        this.ysyUserMst = userMst;
+    }
 	
 }
