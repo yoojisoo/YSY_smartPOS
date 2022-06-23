@@ -57,13 +57,13 @@
 								</v-row>-->
 								<v-row align="start" justify="center" no-gutters>
 									<v-col cols="12">
-										<ysyGrid :gridInfo="systemNoticeInfo" />
+										<ysyGrid :gridInfo="noticeSystemInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="storeNoticeInfo" />
+										<ysyGrid :gridInfo="noticeSystemInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="qnaNoticeInfo" />
+										<ysyGrid :gridInfo="noticeSystemInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
@@ -96,6 +96,7 @@ import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
 import noticeDialog from '@/components/Dialog.vue';
 import { mapGetters } from 'vuex';
+import noticeService from '@/service/user/NoticeService.js';
 
 export default {
 	components: {
@@ -122,7 +123,7 @@ export default {
 					access_token: this.$store.state.authStore.loginData.userToken,
 				},
 			},
-			systemNoticeInfo: {
+			noticeSystemInfo: {
 				dataList: [],
 				headers: [
 					{ text: '번호', value: 'boardId', width: '20%', key: true },
@@ -131,52 +132,7 @@ export default {
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',
-				path: '/systemNotice',
-				isCheckBox: true,
-				isSingleSelect: false,
-				rowCnt: 7,
-				gridDense: true,
-				isDetail: false,
-				rowClick: (row, gridNm) => {
-					this.rowClick(row, gridNm);
-				}, //로우 클릭 이벤트 콜백
-				rowDbClick: (row, gridNm) => {
-					this.rowDbClick(row, gridNm);
-				}, //로우 더블클릭 이벤트 콜백
-			},
-			storeNoticeInfo: {
-				dataList: [],
-				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
-					{ text: '제목', value: 'title', width: '40%' },
-					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
-				],
-				dateGubun: '-',
-				gridNm: '스토어 공지사항',
-				path: '/storeNotice',
-				isCheckBox: true,
-				isSingleSelect: false,
-				rowCnt: 7,
-				gridDense: true,
-				//pageTotCnt: 7,
-				isDetail: false,
-				rowClick: (row, gridNm) => {
-					this.rowClick(row, gridNm);
-				}, //로우 클릭 이벤트 콜백
-				rowDbClick: (row, gridNm) => {
-					this.rowDbClick(row, gridNm);
-				}, //로우 더블클릭 이벤트 콜백
-			},
-			qnaNoticeInfo: {
-				dataList: [],
-				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
-					{ text: '제목', value: 'title', width: '40%' },
-					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
-				],
-				dateGubun: '/',
-				gridNm: 'QnA 공지사항',
-				path: '/qnaNotice',
+				path: '/noticeSystem',
 				isCheckBox: true,
 				isSingleSelect: false,
 				rowCnt: 7,
@@ -193,8 +149,7 @@ export default {
 	},
 
 	mounted() {
-		this.setSystemNoticeList();
-		this.setStoreNoticeList();
+		this.setNoticSystemList();
 	},
 
 	methods: {
@@ -207,25 +162,6 @@ export default {
 
 			if (this.mainCols < 12) this.mainCols = 12;
 			else this.mainCols = 10;
-		},
-		// notice data vuex의 action에서 가져오기 - mounted에서 호출
-		// data -> systemNoticeInfo -> dataList에 state 값을 세팅해줌
-		async setSystemNoticeList() {
-			// actions -> findNoticeInfo를 하면 state에 값이 저장되고
-			await this.$store.dispatch('noticeStore/findSystemNoticeInfo');
-
-			if (this.getNoticeList) {
-				/** state -> noticeList 값이 있으면
-				 * data -> systemNoticeInfo -> dataList에 값을 넣어줌 */
-				this.systemNoticeInfo.dataList = this.getNoticeList;
-			}
-		},
-		async setStoreNoticeList() {
-			await this.$store.dispatch('noticeStore/findStoreNoticeInfo');
-
-			if (this.getNoticeList) {
-				this.storeNoticeInfo.dataList = this.getNoticeList;
-			}
 		},
 		rowClick(row, gridNm) {
 			console.log('rowClick= ' + gridNm);
@@ -246,10 +182,18 @@ export default {
 			console.log('dialogObj.msg = ' + dialogObj.msg);
 			this.isPopup = false;
 		},
+		async setNoticSystemList() {
+			await noticeService.setNoticSystemList();
+			if(this.getNoticeSystemList) {
+				this.noticeSystemInfo.dataList = this.getNoticeSystemList;
+			} else {
+				console.log('this.getNoticeSystemList 실패 !!')
+			}
+		}
 	},
 	computed: {
 		...mapGetters({ getUser: 'authStore/getUser' }),
-		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
+		...mapGetters({ getNoticeSystemList: 'noticeStore/getNoticeSystemList' }),
 	},
 };
 </script>

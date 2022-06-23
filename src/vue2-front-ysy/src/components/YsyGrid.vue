@@ -35,7 +35,7 @@
 						<v-spacer />
 						<v-btn v-if='!gridInfo.isDetail' plain :to='gridInfo.path'>전체보기</v-btn>
 						<v-btn-toggle v-else group>
-							<v-btn plain>
+							<v-btn plain @click="btnText=true">
 								<h3 style="color: black" slot="">추가</h3>
 							</v-btn>
 							<v-btn plain>
@@ -88,9 +88,9 @@
 			</tr>
 		</template> -->
 
-				<template #item.regDt="{ item }">
+				<!-- <template #item.regDt="{ item }">
 					<dateForm :dateVal="item.regDt" :gubun="gridInfo.dateGubun" />
-				</template>
+				</template> -->
 			</v-data-table>
 
 			<template>
@@ -112,17 +112,18 @@
 </template>
 
 <script>
-import dateForm from '@/components/DateForm.vue';
+// import dateForm from '@/components/DateForm.vue';
 
 export default {
 	props: ['gridInfo', 'cardHeight'],
 	components: {
-		dateForm,
+		// dateForm,
 	},
 	data: () => ({
 		selected: [],
 		page: 1, // 최초 나타나는 페이지
 		pageCount: 0, // 데이터 겟수에 따라 변경됨 ->  @page-count="pageCount = $event"
+		btnText: null,
 	}),
 	methods: {
 		/** grid click event */
@@ -139,7 +140,15 @@ export default {
 			console.log(path);
 			this.$router.replace(path);
 		},
-
+		moveEditor() {
+			// console.log('moveEditor() 들어왔다~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+			if(this.btnText) {
+				this.$router.push({ name:'editor', params: { btnStr: '추가' }});
+			}
+			else if(!this.btnText) {
+				this.$router.push({ name:'editor', params: { btnStr: '수정' }});
+			}
+		},
 		/** 그리드 row item 추가 */
 		createItem() {
 		},
@@ -178,11 +187,19 @@ export default {
 			console.log('keys = ' + keys);
 			return keys;
 		},
+		// btnText() {
+		// 	return this.moveEditor();
+		// }
 	},
 	mounted() {
 		console.log('mounted grid =========================================');
 		console.log(this.gridInfo);
 	},
+	watch: {
+		btnText() {
+			this.moveEditor();
+		}
+	}
 };
 </script>
 <style>

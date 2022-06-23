@@ -3,23 +3,25 @@ import axios from 'axios';
 const noticeStore = {
 	namespaced: true,
 	state: {
-		noticeList: [],
+		noticeSystemList: [],
+		noticeStoreList: [],
+		// QnaList: [],
 	},
 	getters: {
-		getNoticeList: state => {
-			return state.noticeList;
+		getNoticeSystemList: state => {
+			return state.noticeSystemList;
 		},
 	},
 	mutations: {
-		setSystemNoticeList(state, noticeList) {
-			state.noticeList = noticeList;
+		setNoticeSystemList(state, noticeSystemList) {
+			state.noticeSystemList = noticeSystemList;
 		},
-		setStoreNoticeList(state, noticeList) {
-			state.noticeList = noticeList;
+		setNoticeStoreList(state, noticeStoreList) {
+			state.noticeStoreList = noticeStoreList;
 		},
 	},
 	actions: {
-		async findSystemNoticeInfo({ commit }) {
+		async findNoticeSystemInfo({ commit }) {
 			console.log('===============> noticeStore / findSystemNoticeInfo');
 			let url = 'ysy/v1/getSystemNotice';
 			//let res = axios.get(url);
@@ -29,17 +31,21 @@ const noticeStore = {
 			//	console.log('findSystemNoticeInfo error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 			//}
 			await axios.get(url).then(res => {
-				commit('setSystemNoticeList', res.data);
+				commit('setNoticeSystemList', res.data);
+			})
+			.catch(error=>{
+				console.log("===============> noticeStore / findNoticeSystemInfo error");
+				console.log(error);
 			});
 		},
-		async findStoreNoticeInfo({ commit }) {
-			console.log('===============> noticeStore / findStoreNoticeInfo');
+		async findNoticeStoreInfo({ commit }) {
+			console.log('===============> noticeStore / findNoticeStoreInfo');
 			let url = 'ysy/v1/getSystemNotice';
 			let res = await axios.get(url);
 			if (res) {
-				commit('setStoreNoticeList', res.data);
+				commit('setNoticeStoreList', res.data);
 			} else {
-				console.log('findStoreNoticeInfo error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+				console.log('findNoticeStoreInfo error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 			}
 		},
 	},

@@ -1,7 +1,4 @@
 import store from '@/store/index';
-// import jwt_decode from 'jwt-decode';
-import axios from 'axios';
-// import router from '@/router';
 
 class UserService {
 	async setUserList() {

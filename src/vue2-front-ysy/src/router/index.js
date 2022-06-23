@@ -26,8 +26,8 @@ const routes = [
 		component: () => import('../views/user/Home.vue'),
 	},
 	{
-		path: '/userInfo',
-		name: 'userInfo',
+		path: '/myInfo',
+		name: 'myInfo',
 		icon: 'mdi-account',
 		component: () => import('../views/user/MyInfo.vue'),
 	},
@@ -48,31 +48,31 @@ const routes = [
 
 	// 공지사항 관련
 	{
-		path: '/systemNotice',
+		path: '/noticeSystem',
 		name: 'systemNotice',
 		component: () => import('../views/user/NoticeSystem.vue'),
 	},
 	{
-		path: '/storeNotice',
+		path: '/noticeStore',
 		name: 'storeNotice',
 		component: () => import('../views/user/NoticeStore.vue'),
 	},
 	{
-		path: '/qnaNotice',
-		name: 'qnaNotice',
+		path: '/qna',
+		name: 'qna',
 		component: () => import('../views/user/Qna.vue'),
 	},
 
 	// 사용자관리 관련
 	{
-		path: '/userManager',
-		name: 'userManager',
+		path: '/userMng',
+		name: 'userMng',
 		component: () => import('../views/admin/auth/UserMng.vue'),
 	},
 	// 메뉴 관련
 	{
-		path: '/menuManager',
-		name: 'menuManager',
+		path: '/menuMng',
+		name: 'MenuMng',
 		component: () => import('../views/admin/auth/MenuMng.vue'),
 	},
 
@@ -88,11 +88,20 @@ const routes = [
 		component: () => import('../views/sign/NaverLogin.vue'),
 		props: true,
 	},
+	
+	// Test
+	{
+		path: '/editor',
+		name: 'editor',
+		component: () => import('../views/contents/Editor.vue'),
+	},
 
 	// 에러페이지
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기
 	{ path: '/404', component: () => import('../views/error/NotFound.vue') }, // 정의되지 않은 나머지 모든 페이지들 - 404 페이지로 redirect
 	{ path: '/:pathMatch(.*)*', redirect: '/404' },
+
+
 ];
 
 const router = new VueRouter({

@@ -1,6 +1,7 @@
 <!-- main 화면 -->
 <template>
 	<v-app>
+		<div>아오</div>
 		<!-- Header Start -->
 		<mainSystemBar />
 		<mainHeader :pageName="pageName" />
@@ -16,7 +17,7 @@
 								<pageHistory :pageNameKo="pageNameKo" />
 							</v-col>-->
 							<v-col cols="12">
-								<ysyGrid :gridInfo="systemNoticeInfo" />
+								<ysyGrid :gridInfo="noticeSystemInfo" />
 							</v-col>
 						</v-row>
 					</v-col>
@@ -40,6 +41,7 @@ import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import { mapActions, mapGetters } from 'vuex';
+import noticeService from '@/service/user/NoticeService.js';
 
 //const noticeStore = 'noticeStore';
 
@@ -53,9 +55,9 @@ export default {
 	},
 	data() {
 		return {
-			pageName: 'systemNotice',
+			pageName: 'noticeSystem',
 			pageNameKo: '시스템 공지사항',
-			systemNoticeInfo: {
+			noticeSystemInfo: {
 				dataList: [],
 				headers: [
 					{ text: '번호', value: 'boardId', width: '20%', key: true },
@@ -64,7 +66,7 @@ export default {
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',
-				path: '/systemNotice',
+				path: '/noticeSystem',
 				isCheckBox: true,
 				isSingleSelect: false,
 				gridDense: false,
@@ -76,19 +78,21 @@ export default {
 		};
 	},
 	mounted() {
-		this.findSystemNoticeList();
-	},
-	methods: {
-		//...mapActions(noticeStore, ['findSystemNoticeInfo']),
-		async findSystemNoticeList() {
-			await this.$store.dispatch('findSystemNoticeInfo');
-			if (this.getNoticeList) {
-				this.systemNoticeInfo.dataList = this.getNoticeList;
-			}
-		},
+		this.setNoticSystemList();
 	},
 	computed: {
-		...mapGetters({ getNoticeList: 'noticeStore/getNoticeList' }),
+		...mapGetters({ getNoticeSystemList: 'noticeStore/getNoticeSystemList' }),
 	},
+	methods: {
+		async setNoticSystemList() {
+			await noticeService.setNoticSystemList();
+			if(this.getNoticeSystemList) {
+				this.noticeSystemInfo.dataList = this.getNoticeSystemList;
+			} else {
+				console.log('this.getNoticeSystemList 실패 !!')
+			}
+		}
+	},
+
 };
 </script>
