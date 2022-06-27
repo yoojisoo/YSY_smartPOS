@@ -41,9 +41,6 @@ import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import { mapActions, mapGetters } from 'vuex';
-import noticeService from '@/service/user/NoticeService.js';
-
-//const noticeStore = 'noticeStore';
 
 export default {
 	components: {
@@ -78,21 +75,24 @@ export default {
 		};
 	},
 	mounted() {
-		this.setNoticSystemList();
+		this.setNoticeSystemList();
 	},
 	computed: {
 		...mapGetters({ getNoticeSystemList: 'noticeStore/getNoticeSystemList' }),
 	},
 	methods: {
-		async setNoticSystemList() {
-			await noticeService.setNoticSystemList();
-			if(this.getNoticeSystemList) {
+		async setNoticeSystemList() {
+			await this.$store.dispatch('noticeStore/findNoticeSystemInfo').catch(error => {
+				console.log('===============> noticeStore/findNoticeSystemInfo error');
+				console.log(error);
+			});
+
+			if (this.getNoticeSystemList) {
 				this.noticeSystemInfo.dataList = this.getNoticeSystemList;
 			} else {
-				console.log('this.getNoticeSystemList 실패 !!')
+				console.log('this.getNoticeSystemList 실패 !!');
 			}
-		}
+		},
 	},
-
 };
 </script>

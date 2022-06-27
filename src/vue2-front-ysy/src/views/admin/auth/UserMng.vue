@@ -38,7 +38,6 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import { mapGetters, mapActions } from 'vuex';
-import userService from '@/service/auth/UserService.js';
 
 export default {
 	components: {
@@ -77,7 +76,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters({getUserList: 'userStore/getUserList'}),
+		...mapGetters({ getUserList: 'userStore/getUserList' }),
 	},
 
 	mounted() {
@@ -88,8 +87,11 @@ export default {
 		rowClick(row, gridNm) {},
 		rowDbClick(row, gridNm) {},
 		async setUserList() {
-			await userService.setUserList();
-			if(this.getUserList) {
+			await this.$store.dispatch('userStore/findUserList');
+
+			if (this.getUserList) {
+				console.log('💜 this.getUserList');
+				console.log(this.getUserList);
 				this.userInfo.dataList = this.getUserList;
 			} else {
 				console.log('this.getUserList 실패 !!');

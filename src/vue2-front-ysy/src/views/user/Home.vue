@@ -60,7 +60,7 @@
 										<ysyGrid :gridInfo="noticeSystemInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="noticeSystemInfo" />
+										<ysyGrid :gridInfo="noticeStoreInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
 										<ysyGrid :gridInfo="noticeSystemInfo" />
@@ -96,7 +96,6 @@ import pageHistory from '@/components/PageHistory.vue';
 import carousel from '@/components/Carousel.vue';
 import noticeDialog from '@/components/Dialog.vue';
 import { mapGetters } from 'vuex';
-import noticeService from '@/service/user/NoticeService.js';
 
 export default {
 	components: {
@@ -145,11 +144,37 @@ export default {
 					this.rowDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
+			noticeStoreInfo: {
+				dataList: [],
+				headers: [
+					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
+					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
+				],
+				dateGubun: '/',
+				gridNm: '스토어 공지사항',
+				path: '/noticeStore',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
+				gridDense: true,
+				isDetail: false,
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => {
+					this.rowDbClick(row, gridNm);
+				}, //로우 더블클릭 이벤트 콜백
+			},
 		};
 	},
 
 	mounted() {
-		this.setNoticSystemList();
+		// 시스템 공지사항 셋팅
+		this.setNoticeSystemList();
+
+		// 스토어 공지사항 셋팅
+		this.setNoticeStoreList();
 	},
 
 	methods: {
@@ -182,18 +207,39 @@ export default {
 			console.log('dialogObj.msg = ' + dialogObj.msg);
 			this.isPopup = false;
 		},
-		async setNoticSystemList() {
-			await noticeService.setNoticSystemList();
-			if(this.getNoticeSystemList) {
+
+		// 시스템 공지사항 셋팅
+		async setNoticeSystemList() {
+			await this.$store.dispatch('noticeStore/findNoticeSystemInfo').catch(error => {
+				console.log('===============> noticeStore/findNoticeSystemInfo error');
+				console.log(error);
+			});
+
+			if (this.getNoticeSystemList) {
 				this.noticeSystemInfo.dataList = this.getNoticeSystemList;
 			} else {
-				console.log('this.getNoticeSystemList 실패 !!')
+				console.log('this.getNoticeSystemList 실패 !!');
 			}
-		}
+		},
+
+		// 스토어 공지사항 셋팅
+		async setNoticeStoreList() {
+			await this.$store.dispatch('noticeStore/findNoticeStoreInfo').catch(error => {
+				console.log('===============> noticeStore/findNoticeStoreInfo error');
+				console.log(error);
+			});
+
+			if (this.getNoticeStoreList) {
+				this.noticeStoreInfo.dataList = this.getNoticeStoreList;
+			} else {
+				console.log('this.getNoticeStoreList 실패 !!');
+			}
+		},
 	},
 	computed: {
 		...mapGetters({ getUser: 'authStore/getUser' }),
 		...mapGetters({ getNoticeSystemList: 'noticeStore/getNoticeSystemList' }),
+		...mapGetters({ getNoticeStoreList: 'noticeStore/getNoticeStoreList' }),
 	},
 };
 </script>

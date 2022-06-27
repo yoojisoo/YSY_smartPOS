@@ -1,4 +1,4 @@
-import axios from 'axios';
+import noticeService from '@/service/user/NoticeService.js';
 
 const noticeStore = {
 	namespaced: true,
@@ -8,44 +8,47 @@ const noticeStore = {
 		// QnaList: [],
 	},
 	getters: {
+		// 시스템 공지사항
 		getNoticeSystemList: state => {
 			return state.noticeSystemList;
 		},
+
+		// 스토어 공지사항
+		getNoticeStoreList: state => {
+			return state.noticeStoreList;
+		},
 	},
 	mutations: {
+		// 시스템 공지사항
 		setNoticeSystemList(state, noticeSystemList) {
 			state.noticeSystemList = noticeSystemList;
 		},
+
+		// 스토어 공지사항
 		setNoticeStoreList(state, noticeStoreList) {
 			state.noticeStoreList = noticeStoreList;
 		},
 	},
 	actions: {
+		// 시스템 공지사항
 		async findNoticeSystemInfo({ commit }) {
-			console.log('===============> noticeStore / findSystemNoticeInfo');
-			let url = 'ysy/v1/getSystemNotice';
-			//let res = axios.get(url);
-			//if (res) {
-			//	commit('setSystemNoticeList', res.data);
-			//} else {
-			//	console.log('findSystemNoticeInfo error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-			//}
-			await axios.get(url).then(res => {
-				commit('setNoticeSystemList', res.data);
-			})
-			.catch(error=>{
-				console.log("===============> noticeStore / findNoticeSystemInfo error");
-				console.log(error);
-			});
-		},
-		async findNoticeStoreInfo({ commit }) {
-			console.log('===============> noticeStore / findNoticeStoreInfo');
-			let url = 'ysy/v1/getSystemNotice';
-			let res = await axios.get(url);
-			if (res) {
-				commit('setNoticeStoreList', res.data);
+			let noticeSystemList = await noticeService.setNoticeSystemList();
+			if (noticeSystemList !== null && noticeSystemList !== undefined) {
+				console.log('noticeStore findNoticeSystemInfo ✔️');
+				commit('setNoticeSystemList', noticeSystemList);
 			} else {
-				console.log('findNoticeStoreInfo error XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+				console.log('noticeStore findNoticeSystemInfo ERROR !!!!!!!!!!!');
+			}
+		},
+
+		// 스토어 공지사항
+		async findNoticeStoreInfo({ commit }) {
+			let noticeStoreList = await noticeService.setNoticeStoreList();
+			if (noticeStoreList !== null && noticeStoreList !== undefined) {
+				console.log('noticeStore findNoticeStoreInfo ✔️');
+				commit('setNoticeStoreList', noticeStoreList);
+			} else {
+				console.log('noticeStore findNoticeStoreInfo ERROR !!!!!!!!!!!');
 			}
 		},
 	},

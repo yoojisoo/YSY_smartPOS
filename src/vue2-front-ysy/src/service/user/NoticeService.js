@@ -1,24 +1,35 @@
-import store from '@/store/index';
+import axios from 'axios';
 
 class NoticeService {
-	async setNoticSystemList() {
-		await store.dispatch('noticeStore/findNoticeSystemInfo')
-		.catch(error=>{
-			console.log("===============> NoticeService / setNoticSystemList error");
-			console.log(error);
-		});
+	// 시스템 공지사항
+	async setNoticeSystemList() {
+		let url = 'ysy/v1/getSystemNotice';
+		let res = await axios.get(url);
+		if (res) {
+			console.log('NoticeService setNoticeSystemList ==> start');
+			console.log(res.data);
+			console.log('NoticeService setNoticeSystemList ==> end');
+			return res.data;
+		} else {
+			console.log('NoticeService setNoticeSystemList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			return null;
+		}
+	}
 
-		if(store.state.noticeStore.noticeSystemList) {
-			console.log('store에 noticeSystemList 들어왔다 ~~~~~~~~');
-			return true;
-		} else return false;
-	};
-	// async setStoreNoticList() {
-		
-	// };
-	// async setQnaList() {
-		
-	// };
+	// 스토어 공지사항
+	async setNoticeStoreList() {
+		let url = 'ysy/v1/getSystemNotice'; // url 스토어로 변경해야함 !
+		let res = await axios.get(url);
+		if (res) {
+			console.log('NoticeService setNoticeStoreList ==> start');
+			console.log(res.data);
+			console.log('NoticeService setNoticeStoreList ==> end');
+			return res.data;
+		} else {
+			console.log('NoticeService setNoticeStoreList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			return null;
+		}
+	}
 }
 
 export default new NoticeService();

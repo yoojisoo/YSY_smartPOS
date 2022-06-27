@@ -1,11 +1,19 @@
 import store from '@/store/index';
+import axios from 'axios';
 
 class UserService {
 	async setUserList() {
-		 await store.dispatch('userStore/findUserList');
-		 if(store.state.userStore.userList) {
-			return true;
-		 } else return false;
+		let url = 'ysy/v1/getUserList';
+		let res = await axios.get(url);
+		if (res) {
+			console.log('UserService setUserList ==> start');
+			console.log(res.data);
+			console.log('UserService setUserList ==> end');
+			return res.data;
+		} else {
+			console.log('UserService setUserList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			return null;
+		}
 	}
 }
 
