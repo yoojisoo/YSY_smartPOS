@@ -22,6 +22,9 @@
 						</v-row>
 					</v-col>
 				</v-row>
+				<template v-if="isPopup">
+					<boardDialog :boardObj="currentRow" :callback="dialogCallback" />
+				</template>
 			</v-container>
 		</v-main>
 		<!-- Main End -->
@@ -41,6 +44,7 @@ import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import { mapActions, mapGetters } from 'vuex';
+import boardDialog from '@/components/Dialog.vue';
 
 export default {
 	components: {
@@ -49,6 +53,7 @@ export default {
 		mainFooter,
 		ysyGrid,
 		pageHistory,
+		boardDialog,
 	},
 	data() {
 		return {
@@ -57,9 +62,10 @@ export default {
 			noticeSystemInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
-					{ text: '제목', value: 'title', width: '40%' },
-					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
+					{ text: '번호', 	value: 'boardId', 				width: '15%', key: true },
+					{ text: '제목', 	value: 'title', 				width: '40%' },
+					{ text: '작성자', 	value: 'ysyUserMst.username', 	width: '30%' },
+					{ text: 'Actions',	value: 'actions',				width: '15%', sortable: false },
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',
@@ -72,6 +78,8 @@ export default {
 					this.rowClick(row, gridNm);
 				}, //로우 클릭 이벤트 콜백
 			},
+			isPopup: false,
+			currentRow: {},
 		};
 	},
 	mounted() {
@@ -92,6 +100,17 @@ export default {
 			} else {
 				console.log('this.getNoticeSystemList 실패 !!');
 			}
+		},
+		rowClick(row, gridNm) {
+			console.log('this.currentRow -----> ');
+			this.currentRow = row.item;
+			this.currentRow.gridNm = gridNm;
+			console.log(this.currentRow);
+			this.isPopup = true;
+		},
+		dialogCallback(dialogObj) {
+			console.log('dialogObj.msg = ' + dialogObj.msg);
+			this.isPopup = false;
 		},
 	},
 };

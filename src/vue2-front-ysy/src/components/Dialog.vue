@@ -17,7 +17,7 @@
 
 				<v-card-title>
 					<div class="text-xs-center pb-1 pr-2">
-    					<v-chip small outlined color="#6667AB">공지</v-chip>
+    					<v-chip small outlined color="#6667AB">{{ boardObj.gridNm }}</v-chip>
   					</div>
 					<div class="text-h5">{{ boardObj.title }}</div>
 				</v-card-title>
@@ -36,7 +36,7 @@
 							</v-row>
 							<v-row class="ma-0 pa-0" no-gutters style="font-size: 10px;">
 								<span>{{dateVal}}</span>
-								<!-- <dateForm :dateVal="dateVal" :gubun="gubun"/> -->
+								<!-- <dateForm :dateVal="boardObj.regDt"/> -->
 								<!-- <span style="font-size: 10px;">22-06-09</span> -->
 							</v-row>
 						</v-col>
@@ -83,8 +83,12 @@
 			dateForm
 		},
 		created (){
-			console.log("this.boardObj ***************");
+			console.log("this.boardObj ********************");
 			console.log(this.boardObj);
+			// console.log(typeof(this.boardObj.content));
+			// console.log('JSON.stringify(this.boardObj.content) ------>');
+			// console.log(JSON.stringify(this.boardObj.content.wrappedBlob.binaryStream));
+			// console.log(this.boardObj.content.wrappedBlob.binaryStream.toString());
 		},
 		methods: {
 			//확인버튼 클릭시 콜백함수 줘야함.

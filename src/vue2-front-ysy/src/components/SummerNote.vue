@@ -1,11 +1,19 @@
 <template>
   <div class="editor-page">
     <div id="summernote"></div>
+    <p>아 졸려 {{editorInfo}}</p>
+    <p>{{summernoteStr}}</p>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['editorInfo', 'isSave'],
+  data() {
+    return {
+      summernoteStr : '',
+    }
+  },
   mounted() {
     $('#summernote').summernote({
       height: 400,
@@ -24,21 +32,26 @@ export default {
       //   ['Mics',['codeview']]
       // ]
     });
-
     // let str = 'hello world';
     // $('#summernote').summernote('code', str); //내용 넣기
     // $('#summernote').summernote('editor.insertText', 'hello world'); //내용 넣기
     // $('#summernote').summernote('codeview.toggle'); //코드 뷰  아이콘 활성화
     // let markupStr1 = $('.summernote').eq(1).summernote('code'); //html의 콘텐츠 가져오기
 
-
   },
   methods: {
     getContent() {
-      let summernoteStr = $('#summernote').summernote('code'); //값 가져오기
-      console.log('summernoteStr --->');
-      console.log(summernoteStr);
-    }
+      console.log('야아아아아~~~~~~~' + this.editorInfo.isSave);
+      if(this.editorInfo.isSave) {
+        this.summernoteStr = $('#summernote').summernote('code'); //값 가져오기
+        alert(this.summernoteStr)
+      }
+    },
+  },
+  watch: {
+    isSave() {
+      this.getContent();
+    },
   },
 };
 </script>

@@ -39,10 +39,20 @@
 								<h3 style="color: black" slot="">추가</h3>
 							</v-btn>
 							<v-btn plain>
-								<h3 style="color: black" @click="deleteItem">삭제</h3>
+								<h3 style="color: black" @click="deleteItem(item)">삭제</h3>
 							</v-btn>
 						</v-btn-toggle>
 					</v-toolbar>
+				</template>
+
+				<template v-if='gridInfo.isDetail' v-slot:item.actions="{ item }">
+					<!-- <v-btn text>수정</v-btn> -->
+					<v-icon small class="mr-2" @click.stop="editItem(item)">
+						mdi-pencil
+					</v-icon>
+					<!-- <v-icon small @click="">
+						mdi-delete
+					</v-icon> -->
 				</template>
 
 				<!-- <template v-slot:header="{ props }">
@@ -150,7 +160,10 @@ export default {
 			}
 		},
 		/** 그리드 row item 추가 */
-		createItem() {
+		createItem(item) {
+		},
+		editItem(item) {
+			alert('수정 로직 띄어죠~~~')
 		},
 		async deleteItem() {
 			let username = [];
