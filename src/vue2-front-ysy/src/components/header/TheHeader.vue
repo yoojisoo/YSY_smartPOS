@@ -37,7 +37,7 @@
 								<!-- 2022 06 02 smk : menu in tab이 안돼서 버튼으로 변경 -->
 								<v-menu offset-y v-for="(item, idx) in headerMenu" :key="idx" tile>
 									<template v-slot:activator="{ on }">
-										<v-btn v-on="on" plain>
+										<v-btn v-on="on" plain @click="goPage(item.menu_path)">
 											{{ item.menu_nm }}
 										</v-btn>
 									</template>
@@ -274,7 +274,9 @@ export default {
 		},
 
 		goPage(path) {
-			this.$router.push({ path: path });
+			if (path !== undefined && path !== '' && path !== null) {
+				this.$router.push({ path: path });
+			}
 		},
 	},
 };

@@ -30,9 +30,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "SYSTEM_NOTICE_MST")
+@Table(name = "STORE_NOTICE_MST")
 @Entity
-public class SystemNotice  extends BaseEntity implements Serializable{
+public class StoreNotice  extends BaseEntity implements Serializable{
 
 	/**
 	 * 

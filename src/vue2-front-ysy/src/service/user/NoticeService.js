@@ -18,7 +18,7 @@ class NoticeService {
 
 	// 스토어 공지사항
 	async setNoticeStoreList() {
-		let url = 'ysy/v1/getSystemNotice'; // url 스토어로 변경해야함 !
+		let url = 'ysy/v1/getStoreNotice'; // url 스토어로 변경해야함 !
 		let res = await axios.get(url);
 		if (res) {
 			console.log('NoticeService setNoticeStoreList ==> start');

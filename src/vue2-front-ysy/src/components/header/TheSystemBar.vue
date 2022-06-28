@@ -5,7 +5,7 @@
 				<v-col cols="12" xs="12" sm="12" md="8" lg="8" xl="8">
 					<v-row justify="end" no-gutters>
 						<v-btn-toggle tile group v-if="isLogin">
-							<v-btn value="left" plain to="/userInfo">내프로필</v-btn>
+							<v-btn value="left" plain to="/myInfo">내프로필</v-btn>
 							<v-divider vertical></v-divider>
 							<v-btn value="right" plain @click="logout">로그아웃</v-btn>
 						</v-btn-toggle>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
 	name: 'main-system-bar',
