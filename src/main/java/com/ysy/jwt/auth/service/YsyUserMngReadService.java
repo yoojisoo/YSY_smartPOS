@@ -1,26 +1,12 @@
 package com.ysy.jwt.auth.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.ysy.common.SysEnum;
-import com.ysy.common.SysEnum.enumGrps;
-import com.ysy.common.YsyUtil;
-import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.dto.ModUserDto;
-import com.ysy.jwt.auth.entity.YsyBizMst;
-import com.ysy.jwt.auth.entity.YsyGrpMst;
-import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
-import com.ysy.jwt.auth.entity.YsyUserMst;
-import com.ysy.jwt.auth.repository.YsyBizMstRepository;
-import com.ysy.jwt.auth.repository.YsyGrpMstRepository;
+import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
 @Service
@@ -30,9 +16,22 @@ public class YsyUserMngReadService {
 	private YsyUserMstRepository ysyUserRepository;
 	
 	/** grid에서 get user info */
-	public List<YsyUserMst> getUserList() {
-		List<YsyUserMst> userlist = ysyUserRepository.findAll();
-		return userlist;
+	public List<UserDto> getUserList() {
+//		List<YsyUserMst> userlist = ysyUserRepository.findAll();
+		List<Object[]> resultList = ysyUserRepository.getDefaultUserList();
+		
+		List<UserDto> userList = resultList.stream()
+										  .map(x -> UserDto.builder()
+												  .user_id((String)x[0])
+												  .user_phone((String)x[1])
+												  .user_nm((String)x[2])
+												  .reg_dt((String)x[3])
+												  .grp_id((String)x[6])
+										  		  .build()
+										  	   )
+										  .collect(Collectors.toList());
+		UserDto userDto = new UserDto();
+		userDto.setObj(resultList);
+		return userList;
 	}
-	
 }

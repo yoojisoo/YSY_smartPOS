@@ -25,12 +25,13 @@ const userStore = {
 			let userList = await userService.setUserList();
 			if (userList !== null && userList !== undefined) {
 				console.log('userStore findUserList ✔️');
-				let list = userList.products.map(x => {
-					if (x.regDt !== undefined && x.regDt !== '') x.regDt = new Date(x.regDt);
-					if (x.modDt !== undefined && x.modDt !== '') x.modDt = new Date(x.modDt);
-					return x;
-				});
-				commit('setUserList', list);
+				console.log(userList);
+				//let list = userList.products.map(x => {
+				//	if (x.regDt !== undefined && x.regDt !== '') x.regDt = new Date(x.regDt);
+				//	if (x.modDt !== undefined && x.modDt !== '') x.modDt = new Date(x.modDt);
+				//	return x;
+				//});
+				commit('setUserList', userList);
 			} else {
 				console.log('userStore findUserList ERROR !!!!!!!!!!!');
 			}

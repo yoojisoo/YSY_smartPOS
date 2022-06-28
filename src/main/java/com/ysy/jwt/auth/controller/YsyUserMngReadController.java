@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.service.YsyUserMngReadService;
 
 @RestController
@@ -21,8 +21,7 @@ public class YsyUserMngReadController {
 	
 	/** 2022 06 02 yoojisoo get data sample */
 	@GetMapping("/getUserList")
-	public List<YsyUserMst> getUserList(){
-		System.out.println("getUserList 들어옴 ~~~~~~~~~~~~");
+	public List<UserDto> getUserList(){
 		return ysyUserMngReadService.getUserList();
 	}
 	

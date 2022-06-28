@@ -52,11 +52,11 @@ export default {
 			userInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디', value: 'username', key: true },
-					{ text: '전화번호', value: 'addressList.phone1' },
-					{ text: '이름', value: 'name' },
-					{ text: '날짜', value: 'regDt' },
-					{ text: '권한', value: 'roleList' },
+					{ text: '아이디', value: 'user_id', key: true },
+					{ text: '전화번호', value: 'user_phone' },
+					{ text: '이름', value: 'user_nm' },
+					{ text: '날짜', value: 'reg_dt' },
+					{ text: '권한', value: 'grp_id' },
 				],
 				dateGubun: '/',
 				gridNm: '사용자 관리',
