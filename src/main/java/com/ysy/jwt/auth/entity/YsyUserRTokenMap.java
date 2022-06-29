@@ -44,8 +44,8 @@ public class YsyUserRTokenMap extends BaseEntity implements Serializable{
 
 	
 	@Id
-    @Column(name = "USER_ID")
-    private String userId;
+    @Column(name = "USER_ID") 
+    private String userId; 
 
 	
 	@OneToOne

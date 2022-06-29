@@ -1,5 +1,6 @@
 package com.ysy.jwt.auth.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,11 +16,16 @@ import com.ysy.jwt.auth.service.YsyUserMstService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/ysy/v1/mail")
 public class YsyMailController {
-	private final YsyMailService mailService;
-	private final YsyUserMstService userService;
+//	private final YsyMailService mailService;
+//	private final YsyUserMstService userService;
+	
+	@Autowired
+	private YsyMailService mailService;
+	@Autowired
+	private YsyUserMstService userService;
 	
 	@PostMapping("/mailConfirm")
 	@ResponseBody

@@ -13,18 +13,29 @@ public interface YsyUserMstRepository extends JpaRepository<YsyUserMst, String>{
 	
 	public int deleteByUsername(String username);
 	
-	@Query(value="SELECT  a.user_id\r\n"
-			+ "		, a.user_phone\r\n"
-			+ "		, a.user_nm\r\n"
-			+ "		, DATE_FORMAT(a.reg_dt,'%Y-%m-%d')\r\n"
-			+ "		, a.grp_id\r\n"
-			+ "		, a.biz_cd\r\n"
-			+ "		, b.grp_nm\r\n"
-			+ "FROM ysy_user_mst a\r\n"
-			+ "LEFT OUTER\r\n"
-			+ "JOIN ysy_grp_mst b\r\n"
-			+ "ON   a.biz_cd = b.biz_cd\r\n"
-			+ "AND  a.grp_id = b.grp_id\r\n"
-			+ ";", nativeQuery = true)
+	
+	
+	@Query(value=" SELECT  a.user_id                         "
+			   + " 		, a.user_phone                       "
+			   + " 		, a.user_nm                          "
+			   + " 		, DATE_FORMAT(a.reg_dt,'%Y-%m-%d')   "
+			   + " 		, a.grp_id                           "
+			   + " 		, a.biz_cd                           "
+			   + " 		, b.grp_nm                           "
+			   + " FROM ysy_user_mst a                       "
+			   + " LEFT OUTER                                "
+			   + " JOIN ysy_grp_mst b                        "
+			   + " ON   a.biz_cd = b.biz_cd                  "
+			   + " AND  a.grp_id = b.grp_id                  "
+			   + ";"
+			   , nativeQuery = true)
 	public List<Object[]> getDefaultUserList();
+	
+	
+	//test query
+	@Query("select distinct u from YsyUserMst u left join u.addressList")
+	List<YsyUserMst> findAllJPQL();
+	
+	@Query("select distinct u from YsyUserMst u left join fetch u.addressList")
+	List<YsyUserMst> findAllJPQLFetch();
 }

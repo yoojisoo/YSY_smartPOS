@@ -54,8 +54,7 @@ public class SystemNotice  extends BaseEntity implements Serializable{
 	
 	// ROLE 정보 들어있는 object
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID" , nullable = false),
-			       @JoinColumn(name = "USER_NM", referencedColumnName = "USER_NM" , nullable = false) })
+	@JoinColumns({ @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID" , nullable = false) })
 	private YsyUserMst ysyUserMst;
 	
 	

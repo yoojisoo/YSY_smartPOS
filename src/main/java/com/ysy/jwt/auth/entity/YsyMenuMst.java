@@ -74,7 +74,7 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	@Column(name="IS_ADMIN"   , length=1   , nullable = false)//admin 메뉴 여부
 	private String isAdmin;
 	
-	@ColumnDefault("mdi-home")
+	@ColumnDefault("'mdi-home'")
 	@Column(name="MENU_ICON"  , length=50  , nullable=false)
 	private String menuIcon;
 }

@@ -19,7 +19,7 @@ import com.ysy.jwt.auth.repository.YsyEmailAuthRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class YsyMailService {
 	
     public JavaMailSender javaMailService() {

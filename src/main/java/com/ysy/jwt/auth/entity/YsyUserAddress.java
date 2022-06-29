@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -49,8 +50,9 @@ public class YsyUserAddress extends BaseEntity implements Serializable{
 	private String phone2;
 	
 	@JoinColumn(name = "USER_ID" , referencedColumnName = "USER_ID")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 //	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
-	@JsonManagedReference // 순환참조 방지
+//	@JsonManagedReference // 순환참조 방지
+//	@JsonBackReference
 	private YsyUserMst ysyUserMst; 
 }

@@ -3,8 +3,11 @@ package com.ysy.jwt.auth.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +20,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Comment;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -65,22 +68,26 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 
 	
 
-	@OneToMany(mappedBy = "ysyUserMst" , fetch = FetchType.LAZY)
-	@JsonBackReference //순환참조 방지
-	private List<YsyUserAddress> addressList = new ArrayList<YsyUserAddress>();
+	@OneToMany(mappedBy = "ysyUserMst")//, fetch = FetchType.LAZY
+//	@JsonBackReference //순환참조 방지
+//	@JsonIgnoreProperties({"ysyUserMst"})
+//	@JsonManagedReference
+	@JsonIgnore
+//	private List<YsyUserAddress> addressList = new ArrayList<YsyUserAddress>();
+	private Set<YsyUserAddress> addressList = Collections.<YsyUserAddress>emptySet();  //new HashSet<YsyUserAddress>();
 	
-	
+	//이메일 인증 여부
 	@Column(name = "IS_EMAIL_AUTH" , length = 1)
 	private String isEmailAuth;
 
 	// ROLE 정보 들어있는 object
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({ @JoinColumn(name = "GRP_ID", referencedColumnName = "GRP_ID"),
-			       @JoinColumn(name = "BIZ_CD", referencedColumnName = "BIZ_CD") })
+	@JoinColumns({ @JoinColumn(name = "GRP_ID", referencedColumnName = "GRP_ID", nullable = false),
+			       @JoinColumn(name = "BIZ_CD", referencedColumnName = "BIZ_CD", nullable = false) })
 //	@JsonIgnore
 	private YsyGrpMst ysyGrpMst;
 	
-	//가입경로 : 홈페이지일 경우 빈값임. 현재는 kakao 만 구현됨
+	//가입경로 : 홈페이지일 경우 빈값임. 현재는 kakao /naver 만 구현됨
 	@Column(name = "OAuth_PATH" , length = 50)
 	@Comment(value="kakao 또는 naver / google 등의 간편 로그인 사용자 가입경로")
 	private String oAuthPath;
