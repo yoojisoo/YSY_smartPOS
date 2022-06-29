@@ -28,8 +28,8 @@ export default {
 						this.$router.replace('/signIn');
 						return;
 					}
-					// this.$axios.defaults.headers.common['access_token'] = res.headers.access_token;
-					let flag = authService.setLoginData(res.headers);
+					//let flag = authService.setLoginData(res.headers);
+					let flag = this.$store.dispatch('authStore/setUserInfo', res.headers);
 					console.log(res.data);
 					if (flag) {
 						this.$router.replace('/');
