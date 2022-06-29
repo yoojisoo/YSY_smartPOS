@@ -1,3 +1,4 @@
+<!-- 22.06.29 yoojisoo -->
 <!-- 
           *****설명
           :page.sync="page"              -> 원하는 page를 선택했을때, 자동적으로 대상 page로 전환
@@ -33,22 +34,31 @@
 						<v-toolbar-title>{{ gridInfo.gridNm }}</v-toolbar-title>
 						<v-divider class="mx-4" inset vertical />
 						<v-spacer />
+
 						<v-btn v-if='!gridInfo.isDetail' plain :to='gridInfo.path'>전체보기</v-btn>
 						<v-btn-toggle v-else group>
-							<v-btn plain @click="btnText=true">
-								<h3 style="color: black" slot="">추가</h3>
+							<v-btn
+								plain
+								@click="editedItem(item, '추가')"
+							>
+								<h3 style="color: black" slot=""> 추가 </h3>
 							</v-btn>
-							<v-btn plain>
-								<h3 style="color: black" @click="deleteItem(item)">삭제</h3>
+							<v-btn
+								plain
+								@click="deleteItem(item)"
+							>
+								<h3 style="color: black"> 삭제 </h3>
 							</v-btn>
 						</v-btn-toggle>
 					</v-toolbar>
 				</template>
 
 				<template v-if='gridInfo.isDetail' v-slot:item.actions="{ item }">
-					<!-- <v-btn text>수정</v-btn> -->
-					<v-icon small class="mr-2" @click.stop="editItem(item)">
-						mdi-pencil
+					<v-icon
+						small
+						class="mr-2"
+						@click.stop="editedItem(item, '수정')">
+							mdi-pencil
 					</v-icon>
 					<!-- <v-icon small @click="">
 						mdi-delete
@@ -97,10 +107,6 @@
 			</td>
 			</tr>
 		</template> -->
-
-				<!-- <template #item.regDt="{ item }">
-					<dateForm :dateVal="item.regDt" :gubun="gridInfo.dateGubun" />
-				</template> -->
 			</v-data-table>
 
 			<template>
@@ -122,18 +128,14 @@
 </template>
 
 <script>
-// import dateForm from '@/components/DateForm.vue';
-
 export default {
 	props: ['gridInfo', 'cardHeight'],
 	components: {
-		// dateForm,
 	},
 	data: () => ({
 		selected: [],
 		page: 1, // 최초 나타나는 페이지
 		pageCount: 0, // 데이터 겟수에 따라 변경됨 ->  @page-count="pageCount = $event"
-		btnText: null,
 	}),
 	methods: {
 		/** grid click event */
@@ -143,27 +145,19 @@ export default {
 			}
 		},
 		rowDbClick(item, row) {
-			// console.log('rowDbClick index = ' + row.index);
 			this.gridInfo.rowDbClick(row, this.gridInfo.gridNm);
 		},
 		goToTable(path) {
 			console.log(path);
 			this.$router.replace(path);
 		},
-		moveEditor() {
-			// console.log('moveEditor() 들어왔다~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-			if(this.btnText) {
-				this.$router.push({ name:'editor', params: { btnStr: '추가' }});
+		editedItem(item, editedStr) {
+			if(editedStr === '수정') {
+				this.$router.push({ name:'editor', params: { btnStr: editedStr, item }});
 			}
-			else if(!this.btnText) {
-				this.$router.push({ name:'editor', params: { btnStr: '수정' }});
+			else if(editedStr === '추가') {
+				this.$router.push({ name:'editor', params: { btnStr: editedStr }});
 			}
-		},
-		/** 그리드 row item 추가 */
-		createItem(item) {
-		},
-		editItem(item) {
-			alert('수정 로직 띄어죠~~~')
 		},
 		async deleteItem() {
 			let username = [];
@@ -200,19 +194,11 @@ export default {
 			console.log('keys = ' + keys);
 			return keys;
 		},
-		// btnText() {
-		// 	return this.moveEditor();
-		// }
 	},
 	mounted() {
 		console.log('mounted grid =========================================');
 		console.log(this.gridInfo);
 	},
-	watch: {
-		btnText() {
-			this.moveEditor();
-		}
-	}
 };
 </script>
 <style>
