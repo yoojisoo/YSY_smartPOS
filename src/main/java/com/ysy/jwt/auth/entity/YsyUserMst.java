@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +20,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Comment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -98,6 +96,8 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 		else
 			return new ArrayList<String>();
 	}
+
+	
 
 	
 }

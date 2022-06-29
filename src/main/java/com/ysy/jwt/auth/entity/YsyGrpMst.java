@@ -66,7 +66,7 @@ public class YsyGrpMst extends BaseEntity implements Serializable{
 	
 	//mappedBy -> 나와 관련된 클래스를 조회만 할 수 있게 해줌
 	@OneToMany(mappedBy = "ysyGrpMst" , fetch = FetchType.LAZY)
-	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
+//	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
 	private List<YsyGrpMenuMap> ysyGrpMenuMap = new ArrayList<YsyGrpMenuMap>(); 
 	
 	

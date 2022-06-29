@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "YSY_USER_ADDRESS")
 @Entity
-public class YsyUserAddress extends BaseEntity implements Serializable{
+public class YsyUserAddress extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -54,5 +53,6 @@ public class YsyUserAddress extends BaseEntity implements Serializable{
 //	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
 //	@JsonManagedReference // 순환참조 방지
 //	@JsonBackReference
-	private YsyUserMst ysyUserMst; 
+	private YsyUserMst ysyUserMst;
+
 }

@@ -56,7 +56,7 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	@ManyToOne
 	@JoinColumns({@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD"),
 		          @JoinColumn(name = "GRP_ID" , referencedColumnName = "GRP_ID")})
-	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
+//	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
 	private YsyGrpMst ysyGrpMst ; 
 	
 	@Data
