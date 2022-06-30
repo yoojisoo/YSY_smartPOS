@@ -1,5 +1,6 @@
 import authService from '@/service/auth/AuthService.js';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 const authStore = {
 	namespaced: true,
@@ -44,6 +45,7 @@ const authStore = {
 				refresh_token
 				refresh_token_exp
 			*/
+			console.log('➡️ mutations setUserInfo');
 			var keys = Object.keys(payload);
 			keys.forEach(key => {
 				state.loginData[key] = payload[key];
@@ -62,12 +64,26 @@ const authStore = {
 		},
 	},
 	actions: {
-		async setUserInfo({ commit }, userInfo) {
-			let payload = await authService.setLoginData(userInfo);
-			console.log('AuthStore setUserInfo ✔️✔️✔️✔️✔️✔️✔️');
-			console.log(payload);
-			if (payload !== null && payload !== undefined) {
-				console.log('authStore setUserInfo ✔️');
+		async signIn({ dispatch }, params) {
+			var res = await authService.signIn(params);
+			let flag = dispatch('setUserInfo', res);
+
+			return flag;
+		},
+
+		async setUserInfo({ commit }, res) {
+			if (res !== null && res !== undefined) {
+				var decodedHeader_access = jwt_decode(res.access_token, { payload: true });
+				var decodedHeader_refresh = jwt_decode(res.refresh_token, { payload: true });
+
+				let payload = {
+					user_id: decodedHeader_access.username,
+					user_name: decodedHeader_access.name,
+					access_token: res.access_token,
+					access_token_exp: decodedHeader_access.exp,
+					refresh_token: res.refresh_token,
+					refresh_token_exp: decodedHeader_refresh.exp,
+				};
 				commit('setUserInfo', payload);
 				return true;
 			} else {
@@ -75,9 +91,11 @@ const authStore = {
 				return false;
 			}
 		},
+
 		setSignUpKey: ({ commit }, key) => {
 			commit('setSignUpKey', key);
 		},
+
 		clearUserInfo: ({ commit }) => {
 			commit('clearUserInfo');
 		},
