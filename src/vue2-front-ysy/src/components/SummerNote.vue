@@ -1,8 +1,7 @@
+<!-- 22.06.29 yoojisoo -->
 <template>
   <div class="editor-page">
     <div id="summernote"></div>
-    <p>아 졸려 {{editorInfo}}</p>
-    <p>{{summernoteStr}}</p>
   </div>
 </template>
 
@@ -21,6 +20,7 @@ export default {
       maxHeight: null,
       focus: true,
       lang : 'ko-KR',
+
       // placeholder: '내용을 작성하세요.',
       // toolbar: [
       //   ['style', ['bold', 'italic', 'underline']],
@@ -41,10 +41,9 @@ export default {
   },
   methods: {
     getContent() {
-      console.log('야아아아아~~~~~~~' + this.editorInfo.isSave);
       if(this.editorInfo.isSave) {
         this.summernoteStr = $('#summernote').summernote('code'); //값 가져오기
-        alert(this.summernoteStr)
+        console.log('확인중~' + typeof(this.summernoteStr));
       }
     },
   },

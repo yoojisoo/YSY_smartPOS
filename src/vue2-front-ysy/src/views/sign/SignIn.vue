@@ -14,7 +14,7 @@
 										<v-row justify="space-between" no-gutters>
 											<v-col cols="12" class="mb-6">
 												<v-text-field
-													v-model="signInInfo.username"
+													v-model="params.data.username"
 													name="user_id"
 													type="text"
 													prepend-inner-icon="mdi-human-greeting-variant"
@@ -26,7 +26,7 @@
 											</v-col>
 											<v-col cols="12" class="mb-6">
 												<v-text-field
-													v-model="signInInfo.password"
+													v-model="params.data.password"
 													name="user_pw"
 													type="password"
 													prepend-inner-icon="mdi-donkey"
@@ -139,21 +139,22 @@ export default {
 	data() {
 		return {
 			toggleMessage: [{ title: 'REMEMBER' }, { title: 'FORGET ID/PW?' }],
-			signInInfo: {
-				username: '',
-				password: '',
+			params: {
+				url: '/login',
+				data: {
+					username: '',
+					password: '',
+				},
 			},
 		};
 	},
 	methods: {
 		async signIn() {
-			let flag = await this.$store.dispatch('authStore/setUserInfo', this.signInInfo);
-			if (flag) {
-				this.$router.replace('/');
-			} else {
-				alert('아이디나 비밀번호가 틀렸습니다.');
-			}
+			let flag = await this.$store.dispatch('authStore/signIn', this.params);
+			if (flag) this.$router.replace('/');
+			else alert('아이디나 비밀번호가 틀렸습니다.');
 		},
+
 		signUp() {
 			this.$router.replace({ name: 'signUp' });
 		},

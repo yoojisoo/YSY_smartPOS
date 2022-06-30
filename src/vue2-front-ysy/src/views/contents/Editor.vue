@@ -1,3 +1,4 @@
+<!-- 22.06.29 yoojisoo -->
 <template>
 	<v-app>
 		<!-- Header Start -->
@@ -16,10 +17,11 @@
 								<v-col cols="12">
 									<!-- <pageHistory :pageNameKo="pageNameKo" /> -->
 								</v-col>
+
 								<v-col cols="12">
 									<v-row justify="center">
 										<v-col cols="auto" align-self="center">
-											<span class="h3 pb-0"> {{ title }} </span>
+											<span class="h3 pb-0"> {{ catechory }} </span>
 										</v-col>
 										<v-spacer/>
 										<v-col cols="auto" align-self="center">
@@ -69,6 +71,7 @@
 									</v-row>
 									<v-divider class="my-5"/>
 								</v-col>
+
 								<v-col cols="12" align-self="center">
 									<v-text-field
 										label="제목을 입력하세요."
@@ -78,22 +81,29 @@
 										required
 										hide-details
 										class="pb-3"
+										v-model="titleInput"
 									></v-text-field>
 								</v-col>
 								<!-- 에디터 ~~~~~~ -->
 								<v-col cols="12">
 									<summer-note :editorInfo="editorInfo" :isSave="editorInfo.isSave"/>
 								</v-col>
-
 							</v-row>
-						<v-col>
-							<p>뿅2</p>
-							<p>{{this.$route.params}}</p>
-							<p>뿅3</p>
-							<p>{{this.$route.params.btnStr}}</p>
-							<p>뿅4</p>
-							<p>{{ this.getUserId }}</p>
-						</v-col>
+							<v-row>
+								<v-col>
+									
+									<p>뿅2</p>
+									<p> 추가면 item이 없고 수정이면 item이 있음</p>
+									<!-- <p>{{this.$route.params.item}}</p> -->
+									<!-- <p>{{this.$route.params.item.title}}</p>
+									<p>{{this.$route.params.item.content}}</p>
+									<p>{{this.$route.params.item.username}}</p> -->
+									<p>뿅3</p>
+									<!-- <p>{{this.$route.params.btnStr}}</p> -->
+									<p>뿅4</p>
+									<!-- <p>{{ this.getUserId }}</p> -->
+								</v-col>
+							</v-row>
 						</v-col>
 					</v-row>
 				</v-container>
@@ -130,11 +140,14 @@ export default {
 	data() {
 		return {
 			pageName: 'editor',
-			title: '글쓰기',
+			catechory: '글쓰기',
 			isDialog: false,
+			titleInput: null,
 			editorInfo: {
 				isSave: false,
 				userId: '',
+				title: '',
+				isEdit: null,
 			}
 		};
 	},
@@ -143,7 +156,9 @@ export default {
 			this.isDialog = false;
 			this.editorInfo.isSave = true;
 			this.editorInfo.userId = this.getUserId;
-			// const validate = this.$refs.form.validate();
+			this.title = this.titleInput;
+			// this.editorInfo.title = this.titleInput;
+			// const validate = this.$refs.form.validate(); // 유효성 검사 (ruls가 적용된 text-area) 
 		},
 	},
 	computed: {
