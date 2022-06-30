@@ -1,9 +1,13 @@
 package com.ysy;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @SpringBootApplication
 public class posApplication {
@@ -18,4 +22,10 @@ public class posApplication {
 		SpringApplication.run(posApplication.class, args);
 	}
 
+	
+	/* queryDls bean */
+	@Bean
+    public JPAQueryFactory jpaQueryFactory(EntityManager em) {
+        return new JPAQueryFactory(em);
+    }
 }
