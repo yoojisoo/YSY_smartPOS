@@ -21,10 +21,10 @@ public class StoreNoticeController {
 
 	
 	/** 2022 06 28 mnew2m */
-	@GetMapping("/getStoreNotice")
-	public List<StoreNotice> getStoreNotice(){
+	@GetMapping("/findStoreNotice")
+	public List<StoreNotice> findStoreNotice(){
 
-		return storeNoticeService.getStoreNotice();
+		return storeNoticeService.findStoreNotice();
 	}
 	
 	

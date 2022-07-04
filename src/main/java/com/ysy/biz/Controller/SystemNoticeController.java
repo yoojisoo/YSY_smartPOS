@@ -21,11 +21,11 @@ public class SystemNoticeController {
 
 	
 	/** 2022 06 09 yoojisoo  */
-	@GetMapping("/getSystemNotice")
-	public List<SystemNotice> getSystemNotice(){
+	@GetMapping("/findSystemNotice")
+	public List<SystemNotice> findSystemNotice(){
 		System.out.println("공지사항 가져가쟈~~~~");
 
-		return systemNoticeService.getSystemNotice();
+		return systemNoticeService.findSystemNotice();
 	}
 	
 	

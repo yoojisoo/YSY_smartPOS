@@ -17,7 +17,7 @@ public class SystemNoticeService {
 	
 	
 	/** biz 등록 */
-	public List<SystemNotice> getSystemNotice() {
+	public List<SystemNotice> findSystemNotice() {
 		
 		List<SystemNotice> noticeList = systemNoticeRepository.findAll();
 		

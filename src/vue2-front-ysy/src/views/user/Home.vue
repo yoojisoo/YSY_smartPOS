@@ -171,10 +171,10 @@ export default {
 
 	mounted() {
 		// 시스템 공지사항 셋팅
-		this.setNoticeSystemList();
+		this.findSystemNoticeList();
 
 		// 스토어 공지사항 셋팅
-		this.setNoticeStoreList();
+		// this.setNoticeStoreList();
 	},
 
 	methods: {
@@ -208,38 +208,40 @@ export default {
 			this.isPopup = false;
 		},
 
-		// 시스템 공지사항 셋팅
-		async setNoticeSystemList() {
-			await this.$store.dispatch('noticeStore/findNoticeSystemInfo').catch(error => {
-				console.log('===============> noticeStore/findNoticeSystemInfo error');
+		//시스템 공지사항 셋팅
+		async findSystemNoticeList() {
+			await this.$store.dispatch('noticeStore/findSystemNotice').catch(error => {
+				console.log('===============> noticeStore/findSystemNotice error');
 				console.log(error);
 			});
 
-			if (this.getNoticeSystemList) {
-				this.noticeSystemInfo.dataList = this.getNoticeSystemList;
+			if (this.getSystemNoticeList) {
+				console.log('홈에서 공지사항 데이터 가져오기 ~~~~~~~~~~~~');
+				this.noticeSystemInfo.dataList = this.getSystemNoticeList;
 			} else {
-				console.log('this.getNoticeSystemList 실패 !!');
+				console.log('Home --- findSystemNoticeList() 실패 !!');
 			}
+
 		},
 
 		// 스토어 공지사항 셋팅
-		async setNoticeStoreList() {
-			await this.$store.dispatch('noticeStore/findNoticeStoreInfo').catch(error => {
-				console.log('===============> noticeStore/findNoticeStoreInfo error');
-				console.log(error);
-			});
+		// async setNoticeStoreList() {
+		// 	await this.$store.dispatch('noticeStore/findNoticeStoreInfo').catch(error => {
+		// 		console.log('===============> noticeStore/findNoticeStoreInfo error');
+		// 		console.log(error);
+		// 	});
 
-			if (this.getNoticeStoreList) {
-				this.noticeStoreInfo.dataList = this.getNoticeStoreList;
-			} else {
-				console.log('this.getNoticeStoreList 실패 !!');
-			}
-		},
+		// 	if (this.getNoticeStoreList) {
+		// 		this.noticeStoreInfo.dataList = this.getNoticeStoreList;
+		// 	} else {
+		// 		console.log('this.getNoticeStoreList 실패 !!');
+		// 	}
+		// },
 	},
 	computed: {
 		...mapGetters({ getUser: 'authStore/getUser' }),
-		...mapGetters({ getNoticeSystemList: 'noticeStore/getNoticeSystemList' }),
-		...mapGetters({ getNoticeStoreList: 'noticeStore/getNoticeStoreList' }),
+		...mapGetters({ getSystemNoticeList: 'noticeStore/getSystemNoticeList' }),
+		...mapGetters({ getStoreNoticeList: 'noticeStore/getStoreNoticeList' }),
 	},
 };
 </script>

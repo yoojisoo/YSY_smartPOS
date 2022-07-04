@@ -25,7 +25,7 @@ public class YsyMenuMstService {
 	@Autowired
 	private YsyUtil util;
 	
-	public List<MenuDto> getMenuList() {
+	public List<MenuDto> findMenuList() {
 	
 		Sort sort = util.getSort("pMenuId","menuSeq");
 		System.out.println("sorttttttttttttt");

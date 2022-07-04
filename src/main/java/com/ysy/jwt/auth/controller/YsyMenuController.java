@@ -18,8 +18,8 @@ public class YsyMenuController {
 	@Autowired
 	private  YsyMenuMstService ysyMenuMstService;
 	
-	@GetMapping("/getMenuList")
-	public List<MenuDto> getMenuList() {
-		return ysyMenuMstService.getMenuList();
+	@GetMapping("/findMenuList")
+	public List<MenuDto> findMenuList() {
+		return ysyMenuMstService.findMenuList();
 	}
 }

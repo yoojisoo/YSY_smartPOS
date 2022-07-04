@@ -166,7 +166,7 @@ export default {
 	}),
 
 	mounted() {
-		this.setMenuList();
+		this.findMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
 		window.addEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 추가
 	},
@@ -262,14 +262,14 @@ export default {
 			console.log(' ↑↑↑ headerMenuFilter End ↑↑↑ ');
 		},
 
-		async setMenuList() {
+		async findMenuList() {
 			await store.dispatch('menuStore/findMenuList');
 
 			if (this.getMenuList) {
 				this.menuList = this.getMenuList;
 				this.setHeaderMenu();
 			} else {
-				console.log('this.getMenuList 실패 !!');
+				console.log('this.findMenuList 실패 !!');
 			}
 		},
 

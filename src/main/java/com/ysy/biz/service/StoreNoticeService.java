@@ -17,7 +17,7 @@ public class StoreNoticeService {
 	
 	
 	/** biz 등록 */
-	public List<StoreNotice> getStoreNotice() {
+	public List<StoreNotice> findStoreNotice() {
 		
 		List<StoreNotice> noticeList = storeNoticeRepository.findAll();
 		

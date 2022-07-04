@@ -1,35 +1,67 @@
 import axios from 'axios';
 
 class NoticeService {
-	// 시스템 공지사항
-	async setNoticeSystemList() {
-		let url = 'ysy/v1/getSystemNotice';
+	/**
+	 * 시스템 공지사항
+	 * server controller -> JPA를 통해 DB 데이터 find
+	 */
+	async findSystemNotice() {
+		let url = 'ysy/v1/findSystemNotice';
 		let res = await axios.get(url);
 		if (res) {
-			console.log('NoticeService setNoticeSystemList ==> start');
+			console.log('노티스 서비스 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+			console.log('NoticeService - findSystemNotice ==> start');
 			console.log(res.data);
-			console.log('NoticeService setNoticeSystemList ==> end');
+			console.log('NoticeService - findSystemNotice ==> end');
 			return res.data;
 		} else {
-			console.log('NoticeService setNoticeSystemList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			console.log('NoticeService - findSystemNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;
 		}
 	}
 
-	// 스토어 공지사항
-	async setNoticeStoreList() {
-		let url = 'ysy/v1/getStoreNotice'; // url 스토어로 변경해야함 !
+	/**
+	 * 스토어 공지사항
+	 * server controller -> JPA를 통해 DB 데이터 find
+	 */
+	async findStoreNotice() {
+		let url = 'ysy/v1/findStoreNotice'; // url 스토어로 변경해야함 !
 		let res = await axios.get(url);
 		if (res) {
-			console.log('NoticeService setNoticeStoreList ==> start');
+			console.log('NoticeService - findStoreNotice ==> start');
 			console.log(res.data);
-			console.log('NoticeService setNoticeStoreList ==> end');
+			console.log('NoticeService - findStoreNotice ==> end');
 			return res.data;
 		} else {
-			console.log('NoticeService setNoticeStoreList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			console.log('NoticeService - findStoreNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;
 		}
 	}
+
+	/**
+	 * 시스템 공지사항
+	 * server controller -> JPA를 통해 입력 데이터 set
+	 */
+	async editSystemNotice(params) {
+		let url = 'ysy/v1/editSystemNotice';
+	}
+
+
+
+	// class AuthService {
+	// 	async signIn(params) {
+	// 		let res = (await axios.post(params.url, params.data)).headers;
+	// 		if (res.access_token !== null || res.access_token !== '') {
+	// 			axios.defaults.headers.common['access_token'] = res.access_token;
+	// 			return res;
+	// 		} else {
+	// 			console.log('AuthService setLoginData ==> error !!!!!!!!!!!');
+	// 			return null;
+	// 		}
+	// 	}
+	// }
+
+	
 }
 
 export default new NoticeService();

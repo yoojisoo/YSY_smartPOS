@@ -7,16 +7,16 @@
 import axios from 'axios';
 
 class MenuService {
-	async setMenuList() {
-		let url = 'ysy/v1/menu/getMenuList';
+	async findMenuList() {
+		let url = 'ysy/v1/menu/findMenuList';
 		let res = await axios.get(url);
 		if (res) {
-			console.log('MenuService setMenuList ==> start');
+			console.log('MenuService findMenuList ==> start');
 			console.log(res.data);
-			console.log('MenuService setMenuList ==> end');
+			console.log('MenuService findMenuList ==> end');
 			return res.data;
 		} else {
-			console.log('MenuService setMenuList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			console.log('MenuService findMenuList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;
 		}
 	}
