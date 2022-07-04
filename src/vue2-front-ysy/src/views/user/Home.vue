@@ -125,9 +125,9 @@ export default {
 			noticeSystemInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '번호', value: 'no', width: '20%', key: true },
 					{ text: '제목', value: 'title', width: '40%' },
-					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
+					{ text: '작성자', value: 'writer', width: '40%' },
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',

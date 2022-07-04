@@ -70,7 +70,7 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 //	@JsonBackReference //순환참조 방지
 //	@JsonIgnoreProperties({"ysyUserMst"})
 //	@JsonManagedReference
-	@JsonIgnore
+//	@JsonIgnore
 //	private List<YsyUserAddress> addressList = new ArrayList<YsyUserAddress>();
 	private Set<YsyUserAddress> addressList = Collections.<YsyUserAddress>emptySet();  //new HashSet<YsyUserAddress>();
 	

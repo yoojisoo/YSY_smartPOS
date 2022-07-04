@@ -6,7 +6,7 @@ class NoticeService {
 	 * server controller -> JPA를 통해 DB 데이터 find
 	 */
 	async findSystemNotice() {
-		let url = 'ysy/v1/findSystemNotice';
+		let url = 'ysy/v1/findSystemNotice?size=5';
 		let res = await axios.get(url);
 		if (res) {
 			console.log('노티스 서비스 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');

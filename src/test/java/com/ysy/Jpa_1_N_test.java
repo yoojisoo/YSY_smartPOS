@@ -12,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.entity.QStoreNotice;
 import com.ysy.biz.entity.StoreNotice;
 import com.ysy.jwt.auth.dto.UserInfoDto;
+import com.ysy.jwt.auth.entity.QYsyBtnMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
 import com.ysy.jwt.auth.entity.QYsyMenuMst;
+import com.ysy.jwt.auth.entity.QYsyPrivateRoles;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
@@ -45,20 +46,22 @@ public class Jpa_1_N_test {
 	@Test
 	@Transactional
 	public void getUserList() {
-		
+		String userId = "clubbboy@naver.com";
 		
 		JPAQueryFactory query = new JPAQueryFactory(em); // 2
 		QStoreNotice qStoreNotice = QStoreNotice.storeNotice;
 		List<StoreNotice> result = query
 				.select(qStoreNotice)
 				.from(qStoreNotice)
-				.where(qStoreNotice.ysyUserMst.username.eq("clubbboy@naver.com"))
+				.where(qStoreNotice.ysyUserMst.username.eq(userId))
 				.fetch();
 		
-		QYsyGrpMenuMap qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
-		QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst;
-		QYsyMenuMst qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
-		QYsyGrpMst qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
+		QYsyGrpMenuMap     qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
+		QYsyUserMst           qYsyUserMst = QYsyUserMst.ysyUserMst;
+		QYsyMenuMst           qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
+		QYsyGrpMst             qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
+		QYsyBtnMst             qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
+		QYsyPrivateRoles qYsyPrivateRoles = QYsyPrivateRoles.ysyPrivateRoles;
 		
 		// 권한에 따른 level id
 		YsyGrpMst grp_lvl = query
@@ -67,7 +70,7 @@ public class Jpa_1_N_test {
 				.on(qYsyGrpMst.ysyBizMst.bizCd.eq(qYsyUserMst.ysyGrpMst.grpPK.bizCd),
 					qYsyGrpMst.grpPK.grpId.eq(qYsyUserMst.ysyGrpMst.grpPK.grpId)	
 				)
-				.where(qYsyUserMst.username.eq("clubbboy@naver.com"))
+				.where(qYsyUserMst.username.eq(userId))
 				.fetchOne();
 		System.out.println("grp_lvl.getLevelId() ===> "+grp_lvl.getLevelId());
 		
@@ -81,7 +84,7 @@ public class Jpa_1_N_test {
 			    )
 //				.innerJoin(qYsyGrpMst,qYsyGrpMenuMap.ysyGrpMst)
 //				.innerJoin(qYsyUserMst.ysyGrpMst,qYsyGrpMst)
-//				.where(qYsyUserMst.username.eq("clubbboy@naver.com"))
+//				.where(qYsyUserMst.username.eq(userId))
 				.fetch();
 
 		
@@ -90,9 +93,9 @@ public class Jpa_1_N_test {
 		List<YsyUserAddress> result2 = query
 				.select(qYsyUserAddress)
 				.from(qYsyUserAddress)
-				.where(qYsyUserAddress.ysyUserMst.username.eq("clubbboy@naver.com"))
+				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
 				.fetch();
-//		List<YsyUserAddress> listt = ysyUserAddressRepository.getUserInfoJPQL("clubbboy@naver.com");
+//		List<YsyUserAddress> listt = ysyUserAddressRepository.getUserInfoJPQL(userId);
 		UserInfoDto dto1 = new UserInfoDto(result2); 
 		
 		
@@ -118,7 +121,7 @@ public class Jpa_1_N_test {
 //						)
 //				)
 //				.from(qYsyUserAddress)
-//				.where(qYsyUserAddress.ysyUserMst.username.eq("clubbboy@naver.com"))
+//				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
 //				.fetch();
 		
 		
@@ -135,13 +138,13 @@ public class Jpa_1_N_test {
 				.from(qYsyUserAddress)
 				.innerJoin(qYsyUserMst)
 				.on(qYsyUserAddress.ysyUserMst.username.eq(qYsyUserMst.username) )
-				.where(qYsyUserAddress.ysyUserMst.username.eq("clubbboy@naver.com"))
+				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
 				.fetch();
 		
 		
 		
 		
-		YsyUserMst user = ysyUserMstRepository.findById("clubbboy@naver.com")
+		YsyUserMst user = ysyUserMstRepository.findById(userId)
 				.orElseThrow(()->  new IllegalArgumentException("except test"));//
 		
 		List<YsyUserAddress> tmpAddrList = ysyUserAddressRepository.findByYsyUserMst(user);
