@@ -1,11 +1,11 @@
 package com.ysy.jwt.auth.dto;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.ysy.jwt.auth.entity.YsyUserAddress;
-import com.ysy.jwt.auth.entity.YsyUserMst;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,8 +63,32 @@ public class UserInfoDto {
 			addr.mod_dt      = tmpAddr .getModDt().format(formatter);
 			addrList.add(addr);
 		}
+	}
+	
+	public UserInfoDto(String user_id , String user_nm , String oauth_path , String grp_id , String biz_cd
+			          ,String addrType , String addrZipCode , String addrCity , String addrDetail , String addrEtc
+			          ,String phone1,String phone2,String reg_id,LocalDateTime reg_dt,String mod_id,LocalDateTime mod_dt) {
 		
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		/* user정보 / group 정보 */
+		this.user_id    = user_id;
+		this.user_nm    = user_nm   ;
+		this.oauth_path = oauth_path;
+		this.grp_id     = grp_id    ;
+		this.biz_cd     = biz_cd    ;
+		Addr addr = new Addr();
+		addr.addrType    = addrType    ;           
+		addr.addrZipCode = addrZipCode ;           
+		addr.addrCity    = addrCity    ;           
+		addr.addrDetail  = addrDetail  ;           
+		addr.addrEtc     = addrEtc     ;           
+		addr.phone1      = phone1      ;           
+		addr.phone2      = phone2      ;           
+		addr.reg_id      = reg_id      ;           
+		addr.reg_dt      = reg_dt.format(formatter); 
+		addr.mod_id      = mod_id      ;                   
+		addr.mod_dt      = mod_dt.format(formatter); 
+		addrList.add(addr);
 	}
 	
 	@Data
