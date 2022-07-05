@@ -13,8 +13,8 @@ import com.ysy.biz.dto.SystemNoticeDto;
 import com.ysy.biz.service.SystemNoticeService;
 
 @RestController
-@CrossOrigin
-@RequestMapping("/ysy/v1")
+@CrossOrigin 
+@RequestMapping("/ysy/v1") 
 public class SystemNoticeController {
 	
 	@Autowired
@@ -22,7 +22,7 @@ public class SystemNoticeController {
 
 	
 	/** 2022 06 09 yoojisoo  */
-	@GetMapping("/findSystemNotice")
+	@GetMapping("/findSystemNotice") 
 	public List<SystemNoticeDto> findSystemNotice(@RequestParam int size){
 		System.out.println("공지사항 가져가쟈~~~~");
 		if(size <= 0) size = 5;

@@ -26,13 +26,20 @@ import lombok.ToString;
  * @author clubbboy@nave.com
  * 2022 05 17
  * desc : 그룹권한과는 별개로 권한을 주고싶을때 사용하는 테이블.
+ *  * 최우선 되는 권한 테이블 
+ *    -> 그룹쪽에 권한이 있고 여기에도 권한이 있으면 여기에 있는 권한이 우선시 된다.
+ *    -> 여기에 권한이 없을시 그룹쪽에 권한을 따라감.
+ *    ex1) clubbboy@naver.com에 대한 권한 : 
+ *         menu001에 대한 권한이 grpMenuMap에 있고 버튼에 대한 권한이 search,save 있는상태에서
+ *         해당 테이블에 menu001에 대한 권한이 search가 있으면 최종적으로 search권한만 가지고 간다.
+ *    ex2) 해당 테이블에만 menu001에 대한 권한이 있으면 grpMenuMap에 권한이 없더라도 menu001에 대한 권한을 가져감.    
  */
 @Data
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "YSY_PRIVATE_ROLES")
+@Table(name = "YSY_PRIVATE_ROLES") 
 @Entity
 public class YsyPrivateRoles extends BaseEntity implements Serializable {
 
