@@ -24,7 +24,6 @@ public class YsyMenuMstService {
 	
 	@PersistenceContext
 	EntityManager em;
-	JPAQueryFactory query = new JPAQueryFactory(em);
 	
 	/** 22-07-05 mnew2m
 	 * 사용하는 Q Class와 Return type */
@@ -38,6 +37,8 @@ public class YsyMenuMstService {
 	 * 로그인을 하지 않았을 때 */
 	@Transactional
 	public List<MenuDto> findDefaultMenuList() {
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		/** 로그인하지 않았을때 디폴트 bizCd 0001 ★★★★★ 임시 ★★★★★
 		 * 해당 bizCd Grp중에 가장 숫자가 큰 그룹(DEFAULT_USER) 1건만 가져옴 */
@@ -69,6 +70,8 @@ public class YsyMenuMstService {
 	 * 로그인 된 아이디가 있을 때 */
 	@Transactional
 	public List<MenuDto> findMenuList(String userId) {
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		// 해당 아이디의 grp 정보 가져오는 쿼리
 		YsyGrpMst grp_lvl = query
