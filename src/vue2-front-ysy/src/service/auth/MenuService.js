@@ -7,9 +7,13 @@
 import axios from 'axios';
 
 class MenuService {
-	async findMenuList() {
-		let url = 'ysy/v1/menu/findMenuList';
+	async findMenuList(userId) {
+		if (userId == '' || userId == null || userId == undefined) {
+			var url = 'ysy/v1/menu/findDefaultMenuList';
+		} else var url = 'ysy/v1/menu/findMenuList?userId=' + userId;
+
 		let res = await axios.get(url);
+
 		if (res) {
 			console.log('MenuService findMenuList ==> start');
 			console.log(res.data);

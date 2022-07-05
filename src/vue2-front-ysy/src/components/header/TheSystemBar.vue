@@ -37,6 +37,7 @@ export default {
 			// [ '/' 오류 뜨는 이유 ]
 			// 현재 '/' 경로에 있기 때문에 뜨는거라서 catch로 오류를 잡아줌
 			this.$router.replace('/').catch(() => {});
+			location.reload();
 		},
 	},
 	computed: {

@@ -263,7 +263,7 @@ export default {
 		},
 
 		async findMenuList() {
-			await store.dispatch('menuStore/findMenuList');
+			await store.dispatch('menuStore/findMenuList', this.getUserId);
 
 			if (this.getMenuList) {
 				this.menuList = this.getMenuList;

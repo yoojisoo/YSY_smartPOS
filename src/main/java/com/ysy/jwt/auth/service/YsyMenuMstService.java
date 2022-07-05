@@ -2,65 +2,98 @@ package com.ysy.jwt.auth.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-import com.ysy.common.YsyUtil;
-import com.ysy.jwt.auth.dto.EntityToDto;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.jwt.auth.dto.MenuDto;
-import com.ysy.jwt.auth.repository.YsyGrpMenuMapRepository;
-import com.ysy.jwt.auth.repository.YsyMenuMstRepository;
+import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
+import com.ysy.jwt.auth.entity.QYsyGrpMst;
+import com.ysy.jwt.auth.entity.QYsyMenuMst;
+import com.ysy.jwt.auth.entity.QYsyUserMst;
+import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
+import com.ysy.jwt.auth.entity.YsyGrpMst;
 
 @Service
 //@AllArgsConstructor
 public class YsyMenuMstService {
 	
-	@Autowired
-	private  YsyMenuMstRepository ysyMenuMstRepository;
-	@Autowired
-	private  YsyGrpMenuMapRepository ysyGrpMenuMapRepository;
-	@Autowired
-	private YsyUtil util;
+	@PersistenceContext
+	EntityManager em;
+	JPAQueryFactory query = new JPAQueryFactory(em);
 	
-	public List<MenuDto> findMenuList() {
+	/** 22-07-05 mnew2m
+	 * 사용하는 Q Class와 Return type */
+	QYsyGrpMenuMap qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
+	QYsyUserMst       qYsyUserMst = QYsyUserMst.ysyUserMst;
+	QYsyMenuMst       qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
+	QYsyGrpMst         qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
+	List<MenuDto>      resultList = new ArrayList<MenuDto>();
 	
-		Sort sort = util.getSort("pMenuId","menuSeq");
-		System.out.println("sorttttttttttttt");
+	/** 22-07-05 mnew2m
+	 * 로그인을 하지 않았을 때 */
+	@Transactional
+	public List<MenuDto> findDefaultMenuList() {
 		
-		List<Object[]> resultList = ysyMenuMstRepository.getDefaultMenuList();
+		/** 로그인하지 않았을때 디폴트 bizCd 0001 ★★★★★ 임시 ★★★★★
+		 * 해당 bizCd Grp중에 가장 숫자가 큰 그룹(DEFAULT_USER) 1건만 가져옴 */
+		// default grp data setting start
+		String defaultBizCd = "0001";
+		YsyGrpMst defaultGrp = query
+				.selectFrom(qYsyGrpMst)
+				.where(qYsyGrpMst.ysyBizMst.bizCd.eq(defaultBizCd))
+				.orderBy(qYsyGrpMst.levelId.desc())
+				.limit(1)
+				.fetchOne();
+		// default grp data setting end
 		
-		List<MenuDto> menuList = 
-				resultList
-					.stream()
-					.map(x -> MenuDto.builder()
-						 	.menu_id       ((String)x[0])
-						 	.p_menu_id     ((String)x[1])
-						 	.menu_nm       ((String)x[2])
-						 	.menu_path     ((String)x[3])
-						 	.menu_full_path((String)x[4])
-						 	.menu_seq      ((Integer)x[5])
-						 	.is_admin      ((String)x[6])
-						 	.menu_icon     ((String)x[7])
-						 	.build()
-						)
-					.collect(Collectors.toList());
+		// default user가 사용 가능한 menu list 가져오는 쿼리
+		List<YsyGrpMenuMap> menuList = query
+				.selectFrom(qYsyGrpMenuMap)
+				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(defaultGrp.getLevelId())
+						.and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(defaultGrp.getYsyBizMst().getBizCd())))
+				.fetch();
 		
-//		EntityToDto<MenuDto> dto1 =  new EntityToDto<MenuDto>(new MenuDto());
-//		dto1.getT();
-//		EntityToDto<MenuDto> dto =
-//				new EntityToDto<MenuDto>(new MenuDto() , resultList);
-//		List<MenuDto> menuDtoResultList = new ArrayList<MenuDto>();
-//		for(Object[] objArr : resultList) {
-//			EntityToDto<MenuDto> dto = new EntityToDto<MenuDto>(new MenuDto() , objArr);
-//			menuDtoResultList.add(dto.get());
-//		}
-//		EntityToDto<MenuDto> dto = new EntityToDto<MenuDto>(new MenuDto() , resultList);
-		MenuDto m = new MenuDto();
-		m.setObj(resultList);
-		return menuList;
+		for(YsyGrpMenuMap menu : menuList) {
+			resultList.add(new MenuDto(menu));
+		}
 		
+		return resultList;
+	}
+	
+	/** 22-07-05 mnew2m
+	 * 로그인 된 아이디가 있을 때 */
+	@Transactional
+	public List<MenuDto> findMenuList(String userId) {
+		
+		// 해당 아이디의 grp 정보 가져오는 쿼리
+		YsyGrpMst grp_lvl = query
+				.selectFrom(qYsyGrpMst)
+				.innerJoin(qYsyUserMst)
+				.on(qYsyGrpMst.ysyBizMst.bizCd.eq(qYsyUserMst.ysyGrpMst.grpPK.bizCd),
+					qYsyGrpMst.grpPK.grpId.eq(qYsyUserMst.ysyGrpMst.grpPK.grpId)	
+				)
+				.where(qYsyUserMst.username.eq(userId))
+				.fetchOne();
+		
+		// 해당 아이디가 사용 가능한 menu list 가져오는 쿼리
+		List<YsyGrpMenuMap> menuList = query
+				.selectFrom(qYsyGrpMenuMap)
+				.innerJoin(qYsyMenuMst)
+				.on(qYsyGrpMenuMap.ysyMenuMst.menuId.eq(qYsyMenuMst.menuId))
+				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
+						.and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))
+			    )
+				.fetch();
+		
+		for(YsyGrpMenuMap menu : menuList) {
+			resultList.add(new MenuDto(menu));
+		}
+		
+		return resultList;
 	}
 }
