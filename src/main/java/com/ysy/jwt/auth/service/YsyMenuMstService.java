@@ -26,12 +26,11 @@ public class YsyMenuMstService {
 	EntityManager em;
 	
 	/** 22-07-05 mnew2m
-	 * 사용하는 Q Class와 Return type */
+	 * 사용하는 Q Class */
 	QYsyGrpMenuMap qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
 	QYsyUserMst       qYsyUserMst = QYsyUserMst.ysyUserMst;
 	QYsyMenuMst       qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
 	QYsyGrpMst         qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
-	List<MenuDto>      resultList = new ArrayList<MenuDto>();
 	
 	/** 22-07-05 mnew2m
 	 * 로그인을 하지 않았을 때 */
@@ -59,6 +58,7 @@ public class YsyMenuMstService {
 						.and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(defaultGrp.getYsyBizMst().getBizCd())))
 				.fetch();
 		
+		List<MenuDto> resultList = new ArrayList<MenuDto>();
 		for(YsyGrpMenuMap menu : menuList) {
 			resultList.add(new MenuDto(menu));
 		}
@@ -93,6 +93,7 @@ public class YsyMenuMstService {
 			    )
 				.fetch();
 		
+		List<MenuDto> resultList = new ArrayList<MenuDto>();
 		for(YsyGrpMenuMap menu : menuList) {
 			resultList.add(new MenuDto(menu));
 		}
