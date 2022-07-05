@@ -16,11 +16,10 @@ public class SystemNoticeDto {
 	String title;
 	String writer;
 	
-	
 	public SystemNoticeDto(SystemNotice notice , int index) {
 		this.no = index;
 		this.boardId = (int)notice.getBoardId();
 		this.title = notice.getTitle();
-		this.writer = notice.getModId() != null?notice.getModId() : notice.getRegId();
+		this.writer = notice.getModId() != null ? notice.getModId() : notice.getRegId();
 	};
 }

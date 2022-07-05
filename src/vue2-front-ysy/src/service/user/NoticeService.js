@@ -25,7 +25,7 @@ class NoticeService {
 	 * server controller -> JPA를 통해 DB 데이터 find
 	 */
 	async findStoreNotice() {
-		let url = 'ysy/v1/findStoreNotice'; // url 스토어로 변경해야함 !
+		let url = 'ysy/v1/findStoreNotice?size=5';
 		let res = await axios.get(url);
 		if (res) {
 			console.log('NoticeService - findStoreNotice ==> start');
@@ -46,8 +46,6 @@ class NoticeService {
 		let url = 'ysy/v1/editSystemNotice';
 	}
 
-
-
 	// class AuthService {
 	// 	async signIn(params) {
 	// 		let res = (await axios.post(params.url, params.data)).headers;
@@ -60,8 +58,6 @@ class NoticeService {
 	// 		}
 	// 	}
 	// }
-
-	
 }
 
 export default new NoticeService();
