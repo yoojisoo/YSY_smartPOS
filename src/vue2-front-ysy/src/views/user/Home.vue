@@ -147,9 +147,9 @@ export default {
 			noticeStoreInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '번호', value: 'no', width: '20%', key: true },
 					{ text: '제목', value: 'title', width: '40%' },
-					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
+					{ text: '작성자', value: 'writer', width: '40%' },
 				],
 				dateGubun: '/',
 				gridNm: '스토어 공지사항',
@@ -174,7 +174,7 @@ export default {
 		this.findSystemNoticeList();
 
 		// 스토어 공지사항 셋팅
-		// this.setNoticeStoreList();
+		this.findStoreNoticeList();
 	},
 
 	methods: {
@@ -221,22 +221,21 @@ export default {
 			} else {
 				console.log('Home --- findSystemNoticeList() 실패 !!');
 			}
-
 		},
 
 		// 스토어 공지사항 셋팅
-		// async setNoticeStoreList() {
-		// 	await this.$store.dispatch('noticeStore/findNoticeStoreInfo').catch(error => {
-		// 		console.log('===============> noticeStore/findNoticeStoreInfo error');
-		// 		console.log(error);
-		// 	});
+		async findStoreNoticeList() {
+			await this.$store.dispatch('noticeStore/findNoticeStoreInfo').catch(error => {
+				console.log('===============> noticeStore/findNoticeStoreInfo error');
+				console.log(error);
+			});
 
-		// 	if (this.getNoticeStoreList) {
-		// 		this.noticeStoreInfo.dataList = this.getNoticeStoreList;
-		// 	} else {
-		// 		console.log('this.getNoticeStoreList 실패 !!');
-		// 	}
-		// },
+			if (this.getStoreNoticeList) {
+				this.noticeStoreInfo.dataList = this.getStoreNoticeList;
+			} else {
+				console.log('this.getStoreNoticeList 실패 !!');
+			}
+		},
 	},
 	computed: {
 		...mapGetters({ getUser: 'authStore/getUser' }),

@@ -20,9 +20,6 @@ import com.ysy.biz.repository.SystemNoticeRepository;
 //@AllArgsConstructor
 public class SystemNoticeService {
 
-	@Autowired
-	private SystemNoticeRepository systemNoticeRepository;
-	
 	@PersistenceContext
 	EntityManager em; // 1
 	
@@ -31,22 +28,20 @@ public class SystemNoticeService {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		QSystemNotice qSystemNotice = QSystemNotice.systemNotice;
-		List<SystemNotice> noticeList =  query.selectFrom(qSystemNotice)
+		QSystemNotice qSystemNotice = QSystemNotice.systemNotice; 
+		List<SystemNotice> noticeList =  query
+				.selectFrom(qSystemNotice)
 				.limit(size)
 				.orderBy(qSystemNotice.boardId.desc())
 				.fetch();
 		
 		List<SystemNoticeDto> resultList = new ArrayList<SystemNoticeDto>();
 		int loop = 1;
-		for(SystemNotice notice :noticeList) {
-			resultList.add(new SystemNoticeDto(notice , loop));
+		for(SystemNotice notice : noticeList) {
+			resultList.add(new SystemNoticeDto(notice, loop));
 			loop++;
 		}
 		
-		
 		return resultList;
 	}
-	
-
 }
