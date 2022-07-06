@@ -25,6 +25,7 @@ import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
+import com.ysy.jwt.auth.entity.YsyPrivateRoles;
 import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.repository.YsyUserAddressRepository;
@@ -50,98 +51,61 @@ public class Jpa_1_N_test {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em); // 2
 		QStoreNotice qStoreNotice = QStoreNotice.storeNotice;
-		List<StoreNotice> result = query
-				.select(qStoreNotice)
-				.from(qStoreNotice)
-				.where(qStoreNotice.ysyUserMst.username.eq(userId))
-				.fetch();
-		
 		QYsyGrpMenuMap     qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
 		QYsyUserMst           qYsyUserMst = QYsyUserMst.ysyUserMst;
 		QYsyMenuMst           qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
 		QYsyGrpMst             qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
 		QYsyBtnMst             qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
 		QYsyPrivateRoles qYsyPrivateRoles = QYsyPrivateRoles.ysyPrivateRoles;
+		QYsyUserAddress   qYsyUserAddress = QYsyUserAddress.ysyUserAddress;
+		
+		
+		List<StoreNotice> noticeList = query
+				.select(qStoreNotice)
+				.from(qStoreNotice)
+				.where(qStoreNotice.ysyUserMst.username.eq(userId))
+				.fetch();
+		
+		List<YsyUserAddress> addrList = query
+				.select(qYsyUserAddress)
+				.from(qYsyUserAddress)
+				.innerJoin(qYsyUserAddress.ysyUserMst , qYsyUserMst)
+				.fetchJoin()
+				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
+				.fetch();
+		UserInfoDto dto1 = new UserInfoDto(addrList); 
+		
+		
 		
 		// 권한에 따른 level id
 		YsyGrpMst grp_lvl = query
 				.selectFrom(qYsyGrpMst)
-				.innerJoin(qYsyUserMst)
-				.on(qYsyGrpMst.ysyBizMst.bizCd.eq(qYsyUserMst.ysyGrpMst.grpPK.bizCd),
-					qYsyGrpMst.grpPK.grpId.eq(qYsyUserMst.ysyGrpMst.grpPK.grpId)	
-				)
+				.innerJoin(qYsyGrpMst.ysyUserMst , qYsyUserMst)
+				.fetchJoin()
 				.where(qYsyUserMst.username.eq(userId))
 				.fetchOne();
 		System.out.println("grp_lvl.getLevelId() ===> "+grp_lvl.getLevelId());
 		
 		//권한에 따른 메뉴 리스트
 		List<YsyGrpMenuMap> myMenuList = query
-				.selectFrom(qYsyGrpMenuMap )
-				.innerJoin(qYsyMenuMst)
-				.on(qYsyGrpMenuMap.ysyMenuMst.menuId.eq(qYsyMenuMst.menuId))
+				.select(qYsyGrpMenuMap )
+				.from(qYsyGrpMenuMap )
+				.innerJoin(qYsyGrpMenuMap.ysyMenuMst,qYsyMenuMst).fetchJoin()
+				.innerJoin(qYsyGrpMenuMap.ysyGrpMst,qYsyGrpMst).fetchJoin()
 				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
 				  .and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))
 			    )
-//				.innerJoin(qYsyGrpMst,qYsyGrpMenuMap.ysyGrpMst)
-//				.innerJoin(qYsyUserMst.ysyGrpMst,qYsyGrpMst)
-//				.where(qYsyUserMst.username.eq(userId))
+				.orderBy(qYsyMenuMst.menuSeq.asc())
 				.fetch();
 
-		
-		QYsyUserAddress qYsyUserAddress = QYsyUserAddress.ysyUserAddress;
-		
-		List<YsyUserAddress> result2 = query
-				.select(qYsyUserAddress)
-				.from(qYsyUserAddress)
-				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
+		//예외 메뉴 select
+		List<YsyPrivateRoles> privateMenuList = query
+				.select(qYsyPrivateRoles)
+				.from(qYsyPrivateRoles)
+				.innerJoin(qYsyPrivateRoles.ysyMenuMst, qYsyMenuMst).fetchJoin()
+				.innerJoin(qYsyPrivateRoles.ysyUserMst, qYsyUserMst).fetchJoin()
+				.where(qYsyPrivateRoles.ysyUserMst.username.eq(userId))
 				.fetch();
-//		List<YsyUserAddress> listt = ysyUserAddressRepository.getUserInfoJPQL(userId);
-		UserInfoDto dto1 = new UserInfoDto(result2); 
-		
-		
-		
-//		List<UserInfoDto> result123 = query
-//				.select(Projections.bean( UserInfoDto.class,
-//						qYsyUserAddress.ysyUserMst.username,
-//						qYsyUserAddress.ysyUserMst.name,
-//						qYsyUserAddress.ysyUserMst.oAuthPath,
-//						qYsyUserAddress.ysyUserMst.ysyGrpMst.grpPK.grpId,
-//						qYsyUserAddress.ysyUserMst.ysyGrpMst.grpPK.bizCd,
-//						qYsyUserAddress.addrType,
-//						qYsyUserAddress.addrZipCode,
-//						qYsyUserAddress.addrCity,
-//						qYsyUserAddress.addrDetail,
-//						qYsyUserAddress.addrEtc,
-//						qYsyUserAddress.phone1,
-//						qYsyUserAddress.phone2,
-//						qYsyUserAddress.regId,
-//						qYsyUserAddress.regDt,
-//						qYsyUserAddress.modId,
-//						qYsyUserAddress.modDt
-//						)
-//				)
-//				.from(qYsyUserAddress)
-//				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
-//				.fetch();
-		
-		
-		
-		List<YsyUserAddress> resultTuple = query
-				.select(qYsyUserAddress
-//						qYsyUserAddress.phone1,
-//						qYsyUserAddress.phone2,
-//						qYsyUserAddress.regId,
-//						qYsyUserAddress.regDt,
-//						qYsyUserAddress.modId,
-//						qYsyUserAddress.modDt
-				)
-				.from(qYsyUserAddress)
-				.innerJoin(qYsyUserMst)
-				.on(qYsyUserAddress.ysyUserMst.username.eq(qYsyUserMst.username) )
-				.where(qYsyUserAddress.ysyUserMst.username.eq(userId))
-				.fetch();
-		
-		
 		
 		
 		YsyUserMst user = ysyUserMstRepository.findById(userId)
