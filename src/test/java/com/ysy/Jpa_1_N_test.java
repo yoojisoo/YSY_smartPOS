@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.aspectj.weaver.ast.And;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ import com.ysy.jwt.auth.dto.UserInfoDto;
 import com.ysy.jwt.auth.entity.QYsyBtnMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
+import com.ysy.jwt.auth.entity.QYsyMenuExptMst;
 import com.ysy.jwt.auth.entity.QYsyMenuMst;
-import com.ysy.jwt.auth.entity.QYsyPrivateRoles;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
-import com.ysy.jwt.auth.entity.YsyPrivateRoles;
+import com.ysy.jwt.auth.entity.YsyMenuExptMst;
 import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.repository.YsyUserAddressRepository;
@@ -56,7 +57,7 @@ public class Jpa_1_N_test {
 		QYsyMenuMst           qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
 		QYsyGrpMst             qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
 		QYsyBtnMst             qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
-		QYsyPrivateRoles qYsyPrivateRoles = QYsyPrivateRoles.ysyPrivateRoles;
+		QYsyMenuExptMst  qYsyMenuExptMst = QYsyMenuExptMst.ysyMenuExptMst;
 		QYsyUserAddress   qYsyUserAddress = QYsyUserAddress.ysyUserAddress;
 		
 		
@@ -99,12 +100,14 @@ public class Jpa_1_N_test {
 				.fetch();
 
 		//예외 메뉴 select
-		List<YsyPrivateRoles> privateMenuList = query
-				.select(qYsyPrivateRoles)
-				.from(qYsyPrivateRoles)
-				.innerJoin(qYsyPrivateRoles.ysyMenuMst, qYsyMenuMst).fetchJoin()
-				.innerJoin(qYsyPrivateRoles.ysyUserMst, qYsyUserMst).fetchJoin()
-				.where(qYsyPrivateRoles.ysyUserMst.username.eq(userId))
+		List<YsyMenuExptMst> exptMenuList = query
+				.select(qYsyMenuExptMst)
+				.from(qYsyMenuExptMst)
+				.innerJoin(qYsyMenuExptMst.ysyMenuMst, qYsyMenuMst).fetchJoin()
+				.innerJoin(qYsyMenuExptMst.ysyUserMst, qYsyUserMst).fetchJoin()
+				.where(qYsyMenuExptMst.ysyUserMst.username.eq(userId)
+				  .and(qYsyMenuExptMst.isView.eq("N"))
+				)
 				.fetch();
 		
 		
