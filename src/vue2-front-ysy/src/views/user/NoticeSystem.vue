@@ -1,7 +1,6 @@
 <!-- main 화면 -->
 <template>
 	<v-app>
-		<div>아오</div>
 		<!-- Header Start -->
 		<mainSystemBar />
 		<mainHeader :pageName="pageName" />
@@ -17,7 +16,7 @@
 								<pageHistory :pageNameKo="pageNameKo" />
 							</v-col>-->
 							<v-col cols="12">
-								<ysyGrid :gridInfo="noticeSystemInfo" />
+								<ysyGrid :gridInfo="systemNoticeInfo" />
 							</v-col>
 						</v-row>
 					</v-col>
@@ -43,7 +42,7 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import boardDialog from '@/components/Dialog.vue';
 
 export default {
@@ -59,13 +58,13 @@ export default {
 		return {
 			pageName: 'noticeSystem',
 			pageNameKo: '시스템 공지사항',
-			noticeSystemInfo: {
+			systemNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호', 	value: 'boardId', 				width: '15%', key: true },
-					{ text: '제목', 	value: 'title', 				width: '40%' },
-					{ text: '작성자', 	value: 'ysyUserMst.username', 	width: '30%' },
-					{ text: 'Actions',	value: 'actions',				width: '15%', sortable: false },
+					{ text: '번호', value: 'no', width: '15%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
+					{ text: '작성자', value: 'writer', width: '30%' },
+					{ text: 'Actions', value: 'actions', width: '15%', sortable: false },
 				],
 				dateGubun: '/',
 				gridNm: '시스템 공지사항',
@@ -83,22 +82,22 @@ export default {
 		};
 	},
 	mounted() {
-		this.setNoticeSystemList();
+		this.findSystemNoticeList();
 	},
 	computed: {
-		...mapGetters({ getNoticeSystemList: 'noticeStore/getNoticeSystemList' }),
+		...mapGetters({ getSystemNoticeList: 'noticeStore/getSystemNoticeList' }),
 	},
 	methods: {
-		async setNoticeSystemList() {
-			await this.$store.dispatch('noticeStore/findNoticeSystemInfo').catch(error => {
-				console.log('===============> noticeStore/findNoticeSystemInfo error');
+		async findSystemNoticeList() {
+			await this.$store.dispatch('noticeStore/findSystemNotice').catch(error => {
+				console.log('===============> noticeStore/findSystemNotice error');
 				console.log(error);
 			});
 
-			if (this.getNoticeSystemList) {
-				this.noticeSystemInfo.dataList = this.getNoticeSystemList;
+			if (this.getSystemNoticeList) {
+				this.noticeSystemInfo.dataList = this.getSystemNoticeList;
 			} else {
-				console.log('this.getNoticeSystemList 실패 !!');
+				console.log('this.getSystemNoticeList 실패 !!');
 			}
 		},
 		rowClick(row, gridNm) {

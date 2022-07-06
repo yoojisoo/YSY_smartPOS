@@ -9,11 +9,10 @@ class NoticeService {
 		let url = 'ysy/v1/findSystemNotice?size=5';
 		let res = await axios.get(url);
 		if (res) {
-			console.log('노티스 서비스 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 			console.log('NoticeService - findSystemNotice ==> start');
-			console.log(res.data);
+			console.log(res.data.dataList);
 			console.log('NoticeService - findSystemNotice ==> end');
-			return res.data;
+			return res.data.dataList;
 		} else {
 			console.log('NoticeService - findSystemNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;
@@ -29,9 +28,9 @@ class NoticeService {
 		let res = await axios.get(url);
 		if (res) {
 			console.log('NoticeService - findStoreNotice ==> start');
-			console.log(res.data);
+			console.log(res.data.dataList);
 			console.log('NoticeService - findStoreNotice ==> end');
-			return res.data;
+			return res.data.dataList;
 		} else {
 			console.log('NoticeService - findStoreNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;

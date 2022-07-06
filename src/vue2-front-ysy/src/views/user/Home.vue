@@ -57,13 +57,13 @@
 								</v-row>-->
 								<v-row align="start" justify="center" no-gutters>
 									<v-col cols="12">
-										<ysyGrid :gridInfo="noticeSystemInfo" />
+										<ysyGrid :gridInfo="systemNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="noticeStoreInfo" />
+										<ysyGrid :gridInfo="storeNoticeInfo" />
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="noticeSystemInfo" />
+										<ysyGrid :gridInfo="systemNoticeInfo" />
 									</v-col>
 								</v-row>
 							</v-col>
@@ -122,7 +122,7 @@ export default {
 					access_token: this.$store.state.authStore.loginData.userToken,
 				},
 			},
-			noticeSystemInfo: {
+			systemNoticeInfo: {
 				dataList: [],
 				headers: [
 					{ text: '번호', value: 'no', width: '20%', key: true },
@@ -144,7 +144,7 @@ export default {
 					this.rowDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
-			noticeStoreInfo: {
+			storeNoticeInfo: {
 				dataList: [],
 				headers: [
 					{ text: '번호', value: 'no', width: '20%', key: true },
@@ -216,8 +216,7 @@ export default {
 			});
 
 			if (this.getSystemNoticeList) {
-				console.log('홈에서 공지사항 데이터 가져오기 ~~~~~~~~~~~~');
-				this.noticeSystemInfo.dataList = this.getSystemNoticeList;
+				this.systemNoticeInfo.dataList = this.getSystemNoticeList;
 			} else {
 				console.log('Home --- findSystemNoticeList() 실패 !!');
 			}
@@ -225,13 +224,13 @@ export default {
 
 		// 스토어 공지사항 셋팅
 		async findStoreNoticeList() {
-			await this.$store.dispatch('noticeStore/findNoticeStoreInfo').catch(error => {
-				console.log('===============> noticeStore/findNoticeStoreInfo error');
+			await this.$store.dispatch('noticeStore/findStoreNotice').catch(error => {
+				console.log('===============> noticeStore/findStoreNotice error');
 				console.log(error);
 			});
 
 			if (this.getStoreNoticeList) {
-				this.noticeStoreInfo.dataList = this.getStoreNoticeList;
+				this.storeNoticeInfo.dataList = this.getStoreNoticeList;
 			} else {
 				console.log('this.getStoreNoticeList 실패 !!');
 			}

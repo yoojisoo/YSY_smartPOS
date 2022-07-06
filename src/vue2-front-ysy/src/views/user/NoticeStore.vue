@@ -21,6 +21,9 @@
 						</v-row>
 					</v-col>
 				</v-row>
+				<template v-if="isPopup">
+					<boardDialog :boardObj="currentRow" :callback="dialogCallback" />
+				</template>
 			</v-container>
 		</v-main>
 		<!-- Main End -->
@@ -39,6 +42,8 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
+import { mapGetters } from 'vuex';
+import boardDialog from '@/components/Dialog.vue';
 
 export default {
 	components: {
@@ -47,6 +52,7 @@ export default {
 		mainFooter,
 		ysyGrid,
 		pageHistory,
+		boardDialog,
 	},
 	data() {
 		return {
@@ -55,13 +61,14 @@ export default {
 			storeNoticeInfo: {
 				dataList: [],
 				headers: [
-					{ text: '번호', value: 'boardId', width: '20%', key: true },
+					{ text: '번호', value: 'no', width: '15%', key: true },
 					{ text: '제목', value: 'title', width: '40%' },
-					{ text: '작성자', value: 'ysyUserMst.username', width: '40%' },
+					{ text: '작성자', value: 'writer', width: '30%' },
+					{ text: 'Actions', value: 'actions', width: '15%', sortable: false },
 				],
 				dateGubun: '/',
 				gridNm: '스토어 공지사항',
-				path: '/storeNotice',
+				path: '/noticeStore',
 				isCheckBox: true,
 				isSingleSelect: false,
 				gridDense: false,
@@ -70,22 +77,39 @@ export default {
 					this.rowClick(row, gridNm);
 				}, //로우 클릭 이벤트 콜백
 			},
+			isPopup: false,
+			currentRow: {},
 		};
 	},
 	mounted() {
-		this.setStoreNoticeList();
-	},
-	methods: {
-		async setStoreNoticeList() {
-			await this.$store.dispatch('findStoreNoticeInfo');
-			if (this.storeNoticeList) {
-				this.storeNoticeInfo.dataList = this.storeNoticeList;
-			}
-		},
+		this.findStoreNoticeList();
 	},
 	computed: {
-		storeNoticeList() {
-			return this.$store.state.noticeStore.noticeList;
+		...mapGetters({ getStoreNoticeList: 'noticeStore/getStoreNoticeList' }),
+	},
+	methods: {
+		async findStoreNoticeList() {
+			await this.$store.dispatch('noticeStore/findStoreNotice').catch(error => {
+				console.log('===============> noticeStore/findStoreNotice error');
+				console.log(error);
+			});
+
+			if (this.getStoreNoticeList) {
+				this.storeNoticeInfo.dataList = this.getStoreNoticeList;
+			} else {
+				console.log('this.getStoreNoticeList 실패 !!');
+			}
+		},
+		rowClick(row, gridNm) {
+			console.log('this.currentRow ----> ');
+			this.currentRow = row.item;
+			this.currentRow.gridNm = gridNm;
+			console.log(this.currentRow);
+			this.isPopup = true;
+		},
+		dialogCallback(dialogObj) {
+			console.log('dialogObj.msg = ' + dialogObj.msg);
+			this.isPopup = false;
 		},
 	},
 };
