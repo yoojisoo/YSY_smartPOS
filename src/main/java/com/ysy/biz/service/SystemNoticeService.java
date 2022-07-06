@@ -7,14 +7,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ysy.biz.dto.ResponseDto;
 import com.ysy.biz.dto.SystemNoticeDto;
 import com.ysy.biz.entity.QSystemNotice;
 import com.ysy.biz.entity.SystemNotice;
-import com.ysy.biz.repository.SystemNoticeRepository;
 
 @Service
 //@AllArgsConstructor
@@ -23,12 +23,16 @@ public class SystemNoticeService {
 	@PersistenceContext
 	EntityManager em; // 1
 	
+	/** 22-07-06 mnew2m
+	 * 사용하는 Q Class */
+	QSystemNotice qSystemNotice = QSystemNotice.systemNotice; 
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
-	public List<SystemNoticeDto> findSystemNotice(int size) {
+	public ResponseDto<?> findSystemNotice(int size) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		QSystemNotice qSystemNotice = QSystemNotice.systemNotice; 
 		List<SystemNotice> noticeList =  query
 				.selectFrom(qSystemNotice)
 				.limit(size)
@@ -42,6 +46,6 @@ public class SystemNoticeService {
 			loop++;
 		}
 		
-		return resultList;
+		return new ResponseDto(resultList, HttpStatus.OK);
 	}
 }

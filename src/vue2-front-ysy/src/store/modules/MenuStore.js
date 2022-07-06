@@ -26,9 +26,10 @@ const menuStore = {
 	actions: {
 		async findMenuList({ commit }, userId) {
 			let menuList = await menuService.findMenuList(userId);
-			if (menuList !== null && menuList !== undefined) {
+			//if (menuList !== null && menuList !== undefined) {
+			if (menuList.status === 'OK' && menuList.listData !== null) {
 				console.log('menuStore findMenuList ✔️');
-				commit('setMenuList', menuList);
+				commit('setMenuList', menuList.listData);
 			} else {
 				console.log('menuStore findMenuList ERROR !!!!!!!!!!!');
 			}

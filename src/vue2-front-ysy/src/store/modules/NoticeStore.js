@@ -42,7 +42,7 @@ const noticeStore = {
 		},
 
 		// 스토어 공지사항 데이터 가져오기
-		async findNoticeStoreInfo({ commit }) {
+		async findStoreNotice({ commit }) {
 			let storeNoticeList = await noticeService.findStoreNotice();
 			if (storeNoticeList !== null && storeNoticeList !== undefined) {
 				console.log('noticeStore - findStoreNotice ✔️');
