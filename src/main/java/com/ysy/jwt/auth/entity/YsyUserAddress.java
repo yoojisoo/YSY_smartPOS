@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Comment;
+
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -33,18 +35,31 @@ public class YsyUserAddress extends BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Comment("주소이름")
 	@Column(name = "ADDR_TYPE")
 	private String addrType;
+	
+	@Comment("우편번호")
 	@Column(name = "ADDR_ZIP_CODE")
 	private String addrZipCode;
+	
+	@Comment("주소")
 	@Column(name = "ADDR_CITY")
 	private String addrCity;
+	
+	@Comment("상세주소")
 	@Column(name = "ADDR_DETAIL")
 	private String addrDetail;
+	
+	@Comment("기타")
 	@Column(name = "ADDR_ETC")
 	private String addrEtc;
+	
+	@Comment("연락처1")
 	@Column(name = "PHONE1")
 	private String phone1;
+	
+	@Comment("연락처2")
 	@Column(name = "PHONE2")
 	private String phone2;
 	
