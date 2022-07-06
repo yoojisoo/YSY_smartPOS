@@ -7,9 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
@@ -33,9 +35,10 @@ public class YsyMenuMstService {
 	QYsyGrpMst         qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
 	
 	/** 22-07-05 mnew2m
-	 * 로그인을 하지 않았을 때 */
+	 * 로그인 된 아이디가 없을 때 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
-	public List<MenuDto> findDefaultMenuList() {
+	public ResponseDto<?> findDefaultMenuList() {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
@@ -63,13 +66,14 @@ public class YsyMenuMstService {
 			resultList.add(new MenuDto(menu));
 		}
 		
-		return resultList;
+		return new ResponseDto(resultList, HttpStatus.OK);
 	}
 	
 	/** 22-07-05 mnew2m
 	 * 로그인 된 아이디가 있을 때 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
-	public List<MenuDto> findMenuList(String userId) {
+	public ResponseDto<?> findMenuList(String userId) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
@@ -98,6 +102,6 @@ public class YsyMenuMstService {
 			resultList.add(new MenuDto(menu));
 		}
 		
-		return resultList;
+		return new ResponseDto(resultList, HttpStatus.OK);
 	}
 }

@@ -1,14 +1,12 @@
 package com.ysy.jwt.auth.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ysy.jwt.auth.dto.MenuDto;
+import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
 @RestController
@@ -24,12 +22,12 @@ public class YsyMenuController {
 	 * 로그인을 하지 않았을 때,
 	 * 도는 쿼리가 달라서 분리함 ! */
 	@GetMapping("/findDefaultMenuList")
-	public List<MenuDto> findDefaultMenuList() {
+	public ResponseDto<?> findDefaultMenuList() {
 		return ysyMenuMstService.findDefaultMenuList();
 	}
 	
 	@GetMapping("/findMenuList")
-	public List<MenuDto> findMenuList(@RequestParam String userId) {
+	public ResponseDto<?> findMenuList(@RequestParam String userId) {
 		return ysyMenuMstService.findMenuList(userId);
 	}
 }

@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 
-import com.ysy.jwt.auth.dto.MenuDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,18 +18,19 @@ public class ResponseDto<T> {
 	private T data;
 	private String msg;
 	
-	/** list 형태 리턴 */
+	/** list data return */
 	public ResponseDto(List<T> dataList , HttpStatus status){
 		this.dataList = dataList;
 		this.status = status;
 	}
-	/* 단건 */
+	
+	/** data return */
 	public ResponseDto(T data , HttpStatus status){
 		this.data = data;
 		this.status = status;
 	}
 	
-	/** error용 response */
+	/** error response return */
 	public ResponseDto(String msg , HttpStatus status){
 		this.msg = msg;
 		this.status = status;
