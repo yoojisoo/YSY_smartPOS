@@ -35,30 +35,25 @@
 						<v-divider class="mx-4" inset vertical />
 						<v-spacer />
 
-						<v-btn v-if='!gridInfo.isDetail' plain :to='gridInfo.path'>전체보기</v-btn>
-						<v-btn-toggle v-else group>
-							<v-btn
-								plain
-								@click="editedItem(item, '추가')"
+						<div v-if="gridInfo.useBtn">
+							<v-btn v-if="!gridInfo.isDetail" plain :to="gridInfo.path"
+								>전체보기</v-btn
 							>
-								<h3 style="color: black" slot=""> 추가 </h3>
-							</v-btn>
-							<v-btn
-								plain
-								@click="deleteItem(item)"
-							>
-								<h3 style="color: black"> 삭제 </h3>
-							</v-btn>
-						</v-btn-toggle>
+							<v-btn-toggle v-else group>
+								<v-btn plain @click="editedItem(item, '추가')">
+									<h4 style="color: black" slot="">추가</h4>
+								</v-btn>
+								<v-btn plain @click="deleteItem(item)">
+									<h4 style="color: black">삭제</h4>
+								</v-btn>
+							</v-btn-toggle>
+						</div>
 					</v-toolbar>
 				</template>
 
-				<template v-if='gridInfo.isDetail' v-slot:item.actions="{ item }">
-					<v-icon
-						small
-						class="mr-2"
-						@click.stop="editedItem(item, '수정')">
-							mdi-pencil
+				<template v-if="gridInfo.isDetail" v-slot:item.actions="{ item }">
+					<v-icon small class="mr-2" @click.stop="editedItem(item, '수정')">
+						mdi-pencil
 					</v-icon>
 					<!-- <v-icon small @click="">
 						mdi-delete
@@ -130,8 +125,7 @@
 <script>
 export default {
 	props: ['gridInfo', 'cardHeight'],
-	components: {
-	},
+	components: {},
 	data: () => ({
 		selected: [],
 		page: 1, // 최초 나타나는 페이지
@@ -152,25 +146,22 @@ export default {
 			this.$router.replace(path);
 		},
 		editedItem(item, editedStr) {
-			if(editedStr === '수정') {
-				this.$router.push({ name:'editor', params: { btnStr: editedStr, item }});
-			}
-			else if(editedStr === '추가') {
-				this.$router.push({ name:'editor', params: { btnStr: editedStr }});
+			if (editedStr === '수정') {
+				this.$router.push({ name: 'editor', params: { btnStr: editedStr, item } });
+			} else if (editedStr === '추가') {
+				this.$router.push({ name: 'editor', params: { btnStr: editedStr } });
 			}
 		},
 		async deleteItem() {
 			let username = [];
 			for (const item of this.selected) {
-				username.push(item.username)
+				username.push(item.username);
 			}
-			await this.$axios.post('/ysy/v1/auth/delGridUserInfo', username)
-							 .then(res => {
-								if(res.statusText === 'OK') {
-									console.log('ID = ' + res.config.data + '삭제완료');
-								}
-								else alert('유저 정보 그리드 삭제 에러');
-							 })
+			await this.$axios.post('/ysy/v1/auth/delGridUserInfo', username).then(res => {
+				if (res.statusText === 'OK') {
+					console.log('ID = ' + res.config.data + '삭제완료');
+				} else alert('유저 정보 그리드 삭제 에러');
+			});
 		},
 	},
 	computed: {
@@ -201,5 +192,4 @@ export default {
 	},
 };
 </script>
-<style>
-</style>
+<style></style>

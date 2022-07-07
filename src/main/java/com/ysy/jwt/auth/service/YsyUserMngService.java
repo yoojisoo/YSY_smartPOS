@@ -10,8 +10,11 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
+import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
+import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 
 @Service
@@ -20,13 +23,15 @@ public class YsyUserMngService {
 	@PersistenceContext
 	EntityManager em;
 	
+	/** 2022 07 07 mnew2m
+	 * 사용하는 Q Class List */
+	QYsyUserMst        qYsyUserMst = QYsyUserMst.ysyUserMst;
+	QYsyGrpMenuMap qYsyGrpMenuMap  = QYsyGrpMenuMap.ysyGrpMenuMap;
 	
 	/** 유저 1명 조회 : userId의 해당 UserMst 테이블 조회 */
 	@Transactional
 	public UserMngDto getUser(String userId) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
-		
-		QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst;
 		
 		YsyUserMst ysyUserMst = query.selectFrom(qYsyUserMst)
 										   .where(qYsyUserMst.username.eq(userId))
@@ -42,8 +47,6 @@ public class YsyUserMngService {
 	public UserMngDto getUserAddGrp(String userId) {
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst;
-		
 //		YsyUserMst ysyUserMst = query.selectFrom(qYsyUserMst)
 //				.where(qYsyUserMst.username.eq(userId))
 //				.fetchOne();
@@ -58,8 +61,6 @@ public class YsyUserMngService {
 	public List<UserMngDto> getUserList(int size) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
-		
-		QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst;
 		
 		List<YsyUserMst> ysyUserMstList = query.selectFrom(qYsyUserMst)
 											   .limit(size)
@@ -89,6 +90,68 @@ public class YsyUserMngService {
 //		UserDto userDto = new UserDto();
 //		userDto.setObj(resultList);
 //		return userList;
+	}
+	
+	@Transactional
+	public List<UserMngDto> getFilterUserList(String userId) {
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		
+		/** 나의 정보 start */
+		YsyUserMst myInfo = query
+				.selectFrom(qYsyUserMst)
+				.where(qYsyUserMst.username.eq(userId))
+				.fetchOne();
+		
+		String bizCd = myInfo.getYsyGrpMst().getGrpPK().getBizCd();
+		int  levelId = myInfo.getYsyGrpMst().getLevelId();
+		/** 나의 정보 end */
+		
+		
+		/** 나보다 낮은 등급의 사용자 정보 start */
+		List<YsyUserMst> userList = query
+				.selectFrom(qYsyUserMst)
+				.where(qYsyUserMst.username.ne(userId)
+						.and(qYsyUserMst.ysyGrpMst.grpPK.bizCd.eq(bizCd))
+						.and(qYsyUserMst.ysyGrpMst.levelId.goe(levelId)))
+				.fetch();
+		/** 나보다 낮은 등급의 사용자 정보 end */
+		
+		List<UserMngDto> resultList = new ArrayList<UserMngDto>();
+		for(YsyUserMst user : userList) {
+			resultList.add(new UserMngDto(user));
+		}
+		
+		return resultList;
+	}
+	
+	@Transactional
+	public List<MenuDto> getUserMenuList(String userId) {
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		
+		/** 해당 유저의 정보 start */
+		YsyUserMst userInfo = query
+				.selectFrom(qYsyUserMst)
+				.where(qYsyUserMst.username.eq(userId))
+				.fetchOne();
+		
+		int levelId = userInfo.getYsyGrpMst().getLevelId();
+		/** 해당 유저의 정보 end */
+		
+		/** 해당 유저의 접근가능메뉴 정보 start */
+		List<YsyGrpMenuMap> menuList = query
+				.selectFrom(qYsyGrpMenuMap)
+				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(levelId))
+				.fetch();
+		/** 해당 유저의 접근가능메뉴 정보 end */
+		
+		List<MenuDto> resultList = new ArrayList<MenuDto>();
+		for(YsyGrpMenuMap menu : menuList) {
+			resultList.add(new MenuDto(menu));
+		}
+		
+		return resultList;
 	}
 	
 	/** grid에서 user 삭제 */

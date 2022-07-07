@@ -136,6 +136,7 @@ export default {
 				isSingleSelect: false,
 				rowCnt: 7,
 				gridDense: true,
+				useBtn: true,
 				isDetail: false,
 				rowClick: (row, gridNm) => {
 					this.rowClick(row, gridNm);
@@ -158,6 +159,7 @@ export default {
 				isSingleSelect: false,
 				rowCnt: 7,
 				gridDense: true,
+				useBtn: true,
 				isDetail: false,
 				rowClick: (row, gridNm) => {
 					this.rowClick(row, gridNm);

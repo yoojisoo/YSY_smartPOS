@@ -65,6 +65,7 @@ export default {
 				isSingleSelect: false,
 				rowCnt: 10,
 				gridDense: true,
+				useBtn: true,
 				isDetail: true,
 				rowClick: (row, gridNm) => {
 					this.rowClick(row, gridNm);

@@ -11,29 +11,54 @@ const userStore = {
 	namespaced: true,
 	state: {
 		userList: [],
+		filterUserList: [],
+		menuList: [],
 	},
 	getters: {
 		getUserList: state => state.userList,
+		getFilterUserList: state => state.filterUserList,
+		getMenuList: state => state.menuList,
 	},
 	mutations: {
 		setUserList(state, userList) {
 			state.userList = userList;
 		},
+		setFilterUserList(state, userList) {
+			state.filterUserList = userList;
+		},
+		setUserMenuList(state, menuList) {
+			state.menuList = menuList;
+		},
 	},
 	actions: {
 		async findUserList({ commit }) {
-			let userList = await userService.setUserList();
+			let userList = await userService.getUserList();
 			if (userList !== null && userList !== undefined) {
 				console.log('userStore findUserList ✔️');
 				console.log(userList);
-				//let list = userList.products.map(x => {
-				//	if (x.regDt !== undefined && x.regDt !== '') x.regDt = new Date(x.regDt);
-				//	if (x.modDt !== undefined && x.modDt !== '') x.modDt = new Date(x.modDt);
-				//	return x;
-				//});
 				commit('setUserList', userList);
 			} else {
 				console.log('userStore findUserList ERROR !!!!!!!!!!!');
+			}
+		},
+
+		async findFilterUserList({ commit }, userId) {
+			let filterUserList = await userService.getFilterUserList(userId);
+			if (filterUserList !== null && filterUserList !== undefined) {
+				console.log('userStore findFilterUserList ✔️');
+				commit('setFilterUserList', filterUserList);
+			} else {
+				console.log('userStore findFilterUserList ERROR !!!!!!!!!!!');
+			}
+		},
+
+		async findUserMenuList({ commit }, userId) {
+			let userMenuList = await userService.getUserMenuList(userId);
+			if (userMenuList !== null && userMenuList !== undefined) {
+				console.log('userStore findUserMenuList ✔️');
+				commit('setUserMenuList', userMenuList);
+			} else {
+				console.log('userStore findUserMenuList ERROR !!!!!!!!!!!');
 			}
 		},
 	},
