@@ -1,12 +1,16 @@
 package com.ysy.jwt.auth.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
@@ -77,4 +81,10 @@ public class YsyMenuMst extends BaseEntity implements Serializable{
 	@ColumnDefault("'mdi-home'")
 	@Column(name="MENU_ICON"  , length=50  , nullable=false)
 	private String menuIcon;
+	
+	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.LAZY)
+	private List<YsyMenuBtnMap> ysyMenuBtnMap = new ArrayList<YsyMenuBtnMap>(); 
+
+	@OneToMany(mappedBy = "ysyMenuMst" , fetch = FetchType.LAZY)
+	private List<YsyGrpMenuMap> ysyGrpMenuMap = new ArrayList<YsyGrpMenuMap>(); 
 }

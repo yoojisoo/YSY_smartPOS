@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.entity.QStoreNotice;
 import com.ysy.biz.entity.StoreNotice;
@@ -90,7 +91,7 @@ public class Jpa_1_N_test {
 		List<YsyGrpMenuMap> myMenuList = query
 				.select(qYsyGrpMenuMap )
 				.from(qYsyGrpMenuMap )
-				.innerJoin(qYsyGrpMenuMap.ysyMenuMst,qYsyMenuMst).fetchJoin()
+				.innerJoin(qYsyGrpMenuMap.ysyMenuMst , qYsyMenuMst).fetchJoin()
 				.innerJoin(qYsyGrpMenuMap.ysyGrpMst,qYsyGrpMst).fetchJoin()
 				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
 				  .and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))

@@ -60,6 +60,8 @@ public class YsyMenuExptMst extends BaseEntity implements Serializable {
 	@Column(name="IS_VIEW" , length = 1 , nullable = false)
 	private String isView;
 	
+	
+	
 	@Data
 	@Embeddable
 	public static class PK implements Serializable {
