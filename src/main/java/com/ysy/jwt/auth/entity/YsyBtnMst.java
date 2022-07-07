@@ -3,18 +3,14 @@ package com.ysy.jwt.auth.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.ysy.common.SysEnum.enumBtns;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -34,34 +30,18 @@ public class YsyBtnMst extends BaseEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId
-	private BtnPK btnPK;
+	@Id
+	@Column(name = "BTN_ID" )
+	private String btnId;
+
+	@Column(name = "BTN_NM" )
+	private String btnNm;
 	
-	@MapsId("menuId") 
-	@JoinColumn(name = "MENU_ID" , referencedColumnName = "MENU_ID")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private YsyMenuMst ysyMenuMst;  
+	@Column(name = "BTN_SORT")
+	private int btnSort;
 	
-	@Column(name = "USE_YN" , nullable = false)
+	@Column(name = "USE_YN" , nullable = false , length = 1)
 	private String useYn;
 	
 	
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	@Embeddable
-	public static class BtnPK implements Serializable{
-		private static final long serialVersionUID = 1L;
-
-		@Column(name = "MENU_BTN" , length = 50)
-		@Enumerated(EnumType.STRING)
-		private enumBtns menuBtn; 
-		
-		@Column(name = "MENU_ID")
-		private String menuId;
-		
-		//a - s
-		// a - m
-		// a - save
-	}
 }

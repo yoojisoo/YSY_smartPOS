@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.aspectj.weaver.ast.And;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,15 +49,15 @@ public class Jpa_1_N_test {
 	public void getUserList() {
 		String userId = "clubbboy@naver.com";
 		
-		JPAQueryFactory query = new JPAQueryFactory(em); // 2
-		QStoreNotice qStoreNotice = QStoreNotice.storeNotice;
-		QYsyGrpMenuMap     qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
-		QYsyUserMst           qYsyUserMst = QYsyUserMst.ysyUserMst;
-		QYsyMenuMst           qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
-		QYsyGrpMst             qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
-		QYsyBtnMst             qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
-		QYsyMenuExptMst  qYsyMenuExptMst = QYsyMenuExptMst.ysyMenuExptMst;
-		QYsyUserAddress   qYsyUserAddress = QYsyUserAddress.ysyUserAddress;
+		JPAQueryFactory           query = new JPAQueryFactory(em); // 2
+		QStoreNotice       qStoreNotice = QStoreNotice.storeNotice;
+		QYsyGrpMenuMap   qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
+		QYsyUserMst         qYsyUserMst = QYsyUserMst.ysyUserMst;
+		QYsyMenuMst         qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
+		QYsyGrpMst           qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
+		QYsyBtnMst           qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
+		QYsyMenuExptMst qYsyMenuExptMst = QYsyMenuExptMst.ysyMenuExptMst;
+		QYsyUserAddress qYsyUserAddress = QYsyUserAddress.ysyUserAddress;
 		
 		
 		List<StoreNotice> noticeList = query
