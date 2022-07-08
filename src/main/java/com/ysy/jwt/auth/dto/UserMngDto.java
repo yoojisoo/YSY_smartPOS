@@ -1,11 +1,13 @@
 package com.ysy.jwt.auth.dto;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ysy.jwt.auth.dto.UserInfoDto.Addr;
-import com.ysy.jwt.auth.dto.UserInfoDto.Addr.AddrBuilder;
+import com.querydsl.core.Tuple;
+import com.ysy.jwt.auth.entity.QYsyUserAddress;
+import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 
@@ -14,67 +16,66 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** 
+ * 22 07 07 yoojisoo
+ */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class UserMngDto {
 	
 	// userMst 정보
-	private String user_id;
-	private String user_nm;
-	private String reg_dt;
-	private String oauth_path;
+	private String userId;
+	private String userNm;
+	private String regDt;
+	private String oauthPath;
 	
 	// grpMst 정보
-	private String grp_id;
-	private String biz_cd;
-	
-	// 주소 정보
-	private List<Addr> addrList = new ArrayList<Addr>();
+//	private String grpId;
+//	private String bizCd;
+	private String bizNm;
 	
 	
-	/* 유저 1명 , userMst 테이블 조회 */
+	/** 주소정보 */
+	List<YsyUserAddress> addrList = new ArrayList<YsyUserAddress>();
+//	private String addrType;
+//	private String addrZipCode;
+//	private String addrCity;
+//	private String addrDetail;
+//	private String addrEtc;
+//	private String phone1;
+//	private String phone2;
+//	private String addr_reg_id;
+//	private String addr_reg_dt;
+//	private String addr_mod_id; 
+//	private String addr_mod_dt;
+	
+	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	
+	/* 유저 1명의 userMst 테이블만 조회 */
 	public UserMngDto(YsyUserMst user) {
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		
-		if(this.user_id == null)	this.user_id = user.getUsername();
-		if(this.user_nm == null)	this.user_nm = user.getName();
-		if(this.reg_dt == null)		this.reg_dt = user.getRegDt().format(formatter);
-		if(this.oauth_path == null)	this.oauth_path = user.getOAuthPath();
-		
-//		if(this.grp_id == null)		this.grp_id = user.getYsyGrpMst().getGrpPK().getGrpId().toString();
-//		if(this.biz_cd == null)		this.biz_cd	= user.getYsyGrpMst().getGrpPK().getBizCd();
+		if(this.userId == null)		this.userId 	= user.getUsername();
+		if(this.userNm == null)		this.userNm 	= user.getName();
+		if(this.regDt == null)		this.regDt 		= user.getRegDt().format(formatter);
+		if(this.oauthPath == null)	this.oauthPath 	= user.getOAuthPath();
 	}
 	
-	/* 유저 1명 , 연관 테이블 조회 */
-//	public UserDto(YsyUserMst user) {
-//		
-//	}
-	
-	/* 모든 유저 정보 조회 */
-	public UserMngDto(List<YsyUserMst> userList) {
+	/* 유저 1명의 userMst 테이블 + 어드레스 조회 */
+	public UserMngDto(YsyUserMst user, List<YsyUserAddress> addrList) {
+		this.userId = user.getUsername();
+		this.userNm = user.getName();
+		this.regDt = user.getRegDt().format(formatter);
+		this.oauthPath = user.getOAuthPath();
+		this.bizNm = user.getYsyGrpMst().getYsyBizMst().getBizNm();
 		
+		this.addrList = addrList;
+		
+//		for(YsyUserAddress addr : addrList) {
+//			this.addrlist.add(addr);
+//		}
 	}
+
+
 	
-	@Data
-	@Builder
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class Addr{
-		private String addrType;
-		private String addrZipCode;
-		private String addrCity;
-		private String addrDetail;
-		private String addrEtc;
-		private String phone1;
-		private String phone2;
-		private String reg_id;
-		private String reg_dt;
-		private String mod_id; 
-		private String mod_dt;
-	}
 	
 	
 }

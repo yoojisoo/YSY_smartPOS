@@ -3,9 +3,9 @@ package com.ysy.common;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -59,7 +59,7 @@ public class YsyUtil {
 		return sort;
 	}
 	
-	/** DB key 생성 */
+	/** DB key 생성 (오늘날짜) */
 	public String createDbKey(String keyNm ) {
 		LocalDateTime dateAndtime = LocalDateTime.now();
 //		 LocalDate now = LocalDate.now();
@@ -70,4 +70,10 @@ public class YsyUtil {
 		
 	}
 	
+	/** DB KEY 생성 (UUID) */
+	public String createUUID(String keyNm) {
+		UUID uuid = UUID.randomUUID();
+		
+		return keyNm + "-" + uuid.toString();
+	}
 }

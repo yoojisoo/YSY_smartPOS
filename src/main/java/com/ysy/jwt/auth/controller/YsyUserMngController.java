@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
 import com.ysy.jwt.auth.service.YsyUserMngService;
@@ -23,38 +24,32 @@ public class YsyUserMngController {
 	@Autowired
 	YsyUserMngService ysyUserMngService;
 	
-	/** 2022 07 05 yoojisoo
-	 * 유저 1명 조회
-	 * userId 파라미터 -> 해당 userId로 유저정보(Id, 이름, 생성일, 가입경로) 조회
-	 */
-	@GetMapping("/getUser")
-	public UserMngDto getUser(@RequestParam String userId){
-		return ysyUserMngService.getUser(userId);
-	}
-	
-	/** 2022 07 05 yoojisoo 
-	 * 유저 1명 조회
-	 * userId 파라미터 -> 해당 userId로 유저 연관 테이블(ysyGrpMst & UserAddress Table) 조회
-	 */
-	@GetMapping("/getUserAddGrp")
-	public UserMngDto getUserAddGrp(@RequestParam String userId){
-		return ysyUserMngService.getUserAddGrp(userId);
-	}
-	
 	/** 2022 06 02 yoojisoo
 	  * 모든 유저 조회
 	  * size 파라미터 -> 모든 유저정보 size 만큼 조회
+	  * manager이상 접근
+	  * //파라메터 리퀘스트 dto를 이용하여 여러 조건을 받을 수 있도록 함.
 	  */
 	@GetMapping("/getUserList")
 	public List<UserMngDto> getUserList(@RequestParam int size){
 		return ysyUserMngService.getUserList(size);
 	}
 	
+	/** 2022 07 05 yoojisoo 
+	 * 유저 1명의 상세정보 조회 
+	 * userId 파라미터 -> 해당 userId로 유저 연관 테이블(UserAddress Table) 조회
+	 * manager이상 접근
+	 */
+	@GetMapping("/getUserDetail")
+	public UserMngDto getUserDetail(@RequestParam String userId){
+		return ysyUserMngService.getUserDetail(userId);
+	}
+	
 	/** 2022 07 07 mnew2m
 	 * 컨트롤 가능한 모든 유저 조회
 	 * userId Param -> 해당 userId보다 낮은 등급인 유저를 조회 */
 	@GetMapping("/getFilterUserList")
-	public List<UserMngDto> getFilterUserList(@RequestParam String userId) {
+	public ResponseDto<UserMngDto> getFilterUserList(@RequestParam String userId) {
 		return ysyUserMngService.getFilterUserList(userId);
 	}
 	
@@ -62,7 +57,7 @@ public class YsyUserMngController {
 	 * 컨트롤 가능한 유저들 중 선택한 유저의 접근가능메뉴 리스트 조회
 	 * userId Param -> 해당 userId가 접근가능한 메뉴 리스트를 조회 */
 	@GetMapping("/getUserMenuList")
-	public List<MenuDto> getUserMenuList(@RequestParam String userId) {
+	public ResponseDto<MenuDto> getUserMenuList(@RequestParam String userId) {
 		return ysyUserMngService.getUserMenuList(userId);
 	}
 	

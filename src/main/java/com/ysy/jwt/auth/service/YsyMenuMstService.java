@@ -36,9 +36,8 @@ public class YsyMenuMstService {
 	
 	/** 22-07-05 mnew2m
 	 * 로그인 된 아이디가 없을 때 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
-	public ResponseDto<?> findDefaultMenuList() {
+	public ResponseDto<MenuDto> findDefaultMenuList() {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
@@ -47,7 +46,8 @@ public class YsyMenuMstService {
 		// default grp data setting start
 		String defaultBizCd = "0001";
 		YsyGrpMst defaultGrp = query
-				.selectFrom(qYsyGrpMst)
+				.select(qYsyGrpMst)
+				.from(qYsyGrpMst)
 				.where(qYsyGrpMst.ysyBizMst.bizCd.eq(defaultBizCd))
 				.orderBy(qYsyGrpMst.levelId.desc())
 				.limit(1)
@@ -57,8 +57,9 @@ public class YsyMenuMstService {
 		// default user가 사용 가능한 menu list 가져오는 쿼리
 		List<YsyGrpMenuMap> menuList = query
 				.selectFrom(qYsyGrpMenuMap)
-				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(defaultGrp.getLevelId())
-						.and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(defaultGrp.getYsyBizMst().getBizCd())))
+				.where(qYsyGrpMenuMap.ysyMenuMst.menuId.contains("menu-")
+					 , qYsyGrpMenuMap.ysyGrpMst.levelId.goe(defaultGrp.getLevelId())
+					 , qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(defaultGrp.getYsyBizMst().getBizCd()))
 				.fetch();
 		
 		List<MenuDto> resultList = new ArrayList<MenuDto>();
@@ -66,35 +67,35 @@ public class YsyMenuMstService {
 			resultList.add(new MenuDto(menu));
 		}
 		
-		return new ResponseDto(resultList, HttpStatus.OK);
+		return new ResponseDto<MenuDto>(resultList, HttpStatus.OK);
 	}
 	
 	/** 22-07-05 mnew2m
 	 * 로그인 된 아이디가 있을 때 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Transactional
-	public ResponseDto<?> findMenuList(String userId) {
+	public ResponseDto<MenuDto> findMenuList(String userId) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		// 해당 아이디의 grp 정보 가져오는 쿼리
 		YsyGrpMst grp_lvl = query
-				.selectFrom(qYsyGrpMst)
+				.select(qYsyGrpMst)
+				.from(qYsyGrpMst)
 				.innerJoin(qYsyUserMst)
-				.on(qYsyGrpMst.ysyBizMst.bizCd.eq(qYsyUserMst.ysyGrpMst.grpPK.bizCd),
-					qYsyGrpMst.grpPK.grpId.eq(qYsyUserMst.ysyGrpMst.grpPK.grpId)	
-				)
+				.on(qYsyGrpMst.ysyBizMst.bizCd.eq(qYsyUserMst.ysyGrpMst.grpPK.bizCd)
+				   ,qYsyGrpMst.grpPK.grpId.eq(qYsyUserMst.ysyGrpMst.grpPK.grpId))
 				.where(qYsyUserMst.username.eq(userId))
 				.fetchOne();
 		
 		// 해당 아이디가 사용 가능한 menu list 가져오는 쿼리
 		List<YsyGrpMenuMap> menuList = query
-				.selectFrom(qYsyGrpMenuMap)
-				.innerJoin(qYsyMenuMst)
-				.on(qYsyGrpMenuMap.ysyMenuMst.menuId.eq(qYsyMenuMst.menuId))
-				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
-						.and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))
-			    )
+				.select(qYsyGrpMenuMap)
+				.from(qYsyGrpMenuMap)
+				.innerJoin(qYsyGrpMenuMap.ysyGrpMst, qYsyGrpMst).fetchJoin()
+				.innerJoin(qYsyGrpMenuMap.ysyMenuMst, qYsyMenuMst).fetchJoin()
+				.where(qYsyGrpMenuMap.ysyMenuMst.menuId.contains("menu-")
+					 , qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
+					 , qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))
 				.fetch();
 		
 		List<MenuDto> resultList = new ArrayList<MenuDto>();
@@ -102,6 +103,6 @@ public class YsyMenuMstService {
 			resultList.add(new MenuDto(menu));
 		}
 		
-		return new ResponseDto(resultList, HttpStatus.OK);
+		return new ResponseDto<MenuDto>(resultList, HttpStatus.OK);
 	}
 }
