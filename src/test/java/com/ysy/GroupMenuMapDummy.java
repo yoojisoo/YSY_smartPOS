@@ -44,7 +44,7 @@ public class GroupMenuMapDummy {
 		 *  3.메뉴 마다 그룹 role을 넣는 것
 		 */
 			
-		List<YsyMenuMst> menuList = ysyMenuMstRepository.findAll();
+		List<YsyMenuMst> menuList = ysyMenuMstRepository.findAll().stream().filter(x->x.getMenuId().contains("menu-")).collect(Collectors.toList());
 		List<YsyGrpMst>  grpList  = ysyGrpMstRepository.findAll();
 		
 		List<YsyMenuMst> pMenuList = menuList.stream()
@@ -75,7 +75,7 @@ public class GroupMenuMapDummy {
 					}
 				}
 			}
-			else if(pmenu.getMenuNm().equals("매장현황") || pmenu.getMenuNm().equals("배달현황")) {
+			else if(pmenu.getMenuNm().equals("예약관리") || pmenu.getMenuNm().equals("배달관리")) {
 				pkey = pmenu.getMenuId();
 				YsyGrpMst yy = grpList.stream().filter(x->x.getYsyBizMst().getBizCd().equals("0001") 
 						                               && x.getGrpPK().getGrpId().toString().equals("ROLE_USER"))

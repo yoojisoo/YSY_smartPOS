@@ -57,7 +57,8 @@ public class YsyMenuMstService {
 		// default user가 사용 가능한 menu list 가져오는 쿼리
 		List<YsyGrpMenuMap> menuList = query
 				.selectFrom(qYsyGrpMenuMap)
-				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(defaultGrp.getLevelId())
+				.where(qYsyGrpMenuMap.ysyMenuMst.menuId.contains("menu-")
+					 , qYsyGrpMenuMap.ysyGrpMst.levelId.goe(defaultGrp.getLevelId())
 					 , qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(defaultGrp.getYsyBizMst().getBizCd()))
 				.fetch();
 		
@@ -92,7 +93,8 @@ public class YsyMenuMstService {
 				.from(qYsyGrpMenuMap)
 				.innerJoin(qYsyGrpMenuMap.ysyGrpMst, qYsyGrpMst).fetchJoin()
 				.innerJoin(qYsyGrpMenuMap.ysyMenuMst, qYsyMenuMst).fetchJoin()
-				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
+				.where(qYsyGrpMenuMap.ysyMenuMst.menuId.contains("menu-")
+					 , qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
 					 , qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))
 				.fetch();
 		
