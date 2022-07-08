@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -66,7 +67,7 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 
 	
 
-	@OneToMany(mappedBy = "ysyUserMst")//, fetch = FetchType.LAZY
+	@OneToMany(mappedBy = "ysyUserMst" , cascade = CascadeType.ALL)//, fetch = FetchType.LAZY
 //	@JsonBackReference //순환참조 방지
 //	@JsonIgnoreProperties({"ysyUserMst"})
 //	@JsonManagedReference

@@ -44,19 +44,27 @@ public class YsyUserMngService {
 		List<YsyUserMst> userInfoList = query
 				.select(qYsyUserMst)
 				.from(qYsyUserMst)
-				.leftJoin(qYsyUserAddress).fetchJoin()
+				.leftJoin(qYsyUserAddress)
 				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
+				.fetchJoin()
 				.where(qYsyUserMst.username.eq(userId))
 				.fetch();
 		
-//		UserMngDto result = userInfoList.stream()
-//										.map( x-> new UserMngDto(x, x.getAddressList()) )
-//										.findAny().orElse(null);
-					
 		/** 0번째와 1번째의 데이터가 중복되므로 0번째만 사용 */
-		UserMngDto result = new UserMngDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
+//		UserMngDto result = new UserMngDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
 		
 		
+		List<UserMngDto> tmpList = userInfoList.stream()
+				.map( x-> new UserMngDto(
+											x.getUsername(), x.getName(), x.getRegDt(), x.getOAuthPath(),
+											x.getYsyGrpMst().getYsyBizMst().getBizNm(), x.getAddressList())
+										)
+				.collect(Collectors.toList());
+	
+		UserMngDto result = tmpList.get(0);
+		
+		
+//		System.out.println("변환값 ---------------------> " + result.getUserId() + "주소 = " + result.getAddrList().get(0).getAddrCity() + " 뿅");
 		/** user정보 기준으로 address를 조회 시 구조적 문제 발생
 		 * user table에 address가 List형태로 존재
 		 * ex -> user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
