@@ -1,5 +1,6 @@
 package com.ysy;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,14 +35,25 @@ public class Ysy2GroupBaseDataCreate {
 		
 		List<YsyBizMst> bizTemp = ysyBizRepository.findAll();
 		List<enumGrps> enumTemp = Stream.of(SysEnum.enumGrps.values()).collect(Collectors.toList());
+		List<Integer> enumRoleNumList = Arrays.asList(9999, 1000, 100, 10, 0);
 		
 		int enumRoleNum;
 		
 		for(YsyBizMst ysyBizMst : bizTemp) {
-			enumRoleNum = 1;
 			String bizCd = ysyBizMst.getBizCd();
 			
 			for(enumGrps enumRole : enumTemp) {
+				
+				if     (enumRole.toString().equals("DEFAULT_USER"))       enumRoleNum = enumRoleNumList.get(0);
+				else if(enumRole.toString().equals("ROLE_TEMP_USER"))     enumRoleNum = enumRoleNumList.get(1);
+				else if(enumRole.toString().equals("ROLE_USER"))          enumRoleNum = enumRoleNumList.get(1)+1000;
+				else if(enumRole.toString().equals("ROLE_USER_VIP1"))     enumRoleNum = enumRoleNumList.get(2);
+				else if(enumRole.toString().equals("ROLE_USER_VIP2"))     enumRoleNum = enumRoleNumList.get(2)+100;
+				else if(enumRole.toString().equals("ROLE_USER_VIP3"))     enumRoleNum = enumRoleNumList.get(2)+200;
+				else if(enumRole.toString().equals("ROLE_MANAGER"))       enumRoleNum = enumRoleNumList.get(3);
+				else if(enumRole.toString().equals("ROLE_MANAGER_SUPER")) enumRoleNum = enumRoleNumList.get(3)+10;
+				else enumRoleNum = enumRoleNumList.get(4);
+				
 				GrpPK grpPK = new GrpPK(enumRole, bizCd);
 				YsyGrpMst grpData = YsyGrpMst.builder()
 						.grpPK(grpPK)
@@ -52,7 +64,6 @@ public class Ysy2GroupBaseDataCreate {
 						.build();
 				
 				ysyGrpRepository.save(grpData);
-				enumRoleNum++;
 			}
 		}
 		System.out.println("group dummy sample data end =========================");
