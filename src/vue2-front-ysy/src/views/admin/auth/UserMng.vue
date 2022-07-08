@@ -14,8 +14,42 @@
 							<!--<v-col cols="12">
 								<pageHistory :pageNameKo="pageNameKo" />
 							</v-col>-->
-							<v-col cols="12">
+							<v-col cols="6">
 								<ysyGrid :gridInfo="userInfo" />
+							</v-col>
+							<v-col cols="6">
+								<v-card
+									flat
+									outlined
+								>
+									<v-card-title>유저상세정보</v-card-title>
+									<v-card-text>
+										<div>아이디 :
+											{{ userUserDetailInfo }}
+										</div>
+
+										<div>이름 :
+											{{ userUserDetailInfo.userNm }}
+										</div>
+
+										<div>생성일 :
+											{{ userUserDetailInfo.regDt }}
+										</div>
+
+										<div>가입경로 :
+											{{ userUserDetailInfo.oauthPath }} 
+										</div>
+
+										<div>데이터 확인 : {{userUserDetailInfo}}</div>
+										<!-- <div>주소 :
+											<p v-for=" addr in userUserDetailAddrInfo"
+												:key="addr.addrZipCode"
+											>
+										</div>
+
+										<!-- {{ userUserDetailInfo }} -->
+									</v-card-text>
+								</v-card>
 							</v-col>
 						</v-row>
 					</v-col>
@@ -49,23 +83,22 @@ export default {
 	data() {
 		return {
 			pageName: 'User Manager',
+			// currentRow: {},
+			userUserDetailInfo: {},
 			userInfo: {
 				dataList: [],
 				headers: [
-					{ text: '아이디', value: 'user_id', key: true },
-					{ text: '전화번호', value: 'user_phone' },
-					{ text: '이름', value: 'user_nm' },
-					{ text: '날짜', value: 'reg_dt' },
-					{ text: '권한', value: 'grp_id' },
+					{ text: '아이디', value: 'userId', key: true },
+					{ text: '이름', value: 'userNm' },
+					{ text: '날짜', value: 'regDt' },
 				],
 				dateGubun: '/',
-				gridNm: '사용자 관리',
+				gridNm: '유저관리',
 				path: '/userMng',
-				isCheckBox: true,
+				isCheckBox: false,
 				isSingleSelect: false,
 				rowCnt: 10,
 				gridDense: true,
-				useBtn: true,
 				isDetail: true,
 				rowClick: (row, gridNm) => {
 					this.rowClick(row, gridNm);
@@ -78,24 +111,47 @@ export default {
 	},
 	computed: {
 		...mapGetters({ getUserList: 'userStore/getUserList' }),
+		...mapGetters({ getUserDetail: 'userStore/getUserDetail' }),
 	},
 
 	mounted() {
-		this.setUserList();
+		this.fn_getUserList();
 	},
 
 	methods: {
-		rowClick(row, gridNm) {},
-		rowDbClick(row, gridNm) {},
-		async setUserList() {
-			await this.$store.dispatch('userStore/findUserList');
+		rowClick(row, gridNm) {
+			this.fn_getUserDetail(row.item.userId);
+		},
+		rowDbClick(row, gridNm) {
+			
+		},
+
+		//모든 유저 목록 조회
+		async fn_getUserList() {
+			await this.$store.dispatch('userStore/fn_getUserList');
 
 			if (this.getUserList) {
-				console.log('💜 this.getUserList');
-				console.log(this.getUserList);
+				console.log('🟢 userMng fn_getUserList');
 				this.userInfo.dataList = this.getUserList;
+				console.log(this.userInfo.dataList);
+				console.log('🔴 userMng fn_getUserList');
 			} else {
-				console.log('this.getUserList 실패 !!');
+				console.log('❌ userMng fn_getUserList ❌');
+			}
+
+		},
+
+		// 유저 상세정보 조회 : 1명의 아이디로 어드레스 조회
+		async fn_getUserDetail(userId) {
+			await this.$store.dispatch('userStore/fn_getUserDetail', userId);
+
+			if (this.getUserDetail) {
+				console.log('🟢 userMng fn_getUserDetail');
+				this.userUserDetailInfo = this.getUserDetail;
+				console.log(this.userUserDetailInfo);
+				console.log('🔴 userMng fn_getUserDetail');
+			} else {
+				console.log('❌ userMng fn_getUserDetail ❌');
 			}
 		},
 	},

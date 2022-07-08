@@ -24,31 +24,25 @@ public class YsyUserMngController {
 	@Autowired
 	YsyUserMngService ysyUserMngService;
 	
-	/** 2022 07 05 yoojisoo
-	 * 유저 1명 조회
-	 * userId 파라미터 -> 해당 userId로 유저정보(Id, 이름, 생성일, 가입경로) 조회
-	 */
-	@GetMapping("/getUser")
-	public UserMngDto getUser(@RequestParam String userId){
-		return ysyUserMngService.getUser(userId);
-	}
-	
-	/** 2022 07 05 yoojisoo 
-	 * 유저 1명 조회
-	 * userId 파라미터 -> 해당 userId로 유저 연관 테이블(ysyGrpMst & UserAddress Table) 조회
-	 */
-	@GetMapping("/getUserAddGrp")
-	public UserMngDto getUserAddGrp(@RequestParam String userId){
-		return ysyUserMngService.getUserAddGrp(userId);
-	}
-	
 	/** 2022 06 02 yoojisoo
 	  * 모든 유저 조회
 	  * size 파라미터 -> 모든 유저정보 size 만큼 조회
+	  * manager이상 접근
+	  * //파라메터 리퀘스트 dto를 이용하여 여러 조건을 받을 수 있도록 함.
 	  */
 	@GetMapping("/getUserList")
 	public List<UserMngDto> getUserList(@RequestParam int size){
 		return ysyUserMngService.getUserList(size);
+	}
+	
+	/** 2022 07 05 yoojisoo 
+	 * 유저 1명의 상세정보 조회 
+	 * userId 파라미터 -> 해당 userId로 유저 연관 테이블(UserAddress Table) 조회
+	 * manager이상 접근
+	 */
+	@GetMapping("/getUserDetail")
+	public UserMngDto getUserDetail(@RequestParam String userId){
+		return ysyUserMngService.getUserDetail(userId);
 	}
 	
 	/** 2022 07 07 mnew2m
