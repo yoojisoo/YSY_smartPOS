@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
@@ -53,7 +54,7 @@ public class YsyGrpMenuMap extends BaseEntity implements Serializable{
 	private String menuNm;
 
 	@MapsId("grgPK")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({@JoinColumn(name = "BIZ_CD" , referencedColumnName = "BIZ_CD"),
 		          @JoinColumn(name = "GRP_ID" , referencedColumnName = "GRP_ID")})
 //	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
