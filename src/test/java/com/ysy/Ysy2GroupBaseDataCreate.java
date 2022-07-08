@@ -21,7 +21,7 @@ import com.ysy.jwt.auth.repository.YsyGrpMstRepository;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class GroupDummy {
+public class Ysy2GroupBaseDataCreate {
 	
 	@Autowired
 	YsyGrpMstRepository ysyGrpRepository;

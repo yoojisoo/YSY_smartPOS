@@ -11,7 +11,7 @@ import com.ysy.jwt.auth.repository.YsyBizMstRepository;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class BizDummy {
+public class Ysy1BizBaseDataCreate {
 	
 	@Autowired
 	YsyBizMstRepository ysyBizRepository;

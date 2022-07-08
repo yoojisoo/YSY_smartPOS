@@ -33,7 +33,7 @@ import com.ysy.jwt.auth.entity.base.YsyCalendarMst.CalPK;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CalendarDummy {
+public class Ysy6CalendarBaseDataCreate {
 	
 	@PersistenceContext
 	EntityManager em; // 1

@@ -19,7 +19,7 @@ import com.ysy.jwt.auth.repository.YsyMenuMstRepository;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class MenuDummy {
+public class Ysy3MenuBaseDataCreate {
 	
 	@Autowired
 	private YsyMenuMstRepository ysyMenuMstRepository;

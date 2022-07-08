@@ -22,7 +22,7 @@ import com.ysy.jwt.auth.repository.YsyMenuMstRepository;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class GroupMenuMapDummy {
+public class Ysy4GroupMenuMapBaseDataCreate {
 	
 	@Autowired
 	private YsyMenuMstRepository ysyMenuMstRepository;
@@ -54,7 +54,7 @@ public class GroupMenuMapDummy {
 		for(YsyMenuMst pmenu : pMenuList)
 		{
 			String pkey = "";
-			if(pmenu.getMenuNm().equals("공지사항")) {
+			if(pmenu.getMenuNm().equals("커뮤니티")) {
 				System.out.println("공지사항 save");
 				pkey = pmenu.getMenuId();
 				YsyGrpMst yy = grpList.stream()
