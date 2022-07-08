@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysy.biz.dto.ResponseDto;
+import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
 @RestController
@@ -22,12 +23,13 @@ public class YsyMenuController {
 	 * 로그인을 하지 않았을 때,
 	 * 도는 쿼리가 달라서 분리함 ! */
 	@GetMapping("/findDefaultMenuList")
-	public ResponseDto<?> findDefaultMenuList() {
+	public ResponseDto<MenuDto> findDefaultMenuList() {
 		return ysyMenuMstService.findDefaultMenuList();
 	}
 	
 	@GetMapping("/findMenuList")
-	public ResponseDto<?> findMenuList(@RequestParam String userId) {
-		return ysyMenuMstService.findMenuList(userId);
+	public ResponseDto<MenuDto> findMenuList(@RequestParam String userId) {
+		ResponseDto<MenuDto> a = ysyMenuMstService.findMenuList(userId);
+		return a;
 	}
 }

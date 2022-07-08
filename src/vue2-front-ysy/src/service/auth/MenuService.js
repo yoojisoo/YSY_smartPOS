@@ -14,13 +14,13 @@ class MenuService {
 
 		let res = await axios.get(url);
 
-		if (res) {
-			console.log('MenuService findMenuList ==> start');
-			console.log(res.data);
-			console.log('MenuService findMenuList ==> end');
-			return res.data;
+		if (res.statusText === 'OK' && res.data.dataList !== null) {
+			console.log('🟢 MenuService findMenuList');
+			console.log(res.data.dataList);
+			console.log('🔴 MenuService findMenuList');
+			return res.data.dataList;
 		} else {
-			console.log('MenuService findMenuList ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+			console.log('❌ MenuService findMenuList ❌');
 			return null;
 		}
 	}

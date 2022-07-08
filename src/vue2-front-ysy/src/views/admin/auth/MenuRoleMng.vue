@@ -97,7 +97,6 @@ export default {
 
 		// 선택된 유저의 접근권한이 있는 메뉴 리스트를 불러옴
 		async findUserMenuList(userId) {
-			console.log(userId);
 			await this.$store.dispatch('userStore/findUserMenuList', userId).catch(error => {
 				console.log('===============> userStore/findUserMenuList error');
 				console.log(error);

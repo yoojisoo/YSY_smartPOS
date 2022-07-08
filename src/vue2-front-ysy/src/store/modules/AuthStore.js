@@ -84,10 +84,12 @@ const authStore = {
 					refresh_token: res.refresh_token,
 					refresh_token_exp: decodedHeader_refresh.exp,
 				};
+
+				console.log('✅ authStore setUserInfo');
 				commit('setUserInfo', payload);
 				return true;
 			} else {
-				console.log('authStore setUserInfo ERROR !!!!!!!!!!!');
+				console.log('❌ authStore setUserInfo ❌');
 				return false;
 			}
 		},

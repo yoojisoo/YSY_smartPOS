@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
 import com.ysy.jwt.auth.service.YsyUserMngService;
@@ -54,7 +55,7 @@ public class YsyUserMngController {
 	 * 컨트롤 가능한 모든 유저 조회
 	 * userId Param -> 해당 userId보다 낮은 등급인 유저를 조회 */
 	@GetMapping("/getFilterUserList")
-	public List<UserMngDto> getFilterUserList(@RequestParam String userId) {
+	public ResponseDto<UserMngDto> getFilterUserList(@RequestParam String userId) {
 		return ysyUserMngService.getFilterUserList(userId);
 	}
 	
@@ -62,7 +63,7 @@ public class YsyUserMngController {
 	 * 컨트롤 가능한 유저들 중 선택한 유저의 접근가능메뉴 리스트 조회
 	 * userId Param -> 해당 userId가 접근가능한 메뉴 리스트를 조회 */
 	@GetMapping("/getUserMenuList")
-	public List<MenuDto> getUserMenuList(@RequestParam String userId) {
+	public ResponseDto<MenuDto> getUserMenuList(@RequestParam String userId) {
 		return ysyUserMngService.getUserMenuList(userId);
 	}
 	

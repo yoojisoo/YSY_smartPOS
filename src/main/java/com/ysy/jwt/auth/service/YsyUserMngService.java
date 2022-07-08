@@ -7,9 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
@@ -93,16 +95,18 @@ public class YsyUserMngService {
 	}
 	
 	@Transactional
-	public List<UserMngDto> getFilterUserList(String userId) {
+	public ResponseDto<UserMngDto> getFilterUserList(String userId) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		/** 나의 정보 start */
 		YsyUserMst myInfo = query
-				.selectFrom(qYsyUserMst)
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
 				.where(qYsyUserMst.username.eq(userId))
 				.fetchOne();
 		
+		// 조회된 나의 정보에서 bizCd와 levelId를 미리 가져옴
 		String bizCd = myInfo.getYsyGrpMst().getGrpPK().getBizCd();
 		int  levelId = myInfo.getYsyGrpMst().getLevelId();
 		/** 나의 정보 end */
@@ -110,10 +114,11 @@ public class YsyUserMngService {
 		
 		/** 나보다 낮은 등급의 사용자 정보 start */
 		List<YsyUserMst> userList = query
-				.selectFrom(qYsyUserMst)
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
 				.where(qYsyUserMst.username.ne(userId)
-						.and(qYsyUserMst.ysyGrpMst.grpPK.bizCd.eq(bizCd))
-						.and(qYsyUserMst.ysyGrpMst.levelId.goe(levelId)))
+					  ,qYsyUserMst.ysyGrpMst.grpPK.bizCd.eq(bizCd)
+					  ,qYsyUserMst.ysyGrpMst.levelId.goe(levelId))
 				.fetch();
 		/** 나보다 낮은 등급의 사용자 정보 end */
 		
@@ -122,11 +127,11 @@ public class YsyUserMngService {
 			resultList.add(new UserMngDto(user));
 		}
 		
-		return resultList;
+		return new ResponseDto<UserMngDto>(resultList, HttpStatus.OK);
 	}
 	
 	@Transactional
-	public List<MenuDto> getUserMenuList(String userId) {
+	public ResponseDto<MenuDto> getUserMenuList(String userId) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
@@ -143,6 +148,7 @@ public class YsyUserMngService {
 		List<YsyGrpMenuMap> menuList = query
 				.selectFrom(qYsyGrpMenuMap)
 				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(levelId))
+				.orderBy(qYsyGrpMenuMap.ysyMenuMst.menuSeq.asc())
 				.fetch();
 		/** 해당 유저의 접근가능메뉴 정보 end */
 		
@@ -151,7 +157,7 @@ public class YsyUserMngService {
 			resultList.add(new MenuDto(menu));
 		}
 		
-		return resultList;
+		return new ResponseDto<MenuDto>(resultList, HttpStatus.OK);
 	}
 	
 	/** grid에서 user 삭제 */

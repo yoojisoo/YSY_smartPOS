@@ -34,31 +34,31 @@ const userStore = {
 		async findUserList({ commit }) {
 			let userList = await userService.getUserList();
 			if (userList !== null && userList !== undefined) {
-				console.log('userStore findUserList ✔️');
+				console.log('✅ userStore findUserList');
 				console.log(userList);
 				commit('setUserList', userList);
 			} else {
-				console.log('userStore findUserList ERROR !!!!!!!!!!!');
+				console.log('❌ userStore findUserList ❌');
 			}
 		},
 
 		async findFilterUserList({ commit }, userId) {
 			let filterUserList = await userService.getFilterUserList(userId);
 			if (filterUserList !== null && filterUserList !== undefined) {
-				console.log('userStore findFilterUserList ✔️');
+				console.log('✅ userStore findFilterUserList');
 				commit('setFilterUserList', filterUserList);
 			} else {
-				console.log('userStore findFilterUserList ERROR !!!!!!!!!!!');
+				console.log('❌ userStore findFilterUserList ❌');
 			}
 		},
 
 		async findUserMenuList({ commit }, userId) {
 			let userMenuList = await userService.getUserMenuList(userId);
 			if (userMenuList !== null && userMenuList !== undefined) {
-				console.log('userStore findUserMenuList ✔️');
+				console.log('✅ userStore findUserMenuList');
 				commit('setUserMenuList', userMenuList);
 			} else {
-				console.log('userStore findUserMenuList ERROR !!!!!!!!!!!');
+				console.log('❌ userStore findUserMenuList ❌');
 			}
 		},
 	},
