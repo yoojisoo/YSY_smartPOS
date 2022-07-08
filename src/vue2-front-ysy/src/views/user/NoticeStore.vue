@@ -72,6 +72,7 @@ export default {
 				isCheckBox: true,
 				isSingleSelect: false,
 				gridDense: false,
+				useBtn: true,
 				isDetail: true,
 				rowClick: (row, gridNm) => {
 					this.rowClick(row, gridNm);

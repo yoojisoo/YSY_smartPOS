@@ -71,9 +71,14 @@ const routes = [
 	},
 	// 메뉴 관련
 	{
-		path: '/menuMng',
-		name: 'MenuMng',
-		component: () => import('../views/admin/auth/MenuMng.vue'),
+		path: '/menuRoleMng',
+		name: 'menuRoleMng',
+		component: () => import('../views/admin/auth/MenuRoleMng.vue'),
+	},
+	{
+		path: '/menuBtnMng',
+		name: 'menuBtnMng',
+		component: () => import('../views/admin/auth/MenuBtnMng.vue'),
 	},
 
 	{
@@ -88,7 +93,7 @@ const routes = [
 		component: () => import('../views/sign/NaverLogin.vue'),
 		props: true,
 	},
-	
+
 	// Test
 	{
 		path: '/editor',
@@ -100,8 +105,6 @@ const routes = [
 	{ path: '/403', component: () => import('../views/error/NotFound.vue') }, // 권한 없는 페이지 - 페이지 생성하고나서 변경하기
 	{ path: '/404', component: () => import('../views/error/NotFound.vue') }, // 정의되지 않은 나머지 모든 페이지들 - 404 페이지로 redirect
 	{ path: '/:pathMatch(.*)*', redirect: '/404' },
-
-
 ];
 
 const router = new VueRouter({
