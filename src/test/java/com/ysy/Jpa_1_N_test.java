@@ -1,6 +1,7 @@
 package com.ysy;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.entity.QStoreNotice;
 import com.ysy.biz.entity.StoreNotice;
 import com.ysy.jwt.auth.dto.UserInfoDto;
+import com.ysy.jwt.auth.dto.UserMngDto2;
 import com.ysy.jwt.auth.entity.QYsyBtnMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
@@ -48,7 +49,7 @@ public class Jpa_1_N_test {
 	@Test
 	@Transactional
 	public void getUserList() {
-		String userId = "clubbboy@naver.com";
+		String userId = "s_plus7@naver.com";
 		
 		JPAQueryFactory           query = new JPAQueryFactory(em); // 2
 		QStoreNotice       qStoreNotice = QStoreNotice.storeNotice;
@@ -78,6 +79,15 @@ public class Jpa_1_N_test {
 		
 		
 		
+		List<YsyUserMst> userAddressList = query
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
+				.leftJoin(qYsyUserAddress)
+				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
+				.where(qYsyUserMst.username.eq(userId))
+				.fetch();
+		
+		
 		// 권한에 따른 level id
 		YsyGrpMst grp_lvl = query
 				.selectFrom(qYsyGrpMst)
@@ -91,10 +101,12 @@ public class Jpa_1_N_test {
 		List<YsyGrpMenuMap> myMenuList = query
 				.select(qYsyGrpMenuMap )
 				.from(qYsyGrpMenuMap )
-				.innerJoin(qYsyGrpMenuMap.ysyMenuMst , qYsyMenuMst).fetchJoin()
-				.innerJoin(qYsyGrpMenuMap.ysyGrpMst,qYsyGrpMst).fetchJoin()
+				.innerJoin(qYsyGrpMenuMap.ysyMenuMst , qYsyMenuMst)
+				.fetchJoin()
+				.innerJoin(qYsyGrpMenuMap.ysyGrpMst  , qYsyGrpMst )
+				.fetchJoin()
 				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(grp_lvl.getLevelId())
-				  .and(qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd()))
+				      ,qYsyGrpMenuMap.ysyGrpMst.grpPK.bizCd.eq(grp_lvl.getYsyBizMst().getBizCd())
 			    )
 				.orderBy(qYsyMenuMst.menuSeq.asc())
 				.fetch();
@@ -109,6 +121,22 @@ public class Jpa_1_N_test {
 				  .and(qYsyMenuExptMst.isView.eq("N"))
 				)
 				.fetch();
+		
+		//user 1명 조회
+		List<YsyUserMst> userResult = query
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
+				.leftJoin(qYsyUserAddress)
+				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
+				.fetchJoin()
+				.where(qYsyUserMst.username.eq(userId))
+				.fetch();
+		
+		List<UserMngDto2> userMngList = 
+				userResult.stream()
+					.map(x-> new UserMngDto2(x.getUsername() , x.getAddressList()))
+					.collect(Collectors.toList());
+		UserMngDto2 userMngDto2 = userMngList.get(0);
 		
 		
 		YsyUserMst user = ysyUserMstRepository.findById(userId)

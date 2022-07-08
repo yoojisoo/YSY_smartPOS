@@ -71,8 +71,8 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 //	@JsonIgnoreProperties({"ysyUserMst"})
 //	@JsonManagedReference
 //	@JsonIgnore
-//	private List<YsyUserAddress> addressList = new ArrayList<YsyUserAddress>();
-	private Set<YsyUserAddress> addressList = Collections.<YsyUserAddress>emptySet();  //new HashSet<YsyUserAddress>();
+	private List<YsyUserAddress> addressList = new ArrayList<YsyUserAddress>();
+//	private Set<YsyUserAddress> addressList = Collections.<YsyUserAddress>emptySet();  //new HashSet<YsyUserAddress>();
 	
 	//이메일 인증 여부
 	@Column(name = "IS_EMAIL_AUTH" , length = 1)

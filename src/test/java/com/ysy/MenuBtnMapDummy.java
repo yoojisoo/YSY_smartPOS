@@ -23,7 +23,16 @@ import com.ysy.jwt.auth.entity.QYsyMenuMst;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyBtnMst;
+import com.ysy.jwt.auth.entity.YsyMenuBtnMap;
 import com.ysy.jwt.auth.entity.YsyMenuMst;
+import java.util.UUID;
+/**
+ * 
+ * @author clubbboy@naver.com
+ * 
+ * menu와 btn 연결 테스트 데이터
+ *
+ */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MenuBtnMapDummy {
@@ -54,7 +63,7 @@ public class MenuBtnMapDummy {
 		List<YsyMenuMst> menuList = query
 				.select(qYsyMenuMst)
 				.from(qYsyMenuMst)
-				.where(qYsyMenuMst.pMenuId.ne("").or(qYsyMenuMst.pMenuId.isEmpty()))
+				.where(qYsyMenuMst.pMenuId.ne(""))
 				.fetch();
 		
 		List<YsyBtnMst> btnList = query
@@ -69,10 +78,24 @@ public class MenuBtnMapDummy {
 		
 //		SQLInsertClause aa;
 //		SQLInsertClause myInsert = query.insert(qYsyMenuBtnMap);
+		
+		
+//		for(YsyMenuMst menu : menuList) {
+//			for(YsyBtnMst btn : btnList) {
+//				YsyMenuBtnMap btnMap =  new YsyMenuBtnMap();
+//				btnMap.setYsyMenuMst(menu);
+//				btnMap.setYsyBtnMst(btn);
+//				em.persist(btnMap);
+//			}
+//		}
+		
+		
+		
 		for(YsyMenuMst menu : menuList) {
 			String menuId =menu.getMenuId();
 			for(YsyBtnMst btn : btnList) {
-				em.createNativeQuery("INSERT INTO ysy_menu_btn_map (menu_id , btn_id , reg_dt,reg_id) VALUES (?,?,now(),'admin')")
+				em.createNativeQuery("INSERT INTO ysy_menu_btn_map (menu_id , btn_id , reg_dt, reg_id ) "
+						                                 + "VALUES (?       , ?      ,now()  , 'admin')")
 			      .setParameter(1, menuId)
 			      .setParameter(2, btn.getBtnId())
 			      .executeUpdate();

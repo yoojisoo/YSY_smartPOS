@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private String mng_roles    = "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
 					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
 					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
+	
 	private String admin_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	
 	@Override
