@@ -1,6 +1,7 @@
 package com.ysy;
 
 import java.util.List;
+import java.util.Arrays;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,9 +24,7 @@ import com.ysy.jwt.auth.entity.QYsyMenuMst;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyBtnMst;
-import com.ysy.jwt.auth.entity.YsyMenuBtnMap;
 import com.ysy.jwt.auth.entity.YsyMenuMst;
-import java.util.UUID;
 /**
  * 
  * @author clubbboy@naver.com
@@ -59,6 +58,19 @@ public class MenuBtnMapDummy {
 		QYsyMenuMst         qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
 		QYsyBtnMst           qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
 		QYsyMenuBtnMap   qYsyMenuBtnMap = QYsyMenuBtnMap.ysyMenuBtnMap;
+		
+		
+		List<String> btnIdList = Arrays.asList("SEARCH","INSERT","MODIFY","DELETE", "EXCEL_DOWN",    "UPLOAD");
+		List<String> btnNmList = Arrays.asList("Search","Insert","Modify","Delete", "Excel Down",    "Upload");
+		for (int i = 0; i < btnIdList.size(); i++) {
+			em.createNativeQuery("INSERT INTO ysy_btn_mst (btn_id , btn_nm ,btn_sort, reg_id ,reg_dt ) "
+				                + "VALUES (? ,?,?,? , ?      ,'admin',now()  )")
+				.setParameter(1, btnIdList.get(i))
+				.setParameter(2, btnNmList.get(i))
+				.setParameter(3, (i+1))
+				.executeUpdate();
+		}
+		
 	
 		List<YsyMenuMst> menuList = query
 				.select(qYsyMenuMst)
