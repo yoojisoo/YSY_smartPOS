@@ -10,9 +10,9 @@ class NoticeService {
 		let res = await axios.get(url);
 		if (res) {
 			console.log('NoticeService - findSystemNotice ==> start');
-			console.log(res.data.dataList);
+			console.log(res.data.objList);
 			console.log('NoticeService - findSystemNotice ==> end');
-			return res.data.dataList;
+			return res.data.objList;
 		} else {
 			console.log('NoticeService - findSystemNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;
@@ -28,9 +28,9 @@ class NoticeService {
 		let res = await axios.get(url);
 		if (res) {
 			console.log('NoticeService - findStoreNotice ==> start');
-			console.log(res.data.dataList);
+			console.log(res.data.objList);
 			console.log('NoticeService - findStoreNotice ==> end');
-			return res.data.dataList;
+			return res.data.objList;
 		} else {
 			console.log('NoticeService - findStoreNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
 			return null;

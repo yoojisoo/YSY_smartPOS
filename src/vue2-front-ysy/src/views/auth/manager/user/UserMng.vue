@@ -18,36 +18,37 @@
 								<ysyGrid :gridInfo="userInfo" />
 							</v-col>
 							<v-col cols="6">
-								<v-card
-									flat
-									outlined
-								>
+								<v-card flat outlined>
 									<v-card-title>유저상세정보</v-card-title>
 									<v-card-text>
-										<div>아이디 :
+										<div>
+											아이디 :
 											{{ userUserDetailInfo }}
 										</div>
 
-										<div>이름 :
+										<div>
+											이름 :
 											{{ userUserDetailInfo.userNm }}
 										</div>
 
-										<div>생성일 :
+										<div>
+											생성일 :
 											{{ userUserDetailInfo.regDt }}
 										</div>
 
-										<div>가입경로 :
-											{{ userUserDetailInfo.oauthPath }} 
+										<div>
+											가입경로 :
+											{{ userUserDetailInfo.oauthPath }}
 										</div>
 
-										<div>데이터 확인 : {{userUserDetailInfo}}</div>
+										<div>데이터 확인 : {{ userUserDetailInfo }}</div>
 										<!-- <div>주소 :
 											<p v-for=" addr in userUserDetailAddrInfo"
 												:key="addr.addrZipCode"
 											>
 										</div>
 
-										<!-- {{ userUserDetailInfo }} -->
+										{{ userUserDetailInfo }}-->
 									</v-card-text>
 								</v-card>
 							</v-col>
@@ -122,9 +123,7 @@ export default {
 		rowClick(row, gridNm) {
 			this.fn_getUserDetail(row.item.userId);
 		},
-		rowDbClick(row, gridNm) {
-			
-		},
+		rowDbClick(row, gridNm) {},
 
 		//모든 유저 목록 조회
 		async fn_getUserList() {
@@ -138,7 +137,6 @@ export default {
 			} else {
 				console.log('❌ userMng fn_getUserList ❌');
 			}
-
 		},
 
 		// 유저 상세정보 조회 : 1명의 아이디로 어드레스 조회
