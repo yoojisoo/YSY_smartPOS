@@ -60,19 +60,27 @@ public class UserMngDto {
 	}
 	
 	/* 유저 1명의 userMst 테이블 + 어드레스 조회 */
-	public UserMngDto(YsyUserMst user, List<YsyUserAddress> addrList) {
-		this.userId = user.getUsername();
-		this.userNm = user.getName();
-		this.regDt = user.getRegDt().format(formatter);
-		this.oauthPath = user.getOAuthPath();
-		this.bizNm = user.getYsyGrpMst().getYsyBizMst().getBizNm();
-		
-		this.addrList = addrList;
-		
-//		for(YsyUserAddress addr : addrList) {
-//			this.addrlist.add(addr);
-//		}
+	public UserMngDto(String username, String name, LocalDateTime regDt, String oAuthPath, String bizNm,
+			List<YsyUserAddress> addressList) {
+		this.userId = username;
+		this.userNm = name;
+		this.regDt = regDt.format(formatter);
+		this.oauthPath = oAuthPath;
+		this.bizNm = bizNm;
+		this.addrList = addressList;
 	}
+	
+	/* 유저 1명의 userMst 테이블 + 어드레스 조회 */
+//	public UserMngDto(YsyUserMst user, List<YsyUserAddress> addrList) {
+//		this.userId = user.getUsername();
+//		this.userNm = user.getName();
+//		this.regDt = user.getRegDt().format(formatter);
+//		this.oauthPath = user.getOAuthPath();
+//		this.bizNm = user.getYsyGrpMst().getYsyBizMst().getBizNm();
+//		this.addrList = addrList;
+//
+//	}
+	
 
 
 	

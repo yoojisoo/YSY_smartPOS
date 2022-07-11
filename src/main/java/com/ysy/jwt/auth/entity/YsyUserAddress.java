@@ -14,6 +14,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Comment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -67,7 +70,14 @@ public class YsyUserAddress extends BaseEntity implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 //	@JsonIgnoreProperties//해당 어노테이션은 무한반복을 안되게 함.
 //	@JsonManagedReference // 순환참조 방지
-//	@JsonBackReference
+	@JsonBackReference
+//	@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 	private YsyUserMst ysyUserMst;
 
+	
+	
+	
+	
+	
+	
 }
