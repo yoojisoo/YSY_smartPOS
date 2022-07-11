@@ -93,7 +93,8 @@ public class JwtService {
 		try 
 		{
 			String                     userId = getClaim(jwtTokenRe , "username" , true);
-			YsyUserMst             ysyUserMst = ysyUserMstRepository.findByUsername(userId);
+			YsyUserMst             ysyUserMst = ysyUserMstRepository.findById(userId)
+					.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );
 			
 			YsyUserRTokenMap ysyUserRTokenMap = YsyUserRTokenMap.builder()
 																.userId(userId)

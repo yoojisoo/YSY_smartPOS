@@ -18,10 +18,25 @@ export default {
 	},
 	methods: {
 		async kakaoLogin() {
-			this.params.data.code = this.$route.query.code;
-			let flag = await this.$store.dispatch('authStore/signIn', this.params);
-			if (flag) this.$router.replace('/');
-			else alert('아이디나 비밀번호가 틀렸습니다.');
+			try {
+
+				this.params.data.code = this.$route.query.code;
+				let res = await this.$store.dispatch('authStore/signIn', this.params);
+				console.log("kakao login =>");
+				console.log(res);
+				if (res.status != undefined && res.status == 200)
+				{
+					this.$router.replace('/');
+				}
+				else {
+					console.log("res ===========>"+res);
+					alert(res);
+					this.$router.replace('/signIn');
+				}
+			} catch (error) {
+				
+			}
+			
 		},
 	},
 };

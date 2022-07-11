@@ -58,21 +58,22 @@ public class YsyUserMstService {
 				/** 0. 유저 존재 확인 (존재하면 메세지 return / 존재하지 않으면 다음 단계) */
 				if (isUser(joinDto.getUsername())) {
 					//이전에 카카오로 가입했고 카카오로 로그인 중인 유저 
-					YsyUserMst tmpUser = ysyUserRepository.findByUsername(joinDto.getUsername());
+					YsyUserMst tmpUser = ysyUserRepository.findById(joinDto.getUsername())
+							.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );;
 					String orgPath     = tmpUser.getOAuthPath()==null || tmpUser.getOAuthPath().equals("")?"사이트":tmpUser.getOAuthPath();
 					String joinDtoPath = joinDto.getOAuthPath()==null || joinDto.getOAuthPath().equals("")?"사이트":joinDto.getOAuthPath();
 					if(orgPath.equals(joinDtoPath)) 
 					{
-						resDto.setData("ok");
+						resDto.setMsg("ok");
 						resDto.setStatus(HttpStatus.OK);
 						return resDto;
 					}
 					
 					String errorMsg =  "error : \n"
-							         + "이전가입은 " + orgPath + "로 가입되었으며 , "
+							         + "["+joinDto.getUsername() +"]해당 메일은 " + orgPath + "로 가입되었으며 , "
 							         + "로그인은 " + joinDto.getOAuthPath() + " 진행중입니다.\n"
-					                 + orgPath +"아이디 비번으로 로그인 해주세요!!";
-					resDto.setData(errorMsg);
+					                 + orgPath +"로 로그인 해주세요!!";
+					resDto.setMsg(errorMsg);
 					resDto.setStatus(HttpStatus.BAD_REQUEST);
 					return resDto;
 				}
@@ -109,7 +110,7 @@ public class YsyUserMstService {
 					}
 					
 					if (!ysyBizService.createBiz(ysyBizMst)) {
-						resDto.setData("회사코드가 있습니다.");
+						resDto.setMsg("회사코드가 있습니다.");
 						resDto.setStatus(HttpStatus.BAD_REQUEST);
 						return resDto;//"회사코드가 있습니다.";
 					}
@@ -130,18 +131,18 @@ public class YsyUserMstService {
 						.build();
 
 				ysyUserRepository.save(ysyUser);
-				resDto.setData("ok");
+				resDto.setMsg("ok");
 				resDto.setStatus(HttpStatus.OK);
 				return resDto;//"ok";
 			} else {
-				resDto.setData("error : Id or password or name is empty!");
+				resDto.setMsg("error : Id or password or name is empty!");
 				resDto.setStatus(HttpStatus.BAD_REQUEST);
 				return resDto;//"error : Id or password or name is empty!";
 			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
-			resDto.setData("error exception");
+			resDto.setMsg("error exception");
 			resDto.setStatus(HttpStatus.BAD_REQUEST);
 			return resDto;//"error : user register error!";
 		}
@@ -153,7 +154,8 @@ public class YsyUserMstService {
 			if(!util.isNullAndEmpty(modUserDto.getUsername())
 			&& !util.isNullAndEmpty(modUserDto.getName())
 			&& !util.isNullAndEmpty(modUserDto.getPassword())) {
-				YsyUserMst orgYsyUser = ysyUserRepository.findByUsername(modUserDto.getUsername());
+				YsyUserMst orgYsyUser = ysyUserRepository.findById(modUserDto.getUsername())
+						.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );
 				YsyUserMst ysyUser = YsyUserMst.builder()
 						.username(modUserDto.getUsername())
 						.password(bCryptPasswordEncoder.encode(modUserDto.getPassword()))
@@ -175,8 +177,9 @@ public class YsyUserMstService {
 	
 	/** user 존재여부 확인 존재 : true */
 	public boolean isUser(String username) {
-	
-		if(ysyUserRepository.findByUsername(username) == null)
+		YsyUserMst user = ysyUserRepository.findById(username).orElse(null);
+			
+		if(user == null)
 			return false;
 		
 		return true;

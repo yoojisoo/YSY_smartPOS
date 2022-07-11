@@ -326,7 +326,7 @@ public class OAuthController {
 	/** client token resopnse */
 	public ResponseAuthDto<String> createClientToken(JoinDto joinDto , ResponseAuthDto<String> resDto , HttpServletResponse response) {
 		
-		if(resDto.getData().equals("ok")) {
+		if(resDto.getMsg().equals("ok")) {
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(
 							joinDto.getUsername(),

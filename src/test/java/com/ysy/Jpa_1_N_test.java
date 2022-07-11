@@ -1,5 +1,7 @@
 package com.ysy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +52,14 @@ public class Jpa_1_N_test {
 	@Transactional
 	public void getUserList() {
 		String userId = "s_plus7@naver.com";
-		
+		try {
+			assertEquals(1,1);
+			System.out.println("success==================================");
+		} catch (Exception e) {
+			System.out.println("exception==================================");
+			e.printStackTrace();
+		}
+		 
 		JPAQueryFactory           query = new JPAQueryFactory(em); // 2
 		QStoreNotice       qStoreNotice = QStoreNotice.storeNotice;
 		QYsyGrpMenuMap   qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;

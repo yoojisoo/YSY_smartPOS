@@ -265,15 +265,23 @@ export default {
 			mailInfo.email = this.signUpInfo.username;
 
 			this.$axios.post('ysy/v1/mail/mailConfirm', mailInfo).then(res => {
-				if (!res.data) {
-					// 이메일 중복 x : 가입 가능
-					alert('가입 가능한 아이디입니다.');
-					this.isConfirmEmail = true;
-				} else {
-					// 이메일 중복 o : 가입 불가능
+				if (res.data == true) {//아이디 있는경우
 					alert('중복된 아이디입니다. \n다른 아이디로 다시 진행해주세요.');
 					this.isConfirmEmail = false;
+				}else{
+					alert('가입 가능한 아이디입니다.');
+					this.isConfirmEmail = true;
 				}
+
+				// if (!res.data) {
+				// 	// 이메일 중복 x : 가입 가능
+				// 	alert('가입 가능한 아이디입니다.');
+				// 	this.isConfirmEmail = true;
+				// } else {
+				// 	// 이메일 중복 o : 가입 불가능
+				// 	alert('중복된 아이디입니다. \n다른 아이디로 다시 진행해주세요.');
+				// 	this.isConfirmEmail = false;
+				// }
 			});
 		},
 		/** 이메일 인증 btn ****************************************
@@ -322,7 +330,7 @@ export default {
 					if (validate) {
 						this.$axios.post('/ysy/v1/auth/signUp', signUpInfo).then(res1 => {
 							console.log(res1.data);
-							if (res1.data === 'ok') {
+							if (res1.data.msg === 'ok') {
 								this.$axios
 									.post('/ysy/v1/mail/mailSend', this.mailInfo)
 									.then(res2 => {
@@ -332,7 +340,7 @@ export default {
 										} else alert('메일 보내기 실패');
 									});
 							} else {
-								alert(res1.data);
+								alert(res1.data.msg);
 							}
 						});
 					} else alert('양식에 맞게 작성해주세요.');

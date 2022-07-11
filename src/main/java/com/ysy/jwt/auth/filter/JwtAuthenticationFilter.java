@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.model.LoginReqData;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.service.JwtService;
@@ -108,6 +109,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		String jwtToken   = jwtUtil.createJwtAccessToken(principalDetails.getUser().getUsername(), principalDetails.getUser().getName());
 		String jwtTokenRe = jwtUtil.createJwtRefreshToken(principalDetails.getUser().getUsername(), principalDetails.getUser().getName());
+		
+		JoinDto dto = JoinDto
+				.builder()
+				.name(principalDetails.getUser().getUsername())
+				.oAuthPath("")
+				.bizCd(principalDetails.getUser().getYsyGrpMst().getGrpPK().getBizCd())
+				.build();
 		
 		jwtUtil.tokenSend(response, jwtToken, jwtTokenRe);
 		

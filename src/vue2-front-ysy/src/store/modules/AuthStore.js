@@ -65,10 +65,29 @@ const authStore = {
 	},
 	actions: {
 		async signIn({ dispatch }, params) {
-			var res = await authService.signIn(params);
-			let flag = dispatch('setUserInfo', res);
+			try {
+				var res = await authService.signIn(params);
+				console.log("res==================action = ");
+				console.log(res);
+				if(res.headers && res.headers.access_token != undefined){
+					let flag = dispatch('setUserInfo', res.headers);
+					return res;
+				}
 
-			return flag;
+				if(res.response != undefined && res.response.data.status == 401){//로그인 인증 에러시 처리 부분 -> id / pwd 에러시
+					console.log("login error msg -> " + res.response.data.error);
+					return  "ID 또는 패스워드가 잘못되었습니다.";
+				}
+
+				if(res.data != undefined && res.data.msg != undefined){//sns 로그인 에러
+					return  res.data.msg;
+				}
+				
+			} catch (error) {
+				console.log("authStore actions signIn => " + error);
+				return error;
+			}
+			
 		},
 
 		async setUserInfo({ commit }, res) {

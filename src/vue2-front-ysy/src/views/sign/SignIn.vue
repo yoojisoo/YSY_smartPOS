@@ -150,9 +150,22 @@ export default {
 	},
 	methods: {
 		async signIn() {
-			let flag = await this.$store.dispatch('authStore/signIn', this.params);
-			if (flag) this.$router.replace('/');
-			else alert('아이디나 비밀번호가 틀렸습니다.');
+			try {
+				let res = await this.$store.dispatch('authStore/signIn', this.params);
+				console.log("res.status = " + res.status);
+				if (res.status != undefined && res.status == 200)
+				{
+					this.$router.replace('/');
+				}
+				else {
+					console.log("res ===========>"+res);
+					alert(res);
+				}
+			} catch (error) {
+				console.log("signIn => "+error.response.status);
+			}
+
+			
 		},
 
 		signUp() {

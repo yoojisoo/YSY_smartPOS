@@ -13,4 +13,5 @@ public class LoginReqData {
 
 	private String username;
 	private String password;
+	private String oauthPath;
 }

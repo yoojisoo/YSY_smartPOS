@@ -71,7 +71,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		
 		if(username != null) {	
 			System.out.println("doFilterInternal username==========>" + username);
-			YsyUserMst user = ysyUserRepository.findByUsername(username);
+			YsyUserMst user = ysyUserRepository.findById(username)
+					.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );;
 			
 			if(user == null || user.getUsername().isEmpty()) {
 //				chain.doFilter(request, response);

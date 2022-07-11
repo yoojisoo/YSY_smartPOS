@@ -14,19 +14,19 @@ import lombok.NoArgsConstructor;
 public class ResponseAuthDto<T> {
 
 	private HttpStatus status;
-	private List<T> dataList;
-	private T data;
+	private List<T> objList;
+	private T obj;
 	private String msg;
 	
 	/** list data return */
 	public ResponseAuthDto(List<T> dataList , HttpStatus status){
-		this.dataList = dataList;
+		this.objList = dataList;
 		this.status = status;
 	}
 	
 	/** data return */
 	public ResponseAuthDto(T data , HttpStatus status){
-		this.data = data;
+		this.obj = data;
 		this.status = status;
 	}
 	
