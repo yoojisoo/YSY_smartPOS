@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ysy.jwt.auth.dto.JoinDto;
+import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.model.OAuthTokenModel;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.model.kakao.KakaoProfile;
@@ -311,9 +312,9 @@ public class OAuthController {
 		
 		
 		
-		String msg = ysyUserMstService.signUp(joinDto);
+		ResponseAuthDto<String> resDto = ysyUserMstService.signUp(joinDto);
 		
-		return msg;
+		return resDto.getData();
 	}
 	
 	

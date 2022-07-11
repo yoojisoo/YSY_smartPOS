@@ -1,11 +1,11 @@
 package com.ysy.jwt.auth.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +15,7 @@ import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
+import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
@@ -42,7 +43,9 @@ public class YsyUserMstService {
 	
 	/** user 등록 */
 	@Transactional
-	public String signUp(JoinDto joinDto) {
+	public ResponseAuthDto<String> signUp(JoinDto joinDto) {
+		
+		ResponseAuthDto<String> resDto = new ResponseAuthDto<String>();
 		
 		try 
 		{
@@ -60,14 +63,18 @@ public class YsyUserMstService {
 					String joinDtoPath = joinDto.getOAuthPath()==null || joinDto.getOAuthPath().equals("")?"사이트":joinDto.getOAuthPath();
 					if(orgPath.equals(joinDtoPath)) 
 					{
-						return "ok";
+						resDto.setData("ok");
+						resDto.setStatus(HttpStatus.OK);
+						return resDto;
 					}
 					
 					String errorMsg =  "error : \n"
 							         + "이전가입은 " + orgPath + "로 가입되었으며 , "
 							         + "로그인은 " + joinDto.getOAuthPath() + " 진행중입니다.\n"
 					                 + orgPath +"아이디 비번으로 로그인 해주세요!!";
-					return errorMsg ;
+					resDto.setData(errorMsg);
+					resDto.setStatus(HttpStatus.BAD_REQUEST);
+					return resDto;
 				}
 				
 				// bizCd와 Default Group ID 셋팅
@@ -102,7 +109,9 @@ public class YsyUserMstService {
 					}
 					
 					if (!ysyBizService.createBiz(ysyBizMst)) {
-						return "회사코드가 있습니다.";
+						resDto.setData("회사코드가 있습니다.");
+						resDto.setStatus(HttpStatus.BAD_REQUEST);
+						return resDto;//"회사코드가 있습니다.";
 					}
 				}
 //				else {
@@ -121,15 +130,20 @@ public class YsyUserMstService {
 						.build();
 
 				ysyUserRepository.save(ysyUser);
-				
-				return "ok";
+				resDto.setData("ok");
+				resDto.setStatus(HttpStatus.OK);
+				return resDto;//"ok";
 			} else {
-				return "error : Id or password or name is empty!";
+				resDto.setData("error : Id or password or name is empty!");
+				resDto.setStatus(HttpStatus.BAD_REQUEST);
+				return resDto;//"error : Id or password or name is empty!";
 			}
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
-			return "error : user register error!";
+			resDto.setData("error exception");
+			resDto.setStatus(HttpStatus.BAD_REQUEST);
+			return resDto;//"error : user register error!";
 		}
 		
 	}
