@@ -85,7 +85,7 @@ public class OAuthController {
 	}
 	//naver 인증 콜백
 	@PostMapping("/naver/setCode")
-	public String naverSetCode(@RequestBody OAuthCode oAuthCode , HttpServletResponse response) {
+	public ResponseAuthDto<String> naverSetCode(@RequestBody OAuthCode oAuthCode , HttpServletResponse response) {
 		System.out.println("naverSetCode code = [" + oAuthCode.getCode() + "] path = ["  + oAuthCode.getPath() +"]");
 		
 		String token = getNaverToken(oAuthCode.getCode());
@@ -98,11 +98,11 @@ public class OAuthController {
 				.name(naverProfile.getResponse().getName())
 				.oAuthPath("naver")//kakao or naver ....
 				.build();
-		String msg = oAuthUserSave(joinDto );
+		ResponseAuthDto<String> resDto = oAuthUserSave(joinDto );
 		
 //		createClientToken(msg , joinDto, response);
 		
-		return createClientToken(msg , joinDto, response);
+		return createClientToken(joinDto , resDto , response);
 	}
 	
 	//get naver oAuth token 발급
@@ -184,7 +184,7 @@ public class OAuthController {
 	
 	//kakao 인증 콜백
 	@PostMapping("/kakao/setCode")
-	public String kakaoSetCode(@RequestBody OAuthCode kCode , HttpServletResponse response) {
+	public ResponseAuthDto<String> kakaoSetCode(@RequestBody OAuthCode kCode , HttpServletResponse response) {
 		
 		String access_token = getKakaoToken(kCode.getCode());
 		
@@ -198,9 +198,9 @@ public class OAuthController {
 				.name(profile.getKakao_account().getProfile().getNickname())
 				.oAuthPath("kakao")//kakao or naver ....
 				.build();
-		String msg = oAuthUserSave(joinDto );
+		ResponseAuthDto<String> resDto = oAuthUserSave(joinDto );
 		
-		return createClientToken(msg , joinDto, response);
+		return createClientToken(joinDto , resDto, response);
 	}
 	
 	/* token 받기
@@ -308,13 +308,13 @@ public class OAuthController {
 	
 	/** 카카오 정보 가져와서 db에 저장 후 token 생성하여 클라이언트로 보내줌.
 	 * */
-	public String oAuthUserSave(JoinDto joinDto ) {
+	public ResponseAuthDto<String> oAuthUserSave(JoinDto joinDto ) {
 		
 		
 		
 		ResponseAuthDto<String> resDto = ysyUserMstService.signUp(joinDto);
 		
-		return resDto.getData();
+		return resDto;
 	}
 	
 	
@@ -324,9 +324,9 @@ public class OAuthController {
 	
 	
 	/** client token resopnse */
-	public String createClientToken(String msg , JoinDto joinDto , HttpServletResponse response) {
+	public ResponseAuthDto<String> createClientToken(JoinDto joinDto , ResponseAuthDto<String> resDto , HttpServletResponse response) {
 		
-		if(msg.equals("ok")) {
+		if(resDto.getData().equals("ok")) {
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(
 							joinDto.getUsername(),
@@ -362,10 +362,10 @@ public class OAuthController {
 //			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
 //			response.addHeader("state","200");
 			
-			return tokenMsg;
+			return resDto;
 		}
 		
-		return msg;
+		return resDto;
 	}
 	
 	
