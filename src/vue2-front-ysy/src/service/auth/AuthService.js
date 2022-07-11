@@ -2,17 +2,28 @@ import axios from 'axios';
 
 class AuthService {
 	async signIn(params) {
-		await axios.post(params.url, params.data)
-		.then(res=>{
+		let res = await axios.post(params.url, params.data);
 
-			console.log("res=");
-			console.log(res.data);//res.data.status == 상태값
+		if (res.data.status === 'OK' && res.headers !== null) {
+			console.log('🟢 AuthService signIn');
 			console.log(res.headers);
-		})
-		.then(error=>{
-			console.log("error=");
-			console.log(error);
-		});
+			console.log('🔴 AuthService signIn');
+			return res.headers;
+		} else {
+			console.log('❌ AuthService signIn ❌');
+			return null;
+		}
+
+		//.then(res=>{
+
+		//	console.log("res=");
+		//	console.log(res.data);//res.data.status == 상태값
+		//	console.log(res.headers);
+		//})
+		//.then(error=>{
+		//	console.log("error=");
+		//	console.log(error);
+		//});
 		// if (res.access_token !== null || res.access_token !== '') {
 		// 	axios.defaults.headers.common['access_token'] = res.access_token;
 		// 	return res;
