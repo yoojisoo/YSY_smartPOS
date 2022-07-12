@@ -35,8 +35,8 @@ const userStore = {
 			let userList = await userService.fn_getUserList();
 			if (userList !== null && userList !== undefined) {
 				console.log('✅ userStore fn_getUserList');
-				console.log(userList);
-				commit('setUserList', userList);
+				console.log(userList.objList);
+				commit('setUserList', userList.objList);
 			} else {
 				console.log('❌ userStore fn_getUserList ❌');
 			}
@@ -67,8 +67,8 @@ const userStore = {
 			let userDetail = await userService.fn_getUserDetail(userId);
 			if (userDetail !== null && userDetail !== undefined) {
 				console.log('✅ userStore fn_getUserDetail');
-				console.log(userDetail);
-				commit('setUserDetail', userDetail);
+				console.log(userDetail.obj);
+				commit('setUserDetail', userDetail.obj);
 			} else {
 				console.log('❌ userStore fn_getUserDetail ❌');
 			}

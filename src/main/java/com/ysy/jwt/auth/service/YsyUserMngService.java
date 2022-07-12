@@ -13,12 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.biz.dto.ResponseDto;
 import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
+import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
-import com.ysy.jwt.auth.dto.UserMngDto2;
+import com.ysy.jwt.auth.entity.QYsyBizMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
@@ -27,93 +27,66 @@ import com.ysy.jwt.auth.entity.YsyUserMst;
 
 @Service
 public class YsyUserMngService {
-	
+
 	@Autowired
 	private YsyUtil ysyUtil;
-	
 	
 	@PersistenceContext
 	EntityManager em;
 	
 	/** 2022 07 07 mnew2m
 	 * 사용하는 Q Class List */
-	QYsyUserMst        qYsyUserMst = QYsyUserMst.ysyUserMst;
-	QYsyGrpMenuMap qYsyGrpMenuMap  = QYsyGrpMenuMap.ysyGrpMenuMap;
+	QYsyUserMst     qYsyUserMst 	= QYsyUserMst.ysyUserMst;
+	QYsyGrpMenuMap 	qYsyGrpMenuMap  = QYsyGrpMenuMap.ysyGrpMenuMap;
 	QYsyUserAddress qYsyUserAddress = QYsyUserAddress.ysyUserAddress;	
+	QYsyBizMst		qYsyBizMst 		= QYsyBizMst.ysyBizMst;	
 	
 	
 	/** 유저 1명 조회 : userId의 연관 테이블 (UserAddress) 조회 */
 	@Transactional
-	public UserMngDto getUserDetail(String userId) {
-		
+	public ResponseAuthDto<UserMngDto> getUserDetail(String userId) {
+//		ResponseAuthDto<UserMngDto>
+		/**
+		 * 문제1. 유저 정보 1개에 어드레스 정보 여러개 : 구조 문제(무한순환)
+		 *		  ex) user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
+		 *		  dto로 변환하여 조회로 인한 순환 방지 & @JsonBackReference로 순환 방지 & get(0)만 사용하여 중복 해결
+		 * 문제2. addrList를 dto List로 보내도 jackson 에러 -> addrList 형태로 내보냄
+		 * */
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		List<YsyUserMst> userInfoList = query
 				.select(qYsyUserMst)
 				.from(qYsyUserMst)
+				.leftJoin(qYsyBizMst)
+				.on(qYsyUserMst.ysyGrpMst.ysyBizMst.bizNm.eq(qYsyBizMst.bizNm))
 				.leftJoin(qYsyUserAddress)
 				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
 				.fetchJoin()
 				.where(qYsyUserMst.username.eq(userId))
 				.fetch();
 		
-		/** 0번째와 1번째의 데이터가 중복되므로 0번째만 사용 */
-//		UserMngDto result = new UserMngDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
+		/** dto 변환 방식 1 - 0번째와 1번째의 데이터가 중복되므로 0번째만 사용 */
+		UserMngDto userToDto = new UserMngDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
 		
+//		/** dto 변환 방식 2 */
+//		List<UserMngDto> tmpList = userInfoList.stream()
+//				.map( x-> new UserMngDto(
+//											x.getUsername(), x.getName(), x.getRegDt(), x.getOAuthPath(),
+//											x.getYsyGrpMst().getYsyBizMst().getBizNm(), x.getAddressList())
+//										)
+//				.collect(Collectors.toList());
+//		UserMngDto result = tmpList.get(0);
 		
-		List<UserMngDto> tmpList = userInfoList.stream()
-				.map( x-> new UserMngDto(
-											x.getUsername(), x.getName(), x.getRegDt(), x.getOAuthPath(),
-											x.getYsyGrpMst().getYsyBizMst().getBizNm(), x.getAddressList())
-										)
-				.collect(Collectors.toList());
-	
-		UserMngDto result = tmpList.get(0);
-		
-		
-//		System.out.println("변환값 ---------------------> " + result.getUserId() + "주소 = " + result.getAddrList().get(0).getAddrCity() + " 뿅");
-		/** user정보 기준으로 address를 조회 시 구조적 문제 발생
-		 * user table에 address가 List형태로 존재
-		 * ex -> user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
-		 * dto를 이용하여 바로 변환.
-		 * 이 경우 resultList의 get(0)만 가져가기로 함. DTO 처리 나중에 사용할 수 있기에 코드 주석으로 보존.
-		 *  */
-//		List<UserMngDto> resultList = query
-//				.select(Projections.constructor(UserMngDto.class,
-//						qYsyUserMst.username,
-//						qYsyUserMst.name,
-//						qYsyUserMst.regDt,
-//						qYsyUserMst.oAuthPath,
-//						qYsyUserMst.ysyGrpMst.grpPK.bizCd,
-//						qYsyUserAddress.addrType,
-//						qYsyUserAddress.addrZipCode,
-//						qYsyUserAddress.addrCity,
-//						qYsyUserAddress.addrDetail,
-//						qYsyUserAddress.addrEtc,
-//						qYsyUserAddress.phone1,
-//						qYsyUserAddress.phone2
-//						)
-//				)
-//				.from(qYsyUserMst)
-//				.innerJoin(qYsyGrpMst).fetchJoin()
-//				.on(qYsyUserMst.ysyGrpMst.grpPK.bizCd.eq(qYsyGrpMst.grpPK.bizCd)
-//				   ,qYsyUserMst.ysyGrpMst.grpPK.grpId.eq(qYsyGrpMst.grpPK.grpId))
-//				.leftJoin(qYsyUserAddress).fetchJoin()
-//				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
-//				
-//				.where(qYsyUserMst.username.eq(userId))
-//				.fetch();
-		
-		return result; 
+		return new ResponseAuthDto<UserMngDto>(userToDto, HttpStatus.OK); 
 	}
 	
 	/** 모든 유저 조회 : UserMst의 모든 정보를 size만큼 */
 	@Transactional
-	public List<UserMngDto> getUserList(int size) {
+	public ResponseAuthDto<UserMngDto> getUserList(int size) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		return query
+		List<UserMngDto> userList = query
 				.selectFrom(qYsyUserMst)
 				.limit(size)
 				.fetch()
@@ -121,10 +94,12 @@ public class YsyUserMngService {
 				.map(x->new UserMngDto(x))
 				.collect(Collectors.toList());
 		
+		return new ResponseAuthDto<UserMngDto>(userList, HttpStatus.OK);
 	}
 	
+	
 	@Transactional
-	public ResponseDto<UserMngDto> getFilterUserList(String userId) {
+	public ResponseAuthDto<UserMngDto> getFilterUserList(String userId) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
@@ -156,11 +131,11 @@ public class YsyUserMngService {
 			resultList.add(new UserMngDto(user));
 		}
 		
-		return new ResponseDto<UserMngDto>(resultList, HttpStatus.OK);
+		return new ResponseAuthDto<UserMngDto>(resultList, HttpStatus.OK);
 	}
 	
 	@Transactional
-	public ResponseDto<MenuDto> getUserMenuList(String userId) {
+	public ResponseAuthDto<MenuDto> getUserMenuList(String userId) {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
@@ -186,11 +161,8 @@ public class YsyUserMngService {
 			resultList.add(new MenuDto(menu));
 		}
 		
-		return new ResponseDto<MenuDto>(resultList, HttpStatus.OK);
+		return new ResponseAuthDto<MenuDto>(resultList, HttpStatus.OK);
 	}
-	
-	
-	
 	
 	
 	@Transactional
@@ -236,10 +208,13 @@ public class YsyUserMngService {
 		}
 	}
 	
+	
 	/** grid에서 user 삭제 */
 //	public void delGridUserInfo(List<String> usernameList) {
 //		for(String username : usernameList) {
 //			ysyUserRepository.deleteById(username);
 //		}
 //	}
+	
+	
 }

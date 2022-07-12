@@ -17,40 +17,22 @@
 							<v-col cols="6">
 								<ysyGrid :gridInfo="userInfo" />
 							</v-col>
-							<v-col cols="6">
-								<v-card flat outlined>
+							<v-col cols="6" v-if="isAddr">
+								<v-card>
 									<v-card-title>유저상세정보</v-card-title>
-									<v-card-text>
-										<div>
-											아이디 :
-											{{ userUserDetailInfo }}
-										</div>
-
-										<div>
-											이름 :
-											{{ userUserDetailInfo.userNm }}
-										</div>
-
-										<div>
-											생성일 :
-											{{ userUserDetailInfo.regDt }}
-										</div>
-
-										<div>
-											가입경로 :
-											{{ userUserDetailInfo.oauthPath }}
-										</div>
-
-										<div>데이터 확인 : {{ userUserDetailInfo }}</div>
-										<!-- <div>주소 :
-											<p v-for=" addr in userUserDetailAddrInfo"
-												:key="addr.addrZipCode"
-											>
-										</div>
-
-										{{ userUserDetailInfo }}-->
-									</v-card-text>
+										<v-card-text>
+											<div>아이디 : {{ getUserDetail.userId }} </div>
+											<div>이름 : {{ getUserDetail.userNm }} </div>
+											<div>생성일 : {{ getUserDetail.regDt }} </div>
+											<div>가입경로 : {{ getUserDetail.oauthPath }}  </div>
+											<div>비즈네임 : {{ getUserDetail.bizNm }}  </div>
+										</v-card-text>
+									<div outlined v-for="addr in getUserDetail.addrList" :key="addr.id">
+										<userAddrEdit :addr="addr"/>
+									</div>
 								</v-card>
+								
+									
 							</v-col>
 						</v-row>
 					</v-col>
@@ -73,6 +55,7 @@ import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
 import { mapGetters, mapActions } from 'vuex';
+import UserAddrEdit from '@/components/user/UserAddrEdit.vue';
 
 export default {
 	components: {
@@ -80,14 +63,16 @@ export default {
 		mainHeader,
 		mainFooter,
 		ysyGrid,
+		UserAddrEdit,
 	},
 	data() {
 		return {
 			pageName: 'User Manager',
-			// currentRow: {},
-			userUserDetailInfo: {},
+			isAddr : true, // user 상세 정보 view 변수
 			userInfo: {
-				dataList: [],
+				dataList: [
+					{}
+				],
 				headers: [
 					{ text: '아이디', value: 'userId', key: true },
 					{ text: '이름', value: 'userNm' },
@@ -121,6 +106,7 @@ export default {
 
 	methods: {
 		rowClick(row, gridNm) {
+			this.isAddr = true;
 			this.fn_getUserDetail(row.item.userId);
 		},
 		rowDbClick(row, gridNm) {},
@@ -130,10 +116,11 @@ export default {
 			await this.$store.dispatch('userStore/fn_getUserList');
 
 			if (this.getUserList) {
-				console.log('🟢 userMng fn_getUserList');
+				console.log('✅ userMng fn_getUserList');
+				// console.log(this.getUserList.objList);
+				// this.userInfo.dataList = this.getUserList.objList;
 				this.userInfo.dataList = this.getUserList;
 				console.log(this.userInfo.dataList);
-				console.log('🔴 userMng fn_getUserList');
 			} else {
 				console.log('❌ userMng fn_getUserList ❌');
 			}
@@ -142,12 +129,10 @@ export default {
 		// 유저 상세정보 조회 : 1명의 아이디로 어드레스 조회
 		async fn_getUserDetail(userId) {
 			await this.$store.dispatch('userStore/fn_getUserDetail', userId);
-
+			
 			if (this.getUserDetail) {
-				console.log('🟢 userMng fn_getUserDetail');
-				this.userUserDetailInfo = this.getUserDetail;
-				console.log(this.userUserDetailInfo);
-				console.log('🔴 userMng fn_getUserDetail');
+				console.log('✅ userMng fn_getUserDetail');
+				console.log(this.getUserDetail);
 			} else {
 				console.log('❌ userMng fn_getUserDetail ❌');
 			}

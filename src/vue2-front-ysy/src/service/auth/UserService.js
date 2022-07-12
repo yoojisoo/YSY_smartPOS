@@ -7,12 +7,11 @@ class UserService {
 		let res = await axios.get(url);
 
 		if (res) {
-			console.log('🟢 UserService getUserList');
+			console.log('✅ UserService fn_getUserList');
 			console.log(res.data);
-			console.log('🔴 UserService getUserList');
 			return res.data;
 		} else {
-			console.log('❌ UserService getUserList ❌');
+			console.log('❌ UserService fn_getUserList ❌');
 			return null;
 		}
 	}
@@ -23,9 +22,8 @@ class UserService {
 		let res = await axios.get(url);
 
 		if (res) {
-			console.log('🟢 UserService fn_getUserDetail');
+			console.log('✅ UserService fn_getUserDetail');
 			console.log(res.data);
-			console.log('🔴 UserService fn_getUserDetail');
 			return res.data;
 		} else {
 			console.log('❌ UserService fn_getUserDetail ❌');
@@ -38,9 +36,8 @@ class UserService {
 		let res = await axios.get(url);
 
 		if (res.statusText === 'OK' && res.data.dataList !== null) {
-			console.log('🟢 UserService getFilterUserList');
+			console.log('✅ UserService getFilterUserList');
 			console.log(res.data.dataList);
-			console.log('🔴 UserService getFilterUserList');
 			return res.data.dataList;
 		} else {
 			console.log('❌ UserService getFilterUserList ❌');
@@ -53,9 +50,8 @@ class UserService {
 		let res = await axios.get(url);
 
 		if (res.statusText === 'OK' && res.data.dataList !== null) {
-			console.log('🟢 UserService getUserMenuList');
+			console.log('✅ UserService getUserMenuList');
 			console.log(res.data.dataList);
-			console.log('🔴 UserService getUserMenuList');
 			return res.data.dataList;
 		} else {
 			console.log('❌ UserService getUserMenuList ❌');
