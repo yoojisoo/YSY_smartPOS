@@ -125,7 +125,6 @@
 <script>
 export default {
 	props: ['gridInfo', 'cardHeight'],
-	components: {},
 	data: () => ({
 		selected: [],
 		page: 1, // 최초 나타나는 페이지
@@ -133,13 +132,11 @@ export default {
 	}),
 	methods: {
 		/** grid click event */
-		rowClick(item, row) {
-			if (this.gridInfo.rowClick) {
-				this.gridInfo.rowClick(row, this.gridInfo.gridNm);
-			}
+		rowClick(row, gridNm) {
+			this.gridInfo.rowClick(row, gridNm);
 		},
-		rowDbClick(item, row) {
-			this.gridInfo.rowDbClick(row, this.gridInfo.gridNm);
+		rowDbClick(row, gridNm) {
+			this.gridInfo.rowDbClick(row, gridNm);
 		},
 		goToTable(path) {
 			console.log(path);
