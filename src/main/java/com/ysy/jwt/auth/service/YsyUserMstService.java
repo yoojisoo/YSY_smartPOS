@@ -153,7 +153,8 @@ public class YsyUserMstService {
 		try {
 			if(!util.isNullAndEmpty(modUserDto.getUsername())
 			&& !util.isNullAndEmpty(modUserDto.getName())
-			&& !util.isNullAndEmpty(modUserDto.getPassword())) {
+			&& !util.isNullAndEmpty(modUserDto.getPassword())) 
+			{
 				YsyUserMst orgYsyUser = ysyUserRepository.findById(modUserDto.getUsername())
 						.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );
 				YsyUserMst ysyUser = YsyUserMst.builder()
@@ -166,7 +167,9 @@ public class YsyUserMstService {
 				ysyUserRepository.save(ysyUser);
 				
 				return "ok";
-			} else {
+			}
+			else 
+			{
 				return  "[YsyUserMstService/modUserInfo] ModUserDto 정보 error !!";
 			}
 		} catch (Exception e) {

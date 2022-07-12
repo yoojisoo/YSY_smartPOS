@@ -8,12 +8,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.dto.ResponseDto;
+import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.MenuDto;
+import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
 import com.ysy.jwt.auth.dto.UserMngDto2;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
@@ -24,6 +27,10 @@ import com.ysy.jwt.auth.entity.YsyUserMst;
 
 @Service
 public class YsyUserMngService {
+	
+	@Autowired
+	private YsyUtil ysyUtil;
+	
 	
 	@PersistenceContext
 	EntityManager em;
@@ -180,6 +187,53 @@ public class YsyUserMngService {
 		}
 		
 		return new ResponseDto<MenuDto>(resultList, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	@Transactional
+	public String modUserInfo(ModUserDto modUserDto) {
+		try {
+			if(!ysyUtil.isNullAndEmpty(modUserDto.getUsername())
+			&& !ysyUtil.isNullAndEmpty(modUserDto.getName())
+			&& !ysyUtil.isNullAndEmpty(modUserDto.getPassword())) 
+			{
+//				YsyUserMst orgYsyUser = ysyUserRepository.findById(modUserDto.getUsername())
+//						.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );
+//				YsyUserMst ysyUser = YsyUserMst.builder()
+//						.username(modUserDto.getUsername())
+//						.password(bCryptPasswordEncoder.encode(modUserDto.getPassword()))
+//						.name(modUserDto.getName())
+//						.ysyGrpMst(orgYsyUser.getYsyGrpMst())
+//						.oAuthPath(orgYsyUser.getOAuthPath())
+//						.build();
+//				ysyUserRepository.save(ysyUser);
+				
+				JPAQueryFactory query = new JPAQueryFactory(em);
+				
+				query
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
+				.fetchOne();
+				long execute = query
+				        .update(qYsyUserMst)
+				        .set(qYsyUserMst.name, modUserDto.getName())
+				        .where(qYsyUserMst.username.eq(modUserDto.getUsername()))
+				        .execute();
+				if(execute > 0)
+					return "ok";
+				else return "fail";
+			}
+			else 
+			{
+				return  "[YsyUserMstService/modUserInfo] ModUserDto 정보 error !!";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "[YsyUserMstService/modUserInfo] catch error !!";
+		}
 	}
 	
 	/** grid에서 user 삭제 */

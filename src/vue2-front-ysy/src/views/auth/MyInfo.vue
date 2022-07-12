@@ -215,8 +215,9 @@ export default {
 
 				
 				//if (validate) {
-				this.$axios.post('/ysy/v1/auth/modUserInfo', this.userInfoChange).then(res => {
-					if (res.data) {
+				this.$axios.post('/ysy/v1/user/modUserInfo', this.userInfoChange).then(res => {
+					if (res.data)
+					{
 						let payload = {
 							user_id: this.getUser.user_id,
 							user_name: this.userInfoChange.name,
@@ -228,18 +229,22 @@ export default {
 						this.$store.dispatch('setUserInfo', payload);
 						alert('프로필이 수정되었습니다.');
 						this.formDisabled = true;
-					} else alert('프로필 수정 실패');
+					}
+					else
+					{
+						alert('프로필 수정 실패');
+					}
 				})
 				.catch(error=>{
 					console.log("myinfo error");
 					console.log(error);
 				});
 				//} else alert('양식에 맞게 작성해주세요.');
-			} 
+			}
 			else
 			{
 				alert('비밀번호가 일치하지 않습니다.');
-			} 
+			}
 		},
 	},
 };

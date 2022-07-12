@@ -5,12 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
+import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
 import com.ysy.jwt.auth.service.YsyUserMngService;
 
@@ -70,5 +74,11 @@ public class YsyUserMngController {
 	
 	
 	
+	
+	@PostMapping("/user/modUserInfo") // 회원정보 수정
+	@ResponseBody
+	public String modUserInfo(@RequestBody ModUserDto modUserDto) {
+		return ysyUserMngService.modUserInfo(modUserDto);
+	}
 	
 }
