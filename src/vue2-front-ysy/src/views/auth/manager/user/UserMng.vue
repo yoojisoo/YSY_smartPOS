@@ -88,16 +88,16 @@ export default {
 				gridDense: true,
 				isDetail: true,
 				rowClick: (row, gridNm) => {
-					this.fn_userClick(row, gridNm);
+					fn_userClick(row, gridNm);
 				}, //로우 클릭 이벤트 콜백
 				rowDbClick: (row, gridNm) => {
-					this.fn_userDbClick(row, gridNm);
+					fn_userDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
 		};
 	},
 	mounted() {
-		this.fn_getUserList();
+		fn_getUserList();
 	},
 };
 </script>
