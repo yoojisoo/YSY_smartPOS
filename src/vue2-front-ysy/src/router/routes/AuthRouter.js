@@ -46,11 +46,12 @@ export default [
 		name: 'yearlyCalculate',
 		component: () => import('@/views/auth/manager/calculate/YearlyCalculate.vue'),
 	},
-	//{
-	//	path: '/userMng',
-	//	name: 'userMng',
-	//	component: () => import('@/views/auth/manager/user/UserMng.vue'),
-	//},
+	{
+		// 사용자관리
+		path: '/userMng',
+		name: 'userMng',
+		component: () => import('@/views/auth/manager/user/UserMng.vue'),
+	},
 	{
 		// 메뉴권한관리
 		path: '/menuRoleMng',

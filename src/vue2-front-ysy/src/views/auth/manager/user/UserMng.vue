@@ -155,7 +155,3 @@ export default {
 	},
 };
 </script>
-
-<style>
-@import '../../../assets/css/global_layout.css';
-</style>
