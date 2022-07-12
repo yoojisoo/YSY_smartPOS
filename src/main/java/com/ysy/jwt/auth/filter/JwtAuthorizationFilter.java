@@ -1,6 +1,7 @@
 package com.ysy.jwt.auth.filter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,8 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
+import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
@@ -51,6 +51,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 			throws IOException, ServletException {
 		System.out.println("JwtAuthorizationFilter class doFilterInternal  진입");
 		
+		ResponseAuthDto<String> resDto = new ResponseAuthDto<String>();
+		
+		
 		String header = request.getHeader(jwtService.HEADER_STRING);
 //		printPostData(request);
 		
@@ -76,7 +79,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 			
 			if(user == null || user.getUsername().isEmpty()) {
 //				chain.doFilter(request, response);
-				response.addHeader("biz_error"  , "user 정보 없음.");
+				response.addHeader("token_error"  , "user 정보 없음.");
+				
 				return;
 			}
 			
@@ -84,20 +88,35 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				
 				if(jwtService.tokenExpirationCheck(token)) 
 				{//만료시간 지남 : 만료 message 
-					response.addHeader("biz_error"  , "Access Token 만료됨");
+					response.addHeader("token_error"  , "Access Token 만료됨");
+					
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+					PrintWriter writer = response.getWriter();
+					writer.println("Access Token 만료됨");
+					resDto.setMsg("Access Token 만료됨");
+					
 					return;
 				}
 			}
 			else 
 			if(tokenType != null && tokenType.toUpperCase().indexOf("REFRESH") > -1) {
-				if(jwtService.tokenExpirationCheck(token)) 
+				
+				String reToken = request.getHeader(jwtService.HEADER_REFRESH).replace(jwtService.TOKEN_PREFIX, "");
+				//refresh token은 db 정보 가져와서 같은지 비교 후 처리해야함.
+				if(!jwtService.getRefershToken(username).equals(reToken)) {
+					response.addHeader("token_error"  , "Refresh Token 없거나 다름! 다시 로그인 바람. login page 이동");
+					return;
+				}
+				
+				
+				if(jwtService.tokenExpirationCheck(reToken)) 
 				{//만료시간 지남 : 만료 message 
-					response.addHeader("biz_error"  , "Refresh Token 만료됨! 다시 로그인 바람. login page 이동");
+					response.addHeader("token_error"  , "Refresh Token 만료됨! 다시 로그인 바람. login page 이동");
 					return;
 				}
 				//refresh token 확인 후 access token 재발급
 				String accessToken = jwtService.createJwtAccessToken(username,name);
-				jwtService.tokenSend(response , accessToken , token);
+				jwtService.tokenSend(response , accessToken , reToken);
 				return;
 			}
 			

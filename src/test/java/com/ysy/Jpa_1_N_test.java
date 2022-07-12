@@ -27,11 +27,13 @@ import com.ysy.jwt.auth.entity.QYsyMenuExptMst;
 import com.ysy.jwt.auth.entity.QYsyMenuMst;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
+import com.ysy.jwt.auth.entity.QYsyUserRTokenMap;
 import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyMenuExptMst;
 import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.entity.YsyUserRTokenMap;
 import com.ysy.jwt.auth.repository.YsyUserAddressRepository;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
@@ -51,7 +53,7 @@ public class Jpa_1_N_test {
 	@Test
 	@Transactional
 	public void getUserList() {
-		String userId = "s_plus7@naver.com";
+		String userId = "clubbboy@naver.com1";
 		try {
 			assertEquals(1,1);
 			System.out.println("success==================================");
@@ -69,7 +71,17 @@ public class Jpa_1_N_test {
 		QYsyBtnMst           qYsyBtnMst = QYsyBtnMst.ysyBtnMst;
 		QYsyMenuExptMst qYsyMenuExptMst = QYsyMenuExptMst.ysyMenuExptMst;
 		QYsyUserAddress qYsyUserAddress = QYsyUserAddress.ysyUserAddress;
+		QYsyUserRTokenMap qYsyUserRTokenMap = QYsyUserRTokenMap.ysyUserRTokenMap;
 		
+		
+		YsyUserRTokenMap tokenMap = query
+				.select(qYsyUserRTokenMap)
+				.from(qYsyUserRTokenMap)
+				.innerJoin(qYsyUserMst).fetchJoin()
+				.on(qYsyUserRTokenMap.ysyUserMst.username.eq(qYsyUserMst.username))
+				.where(qYsyUserRTokenMap.ysyUserMst.username.eq(userId))
+				.limit(1)
+				.fetchOne();
 		
 		List<StoreNotice> noticeList = query
 				.select(qStoreNotice)

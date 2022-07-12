@@ -1,18 +1,23 @@
 package com.ysy.jwt.auth.service;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.Nullable;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ysy.jwt.auth.entity.QYsyUserMst;
+import com.ysy.jwt.auth.entity.QYsyUserRTokenMap;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.entity.YsyUserRTokenMap;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
@@ -33,6 +38,12 @@ public class JwtService {
 	private YsyUserRTokenMapRepository ysyUserRTokenMapRepository;
 	@Autowired
 	private YsyUserMstRepository ysyUserMstRepository;
+	
+	private QYsyUserRTokenMap qYsyUserRTokenMap = QYsyUserRTokenMap.ysyUserRTokenMap; 
+	private QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst; 
+	
+	@PersistenceContext
+	EntityManager em; // 1
 	
 	/** access token create  */
 	public String createJwtAccessToken(String userId , String name) {
@@ -151,6 +162,22 @@ public class JwtService {
 		
 		return expiration.before(cueDate);
 		 
+	}
+	
+	//get refresh token 
+	@Nullable
+	public String getRefershToken(String userId) {
+		JPAQueryFactory query = new JPAQueryFactory(em); 
+		YsyUserRTokenMap result = query
+				.select(qYsyUserRTokenMap)
+				.from(qYsyUserRTokenMap)
+				.innerJoin(qYsyUserMst).fetchJoin()
+				.on(qYsyUserRTokenMap.ysyUserMst.username.eq(qYsyUserMst.username))
+				.where(qYsyUserRTokenMap.ysyUserMst.username.eq(userId))
+				.limit(1)
+				.fetchOne();
+		
+		return result == null ? "" : result.getYsyUserMst().getUsername();
 	}
 	
 	

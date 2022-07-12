@@ -202,6 +202,8 @@ export default {
 	},
 	mounted() {
 		if (this.getUser) {
+			console.log("1.myinfo this.getUser.access_token = " +this.getUser.access_token);
+			console.log("1.myinfo this.getUser.refresh_token = " +this.getUser.refresh_token);
 			this.userInfoChange.username = this.getUser.user_id;
 		}
 	},
@@ -210,6 +212,8 @@ export default {
 			//const validate = this.$refs.form.validate();
 
 			if (this.userInfoChange.password === this.confirmPassword) {
+
+				
 				//if (validate) {
 				this.$axios.post('/ysy/v1/auth/modUserInfo', this.userInfoChange).then(res => {
 					if (res.data) {
@@ -225,9 +229,17 @@ export default {
 						alert('프로필이 수정되었습니다.');
 						this.formDisabled = true;
 					} else alert('프로필 수정 실패');
+				})
+				.catch(error=>{
+					console.log("myinfo error");
+					console.log(error);
 				});
 				//} else alert('양식에 맞게 작성해주세요.');
-			} else alert('비밀번호가 일치하지 않습니다.');
+			} 
+			else
+			{
+				alert('비밀번호가 일치하지 않습니다.');
+			} 
 		},
 	},
 };
