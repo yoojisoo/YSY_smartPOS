@@ -74,12 +74,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		
 		if(username != null) {	
 			System.out.println("doFilterInternal username==========>" + username);
-			YsyUserMst user = ysyUserRepository.findById(username)
-					.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );;
+			YsyUserMst user = ysyUserRepository.findById(username).orElse(null);
 			
 			if(user == null || user.getUsername().isEmpty()) {
 //				chain.doFilter(request, response);
-				response.addHeader("token_error"  , "user 정보 없음.");
+				response.addHeader("token_error"  , "["+username+"]:user not found.");
 				
 				return;
 			}
@@ -88,12 +87,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				
 				if(jwtService.tokenExpirationCheck(token)) 
 				{//만료시간 지남 : 만료 message 
-					response.addHeader("token_error"  , "Access Token 만료됨");
+					response.addHeader("token_error"  , "["+username+"]Access Token expiration");
 					
 					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					PrintWriter writer = response.getWriter();
 					writer.println("Access Token 만료됨");
-					resDto.setMsg("Access Token 만료됨");
 					
 					return;
 				}
@@ -104,14 +102,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				String reToken = request.getHeader(jwtService.HEADER_REFRESH).replace(jwtService.TOKEN_PREFIX, "");
 				//refresh token은 db 정보 가져와서 같은지 비교 후 처리해야함.
 				if(!jwtService.getRefershToken(username).equals(reToken)) {
-					response.addHeader("token_error"  , "Refresh Token 없거나 다름! 다시 로그인 바람. login page 이동");
+					response.addHeader("token_error"  , "["+username+"]Refresh Token expiration. go to login page!");
 					return;
 				}
 				
 				
 				if(jwtService.tokenExpirationCheck(reToken)) 
 				{//만료시간 지남 : 만료 message 
-					response.addHeader("token_error"  , "Refresh Token 만료됨! 다시 로그인 바람. login page 이동");
+					response.addHeader("token_error"  , "["+username+"]Refresh Token expiration! go to login page!");
 					return;
 				}
 				//refresh token 확인 후 access token 재발급
