@@ -1,4 +1,8 @@
-//import TheFooter from '@/components/1_templates/footer/TheFooter.vue';
+//import TheFooter from '@templates/footer/TheFooter.vue';
+import TheFooter from '@/components/1_templates/footer/TheFooter.vue';
+import TheHeader from '@/components/1_templates/header/TheHeader.vue';
+//import TheNavigationDrawer from '@/components/1_templates/header/TheNavigationDrawer.vue';
+import TheSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
 //import TheAddrEdit from '@/components/1_templates/header/TheAddrEdit.vue';
 //import '@/components/2_molecules/buttons/FImgBtn.vue';
 //import '@/components/2_molecules/editors/FSummerNote.vue';
@@ -7,6 +11,7 @@
 //import '@/components/2_molecules/FDateForm.vue';
 //import '@/components/2_molecules/FDialog.vue';
 //import '@/components/2_molecules/FGrid.vue';
+export { TheFooter, TheHeader, TheSystemBar };
 
 import '@/mixin/MixinGlobal.js';
 import '@/mixin/UserMixin.js';
@@ -61,6 +66,6 @@ import '@/views/user/reservation/ReservationHistory.vue';
 import '@/views/user/reservation/ReservationStatus.vue';
 import '@/views/user/MyInfo.vue';
 
-export default () => {
-	return TheFooter, TheAddrEdit;
-};
+//export { TheFooter, TheAddrEdit };
+//export { TheFooter, TheHeader };
+//export { TheSystemBar };

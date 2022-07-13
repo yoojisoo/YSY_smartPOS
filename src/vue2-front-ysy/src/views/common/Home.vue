@@ -2,8 +2,8 @@
 <template>
 	<v-app>
 		<!-- Header Start -->
-		<mainSystemBar />
-		<mainHeader :pageName="pageName" />
+		<TheSystemBar />
+		<TheHeader :pageName="pageName" />
 		<!-- Header End -->
 
 		<!-- Main Start -->
@@ -76,16 +76,14 @@
 
 		<!-- Footer Start -->
 		<v-footer class="ma-0 pa-0" fixed app>
-			<mainFooter />
+			<TheFooter />
 		</v-footer>
 		<!-- Footer End -->
 	</v-app>
 </template>
 
 <script>
-import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
-import mainHeader from '@/components/1_templates/header/TheHeader.vue';
-import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
+import { TheFooter, TheHeader, TheSystemBar } from '@/assets/util/importFile.js';
 import ysyGrid from '@/components/FGrid.vue';
 import carousel from '@/components/FCarousel.vue';
 import noticeDialog from '@/components/FDialog.vue';
@@ -93,9 +91,9 @@ import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		mainSystemBar,
-		mainHeader,
-		mainFooter,
+		TheFooter,
+		TheHeader,
+		TheSystemBar,
 		ysyGrid,
 		carousel,
 		noticeDialog,
