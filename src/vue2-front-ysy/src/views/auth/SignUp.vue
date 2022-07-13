@@ -194,7 +194,7 @@
 </template>
 
 <script>
-import logoBtn from '@/components/sign/TheLogo.vue';
+import logoBtn from '@/components/2_molecules/button/ImgBtn.vue';
 
 export default {
 	name: 'App',
@@ -265,10 +265,11 @@ export default {
 			mailInfo.email = this.signUpInfo.username;
 
 			this.$axios.post('ysy/v1/mail/mailConfirm', mailInfo).then(res => {
-				if (res.data == true) {//아이디 있는경우
+				if (res.data == true) {
+					//아이디 있는경우
 					alert('중복된 아이디입니다. \n다른 아이디로 다시 진행해주세요.');
 					this.isConfirmEmail = false;
-				}else{
+				} else {
 					alert('가입 가능한 아이디입니다.');
 					this.isConfirmEmail = true;
 				}

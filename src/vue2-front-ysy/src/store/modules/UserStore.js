@@ -1,5 +1,5 @@
 import axios from 'axios';
-import userService from '@/service/auth/UserService.js';
+import userService from '@/service/UserService.js';
 
 const userStore = {
 	namespaced: true,

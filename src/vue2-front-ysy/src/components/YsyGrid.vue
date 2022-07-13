@@ -1,16 +1,4 @@
 <!-- 22.06.29 yoojisoo -->
-<!-- 
-          *****설명
-          :page.sync="page"              -> 원하는 page를 선택했을때, 자동적으로 대상 page로 전환
-          :items-per-page="itemsPerPage" -> 한 page에서 보여줄 list의 개 수
-          hide-default-footer            -> 기본 페이지네이션 숨김
-          @page-count                    -> 페이지 갯수 지정
-
-
-          :show-select="gridInfo.isCheckBox"           : 체크박스 사용여부
-          :single-select="gridInfo.isSingleSelect"     : 한개씩 선택할지 사용여부  -> true인경우 한개만 체크할수 있음.
-       -->
-
 <template>
 	<v-container fluid pa-0 ma-0 mt-3>
 		<v-card class="mb-3 pa-0" outlined tile>
@@ -55,69 +43,11 @@
 					<v-icon small class="mr-2" @click.stop="editedItem(item, '수정')">
 						mdi-pencil
 					</v-icon>
-					<!-- <v-icon small @click="">
-						mdi-delete
-					</v-icon> -->
 				</template>
-
-				<!-- <template v-slot:header="{ props }">
-			<thead class="v-data-table-header">
-				<tr width="100%">
-					<th rowspan="2" class="text-center parent-header" style="border:1px solid rgb(0, 0, 0);width:50%">
-						변경된 아이디
-					</th>
-					<th colspan="2"  class="text-center parent-header" style="border:1px solid rgb(0, 0, 0);width:50%">
-					병합
-					</th>
-				</tr>
-				<tr>
-					<th class="text-center child-header" style="border:1px solid rgb(0, 0, 0);width:50%">
-					전화번호
-					</th>
-					<th class="text-center child-header" style="border:1px solid rgb(0, 0, 0);width:50%">
-					날짜
-					</th>
-			</tr>
-		</thead>
-		</template> -->
-
-				<!-- <template v-if="gridInfo.multiHeader" #header="{ }">
-			<thead class="v-data-table-header">
-			<tr>
-				<th v-for="(h,i) in surgeryInformationHeaders" :key="i" class="text-center parent-header td-border-style" :rowspan="h.children?1:2" :colspan="h.children?h.children.length:1">
-				{{ h.text }}
-				</th>
-			</tr>
-			<tr>
-				<th v-for="(h1,i1) in getSubHeader(surgeryInformationHeaders)" :key="i1" class="text-center child-header td-border-style">
-				{{ h1.text }}
-				</th>
-			</tr>
-			</thead>
-		</template>
-		<template #item="props">
-			<tr>
-			<td v-for="(c,ci) in getRows(props.item)" :key="ci">
-				{{ c }}
-			</td>
-			</tr>
-		</template> -->
 			</v-data-table>
-
-			<template>
-				<!-- 
-					*****설명
-					pagination              -> 페이지 넘김 아이콘
-					:length                 -> 총 페이지의 사이즈
-					v-model="page"          -> 활성화 된 목록(버튼)
-					:total-visible          -> ppagination에 표시할 page의 개수를 지정. 초과시 ... 표시
-					next-icon과 prev-icon   -> pagination 아이콘 지정
-					v-text-fiel             -> 입력한 숫자대로 row 갯수 조절
-	circle Square
-					:total-visible="totalVisible"
-				-->
-				<!--<v-pagination v-model="page" :length="pageCount" :total-visible="pageTotCnt" circle />-->
-			</template>
+			<!--<template>
+				<v-pagination v-model="page" :length="pageCount" :total-visible="pageTotCnt" circle />
+			</template>-->
 		</v-card>
 	</v-container>
 </template>
@@ -163,7 +93,8 @@ export default {
 	},
 	computed: {
 		rowCnt() {
-			return this.gridInfo.rowCnt != undefined ? this.gridInfo.rowCnt : 5; // 페이지당 로우 겟수
+			// 페이지당 로우 겟수
+			return this.gridInfo.rowCnt != undefined ? this.gridInfo.rowCnt : 5;
 		},
 		pageTotCnt() {
 			return this.gridInfo.pageTotCnt != undefined ? this.gridInfo.pageTotCnt : 5;
@@ -183,10 +114,5 @@ export default {
 			return keys;
 		},
 	},
-	mounted() {
-		console.log('mounted grid =========================================');
-		console.log(this.gridInfo);
-	},
 };
 </script>
-<style></style>

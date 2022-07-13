@@ -4,7 +4,7 @@
  * @desc 메뉴 리스트 저장 공간
  */
 
-import menuService from '@/service/auth/MenuService.js';
+import menuService from '@/service/MenuService.js';
 
 const menuStore = {
 	namespaced: true,

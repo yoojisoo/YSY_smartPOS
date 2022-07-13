@@ -56,7 +56,7 @@ import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import ysyGrid from '@/components/YsyGrid.vue';
-import UserAddrEdit from '@/components/user/UserAddrEdit.vue';
+import UserAddrEdit from '@/components/1_templates/TheAddrEdit.vue';
 import MixinGlobal from '@/mixin/MixinGlobal';
 
 export default {

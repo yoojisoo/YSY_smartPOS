@@ -1,4 +1,4 @@
-import noticeService from '@/service/user/NoticeService.js';
+import noticeService from '@/service/auth/NoticeService.js';
 
 const noticeStore = {
 	namespaced: true,

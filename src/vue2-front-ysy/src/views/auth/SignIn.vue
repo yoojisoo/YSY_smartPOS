@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import logoBtn from '@/components/sign/TheLogo.vue';
+import logoBtn from '@/components/2_molecules/button/ImgBtn.vue';
 
 export default {
 	name: 'App',
@@ -152,20 +152,16 @@ export default {
 		async signIn() {
 			try {
 				let res = await this.$store.dispatch('authStore/signIn', this.params);
-				console.log("res.status = " + res.status);
-				if (res.status != undefined && res.status == 200)
-				{
+				console.log('res.status = ' + res.status);
+				if (res.status != undefined && res.status == 200) {
 					this.$router.replace('/');
-				}
-				else {
-					console.log("res ===========>"+res);
+				} else {
+					console.log('res ===========>' + res);
 					alert(res);
 				}
 			} catch (error) {
-				console.log("signIn => "+error.response.status);
+				console.log('signIn => ' + error.response.status);
 			}
-
-			
 		},
 
 		signUp() {

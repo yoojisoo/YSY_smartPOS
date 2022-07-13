@@ -14,7 +14,7 @@ export default [
 		path: '/',
 		name: 'home',
 		icon: 'mdi-home',
-		component: () => import('@/views/common/Home.vue'),
+		component: () => import('@/views/common/community/Home.vue'),
 	},
 
 	/** Community */

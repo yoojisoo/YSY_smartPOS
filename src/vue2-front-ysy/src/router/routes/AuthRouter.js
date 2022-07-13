@@ -98,6 +98,6 @@ export default [
 		path: '/myInfo',
 		name: 'myInfo',
 		icon: 'mdi-account',
-		component: () => import('@/views/auth/MyInfo.vue'),
+		component: () => import('@/views/auth/user/MyInfo.vue'),
 	},
 ];

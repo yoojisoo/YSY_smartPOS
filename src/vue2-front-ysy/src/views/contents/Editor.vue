@@ -23,27 +23,23 @@
 										<v-col cols="auto" align-self="center">
 											<span class="h3 pb-0"> {{ catechory }} </span>
 										</v-col>
-										<v-spacer/>
+										<v-spacer />
 										<v-col cols="auto" align-self="center">
-											<v-dialog
-													v-model="isDialog"
-													persistent
-													max-width="290"
-											>
+											<v-dialog v-model="isDialog" persistent max-width="290">
 												<template v-slot:activator="{ on }">
-													<v-btn
-														outlined
-														color="indigo"
-														v-on="on"
-													>
+													<v-btn outlined color="indigo" v-on="on">
 														등록
 													</v-btn>
 												</template>
 
-												<v-card >
+												<v-card>
 													<v-card-title class="d-flex justify-center">
 														<div class="text-center">
-															<h3 class="headline pink--text text--accent-2">등록 하시겠습니까?</h3>
+															<h3
+																class="headline pink--text text--accent-2"
+															>
+																등록 하시겠습니까?
+															</h3>
 														</div>
 													</v-card-title>
 													<v-card-actions class="d-flex justify-center">
@@ -66,10 +62,9 @@
 													</v-card-actions>
 												</v-card>
 											</v-dialog>
-
 										</v-col>
 									</v-row>
-									<v-divider class="my-5"/>
+									<v-divider class="my-5" />
 								</v-col>
 
 								<v-col cols="12" align-self="center">
@@ -86,22 +81,10 @@
 								</v-col>
 								<!-- 에디터 ~~~~~~ -->
 								<v-col cols="12">
-									<summer-note :editorInfo="editorInfo" :isSave="editorInfo.isSave"/>
-								</v-col>
-							</v-row>
-							<v-row>
-								<v-col>
-									
-									<p>뿅2</p>
-									<p> 추가면 item이 없고 수정이면 item이 있음</p>
-									<!-- <p>{{this.$route.params.item}}</p> -->
-									<!-- <p>{{this.$route.params.item.title}}</p>
-									<p>{{this.$route.params.item.content}}</p>
-									<p>{{this.$route.params.item.username}}</p> -->
-									<p>뿅3</p>
-									<!-- <p>{{this.$route.params.btnStr}}</p> -->
-									<p>뿅4</p>
-									<!-- <p>{{ this.getUserId }}</p> -->
+									<summer-note
+										:editorInfo="editorInfo"
+										:isSave="editorInfo.isSave"
+									/>
 								</v-col>
 							</v-row>
 						</v-col>
@@ -120,22 +103,22 @@
 </template>
 
 <script>
-import summerNote from '@/components/SummerNote.vue'
+import summerNote from '@/components/2_molecules/editors/SummerNote.vue';
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
 import pageHistory from '@/components/PageHistory.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 const authStore = 'authStore';
 
 export default {
-  	components: {
+	components: {
 		summerNote,
-	  	mainSystemBar,
-	  	mainHeader,
-	  	mainFooter,
-	  	pageHistory
+		mainSystemBar,
+		mainHeader,
+		mainFooter,
+		pageHistory,
 	},
 	data() {
 		return {
@@ -148,7 +131,7 @@ export default {
 				userId: '',
 				title: '',
 				isEdit: null,
-			}
+			},
 		};
 	},
 	methods: {
@@ -158,7 +141,7 @@ export default {
 			this.editorInfo.userId = this.getUserId;
 			this.title = this.titleInput;
 			// this.editorInfo.title = this.titleInput;
-			// const validate = this.$refs.form.validate(); // 유효성 검사 (ruls가 적용된 text-area) 
+			// const validate = this.$refs.form.validate(); // 유효성 검사 (ruls가 적용된 text-area)
 		},
 	},
 	computed: {
@@ -168,17 +151,17 @@ export default {
 		// this.editorInfo.userId = this.getUserId;
 		// console.log('ㅎㅎㅎㅎㅎㅎㅎㅎㅎ');
 		// 라우터 파람 전달
-		// console.log(this.$route.params.btnSt); 
+		// console.log(this.$route.params.btnSt);
 	},
-}
+};
 </script>
 
 <style>
-	.v-text-field legend{
-		display: none;	
-	}
-	.v-text-field label{
-		font-size: 15px;	
-		font-weight: 400;
-	}
+.v-text-field legend {
+	display: none;
+}
+.v-text-field label {
+	font-size: 15px;
+	font-weight: 400;
+}
 </style>
