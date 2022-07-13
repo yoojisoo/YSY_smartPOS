@@ -40,10 +40,10 @@
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
-import ysyGrid from '@/components/YsyGrid.vue';
+import ysyGrid from '@/components/FGrid.vue';
 import pageHistory from '@/components/PageHistory.vue';
 import { mapGetters } from 'vuex';
-import boardDialog from '@/components/Dialog.vue';
+import boardDialog from '@/components/FDialog.vue';
 
 export default {
 	components: {

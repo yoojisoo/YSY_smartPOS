@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import summerNote from '@/components/2_molecules/editors/SummerNote.vue';
+import summerNote from '@/components/2_molecules/editors/FSummerNote.vue';
 import mainSystemBar from '@/components/header/TheSystemBar.vue';
 import mainHeader from '@/components/header/TheHeader.vue';
 import mainFooter from '@/components/footer/TheFooter.vue';
