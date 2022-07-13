@@ -15,6 +15,7 @@
 										</v-btn>
 									</v-col>
 									<v-col cols="8" style="text-align: center" class="ma-0 pa-0">
+										<!--<FLogoBtnS />-->
 										<v-btn
 											:ripple="false"
 											block
@@ -141,21 +142,20 @@
 </template>
 
 <script>
+//import { FLogoBtnS } from '@/assets/util/importFile.js';
 import store from '@/store/index';
 import { eventBus } from '@/main.js';
 import { mapGetters } from 'vuex';
-import navigationDrawer from '@/components/1_templates/header/TheNavigationDrawer.vue';
 
 const authStore = 'authStore';
 
 export default {
 	name: 'main-header',
 	props: ['pageName'],
-	components: { navigationDrawer },
-
+	//components: { FLogoBtnS },
 	data: () => ({
 		menuList: [],
-		windowWidth: 0, // 화면 사이즈 변경되면 drawer false 처리하기 위해서 저장
+		windowWidth: 0,
 		drawer: null,
 		eventData: 'header event data',
 		appTitle: 'Title',
@@ -164,29 +164,24 @@ export default {
 		row: null,
 		iconImg: 'mdi-dots-vertical',
 	}),
-
 	mounted() {
 		this.findMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
 		window.addEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 추가
 	},
-
 	beforeDestroy() {
 		window.removeEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 제거
 	},
-
 	watch: {
 		windowWidth() {
 			// windowWidth 라는 값이 변경되면 실행
 			this.drawer = false;
 		},
 	},
-
 	computed: {
 		...mapGetters(authStore, ['isLogin', 'getUserId', 'getUserName']),
 		...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
 	},
-
 	methods: {
 		logout() {
 			this.$store.commit('clearUserInfo');
@@ -196,26 +191,21 @@ export default {
 		viewResize() {
 			this.windowWidth = window.innerWidth;
 		},
-
 		headerMenuClick() {
 			console.log('TheHeader -> headerMenuClick data: ' + this.eventData);
 			eventBus.$emit('headerTabCallback', this.eventData);
 		},
-
 		doMouseOver() {
 			this.iconImg = 'mdi-heart';
 			console.log(this.iconImg);
 		},
-
 		doMouseOut() {
 			this.iconImg = 'mdi-dots-vertical';
 			console.log(this.iconImg);
 		},
-
 		setHeaderMenu() {
 			console.log(' ↓↓↓ headerMenuFilter Start ↓↓↓');
 			console.log(' →→→ this.pageValue = ' + this.pageName);
-
 			var parentList = [];
 			var childList = [];
 			this.menuList.forEach(x => {
@@ -243,7 +233,6 @@ export default {
 					}
 				}
 			});
-
 			parentList.forEach(h => {
 				h.childMenus = [];
 				childList.forEach(c => {
@@ -252,19 +241,15 @@ export default {
 					}
 				});
 			});
-
 			this.headerMenu = [];
 			this.headerMenu = parentList;
-
 			console.log(' ↓↓↓ this.headerMenu ↓↓↓ ');
 			console.log(this.headerMenu);
 			console.log(' ↑↑↑ this.headerMenu ↑↑↑ ');
 			console.log(' ↑↑↑ headerMenuFilter End ↑↑↑ ');
 		},
-
 		async findMenuList() {
 			await store.dispatch('menuStore/findMenuList', this.getUserId);
-
 			if (this.getMenuList) {
 				this.menuList = this.getMenuList;
 				this.setHeaderMenu();
@@ -272,7 +257,6 @@ export default {
 				console.log('this.findMenuList 실패 !!');
 			}
 		},
-
 		goPage(path) {
 			if (path !== undefined && path !== '' && path !== null) {
 				this.$router.push({ path: path });

@@ -4,7 +4,7 @@
 			<v-container class="sign_container">
 				<v-row class="sign_row">
 					<v-col class="sign_logo" cols="12">
-						<logoBtn />
+						<FLogoBtnB />
 					</v-col>
 					<v-col class="sign_col" cols="12">
 						<v-row class="sign_row">
@@ -130,11 +130,11 @@
 </template>
 
 <script>
-import logoBtn from '@/components/2_molecules/buttons/FImgBtn.vue';
+import { FLogoBtnB } from '@/assets/util/importFile.js';
 
 export default {
 	name: 'App',
-	components: { logoBtn },
+	components: { FLogoBtnB },
 
 	data() {
 		return {

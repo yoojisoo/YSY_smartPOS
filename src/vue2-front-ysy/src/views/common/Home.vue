@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { TheFooter, TheHeader, TheSystemBar } from '@/assets/util/importFile.js';
+import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
 import ysyGrid from '@/components/FGrid.vue';
 import carousel from '@/components/FCarousel.vue';
 import noticeDialog from '@/components/FDialog.vue';
@@ -91,9 +91,9 @@ import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		TheFooter,
-		TheHeader,
 		TheSystemBar,
+		TheHeader,
+		TheFooter,
 		ysyGrid,
 		carousel,
 		noticeDialog,

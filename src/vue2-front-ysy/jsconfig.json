@@ -6,9 +6,8 @@
     "forceConsistentCasingInFileNames": false,
     "moduleResolution": "node",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": [ "src/*" ],
+      //"@temp/*": [ "src/components/1_templates/*" ]
     },
     "lib": [
       "esnext",
@@ -16,5 +15,6 @@
       "dom.iterable",
       "scripthost"
     ]
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

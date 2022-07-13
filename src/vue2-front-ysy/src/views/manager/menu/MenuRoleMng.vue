@@ -6,8 +6,8 @@
 
 <template>
 	<v-app>
-		<mainSystemBar />
-		<mainHeader :pageName="pageName" />
+		<TheSystemBar />
+		<TheHeader :pageName="pageName" />
 		<v-main>
 			<v-container class="main_layout_container">
 				<v-row class="main_layout_row">
@@ -35,23 +35,21 @@
 			</v-container>
 		</v-main>
 		<v-footer class="ma-0 pa-0" fixed app>
-			<mainFooter />
+			<TheFooter />
 		</v-footer>
 	</v-app>
 </template>
 
 <script>
-import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
-import mainHeader from '@/components/1_templates/header/TheHeader.vue';
-import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
+import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
 import ysyGrid from '@/components/FGrid.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		mainSystemBar,
-		mainHeader,
-		mainFooter,
+		TheSystemBar,
+		TheHeader,
+		TheFooter,
 		ysyGrid,
 	},
 
