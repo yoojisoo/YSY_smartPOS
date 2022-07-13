@@ -50,11 +50,6 @@
 										</v-btn>
 									</v-col>
 								</v-row>-->
-								<!--<v-row justify="center" no-gutters>
-									<v-col clos="12">
-										<pageHistory :pageNameKo="pageNameKo" />
-									</v-col>
-								</v-row>-->
 								<v-row align="start" justify="center" no-gutters>
 									<v-col cols="12">
 										<ysyGrid :gridInfo="systemNoticeInfo" />
@@ -88,13 +83,12 @@
 </template>
 
 <script>
-import mainSystemBar from '@/components/header/TheSystemBar.vue';
-import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/footer/TheFooter.vue';
-import ysyGrid from '@/components/YsyGrid.vue';
-import pageHistory from '@/components/PageHistory.vue';
-import carousel from '@/components/Carousel.vue';
-import noticeDialog from '@/components/Dialog.vue';
+import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
+import mainHeader from '@/components/1_templates/header/TheHeader.vue';
+import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
+import ysyGrid from '@/components/FGrid.vue';
+import carousel from '@/components/FCarousel.vue';
+import noticeDialog from '@/components/FDialog.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -103,7 +97,6 @@ export default {
 		mainHeader,
 		mainFooter,
 		ysyGrid,
-		pageHistory,
 		carousel,
 		noticeDialog,
 	},

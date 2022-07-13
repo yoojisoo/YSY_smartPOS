@@ -12,9 +12,6 @@
 				<v-row justify="center" no-gutters>
 					<v-col cols="12" md="8" lg="8" xl="8">
 						<v-row justify="center" no-gutters style="height: inherit">
-							<!--<v-col cols="12">
-								<pageHistory :pageNameKo="pageNameKo" />
-							</v-col>-->
 							<v-col cols="12">
 								<ysyGrid :gridInfo="storeNoticeInfo" />
 							</v-col>
@@ -37,11 +34,10 @@
 </template>
 
 <script>
-import mainSystemBar from '@/components/header/TheSystemBar.vue';
-import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/footer/TheFooter.vue';
+import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
+import mainHeader from '@/components/1_templates/header/TheHeader.vue';
+import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
 import ysyGrid from '@/components/FGrid.vue';
-import pageHistory from '@/components/PageHistory.vue';
 import { mapGetters } from 'vuex';
 import boardDialog from '@/components/FDialog.vue';
 
@@ -51,7 +47,6 @@ export default {
 		mainHeader,
 		mainFooter,
 		ysyGrid,
-		pageHistory,
 		boardDialog,
 	},
 	data() {

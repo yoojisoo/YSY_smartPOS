@@ -15,10 +15,6 @@
 						<v-col cols="12" md="8" lg="8" xl="8">
 							<v-row justify="center" no-gutters style="height: inherit">
 								<v-col cols="12">
-									<!-- <pageHistory :pageNameKo="pageNameKo" /> -->
-								</v-col>
-
-								<v-col cols="12">
 									<v-row justify="center">
 										<v-col cols="auto" align-self="center">
 											<span class="h3 pb-0"> {{ catechory }} </span>
@@ -104,10 +100,9 @@
 
 <script>
 import summerNote from '@/components/2_molecules/editors/FSummerNote.vue';
-import mainSystemBar from '@/components/header/TheSystemBar.vue';
-import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/footer/TheFooter.vue';
-import pageHistory from '@/components/PageHistory.vue';
+import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
+import mainHeader from '@/components/1_templates/header/TheHeader.vue';
+import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
 import { mapGetters } from 'vuex';
 
 const authStore = 'authStore';
@@ -118,7 +113,6 @@ export default {
 		mainSystemBar,
 		mainHeader,
 		mainFooter,
-		pageHistory,
 	},
 	data() {
 		return {

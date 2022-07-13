@@ -1,12 +1,12 @@
-import TheFooter from '@/components/1_templates/footer/TheFooter.vue';
-import TheAddrEdit from '@/components/1_templates/header/TheAddrEdit.vue';
-import '@/components/2_molecules/buttons/FImgBtn.vue';
-import '@/components/2_molecules/editors/FSummerNote.vue';
-import '@/components/2_molecules/textFields/FTextField.vue';
-import '@/components/2_molecules/FCarousel.vue';
-import '@/components/2_molecules/FDateForm.vue';
-import '@/components/2_molecules/FDialog.vue';
-import '@/components/2_molecules/FGrid.vue';
+//import TheFooter from '@/components/1_templates/footer/TheFooter.vue';
+//import TheAddrEdit from '@/components/1_templates/header/TheAddrEdit.vue';
+//import '@/components/2_molecules/buttons/FImgBtn.vue';
+//import '@/components/2_molecules/editors/FSummerNote.vue';
+//import '@/components/2_molecules/textFields/FTextField.vue';
+//import '@/components/2_molecules/FCarousel.vue';
+//import '@/components/2_molecules/FDateForm.vue';
+//import '@/components/2_molecules/FDialog.vue';
+//import '@/components/2_molecules/FGrid.vue';
 
 import '@/mixin/MixinGlobal.js';
 import '@/mixin/UserMixin.js';
@@ -61,7 +61,6 @@ import '@/views/user/reservation/ReservationHistory.vue';
 import '@/views/user/reservation/ReservationStatus.vue';
 import '@/views/user/MyInfo.vue';
 
-
 export default () => {
 	return TheFooter, TheAddrEdit;
-  };
+};

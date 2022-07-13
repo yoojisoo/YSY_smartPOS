@@ -11,7 +11,6 @@
 			<v-container fluid pa-0 ma-0 style="background-color: lightgray; height: 100%">
 				<v-row justify="center" no-gutters style="height: 100%">
 					<v-col cols="12" md="4" lg="4" xl="4" style="background-color: lightslategray">
-						<pageHistory :pageNameKo="pageNameKo" />
 						<v-card tile flat height="94%" class="d-flex flex-column">
 							<v-card-title>프로필 수정</v-card-title>
 							<v-card-subtitle
@@ -148,11 +147,10 @@
 </template>
 
 <script>
-import mainSystemBar from '@/components/header/TheSystemBar.vue';
-import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/footer/TheFooter.vue';
+import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
+import mainHeader from '@/components/1_templates/header/TheHeader.vue';
+import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
 import { mapActions, mapGetters } from 'vuex';
-import pageHistory from '@/components/PageHistory.vue';
 
 const authStore = 'authStore';
 
@@ -161,7 +159,6 @@ export default {
 		mainSystemBar,
 		mainHeader,
 		mainFooter,
-		pageHistory,
 	},
 	data() {
 		return {
@@ -202,8 +199,8 @@ export default {
 	},
 	mounted() {
 		if (this.getUser) {
-			console.log("1.myinfo this.getUser.access_token = " +this.getUser.access_token);
-			console.log("1.myinfo this.getUser.refresh_token = " +this.getUser.refresh_token);
+			console.log('1.myinfo this.getUser.access_token = ' + this.getUser.access_token);
+			console.log('1.myinfo this.getUser.refresh_token = ' + this.getUser.refresh_token);
 			this.userInfoChange.username = this.getUser.user_id;
 		}
 	},
@@ -212,37 +209,32 @@ export default {
 			//const validate = this.$refs.form.validate();
 
 			if (this.userInfoChange.password === this.confirmPassword) {
-
-				
 				//if (validate) {
-				this.$axios.post('/ysy/v1/user/modUserInfo', this.userInfoChange).then(res => {
-					if (res.data)
-					{
-						let payload = {
-							user_id: this.getUser.user_id,
-							user_name: this.userInfoChange.name,
-							access_token: this.getUser.access_token,
-							access_token_exp: this.getUser.access_token_exp,
-							refresh_token: this.getUser.refresh_token,
-							refresh_token_exp: this.getUser.refresh_token_exp,
-						};
-						this.$store.dispatch('setUserInfo', payload);
-						alert('프로필이 수정되었습니다.');
-						this.formDisabled = true;
-					}
-					else
-					{
-						alert('프로필 수정 실패');
-					}
-				})
-				.catch(error=>{
-					console.log("myinfo error");
-					console.log(error);
-				});
+				this.$axios
+					.post('/ysy/v1/user/modUserInfo', this.userInfoChange)
+					.then(res => {
+						if (res.data) {
+							let payload = {
+								user_id: this.getUser.user_id,
+								user_name: this.userInfoChange.name,
+								access_token: this.getUser.access_token,
+								access_token_exp: this.getUser.access_token_exp,
+								refresh_token: this.getUser.refresh_token,
+								refresh_token_exp: this.getUser.refresh_token_exp,
+							};
+							this.$store.dispatch('setUserInfo', payload);
+							alert('프로필이 수정되었습니다.');
+							this.formDisabled = true;
+						} else {
+							alert('프로필 수정 실패');
+						}
+					})
+					.catch(error => {
+						console.log('myinfo error');
+						console.log(error);
+					});
 				//} else alert('양식에 맞게 작성해주세요.');
-			}
-			else
-			{
+			} else {
 				alert('비밀번호가 일치하지 않습니다.');
 			}
 		},

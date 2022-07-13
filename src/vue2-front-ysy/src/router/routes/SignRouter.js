@@ -22,28 +22,28 @@ export default [
 		// 로그인
 		path: '/signIn',
 		name: 'signIn',
-		component: () => import('@/views/common/sign/SignIn.vue'),
+		component: () => import('@/views/auth/SignIn.vue'),
 		beforeEnter: isLoginChk(),
 	},
 	{
 		// 회원가입
 		path: '/signUp',
 		name: 'signUp',
-		component: () => import('@/views/common/sign/SignUp.vue'),
+		component: () => import('@/views/auth/SignUp.vue'),
 		beforeEnter: isLoginChk(),
 	},
 	{
 		// 카카오 로그인
 		path: '/kakaoLogin',
 		name: 'kakaoLogin',
-		component: () => import('@/views/common/sign/KakaoLogin.vue'),
+		component: () => import('@/views/auth/KakaoLogin.vue'),
 		props: true,
 	},
 	{
 		// 네이버 로그인
 		path: '/naverLogin',
 		name: 'naverLogin',
-		component: () => import('@/views/common/sign/NaverLogin.vue'),
+		component: () => import('@/views/auth/NaverLogin.vue'),
 		props: true,
 	},
 ];

@@ -144,7 +144,7 @@
 import store from '@/store/index';
 import { eventBus } from '@/main.js';
 import { mapGetters } from 'vuex';
-import navigationDrawer from '@/components/header/TheNavigationDrawer.vue';
+import navigationDrawer from '@/components/1_templates/header/TheNavigationDrawer.vue';
 
 const authStore = 'authStore';
 

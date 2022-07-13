@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import mainSystemBar from '@/components/header/TheSystemBar.vue';
-import mainHeader from '@/components/header/TheHeader.vue';
-import mainFooter from '@/components/footer/TheFooter.vue';
+import mainSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
+import mainHeader from '@/components/1_templates/header/TheHeader.vue';
+import mainFooter from '@/components/1_templates/footer/TheFooter.vue';
 import ysyGrid from '@/components/FGrid.vue';
 import { mapGetters } from 'vuex';
 

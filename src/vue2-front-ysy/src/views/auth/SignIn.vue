@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import logoBtn from '@/components/2_molecules/button/ImgBtn.vue';
+import logoBtn from '@/components/2_molecules/buttons/FImgBtn.vue';
 
 export default {
 	name: 'App',

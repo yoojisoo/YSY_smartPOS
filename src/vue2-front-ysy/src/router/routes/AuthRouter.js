@@ -20,49 +20,49 @@ export default [
 		// 매장관리
 		path: '/storeMng',
 		name: 'storeMng',
-		component: () => import('@/views/auth/manager/store/StoreMng.vue'),
+		component: () => import('@/views/manager/store/StoreMng.vue'),
 	},
 	{
 		// 상품관리
 		path: '/prodMng',
 		name: 'prodMng',
-		component: () => import('@/views/auth/manager/product/ProdMng.vue'),
+		component: () => import('@/views/manager/product/ProdMng.vue'),
 	},
 	{
 		// 일일정산
 		path: '/dailyCalculate',
 		name: 'dailyCalculate',
-		component: () => import('@/views/auth/manager/calculate/DailyCalculate.vue'),
+		component: () => import('@/views/manager/calculate/DailyCalculate.vue'),
 	},
 	{
 		// 월별정산
 		path: '/monthlyCalculate',
 		name: 'monthlyCalculate',
-		component: () => import('@/views/auth/manager/calculate/MonthlyCalculate.vue'),
+		component: () => import('@/views/manager/calculate/MonthlyCalculate.vue'),
 	},
 	{
 		// 연별정산
 		path: '/yearlyCalculate',
 		name: 'yearlyCalculate',
-		component: () => import('@/views/auth/manager/calculate/YearlyCalculate.vue'),
+		component: () => import('@/views/manager/calculate/YearlyCalculate.vue'),
 	},
 	{
 		// 사용자관리
 		path: '/userMng',
 		name: 'userMng',
-		component: () => import('@/views/auth/manager/user/UserMng.vue'),
+		component: () => import('@/views/manager/user/UserMng.vue'),
 	},
 	{
 		// 메뉴권한관리
 		path: '/menuRoleMng',
 		name: 'menuRoleMng',
-		component: () => import('@/views/auth/manager/menu/MenuRoleMng.vue'),
+		component: () => import('@/views/manager/menu/MenuRoleMng.vue'),
 	},
 	{
 		// 메뉴버튼관리
 		path: '/menuBtnMng',
 		name: 'menuBtnMng',
-		component: () => import('@/views/auth/manager/menu/MenuBtnMng.vue'),
+		component: () => import('@/views/manager/menu/MenuBtnMng.vue'),
 	},
 
 	/** User 영역
@@ -72,25 +72,25 @@ export default [
 		// 예약현황
 		path: '/reservationStatus',
 		name: 'reservationStatus',
-		component: () => import('@/views/auth/user/reservation/ReservationStatus.vue'),
+		component: () => import('@/views/user/reservation/ReservationStatus.vue'),
 	},
 	{
 		// 예약내역
 		path: '/reservationHistory',
 		name: 'reservationHistory',
-		component: () => import('@/views/auth/user/reservation/ReservationHistory.vue'),
+		component: () => import('@/views/user/reservation/ReservationHistory.vue'),
 	},
 	{
 		// 배달현황
 		path: '/deliveryStatus',
 		name: 'deliveryStatus',
-		component: () => import('@/views/auth/user/delivery/DeliveryStatus.vue'),
+		component: () => import('@/views/user/delivery/DeliveryStatus.vue'),
 	},
 	{
 		// 배달내역
 		path: '/deliveryHistory',
 		name: 'deliveryHistory',
-		component: () => import('@/views/auth/user/delivery/DeliveryHistory.vue'),
+		component: () => import('@/views/user/delivery/DeliveryHistory.vue'),
 	},
 
 	/** 공통 영역 */
@@ -98,6 +98,6 @@ export default [
 		path: '/myInfo',
 		name: 'myInfo',
 		icon: 'mdi-account',
-		component: () => import('@/views/auth/user/MyInfo.vue'),
+		component: () => import('@/views/user/MyInfo.vue'),
 	},
 ];
