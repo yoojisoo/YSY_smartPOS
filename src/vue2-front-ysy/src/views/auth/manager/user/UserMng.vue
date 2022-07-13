@@ -88,16 +88,31 @@ export default {
 				gridDense: true,
 				isDetail: true,
 				rowClick: (row, gridNm) => {
-					fn_userClick(row, gridNm);
+					this.fn_userClick(row, gridNm);
 				}, //로우 클릭 이벤트 콜백
 				rowDbClick: (row, gridNm) => {
-					fn_userDbClick(row, gridNm);
+					this.fn_userDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
 		};
 	},
 	mounted() {
-		fn_getUserList();
+		this.fn_getUserList();
+	},
+	methods: {
+		async fn_getUserList() {
+			console.log('UserMng fn_getUserList !!');
+			await this.$store.dispatch('userStore/fn_getUserList');
+
+			if (this.getUserList) {
+				console.log('🟢 userMng fn_getUserList');
+				this.userInfo.dataList = this.getUserList;
+				console.log(this.userInfo.dataList);
+				console.log('🔴 userMng fn_getUserList');
+			} else {
+				console.log('❌ userMng fn_getUserList ❌');
+			}
+		},
 	},
 };
 </script>

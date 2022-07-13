@@ -35,7 +35,7 @@ const userStore = {
 			let userList = await userService.fn_getUserList();
 			if (userList !== null && userList !== undefined) {
 				console.log('✅ userStore fn_getUserList');
-				commit('setUserList', userList);
+				commit('setUserList', userList.objList);
 			} else {
 				console.log('❌ userStore fn_getUserList ❌');
 			}

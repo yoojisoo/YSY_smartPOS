@@ -21,29 +21,14 @@ const UserMixin = {
 			await this.$store.dispatch('userStore/fn_getUserDetail', row.userId);
 
 			if (this.getUserDetail) {
-				console.log('🟢 userMng rowClick');
-				this.userDetailInfo = this.getUserDetail;
-				console.log(this.userDetailInfo);
-				console.log(this.userDetailInfo.userId);
-				console.log('🔴 userMng rowClick');
+				console.log('🟢 UserMixin fn_userClick');
+				this.userDetailInfo = this.getUserDetail.obj;
+				console.log('🔴 UserMixin fn_userClick');
 			} else {
-				console.log('❌ userMng rowClick ❌');
+				console.log('❌ UserMixin fn_userClick ❌');
 			}
 		},
 		fn_userDbClick(row, gridNm) {},
-
-		async fn_getUserList() {
-			await this.$store.dispatch('userStore/fn_getUserList');
-
-			if (this.getUserList) {
-				console.log('🟢 userMng fn_getUserList');
-				this.userInfo.dataList = this.getUserList;
-				console.log(this.userInfo.dataList);
-				console.log('🔴 userMng fn_getUserList');
-			} else {
-				console.log('❌ userMng fn_getUserList ❌');
-			}
-		},
 	},
 };
 
