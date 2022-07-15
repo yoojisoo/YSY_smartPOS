@@ -11,7 +11,7 @@ import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
 @RestController
-@RequestMapping("ysy/v1/menu")
+@RequestMapping("ysy/v1")
 //@AllArgsConstructor
 public class YsyMenuController {
 

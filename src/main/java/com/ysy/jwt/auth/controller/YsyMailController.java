@@ -19,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 //@RequiredArgsConstructor
 @RequestMapping("/ysy/v1/mail")
 public class YsyMailController {
-//	private final YsyMailService mailService;
-//	private final YsyUserMstService userService;
 	
 	@Autowired
 	private YsyMailService mailService;
@@ -30,7 +28,6 @@ public class YsyMailController {
 	@PostMapping("/mailConfirm")
 	@ResponseBody
 	public Boolean mailConfirm(@RequestBody MailDto mailDto) {
-		System.out.println(userService.isUser(mailDto.getEmail()));
 		return userService.isUser(mailDto.getEmail());
 	}
 	

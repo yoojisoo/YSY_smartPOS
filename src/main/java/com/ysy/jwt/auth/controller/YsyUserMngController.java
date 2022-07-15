@@ -19,7 +19,7 @@ import com.ysy.jwt.auth.service.YsyUserMngService;
 /** 매니저 영역 : 내가 컨트롤할 유저 데이터 */
 @RestController
 @CrossOrigin
-@RequestMapping("/ysy/v1")
+@RequestMapping("/ysy/v1/manager")
 public class YsyUserMngController {
 
 	

@@ -34,8 +34,6 @@ public class YsyUserMstController {
 	@Autowired
 	YsyUserMstService ysyUserService;
 	
-	
-	
 	@PostMapping("/signUp")//회원가입. 무인증.
 	@ResponseBody
 	public ResponseAuthDto<String> signUp(@RequestBody JoinDto joinModel) {
@@ -48,7 +46,4 @@ public class YsyUserMstController {
 	public String modUserInfo(@RequestBody ModUserDto modUserDto) {
 		return ysyUserService.modUserInfo(modUserDto);
 	}
-	
-	
-	
 }

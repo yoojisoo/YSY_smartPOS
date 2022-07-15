@@ -80,13 +80,15 @@ export default {
 	},
 
 	methods: {
-		itemText: item => item.user_nm + ' : ' + item.user_id,
+		itemText: item => item.userNm + ' : ' + item.userId,
 
 		// 해당 유저 권한 이하의 사용자들을 불러옴
 		async findFilterUserList() {
 			await this.$store.dispatch('userStore/findFilterUserList', this.userId).catch(error => {
 				console.log('===============> userStore/findFilterUserList error');
 				console.log(error);
+				alert('페이지 접근 권한이 없습니다.');
+				this.$router.replace('/');
 			});
 
 			if (this.getFilterUserList) this.users = this.getFilterUserList;

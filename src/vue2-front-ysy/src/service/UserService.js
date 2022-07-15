@@ -27,18 +27,18 @@ class UserService {
 			return res.data;
 		} else {
 			console.log('❌ UserService fn_getUserDetail ❌');
-			return null; 
+			return null;
 		}
 	}
 
 	async getFilterUserList(userId) {
-		let url = 'ysy/v1/getFilterUserList?userId=' + userId;
+		let url = 'ysy/v1/manager/getFilterUserList?userId=' + userId;
 		let res = await axios.get(url);
 
-		if (res.statusText === 'OK' && res.data.dataList !== null) {
+		if (res.statusText === 'OK' && res.data.objList !== null) {
 			console.log('✅ UserService getFilterUserList');
-			console.log(res.data.dataList);
-			return res.data.dataList;
+			console.log(res);
+			return res.data.objList;
 		} else {
 			console.log('❌ UserService getFilterUserList ❌');
 			return null;

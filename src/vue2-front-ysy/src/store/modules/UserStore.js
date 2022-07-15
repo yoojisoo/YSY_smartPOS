@@ -45,6 +45,7 @@ const userStore = {
 			let filterUserList = await userService.getFilterUserList(userId);
 			if (filterUserList !== null && filterUserList !== undefined) {
 				console.log('✅ userStore findFilterUserList');
+				console.log(filterUserList);
 				commit('setFilterUserList', filterUserList);
 			} else {
 				console.log('❌ userStore findFilterUserList ❌');

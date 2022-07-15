@@ -30,29 +30,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private JwtService jwtUtil;
 	
 	
-	//인증된 회원
+	//정회원 (권한 : ROLE_USER ~ ROLE_ADMIN)
 	private String user_roles   = "hasRole('"+SysEnum.enumGrps.ROLE_USER.toString()+"') or "
 			                    + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP1.toString()+"') or "
 			                    + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
-			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP3.toString()+"') or "
 			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
 			                    + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
-	//vip1회원
+	
+	//유료회원1 (권한 : ROLE_USER_VIP1 ~ ROLE_ADMIN)
 	private String user1_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP1.toString()+"') or "
 					            + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP3.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
 					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
-					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
-					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
-	//vip2회원
-	private String user2_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
-					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
-					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
-					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
-	//관리자
-	private String mng_roles    = "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
-					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
 					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	
+	//유료회원2 (권한 : ROLE_USER_VIP2 ~ ROLE_ADMIN)
+	private String user2_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP2.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP3.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
+	
+	//유료회원3 (권한 : ROLE_USER_VIP3 ~ ROLE_ADMIN)
+	private String user3_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_USER_VIP3.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+			                    + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
+	
+	//매니저 (권한 : ROLE_MANAGER ~ ROLE_ADMIN)
+	private String mng_roles    = "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_MANAGER_SUPER.toString()+"') or "
+					            + "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
+	
+	//관리자 (권한 : ROLE_ADMIN)
 	private String admin_roles  = "hasRole('"+SysEnum.enumGrps.ROLE_ADMIN.toString()+"')";
 	
 	@Override
@@ -72,11 +85,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    .addFilter(new JwtAuthorizationFilter(authenticationManager() ,ysyUserRepository , jwtUtil ))
 	    .cors().and()
 	    .authorizeRequests()
-		.antMatchers("/ysy/v1/user/**")   .access(user_roles)
-		.antMatchers("/ysy/v1/user/vip1/**")   .access(user1_roles)
-		.antMatchers("/ysy/v1/user/vip2/**")   .access(user2_roles)
-		.antMatchers("/ysy/v1/manager/**").access(mng_roles)
-		.antMatchers("/ysy/v1/admin/**")  .access(admin_roles)
+		.antMatchers("/ysy/v1/user/**")     .access(user_roles)
+		.antMatchers("/ysy/v1/user/vip1/**").access(user1_roles)
+		.antMatchers("/ysy/v1/user/vip2/**").access(user2_roles)
+		.antMatchers("/ysy/v1/user/vip3/**").access(user3_roles)
+		.antMatchers("/ysy/v1/manager/**")  .access(mng_roles)
+		.antMatchers("/ysy/v1/admin/**")    .access(admin_roles)
 		.anyRequest().permitAll()
 		;
 		

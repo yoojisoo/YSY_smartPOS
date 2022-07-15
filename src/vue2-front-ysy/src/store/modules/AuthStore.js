@@ -64,13 +64,22 @@ const authStore = {
 		},
 	},
 	actions: {
+		async signUp(signUpInfo) {
+			try {
+				let res = await authService.signUp(signUpInfo);
+				return res;
+			} catch (error) {
+				console.log('AuthStore actions signUp error => ' + error);
+				return error;
+			}
+		},
+
 		async signIn({ dispatch }, params) {
 			try {
-				var res = await authService.signIn(params);
-				console.log('res==================action = ');
-				console.log(res);
+				let res = await authService.signIn(params);
+
 				if (res.headers && res.headers.access_token != undefined) {
-					let flag = dispatch('setUserInfo', res.headers);
+					dispatch('setUserInfo', res.headers);
 					return res;
 				}
 

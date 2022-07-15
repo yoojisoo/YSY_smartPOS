@@ -4,18 +4,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.common.SysEnum;
 import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
+import com.ysy.jwt.auth.entity.QYsyBizMst;
+import com.ysy.jwt.auth.entity.QYsyGrpMst;
+import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
@@ -40,12 +47,21 @@ public class YsyUserMstService {
 	YsyBizMstRepository ysyBizRepository;
 	@Autowired
 	YsyUtil util;
+	@PersistenceContext
+	EntityManager em;
+	
+	/** 2022 07 15 mnew2m
+	 * 사용하는 Q Class */
+	QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst;
+	QYsyBizMst  qYsyBizMst  = QYsyBizMst.ysyBizMst;
+	QYsyGrpMst  qYsyGrpMst  = QYsyGrpMst.ysyGrpMst;
 	
 	/** user 등록 */
 	@Transactional
 	public ResponseAuthDto<String> signUp(JoinDto joinDto) {
 		
 		ResponseAuthDto<String> resDto = new ResponseAuthDto<String>();
+		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		try 
 		{
@@ -54,14 +70,13 @@ public class YsyUserMstService {
 			 && !util.isNullAndEmpty(joinDto.getPassword())
 			 && !util.isNullAndEmpty(joinDto.getName())) 
 			{
-
+				
 				/** 0. 유저 존재 확인 (존재하면 메세지 return / 존재하지 않으면 다음 단계) */
 				if (isUser(joinDto.getUsername())) {
-					//이전에 카카오로 가입했고 카카오로 로그인 중인 유저 
-					YsyUserMst tmpUser = ysyUserRepository.findById(joinDto.getUsername())
-							.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );;
-					String orgPath     = tmpUser.getOAuthPath()==null || tmpUser.getOAuthPath().equals("")?"사이트":tmpUser.getOAuthPath();
-					String joinDtoPath = joinDto.getOAuthPath()==null || joinDto.getOAuthPath().equals("")?"사이트":joinDto.getOAuthPath();
+					YsyUserMst userInfo = userInfo(joinDto.getUsername());
+					String orgPath     = userInfo.getOAuthPath() == null || userInfo.getOAuthPath().equals("") ? "사이트" : userInfo.getOAuthPath();
+					String joinDtoPath = joinDto.getOAuthPath()  == null || joinDto.getOAuthPath().equals("")  ? "사이트" : joinDto.getOAuthPath();
+					
 					if(orgPath.equals(joinDtoPath)) 
 					{
 						resDto.setMsg("ok");
@@ -70,8 +85,8 @@ public class YsyUserMstService {
 					}
 					
 					String errorMsg =  "error : \n"
-							         + "["+joinDto.getUsername() +"]해당 메일은 " + orgPath + "로 가입되었으며 , "
-							         + "로그인은 " + joinDto.getOAuthPath() + " 진행중입니다.\n"
+							         + "["+joinDto.getUsername() +"] 해당 메일은 " + orgPath + "로 가입되었으며 , "
+							         + "로그인은 " + joinDto.getOAuthPath() + "로 진행중입니다.\n"
 					                 + orgPath +"로 로그인 해주세요!!";
 					resDto.setMsg(errorMsg);
 					resDto.setStatus(HttpStatus.BAD_REQUEST);
@@ -115,11 +130,15 @@ public class YsyUserMstService {
 						return resDto;//"회사코드가 있습니다.";
 					}
 				}
-//				else {
-					/** 존재함 -> bizCd가 존재하면 Default grpId도 있기 때문에 Group 정보를 가져옴 */
-					ysyBizMst = ysyBizRepository.findById(bizCd).get();
-					ysyGrpMst = ysyGrpService.getGrpData(bizCd, grpId).get();
-//				}
+				
+				/** 존재함 -> bizCd가 존재하면 Default grpId도 있기 때문에 Group 정보를 가져옴 */
+				ysyGrpMst = query
+						.select(qYsyGrpMst)
+						.from(qYsyGrpMst)
+						.innerJoin(qYsyGrpMst.ysyBizMst, qYsyBizMst).fetchJoin()
+						.where(qYsyGrpMst.ysyBizMst.bizCd.eq(bizCd)
+							 , qYsyGrpMst.grpPK.grpId.eq(grpId))
+						.fetchOne();
 				
 				/** 2. 최종 저장 양식은 YsyUserMst라서 정보를 옮겨 담아줌 */
 				YsyUserMst ysyUser = YsyUserMst.builder()
@@ -178,13 +197,33 @@ public class YsyUserMstService {
 		}
 	}
 	
+	/** ID에 해당하는 userInfo return */
+	public YsyUserMst userInfo(String username) {
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		
+		YsyUserMst user = query
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
+				.where(qYsyUserMst.username.eq(username))
+				.fetchOne();
+		
+		return user;
+	}
+	
 	/** user 존재여부 확인 존재 : true */
 	public boolean isUser(String username) {
-		YsyUserMst user = ysyUserRepository.findById(username).orElse(null);
-			
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		
+		YsyUserMst user = query
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
+				.where(qYsyUserMst.username.eq(username))
+				.fetchOne();
+		
 		if(user == null)
 			return false;
-		
 		return true;
 	}
 	
