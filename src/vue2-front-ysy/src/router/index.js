@@ -4,6 +4,7 @@ import AuthRouter from './routes/AuthRouter';
 import CommonRouter from './routes/CommonRouter';
 import SignRouter from './routes/SignRouter';
 import ErrorRouter from './routes/ErrorRouter';
+import TestPageRouter from './routes/TestPageRouter'; // add by clubbboy@naver.com
 
 Vue.use(VueRouter);
 //const routes = [
@@ -18,7 +19,7 @@ Vue.use(VueRouter);
 const router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	routes: [...AuthRouter, ...CommonRouter, ...SignRouter, ...ErrorRouter],
+	routes: [...AuthRouter, ...CommonRouter, ...SignRouter, ...ErrorRouter , ...TestPageRouter],
 });
 
 export default router;
