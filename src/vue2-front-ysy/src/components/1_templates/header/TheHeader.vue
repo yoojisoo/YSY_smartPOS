@@ -36,22 +36,30 @@
 							</v-col>
 							<v-col cols="10" class="ma-0 pa-0 hidden-sm-and-down">
 								<!-- 2022 06 02 smk : menu in tab이 안돼서 버튼으로 변경 -->
-								<v-menu offset-y v-for="(item, idx) in headerMenu" :key="idx" tile>
+								<v-menu
+									open-on-hover
+									offset-y
+									v-for="(item, idx) in headerMenu"
+									:key="idx"
+								>
 									<template v-slot:activator="{ on }">
 										<v-btn v-on="on" plain @click="goPage(item.menu_path)">
-											{{ item.menu_nm }}
+											<span>{{ item.menu_nm }}</span>
+											<v-icon right>mdi-chevron-down</v-icon>
 										</v-btn>
 									</template>
-									<v-list v-if="item.childMenus.length > 0">
+									<v-list v-if="item.childMenus.length > 0" shaped>
 										<v-list-item
 											v-for="(menus, idx) in item.childMenus"
 											:key="idx"
 											link
 										>
-											<v-list-item-title
-												v-text="menus.menu_nm"
-												@click="goPage(menus.menu_path)"
-											></v-list-item-title>
+											<v-list-item-content>
+												<v-list-item-title
+													v-text="menus.menu_nm"
+													@click="goPage(menus.menu_path)"
+												></v-list-item-title>
+											</v-list-item-content>
 										</v-list-item>
 									</v-list>
 								</v-menu>
@@ -154,6 +162,7 @@ export default {
 	props: ['pageName'],
 	//components: { FLogoBtnS },
 	data: () => ({
+		isOpen: false,
 		menuList: [],
 		windowWidth: 0,
 		drawer: null,
@@ -183,6 +192,12 @@ export default {
 		...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
 	},
 	methods: {
+		mouseover() {
+			this.isOpen = true;
+		},
+		mouseleave() {
+			this.isOpen = false;
+		},
 		logout() {
 			this.$store.commit('clearUserInfo');
 			this.$router.replace('/signIn');

@@ -99,7 +99,7 @@ const authStore = {
 			}
 		},
 
-		async setUserInfo({ commit }, res) {
+		setUserInfo({ commit }, res) {
 			if (res !== null && res !== undefined) {
 				var decodedHeader_access = jwt_decode(res.access_token, { payload: true });
 				var decodedHeader_refresh = jwt_decode(res.refresh_token, { payload: true });

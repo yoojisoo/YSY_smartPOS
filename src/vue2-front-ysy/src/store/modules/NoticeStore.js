@@ -32,23 +32,31 @@ const noticeStore = {
 	actions: {
 		// 시스템 공지사항 데이터 가져오기
 		async findSystemNotice({ commit }) {
-			let systemNoticeList = await noticeService.findSystemNotice();
-			if (systemNoticeList !== null && systemNoticeList !== undefined) {
-				console.log('noticeStore - findSystemNotice ✔️');
-				commit('setSystemNoticeList', systemNoticeList);
-			} else {
-				console.log('noticeStore - findSystemNotice ERROR !!!!!!!!!!!');
+			try {
+				let systemNoticeList = await noticeService.findSystemNotice();
+				if (systemNoticeList !== null && systemNoticeList !== undefined) {
+					console.log('noticeStore - findSystemNotice ✔️');
+					commit('setSystemNoticeList', systemNoticeList);
+				} else {
+					console.log('noticeStore - findSystemNotice ERROR !!!!!!!!!!!');
+				}
+			} catch (error) {
+				console.log('NoticeStore findSystemNotice error => ' + error);
 			}
 		},
 
 		// 스토어 공지사항 데이터 가져오기
 		async findStoreNotice({ commit }) {
-			let storeNoticeList = await noticeService.findStoreNotice();
-			if (storeNoticeList !== null && storeNoticeList !== undefined) {
-				console.log('noticeStore - findStoreNotice ✔️');
-				commit('setStoreNoticeList', storeNoticeList);
-			} else {
-				console.log('noticeStore - findStoreNotice ERROR !!!!!!!!!!!');
+			try {
+				let storeNoticeList = await noticeService.findStoreNotice();
+				if (storeNoticeList !== null && storeNoticeList !== undefined) {
+					console.log('noticeStore - findStoreNotice ✔️');
+					commit('setStoreNoticeList', storeNoticeList);
+				} else {
+					console.log('noticeStore - findStoreNotice ERROR !!!!!!!!!!!');
+				}
+			} catch (error) {
+				console.log('NoticeStore findStoreNotice error => ' + error);
 			}
 		},
 	},

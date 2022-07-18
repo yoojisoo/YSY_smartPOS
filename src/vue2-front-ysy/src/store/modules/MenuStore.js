@@ -25,13 +25,17 @@ const menuStore = {
 
 	actions: {
 		async findMenuList({ commit }, userId) {
-			let menuList = await menuService.findMenuList(userId);
-			if (menuList) {
-				console.log('✅ menuStore findMenuList');
-				console.log(menuList);
-				commit('setMenuList', menuList);
-			} else {
-				console.log('❌ menuStore findMenuList ❌');
+			try {
+				let menuList = await menuService.findMenuList(userId);
+				if (menuList) {
+					console.log('✅ menuStore findMenuList');
+					console.log(menuList);
+					commit('setMenuList', menuList);
+				} else {
+					console.log('❌ menuStore findMenuList ❌');
+				}
+			} catch (error) {
+				console.log('MenuStore findMenuList error => ' + error);
 			}
 		},
 	},

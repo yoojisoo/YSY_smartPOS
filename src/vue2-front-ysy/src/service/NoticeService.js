@@ -6,16 +6,21 @@ class NoticeService {
 	 * server controller -> JPA를 통해 DB 데이터 find
 	 */
 	async findSystemNotice() {
-		let url = 'ysy/v1/findSystemNotice?size=5';
-		let res = await axios.get(url);
-		if (res) {
-			console.log('NoticeService - findSystemNotice ==> start');
-			console.log(res.data.objList);
-			console.log('NoticeService - findSystemNotice ==> end');
-			return res.data.objList;
-		} else {
-			console.log('NoticeService - findSystemNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
-			return null;
+		try {
+			let url = 'ysy/v1/findSystemNotice?size=5';
+			let res = await axios.get(url);
+			if (res) {
+				console.log('NoticeService - findSystemNotice ==> start');
+				console.log(res.data.objList);
+				console.log('NoticeService - findSystemNotice ==> end');
+				return res.data.objList;
+			} else {
+				console.log('NoticeService - findSystemNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+				return null;
+			}
+		} catch (error) {
+			console.log('NoticeService findSystemNotice error => ' + error);
+			return error;
 		}
 	}
 
@@ -24,16 +29,21 @@ class NoticeService {
 	 * server controller -> JPA를 통해 DB 데이터 find
 	 */
 	async findStoreNotice() {
-		let url = 'ysy/v1/findStoreNotice?size=5';
-		let res = await axios.get(url);
-		if (res) {
-			console.log('NoticeService - findStoreNotice ==> start');
-			console.log(res.data.objList);
-			console.log('NoticeService - findStoreNotice ==> end');
-			return res.data.objList;
-		} else {
-			console.log('NoticeService - findStoreNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
-			return null;
+		try {
+			let url = 'ysy/v1/findStoreNotice?size=5';
+			let res = await axios.get(url);
+			if (res) {
+				console.log('NoticeService - findStoreNotice ==> start');
+				console.log(res.data.objList);
+				console.log('NoticeService - findStoreNotice ==> end');
+				return res.data.objList;
+			} else {
+				console.log('NoticeService - findStoreNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+				return null;
+			}
+		} catch (error) {
+			console.log('MenuService findStoreNotice error => ' + error);
+			return error;
 		}
 	}
 
