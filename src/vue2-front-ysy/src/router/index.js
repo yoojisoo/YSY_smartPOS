@@ -19,7 +19,7 @@ Vue.use(VueRouter);
 const router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	routes: [...AuthRouter, ...CommonRouter, ...SignRouter, ...ErrorRouter , ...TestPageRouter],
+	routes: [...AuthRouter, ...CommonRouter, ...SignRouter, ...TestPageRouter, ...ErrorRouter],
 });
 
 export default router;

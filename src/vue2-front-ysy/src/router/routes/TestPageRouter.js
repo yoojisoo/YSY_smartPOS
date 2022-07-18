@@ -4,7 +4,10 @@
  * @desc   Router 모듈화
  */
 
- export default [
-	{ path: '/excelUpDown', name:"excelUpDown", component: () => import('@/views/testPages/ExcelUpDown.vue') }, 
-	
+export default [
+	{
+		path: '/excelUpDown',
+		name: 'excelUpDown',
+		component: () => import('@/views/testPages/ExcelUpDown.vue'),
+	},
 ];
