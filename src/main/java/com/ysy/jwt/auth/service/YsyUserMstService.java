@@ -227,5 +227,22 @@ public class YsyUserMstService {
 		return true;
 	}
 	
-
+	/** isAdmin 체크 : admin이면 true */
+	public boolean isAdmin(String username) {
+		
+		JPAQueryFactory query = new JPAQueryFactory(em);
+		
+		YsyUserMst user = query
+				.select(qYsyUserMst)
+				.from(qYsyUserMst)
+				.innerJoin(qYsyUserMst.ysyGrpMst, qYsyGrpMst).fetchJoin()
+				.where(qYsyUserMst.username.eq(username))
+				.fetchOne();
+		
+		String grpId = user.getYsyGrpMst().getGrpPK().getGrpId().toString();
+		
+		if(grpId.contains("ADMIN") || grpId.contains("MANAGER"))
+			return true;
+		return false;
+	}
 }

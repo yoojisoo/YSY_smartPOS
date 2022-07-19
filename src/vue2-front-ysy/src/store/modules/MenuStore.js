@@ -11,26 +11,31 @@ const menuStore = {
 
 	state: {
 		menuList: [],
+		adminMenuList: [],
 	},
 
 	getters: {
 		getMenuList: state => state.menuList,
+		getAdminMenuList: state => state.adminMenuList,
 	},
 
 	mutations: {
 		setMenuList(state, menuList) {
 			state.menuList = menuList;
 		},
+		setAdminMenuList(state, menuList) {
+			state.adminMenuList = menuList;
+		},
 	},
 
 	actions: {
 		async findMenuList({ commit }, userId) {
 			try {
-				let menuList = await menuService.findMenuList(userId);
-				if (menuList) {
+				let res = await menuService.findMenuList(userId);
+				if (res) {
 					console.log('✅ menuStore findMenuList');
-					console.log(menuList);
-					commit('setMenuList', menuList);
+					console.log(res);
+					commit('setMenuList', res);
 				} else {
 					console.log('❌ menuStore findMenuList ❌');
 				}

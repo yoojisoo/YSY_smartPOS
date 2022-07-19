@@ -1,8 +1,8 @@
 <template>
 	<!-- flat : remove box-shadow -->
-	<div class="mb-3">
+	<div>
 		<!-- web 메뉴 start -->
-		<v-app-bar app flat color="white">
+		<v-app-bar app flat outlined>
 			<v-container class="ma-0 pa-0" fluid>
 				<v-row justify="center" no-gutters>
 					<v-col cols="12" md="8" lg="8" xl="8">
@@ -15,54 +15,42 @@
 										</v-btn>
 									</v-col>
 									<v-col cols="8" style="text-align: center" class="ma-0 pa-0">
-										<!--<FLogoBtnS />-->
-										<v-btn
-											:ripple="false"
-											block
-											text
-											class="btn_remove_bg"
-											to="/"
-										>
-											<v-img
-												contain
-												height="30"
-												width="60"
-												src="@/assets/img/svg/logoWhite.svg"
-											/>
-										</v-btn>
+										<FLogoBtnS />
 									</v-col>
 									<v-col cols="2" class="ma-0 pa-0 hidden-md-and-up"></v-col>
 								</v-row>
 							</v-col>
 							<v-col cols="10" class="ma-0 pa-0 hidden-sm-and-down">
-								<!-- 2022 06 02 smk : menu in tab이 안돼서 버튼으로 변경 -->
-								<v-menu
-									open-on-hover
-									offset-y
-									v-for="(item, idx) in headerMenu"
-									:key="idx"
-								>
-									<template v-slot:activator="{ on }">
-										<v-btn v-on="on" plain @click="goPage(item.menu_path)">
-											<span>{{ item.menu_nm }}</span>
-											<v-icon right>mdi-chevron-down</v-icon>
-										</v-btn>
-									</template>
-									<v-list v-if="item.childMenus.length > 0" shaped>
-										<v-list-item
-											v-for="(menus, idx) in item.childMenus"
-											:key="idx"
-											link
-										>
-											<v-list-item-content>
+								<!-- 2022 06 02 smk : tab in menu가 안돼서 버튼으로 변경 -->
+								<v-tabs show-arrows v-model="active">
+									<v-menu
+										offset-y
+										transition="slide-y-transition"
+										content-class="menu_content elevation-0"
+										v-for="(item, index) in headerMenu"
+										:key="index"
+									>
+										<template v-slot:activator="{ on }">
+											<v-tab
+												v-on="on"
+												v-text="item.menu_nm"
+												@mouseover="activeTab(index)"
+											/>
+										</template>
+										<v-list>
+											<v-list-item
+												v-for="(menus, index) in item.childMenus"
+												:key="index"
+												link
+											>
 												<v-list-item-title
 													v-text="menus.menu_nm"
 													@click="goPage(menus.menu_path)"
-												></v-list-item-title>
-											</v-list-item-content>
-										</v-list-item>
-									</v-list>
-								</v-menu>
+												/>
+											</v-list-item>
+										</v-list>
+									</v-menu>
+								</v-tabs>
 							</v-col>
 						</v-row>
 					</v-col>
@@ -106,7 +94,7 @@
 				</v-row>
 			</div>
 
-			<v-divider />
+			<v-divider class="ma-0" />
 
 			<v-list>
 				<div v-for="item in headerMenu" :key="item.menu_nm">
@@ -150,7 +138,7 @@
 </template>
 
 <script>
-//import { FLogoBtnS } from '@/assets/util/importFile.js';
+import { FLogoBtnS } from '@/assets/util/importFile.js';
 import store from '@/store/index';
 import { eventBus } from '@/main.js';
 import { mapGetters } from 'vuex';
@@ -160,8 +148,9 @@ const authStore = 'authStore';
 export default {
 	name: 'main-header',
 	props: ['pageName'],
-	//components: { FLogoBtnS },
+	components: { FLogoBtnS },
 	data: () => ({
+		active: null,
 		isOpen: false,
 		menuList: [],
 		windowWidth: 0,
@@ -192,11 +181,8 @@ export default {
 		...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
 	},
 	methods: {
-		mouseover() {
-			this.isOpen = true;
-		},
-		mouseleave() {
-			this.isOpen = false;
+		activeTab(index) {
+			this.active = index;
 		},
 		logout() {
 			this.$store.commit('clearUserInfo');

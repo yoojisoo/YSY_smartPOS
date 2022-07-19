@@ -38,7 +38,7 @@
 	</v-container>
 </template>
 <script>
-import ysyTextField from '@/components/2_molecules/textFields/FTextField.vue';
+import ysyTextField from '@/components/1_molecules/textFields/FTextField.vue';
 export default {
 	props: ['addr'],
 	data() {

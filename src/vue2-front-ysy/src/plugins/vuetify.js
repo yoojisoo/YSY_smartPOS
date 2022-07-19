@@ -16,10 +16,11 @@ export default new Vuetify({
 		default: 'light',
 		themes: {
 			light: {
-				//primary: '#6667AB',
 				primary: colors.deepPurple.lighten1,
 			},
-			dark: {},
+			dark: {
+				primary: colors.purple.lighten1,
+			},
 		},
 	},
 });

@@ -1,4 +1,3 @@
-
 <!-- create by clubbboy@naver.com 2022 07 18
 	** Y2sGrid props 구조 및 사용법 **
 	< vuetify 기반 grid를 Customizing하여 사용>
@@ -25,21 +24,18 @@
 <template>
 	<v-container fluid pa-0 ma-0 mt-3>
 		<v-card class="mb-3 pa-0" outlined tile>
-			<v-card-title>
-      
-    </v-card-title>
-
+			<v-card-title> </v-card-title>
 
 			<v-data-table
-				:dense = "gridInfo.dense== undefined? true:gridInfo.dense"
+				:dense="gridInfo.dense == undefined ? true : gridInfo.dense"
 				v-model="selected"
 				:headers="gridInfo.headers"
 				:items="gridDataList"
-				:items-per-page="gridInfo.rowCnt == undefined? 5: gridInfo.rowCnt"
+				:items-per-page="gridInfo.rowCnt == undefined ? 5 : gridInfo.rowCnt"
 				:show-select="gridInfo.isCheckBox"
 				:single-select="gridInfo.isSingleSelect"
 				:hide-default-header="false"
-				:hide-default-footer = "gridInfo.hide_default_footer"
+				:hide-default-footer="gridInfo.hide_default_footer"
 				:item-key="gridKey"
 				@page-count="pageCount = $event"
 				@click:row="rowClick"
@@ -52,44 +48,51 @@
 						<v-divider class="mx-4" inset vertical />
 						<v-spacer />
 
-							
-							<v-btn v-if="gridInfo.searchBtnClick" @click="searchBtnClick">
-								{{gridInfo.searchBtnNm==undefined?"조회":gridInfo.searchBtnNm}}
-							</v-btn>
-							<v-btn v-if="gridInfo.addBtnClick" @click="addBtnClick">
-								{{gridInfo.addBtnNm==undefined?"추가":gridInfo.addBtnNm}}
-							</v-btn>
-							<v-btn v-if="gridInfo.delBtnClick" @click="delBtnClick">
-								{{gridInfo.delBtnNm==undefined?"삭제":gridInfo.delBtnNm}}
-							</v-btn>
-							<v-btn v-if="gridInfo.moreBtnClick" @click="moreBtnClick">
-								{{gridInfo.moreBtnNm==undefined?"전체보기":gridInfo.moreBtnNm}}
-							</v-btn>
-							<v-btn v-if="gridInfo.excelDownClick" @click="excelDownClick">
-								{{gridInfo.excelDownNm==undefined?"Excel Down":gridInfo.excelDownNm}}
-							</v-btn>
+						<v-btn v-if="gridInfo.searchBtnClick" @click="searchBtnClick">
+							{{ gridInfo.searchBtnNm == undefined ? '조회' : gridInfo.searchBtnNm }}
+						</v-btn>
+						<v-btn v-if="gridInfo.addBtnClick" @click="addBtnClick">
+							{{ gridInfo.addBtnNm == undefined ? '추가' : gridInfo.addBtnNm }}
+						</v-btn>
+						<v-btn v-if="gridInfo.delBtnClick" @click="delBtnClick">
+							{{ gridInfo.delBtnNm == undefined ? '삭제' : gridInfo.delBtnNm }}
+						</v-btn>
+						<v-btn v-if="gridInfo.moreBtnClick" @click="moreBtnClick">
+							{{ gridInfo.moreBtnNm == undefined ? '전체보기' : gridInfo.moreBtnNm }}
+						</v-btn>
+						<v-btn v-if="gridInfo.excelDownClick" @click="excelDownClick">
+							{{
+								gridInfo.excelDownNm == undefined
+									? 'Excel Down'
+									: gridInfo.excelDownNm
+							}}
+						</v-btn>
 
-							<v-card v-if="gridInfo.excelUploadClick">
-								<v-file-input
-									:label="gridInfo.excelUploadNm==undefined?'Excel Upload':gridInfo.excelUploadNm"
-									accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-									small-chips
-									show-size
-									outlined
-									dense
-									prepend-icon="mdi-paperclip"
-									@change="excelUploadClick"
-									/>
-							</v-card>
+						<v-card v-if="gridInfo.excelUploadClick">
+							<v-file-input
+								:label="
+									gridInfo.excelUploadNm == undefined
+										? 'Excel Upload'
+										: gridInfo.excelUploadNm
+								"
+								accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+								small-chips
+								show-size
+								outlined
+								dense
+								prepend-icon="mdi-paperclip"
+								@change="excelUploadClick"
+							/>
+						</v-card>
 
-							<v-text-field v-if="gridInfo.isFiltering"
-								v-model="filteringTxt"
-								append-icon="mdi-magnify"
-								label="Grid Filtering"
-								single-line
-								hide-details
-							></v-text-field>
-
+						<v-text-field
+							v-if="gridInfo.isFiltering"
+							v-model="filteringTxt"
+							append-icon="mdi-magnify"
+							label="Grid Filtering"
+							single-line
+							hide-details
+						></v-text-field>
 					</v-toolbar>
 				</template>
 			</v-data-table>
@@ -98,61 +101,53 @@
 </template>
 
 <script>
-import GridResize from '@/assets/util/GridResize.js'
-
 var tables = document.getElementsByTagName('table');
 export default {
-	props: ['gridInfo', "gridDataList"],
+	props: ['gridInfo', 'gridDataList'],
 	data: () => ({
 		selected: [],
-		currentIndex : -1,
-		filteringTxt:"", 
+		currentIndex: -1,
+		filteringTxt: '',
 	}),
 	methods: {
 		/** grid click event */
 		rowClick(event, info) {
-			
-			this.currentIndex =info.index;
+			this.currentIndex = info.index;
 
-			if(this.gridInfo.rowClick)
-				this.gridInfo.rowClick(event, info , this.gridInfo.gridNm);
+			if (this.gridInfo.rowClick) this.gridInfo.rowClick(event, info, this.gridInfo.gridNm);
 		},
 		rowDbClick(event, info) {
-			if(this.gridInfo.rowDbClick)
+			if (this.gridInfo.rowDbClick)
 				this.gridInfo.rowDbClick(event, info, this.gridInfo.gridNm);
 		},
 		//조회버튼 클릭
-		searchBtnClick(){
-			if(this.gridInfo.searchBtnClick)
-				this.gridInfo.searchBtnClick(this.gridInfo.gridNm);
+		searchBtnClick() {
+			if (this.gridInfo.searchBtnClick) this.gridInfo.searchBtnClick(this.gridInfo.gridNm);
 		},
 
 		//추가 버튼 클릭 이벤트
-		addBtnClick(){
-			if(this.gridInfo.addBtnClick)
-				this.gridInfo.addBtnClick(this.gridInfo.gridNm , this.currentIndex);
+		addBtnClick() {
+			if (this.gridInfo.addBtnClick)
+				this.gridInfo.addBtnClick(this.gridInfo.gridNm, this.currentIndex);
 		},
 		//삭제 버튼 클릭 이벤트
-		delBtnClick(){
-			if(this.gridInfo.delBtnClick)
-				this.gridInfo.delBtnClick(this.gridInfo.gridNm , this.currentIndex);
+		delBtnClick() {
+			if (this.gridInfo.delBtnClick)
+				this.gridInfo.delBtnClick(this.gridInfo.gridNm, this.currentIndex);
 		},
 		//더보기 버튼 클릭
-		moreBtnClick (){
-			if(this.gridInfo.moreBtnClick)
-				this.gridInfo.moreBtnClick(this.gridInfo.gridNm);
-		},
-		
-		//excel down 버튼 클릭
-		excelDownClick (){
-			if(this.gridInfo.excelDownClick)
-				this.gridInfo.excelDownClick(this.gridInfo.gridNm);
-		},
-		excelUploadClick (file){
-			if(this.gridInfo.excelUploadClick)
-				this.gridInfo.excelUploadClick(this.gridInfo.gridNm , file);
+		moreBtnClick() {
+			if (this.gridInfo.moreBtnClick) this.gridInfo.moreBtnClick(this.gridInfo.gridNm);
 		},
 
+		//excel down 버튼 클릭
+		excelDownClick() {
+			if (this.gridInfo.excelDownClick) this.gridInfo.excelDownClick(this.gridInfo.gridNm);
+		},
+		excelUploadClick(file) {
+			if (this.gridInfo.excelUploadClick)
+				this.gridInfo.excelUploadClick(this.gridInfo.gridNm, file);
+		},
 	},
 	computed: {
 		gridKey() {
@@ -166,10 +161,10 @@ export default {
 			return key;
 		},
 	},
-	created(){
-		console.log("tables=================");
+	created() {
+		console.log('tables=================');
 		console.log(tables);
 		// GridResize.resizableGrid(tables);
-	}
+	},
 };
 </script>

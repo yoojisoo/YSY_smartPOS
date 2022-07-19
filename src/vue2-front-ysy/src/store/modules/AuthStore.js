@@ -6,9 +6,18 @@ const authStore = {
 	namespaced: true,
 	state: {
 		loginData: {
+			/*  기본 셋팅 키
+				user_id
+				user_name
+				access_token
+				access_token_exp
+				refresh_token
+				refresh_token_exp
+			*/
 			isLogin: null,
 			user_id: null,
 			user_name: null,
+			isAdmin: null,
 		},
 		adminPage: {
 			chartDataSet: [],
@@ -19,8 +28,11 @@ const authStore = {
 	},
 	getters: {
 		isLogin: state => {
-			console.log('🎀 isLogin ===> ' + state.loginData.isLogin);
 			return state.loginData.isLogin;
+		},
+		isAdmin: state => {
+			console.log('🎀 isAdmin -> ' + state.loginData.isAdmin);
+			return state.loginData.isAdmin;
 		},
 		getSignUpKey: state => {
 			return state.singUpKey.key;
@@ -45,12 +57,16 @@ const authStore = {
 				refresh_token
 				refresh_token_exp
 			*/
-			console.log('➡️ mutations setUserInfo');
+			console.log('❤️ AuthStore -> setUserInfo');
 			var keys = Object.keys(payload);
 			keys.forEach(key => {
 				state.loginData[key] = payload[key];
 			});
 			state.loginData.isLogin = true;
+		},
+		setIsAdmin: (state, isAdmin) => {
+			console.log('❤️ AuthStore -> setIsAdmin' + isAdmin);
+			state.loginData.isAdmin = isAdmin;
 		},
 		setSignUpKey: (state, key) => {
 			state.singUpKey.key = key;
@@ -99,7 +115,7 @@ const authStore = {
 			}
 		},
 
-		setUserInfo({ commit }, res) {
+		setUserInfo({ commit, dispatch }, res) {
 			if (res !== null && res !== undefined) {
 				var decodedHeader_access = jwt_decode(res.access_token, { payload: true });
 				var decodedHeader_refresh = jwt_decode(res.refresh_token, { payload: true });
@@ -114,13 +130,24 @@ const authStore = {
 					refresh_token: res.refresh_token,
 					refresh_token_exp: decodedHeader_refresh.exp,
 				};
-
+				dispatch('isAdmin', payload.user_id);
 				console.log('✅ authStore setUserInfo');
 				commit('setUserInfo', payload);
 				return true;
 			} else {
 				console.log('❌ authStore setUserInfo ❌');
 				return false;
+			}
+		},
+
+		async isAdmin({ commit }, username) {
+			console.log(username);
+			try {
+				let isAdmin = await authService.isAdmin(username);
+				console.log('✅ authStore isAdmin');
+				commit('setIsAdmin', isAdmin);
+			} catch (error) {
+				console.log('AuthStore isAdmin error -> ' + error);
 			}
 		},
 

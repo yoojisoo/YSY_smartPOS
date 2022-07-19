@@ -55,6 +55,18 @@ class AuthService {
 			return error;
 		}
 	}
+
+	async isAdmin(userId) {
+		try {
+			console.log('isAdminisAdminisAdminisAdminisAdminisAdminisAdminisAdminisAdminisAdmin');
+			console.log(userId);
+			let res = await axios.get('/ysy/v1/auth/isAdmin?username=' + userId);
+			console.log(res);
+			return res.data;
+		} catch (error) {
+			console.log('AuthService isAdmin error => ' + error);
+		}
+	}
 }
 
 export default new AuthService();

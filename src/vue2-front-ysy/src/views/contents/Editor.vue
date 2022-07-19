@@ -100,7 +100,7 @@
 
 <script>
 import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
-import summerNote from '@/components/2_molecules/editors/FSummerNote.vue';
+import summerNote from '@/components/1_molecules/editors/FSummerNote.vue';
 import { mapGetters } from 'vuex';
 
 const authStore = 'authStore';

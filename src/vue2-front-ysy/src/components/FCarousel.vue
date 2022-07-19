@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="mt-n4">
 		<agile :initial-slide="0">
 			<img
 				class="slide"
@@ -114,11 +114,11 @@ export default {
 	height: 40vh;
 	object-fit: cover;
 	width: 100%;
-	border-color: black;
-	border-width: 1px;
+	//border-color: black;
+	//border-width: 1px;
 
-	border-top-style: solid;
-	border-bottom-style: solid;
+	//border-top-style: solid;
+	//border-bottom-style: solid;
 	-webkit-box-shadow: 0px 14px 29px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 0px 14px 29px 0px rgba(0, 0, 0, 0.75);
 	box-shadow: 0px 14px 29px 0px rgba(0, 0, 0, 0.75);

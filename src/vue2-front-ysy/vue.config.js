@@ -9,7 +9,7 @@ module.exports = defineConfig({
     //configureWebpack: {
     //    resolve: {
     //        alias: {
-    //            "@temp": resolve("src/components/1_templates"),
+    //            "@temp": resolve("src/components/2_templates"),
     //        },
     //    },
     //},

@@ -8,8 +8,11 @@
 // vuetify의 변수를 사용할 경우 써야함
 @import "~vuetify/src/styles/main.sass";
 
+@import "common.scss";
+
 @import "1_layouts/mainLayout.scss";
 
 @import "2_pages/signPage.scss";
 
 @import "4_components/button.scss";
+@import "4_components/menuContent.scss";

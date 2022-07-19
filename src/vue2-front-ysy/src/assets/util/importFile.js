@@ -4,25 +4,32 @@
  * @desc   import Files 공통
  */
 
-/** 1_templates */
-import TheHeader from '@/components/1_templates/header/TheHeader.vue';
-import TheSystemBar from '@/components/1_templates/header/TheSystemBar.vue';
-import TheFooter from '@/components/1_templates/footer/TheFooter.vue';
-import TheAddrEdit from '@/components/1_templates/TheAddrEdit.vue';
+/**
+ * templates(반제품) molecules(부품)
+ * molecules 먼저 import해야 templates import시 오류 안남
+ * 🔴 작은 부품 먼저 import 해야함 🔴
+ */
+
+/** 1_molecules */
+import FLogoBtnS from '@/components/1_molecules/buttons/FLogoBtnS.vue';
+import FLogoBtnB from '@/components/1_molecules/buttons/FLogoBtnB.vue';
+import FThemeChgBtn from '@/components/1_molecules/buttons/FThemeChgBtn.vue';
+//import FSummerNote from '@/components/1_molecules/editors/FSummerNote.vue';
+//import FTextField from '@/components/1_molecules/textFields/FTextField.vue';
+//import FCarousel from '@/components/1_molecules/FCarousel.vue';
+//import FDateForm from '@/components/1_molecules/FDateForm.vue';
+//import FDialog from '@/components/1_molecules/FDialog.vue';
+//import FGrid from '@/components/1_molecules/FGrid.vue';
+//, FSummerNote, FTextField, FCarousel, FDateForm, FDialog, FGrid
+export { FLogoBtnS, FLogoBtnB, FThemeChgBtn };
+
+/** 2_templates */
+import TheHeader from '@/components/2_templates/header/TheHeader.vue';
+import TheSystemBar from '@/components/2_templates/header/TheSystemBar.vue';
+import TheFooter from '@/components/2_templates/footer/TheFooter.vue';
+import TheAddrEdit from '@/components/2_templates/TheAddrEdit.vue';
 
 export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit };
-
-/** 2_molecules */
-import FLogoBtnS from '@/components/2_molecules/buttons/FLogoBtnS.vue';
-import FLogoBtnB from '@/components/2_molecules/buttons/FLogoBtnB.vue';
-//import FSummerNote from '@/components/2_molecules/editors/FSummerNote.vue';
-//import FTextField from '@/components/2_molecules/textFields/FTextField.vue';
-//import FCarousel from '@/components/2_molecules/FCarousel.vue';
-//import FDateForm from '@/components/2_molecules/FDateForm.vue';
-//import FDialog from '@/components/2_molecules/FDialog.vue';
-//import FGrid from '@/components/2_molecules/FGrid.vue';
-//, FSummerNote, FTextField, FCarousel, FDateForm, FDialog, FGrid
-export { FLogoBtnS, FLogoBtnB };
 
 //import '@/mixin/MixinGlobal.js';
 //import '@/mixin/UserMixin.js';
