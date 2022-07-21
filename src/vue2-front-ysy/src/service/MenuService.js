@@ -8,12 +8,15 @@ import axios from 'axios';
 
 class MenuService {
 	async findMenuList(userId) {
-		try {
-			if (userId == '' || userId == null || userId == undefined) {
-				var url = 'ysy/v1/menu/findDefaultMenuList';
-			} else var url = 'ysy/v1/menu/findMenuList?userId=' + userId;
+		let url = '';
+		if (userId == '' || userId == null || userId == undefined) {
+			url = '/ysy/v1/findDefaultMenuList'; // 로그인된 상태가 아니기 때문에 권한 처리 x
+		} else url = '/ysy/v1/user/findMenuList?userId=' + userId; // 로그인된 상태기 때문에 권한 처리 o
 
+		try {
 			let res = await axios.get(url);
+			console.log('menuService findMenuList');
+			console.log(res);
 
 			if (res.statusText === 'OK' && res.data.objList !== null) {
 				console.log('🟢 MenuService findMenuList');

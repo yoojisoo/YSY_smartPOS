@@ -11,8 +11,9 @@ import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
 @RestController
-@RequestMapping("ysy/v1/menu")
-//@AllArgsConstructor
+@RequestMapping("/ysy/v1")
+/** findDefaultMenuList -> 로그인 X -> 권한 X
+ * findMenuList -> 로그인 O -> user 권한 O */
 public class YsyMenuController {
 
 	@Autowired
@@ -27,9 +28,8 @@ public class YsyMenuController {
 		return ysyMenuMstService.findDefaultMenuList();
 	}
 	
-	@GetMapping("/findMenuList")
+	@GetMapping("/user/findMenuList")
 	public ResponseDto<MenuDto> findMenuList(@RequestParam String userId) {
-		ResponseDto<MenuDto> a = ysyMenuMstService.findMenuList(userId);
-		return a;
+		return ysyMenuMstService.findMenuList(userId);
 	}
 }

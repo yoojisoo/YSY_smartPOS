@@ -62,13 +62,14 @@ class UserService {
 
 	async getUserMenuList(userId) {
 		try {
-			let url = 'ysy/v1/getUserMenuList?userId=' + userId;
+			let url = 'ysy/v1/manager/getUserMenuList?userId=' + userId;
 			let res = await axios.get(url);
+			console.log(res);
 
-			if (res.statusText === 'OK' && res.data.dataList !== null) {
+			if (res.statusText === 'OK' && res.data.objList !== null) {
 				console.log('✅ UserService getUserMenuList');
-				console.log(res.data.dataList);
-				return res.data.dataList;
+				console.log(res.data.objList);
+				return res.data.objList;
 			} else {
 				console.log('❌ UserService getUserMenuList ❌');
 				return null;

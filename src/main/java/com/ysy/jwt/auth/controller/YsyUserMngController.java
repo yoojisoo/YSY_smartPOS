@@ -19,7 +19,7 @@ import com.ysy.jwt.auth.service.YsyUserMngService;
 /** 매니저 영역 : 내가 컨트롤할 유저 데이터 */
 @RestController
 @CrossOrigin
-@RequestMapping("/ysy/v1/manager")
+@RequestMapping("/ysy/v1")
 public class YsyUserMngController {
 
 	
@@ -32,7 +32,7 @@ public class YsyUserMngController {
 	  * manager이상 접근
 	  * //파라메터 리퀘스트 dto를 이용하여 여러 조건을 받을 수 있도록 함.
 	  */
-	@GetMapping("/getUserList")
+	@GetMapping("/manager/getUserList")
 	public ResponseAuthDto<UserMngDto> getUserList(@RequestParam int size){
 		return ysyUserMngService.getUserList(size);
 	}
@@ -42,7 +42,7 @@ public class YsyUserMngController {
 	 * userId 파라미터 -> 해당 userId로 유저 연관 테이블(UserAddress Table) 조회
 	 * manager이상 접근
 	 */
-	@GetMapping("/getUserDetail")
+	@GetMapping("/manager/getUserDetail")
 	public ResponseAuthDto<UserMngDto> getUserDetail(@RequestParam String userId){
 		return ysyUserMngService.getUserDetail(userId);
 	}
@@ -50,7 +50,7 @@ public class YsyUserMngController {
 	/** 2022 07 07 mnew2m
 	 * 컨트롤 가능한 모든 유저 조회
 	 * userId Param -> 해당 userId보다 낮은 등급인 유저를 조회 */
-	@GetMapping("/getFilterUserList")
+	@GetMapping("/manager/getFilterUserList")
 	public ResponseAuthDto<UserMngDto> getFilterUserList(@RequestParam String userId) {
 		return ysyUserMngService.getFilterUserList(userId);
 	}
@@ -58,7 +58,7 @@ public class YsyUserMngController {
 	/** 2022 07 07 mnew2m
 	 * 컨트롤 가능한 유저들 중 선택한 유저의 접근가능메뉴 리스트 조회
 	 * userId Param -> 해당 userId가 접근가능한 메뉴 리스트를 조회 */
-	@GetMapping("/getUserMenuList")
+	@GetMapping("/manager/getUserMenuList")
 	public ResponseAuthDto<MenuDto> getUserMenuList(@RequestParam String userId) {
 		return ysyUserMngService.getUserMenuList(userId);
 	}
@@ -69,9 +69,6 @@ public class YsyUserMngController {
 //		System.out.println("/delGridUserInfo 들어옴 ---------------------------> ");
 //		ysyUserMngService.delGridUserInfo(usernameList);
 //	}
-	
-	
-	
 	
 	@PostMapping("/user/modUserInfo") // 회원정보 수정
 	@ResponseBody

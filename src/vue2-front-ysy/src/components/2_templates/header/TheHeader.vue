@@ -207,6 +207,7 @@ export default {
 		setHeaderMenu() {
 			console.log(' ↓↓↓ headerMenuFilter Start ↓↓↓');
 			console.log(' →→→ this.pageValue = ' + this.pageName);
+			console.log(this.menuList);
 			var parentList = [];
 			var childList = [];
 			this.menuList.forEach(x => {
@@ -214,22 +215,10 @@ export default {
 					// admin 메뉴 구성
 					parentList.push(x);
 				} else {
-					if (
-						//this.pageName === 'home' &&
-						//x.isAdmin === 'N' &&
-						//(x.pmenuId == null || x.pmenuId == '')
-						x.p_menu_id == null ||
-						x.p_menu_id == ''
-					) {
+					if (x.p_menu_id == null || x.p_menu_id == '') {
 						// home 메뉴 구성
 						parentList.push(x);
-					} else if (
-						//this.pageName === 'home' &&
-						//x.isAdmin === 'N' &&
-						//(x.pmenuId != null || x.pmenuId != '')
-						x.p_menu_id != null ||
-						x.p_menu_id != ''
-					) {
+					} else if (x.p_menu_id != null || x.p_menu_id != '') {
 						childList.push(x);
 					}
 				}

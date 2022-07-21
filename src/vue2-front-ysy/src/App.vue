@@ -12,6 +12,9 @@ export default {
 	data: () => ({}),
 	mounted() {
 		console.log('app.vue mounted ');
+		const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
+			.access_token;
+		this.$axios.defaults.headers.common['access_token'] = access_token; //local store
 	},
 	computed: {},
 	methods: {
