@@ -20,7 +20,7 @@
 											label="사용자선택"
 											:items="users"
 											:item-text="itemText"
-											item-value="user_id"
+											item-value="userId"
 											@input="findUserMenuList"
 										></v-autocomplete>
 									</v-col>
