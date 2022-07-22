@@ -26,13 +26,13 @@ import com.ysy.jwt.auth.repository.YsyUserRTokenMapRepository;
 @Configuration
 public class JwtService {
 
-	public final String SECRET             = "ysyFirstPjt";   //jwt token 생성시 서버만 알고있는 비밀 값 , 이 값으로 복호화 함.
-	public final long    EXPIRATION_TIME    = 1000*10*10L;         //(1/1000초)토근 유효 시간 1분
-	public final long    EXPIRATION_TIME_RE = 1000*60*1000L;        //(1/1000초)토근 유효 시간 1000분
-	public final String TOKEN_PREFIX       = "Bearer ";        // token 생성 후 client 전송시 token앞에 붙을 값. 인증시에 이 값으로 1차 검사 진행
-	public final String HEADER_STRING      = "access_token"; // cilent 전송시 token에 대한 key Authorization
-	public final String HEADER_REFRESH     = "refresh_token";  // cilent 전송시 token에 대한 key
-	public final String HEADER_USER_NAME   = "user_name";
+	public final String SECRET              = "ysyFirstPjt";   // JWT Token 생성시 서버만 알고있는 비밀 값 , 이 값으로 복호화 함.
+	public final long   EXPIRATION_TIME     = 1000*1*60*60L;   // (1/1000초) -> 1초 단위 (1000*1  수정X)
+	public final long   EXPIRATION_TIME_RE  = 1000*60*60*24L;  // (1/1000초) -> 1분 단위 (1000*60 수정X)
+	public final String TOKEN_PREFIX        = "Bearer ";       // token 생성 후 client 전송시 token앞에 붙을 값. 인증시에 이 값으로 1차 검사 진행
+	public final String HEADER_STRING       = "access_token";  // Client 전송시 token에 대한 key Authorization
+	public final String HEADER_REFRESH      = "refresh_token"; // Client 전송시 token에 대한 key
+	public final String HEADER_USER_NAME    = "user_name";
 
 	@Autowired
 	private YsyUserRTokenMapRepository ysyUserRTokenMapRepository;
