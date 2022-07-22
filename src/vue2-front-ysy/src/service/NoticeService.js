@@ -9,13 +9,13 @@ class NoticeService {
 		try {
 			let url = 'ysy/v1/findSystemNotice?size=5';
 			let res = await axios.get(url);
-			if (res) {
+			if (res.status === 200) {
 				console.log('NoticeService - findSystemNotice ==> start');
 				console.log(res.data.objList);
 				console.log('NoticeService - findSystemNotice ==> end');
 				return res.data.objList;
 			} else {
-				console.log('NoticeService - findSystemNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log('❌ NoticeService - findSystemNotice ERROR STATUS : ' + res.status);
 				return null;
 			}
 		} catch (error) {
@@ -32,13 +32,13 @@ class NoticeService {
 		try {
 			let url = 'ysy/v1/findStoreNotice?size=5';
 			let res = await axios.get(url);
-			if (res) {
+			if (res.status === 200) {
 				console.log('NoticeService - findStoreNotice ==> start');
 				console.log(res.data.objList);
 				console.log('NoticeService - findStoreNotice ==> end');
 				return res.data.objList;
 			} else {
-				console.log('NoticeService - findStoreNotice ==> error !!!!!!!!!!!!!!!!!!!!!!!!!');
+				console.log('❌ NoticeService - findStoreNotice ERROR STATUS : ' + res.status);
 				return null;
 			}
 		} catch (error) {

@@ -88,10 +88,8 @@ export default {
 				console.log(error);
 			});
 
-			if (this.getStoreNoticeList) {
+			if (this.getStoreNoticeList.length > 0) {
 				this.storeNoticeInfo.dataList = this.getStoreNoticeList;
-			} else {
-				console.log('this.getStoreNoticeList 실패 !!');
 			}
 		},
 		rowClick(row, gridNm) {

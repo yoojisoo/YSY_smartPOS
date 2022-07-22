@@ -35,8 +35,12 @@ const noticeStore = {
 			try {
 				let systemNoticeList = await noticeService.findSystemNotice();
 				if (systemNoticeList !== null && systemNoticeList !== undefined) {
-					console.log('noticeStore - findSystemNotice ✔️');
-					commit('setSystemNoticeList', systemNoticeList);
+					if (systemNoticeList.length > 0) {
+						console.log('noticeStore - findSystemNotice ✔️');
+						commit('setSystemNoticeList', systemNoticeList);
+					} else {
+						console.log('System Notice List Length 0');
+					}
 				} else {
 					console.log('noticeStore - findSystemNotice ERROR !!!!!!!!!!!');
 				}
@@ -50,8 +54,12 @@ const noticeStore = {
 			try {
 				let storeNoticeList = await noticeService.findStoreNotice();
 				if (storeNoticeList !== null && storeNoticeList !== undefined) {
-					console.log('noticeStore - findStoreNotice ✔️');
-					commit('setStoreNoticeList', storeNoticeList);
+					if (storeNoticeList.length > 0) {
+						console.log('noticeStore - findStoreNotice ✔️');
+						commit('setStoreNoticeList', storeNoticeList);
+					} else {
+						console.log('Store Notice List Length 0');
+					}
 				} else {
 					console.log('noticeStore - findStoreNotice ERROR !!!!!!!!!!!');
 				}

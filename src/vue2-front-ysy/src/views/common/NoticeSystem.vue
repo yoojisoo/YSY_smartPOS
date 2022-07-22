@@ -88,10 +88,8 @@ export default {
 				console.log(error);
 			});
 
-			if (this.getSystemNoticeList) {
+			if (this.getSystemNoticeList.length > 0) {
 				this.noticeSystemInfo.dataList = this.getSystemNoticeList;
-			} else {
-				console.log('this.getSystemNoticeList 실패 !!');
 			}
 		},
 		rowClick(row, gridNm) {
