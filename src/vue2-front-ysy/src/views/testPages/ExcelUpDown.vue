@@ -1,9 +1,9 @@
 <template>
     <v-app>
         test excel
-        <!-- <v-card>
+        <v-card>
             <v-btn @click="excelDown"> Excel Down </v-btn>
-        </v-card> -->
+        </v-card>
         <!-- <input type="file" @change="excelUpload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"> -->
         <!-- v-model="files" -->
         <v-card>
@@ -18,7 +18,12 @@
                 @change="excelUpload"
                 />
         </v-card>
-        <Y2sGrid :gridInfo="gridInfo" :gridDataList="getExcelToJson" />
+        
+            <!-- <Y2sGrid :gridInfo="gridInfo" :gridDataList="getExcelToJson" /> -->
+            <!-- <Y2sGridBigData :headers="gridInfo.headers" :dataList="getExcelToJson" /> -->
+            <EasyTable :dataList="getExcelToJson" :headers="gridInfo.easyHeaders" :colHiddenOption="gridInfo.easyColumnHiddenOption" />
+        
+        
         filename = [{{getFileName}}]
         <br/>
         sheetname = [{{getSheetName}}]
@@ -37,10 +42,14 @@
 
 import { mapGetters } from 'vuex';
 import Y2sGrid from "@/components/Y2sGrid.vue"
+import Y2sGridBigData from "@/components/Y2sGridBigData.vue"
+import EasyTable from "@/components/EasyTable.vue"
 
 export default {
     components :{
         Y2sGrid,
+        Y2sGridBigData,
+        EasyTable,
     },
     data(){
         return {
@@ -74,13 +83,25 @@ export default {
             //grid 관련 정보 dataList는 따로 관리
             gridInfo : {
 				headers: [
-					{ text: '이름', value: 'col1',width:"30%",  key: true},
-					{ text: '칼로리', value: 'col2',           },
-					{ text: '지방', value: 'col3',             },
-					{ text: '탄수화물', value: 'col4',         },
-					{ text: '단백질', value: 'col5',           },
-					{ text: '철분', value: 'col6',             },
+					{width:"30%",class: 'sticky-header  grey lighten-3',align: 'center',text: '이름', value: 'col1',  key: true },
+					{width:"10%",class: 'sticky-header  grey lighten-3',align: 'center',text: '칼로리', value: 'col2',           },
+					{width:"10%",class: 'sticky-header  grey lighten-3',align: 'center',text: '지방', value: 'col3',             },
+					{width:"10%",class: 'sticky-header  grey lighten-3',align: 'center',text: '탄수화물', value: 'col4',         },
+					{width:"10%",class: 'sticky-header  grey lighten-3',align: 'center',text: '단백질', value: 'col5',           },
+					{width:"30%",class: 'sticky-header  grey lighten-3',align: 'center',text: '철분', value: 'col6',             },
 				],
+                easyHeaders: [
+					{field: 'col1',key:"a",width:"30%",align: 'center',title: '이름'    ,sortBy: "",fixed: "left"},
+					{field: 'col2',key:"b",width:"10%",align: 'center',title: '칼로리'  ,sortBy: "",},
+					{field: 'col3',key:"c",width:"10%",align: 'center',title: '지방'    ,sortBy: "",},
+					{field: 'col4',key:"d",width:"10%",align: 'center',title: '탄수화물'},
+					{field: 'col5',key:"e",width:"10%",align: 'center',title: '단백질'  },
+					{field: 'col6',key:"f",width:"30%",align: 'center',title: '철분'    },
+				],
+                easyColumnHiddenOption: {
+                    // default hidden column keys
+                    defaultHiddenColumnKeys: ["1"],
+                },
 				// dateGubun: '/',
 				gridNm: 'Excel Upload Data',
 				
@@ -89,10 +110,14 @@ export default {
 				rowCnt: 10,
 				gridDense: true,
 				useBtn: true,
-                hide_default_footer:false,
+                hide_default_footer:true,
                 moreBtnNm : "더보기...",
                 addBtnNm : "Add",
                 isBtnGrp:false,
+                isResize:true,
+                isNotSort:true,
+                isUseHeader:false,
+                isUseBody:false,
 				// rowClick: (event, dataInfo , gridNm) => {
 				// 	console.log("rowClick =>" + gridNm);
 				// }, //로우 클릭 이벤트 콜백
@@ -103,12 +128,12 @@ export default {
                     dataInfo.item.col2 = 12345;
 
 				}, //로우 더블클릭 이벤트 콜백
-                // moreBtnClick: ( gridNm) => {
-                //     console.log("moreBtnClick =>" + gridNm);
-				// },
-                // addBtnClick: ( gridNm, curIndex ) => {
-                //     console.log("addItemBtn =>" + curIndex , gridNm);
-				// },
+                moreBtnClick: ( gridNm) => {
+                    console.log("moreBtnClick =>" + gridNm);
+				},
+                addBtnClick: ( gridNm, curIndex ) => {
+                    console.log("addItemBtn =>" + curIndex , gridNm);
+				},
                 excelDownClick: ( gridNm) => {
                     this.excelData.body = this.getExcelToJson;
                     this.$store
@@ -118,21 +143,21 @@ export default {
                         console.log(error);
                     });
 				},
-                // excelUploadClick: ( gridNm , file) => {
-                //     if(file != undefined || file){
-                //         const customHeader = ["col1","col2","col3","col4","col5","col6"];
-                //         const data = {
-                //             file,
-                //             customHeader
-                //         };
-                //         this.$store
-                //             .dispatch('excelStore/uploadExcelDefault',data)
-                //             .catch(error => {
-                //                 console.log('===============> excelStore/uploadExcelDefault error');
-                //                 console.log(error);
-                //             });
-                //     }
-				// },
+                excelUploadClick: ( gridNm , file) => {
+                    if(file != undefined || file){
+                        const customHeader = ["col1","col2","col3","col4","col5","col6"];
+                        const data = {
+                            file,
+                            customHeader
+                        };
+                        this.$store
+                            .dispatch('excelStore/uploadExcelDefault',data)
+                            .catch(error => {
+                                console.log('===============> excelStore/uploadExcelDefault error');
+                                console.log(error);
+                            });
+                    }
+				},
 			},
         }
     },

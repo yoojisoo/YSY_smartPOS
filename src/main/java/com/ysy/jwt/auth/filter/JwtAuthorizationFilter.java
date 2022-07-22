@@ -87,11 +87,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 				
 				if(jwtService.tokenExpirationCheck(token)) 
 				{//만료시간 지남 : 만료 message 
-					response.addHeader("token_error"  , "["+username+"]Access Token expiration");
+					response.addHeader("token_error"  , "["+username+"]Access Token timeout");
 					
 					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 					PrintWriter writer = response.getWriter();
-					writer.println("Access Token 만료됨");
+					writer.println("Access Token timeout");
 					
 					return;
 				}
