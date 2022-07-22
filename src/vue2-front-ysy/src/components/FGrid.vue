@@ -1,6 +1,6 @@
 <!-- 22.06.29 yoojisoo -->
 <template>
-	<v-container fluid pa-0 ma-0 mt-3>
+	<v-container fluid pa-0 ma-0>
 		<v-card class="mb-3 pa-0" outlined tile>
 			<v-data-table
 				v-model="selected"

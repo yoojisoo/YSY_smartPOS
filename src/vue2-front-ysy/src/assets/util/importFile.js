@@ -19,17 +19,18 @@ import FThemeChgBtn from '@/components/1_molecules/buttons/FThemeChgBtn.vue';
 //import FCarousel from '@/components/1_molecules/FCarousel.vue';
 //import FDateForm from '@/components/1_molecules/FDateForm.vue';
 //import FDialog from '@/components/1_molecules/FDialog.vue';
-//import FGrid from '@/components/1_molecules/FGrid.vue';
+import FGrid from '@/components/FGrid.vue';
 //, FSummerNote, FTextField, FCarousel, FDateForm, FDialog, FGrid
-export { FLogoBtnS, FLogoBtnB, FThemeChgBtn };
+export { FLogoBtnS, FLogoBtnB, FThemeChgBtn, FGrid };
 
 /** 2_templates */
 import TheHeader from '@/components/2_templates/header/TheHeader.vue';
 import TheSystemBar from '@/components/2_templates/header/TheSystemBar.vue';
 import TheFooter from '@/components/2_templates/footer/TheFooter.vue';
 import TheAddrEdit from '@/components/2_templates/TheAddrEdit.vue';
+import TheSearch from '@/components/2_templates/TheSearch.vue';
 
-export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit };
+export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit, TheSearch };
 
 //import '@/mixin/MixinGlobal.js';
 //import '@/mixin/UserMixin.js';

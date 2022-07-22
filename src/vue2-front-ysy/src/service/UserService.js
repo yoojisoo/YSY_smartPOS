@@ -4,7 +4,7 @@ class UserService {
 	// 모든 유저 목록 조회
 	async fn_getUserList() {
 		try {
-			let url = 'ysy/v1/getUserList?size=10';
+			let url = 'ysy/v1/manager/getUserList?size=10';
 			let res = await axios.get(url);
 
 			if (res) {
@@ -24,7 +24,7 @@ class UserService {
 	// 유저 상세정보 조회 : 1명의 아이디로 어드레스 조회
 	async fn_getUserDetail(userId) {
 		try {
-			let url = 'ysy/v1/getUserDetail?userId=' + userId;
+			let url = 'ysy/v1/manager/getUserDetail?userId=' + userId;
 			let res = await axios.get(url);
 
 			if (res) {
