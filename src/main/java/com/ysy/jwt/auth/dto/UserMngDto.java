@@ -4,7 +4,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 
@@ -23,15 +22,11 @@ public class UserMngDto {
 	private String userNm;
 	private String regDt;
 	private String oauthPath;
-	private String modDt;
-	private String isEmailAuth;
-	private String userPw;
 	
 	// grpMst 정보
-	private enumGrps grpId;
-	private String bizCd;
+//	private String grpId;
+//	private String bizCd;
 	private String bizNm;
-	
 	
 	
 	/** 주소정보 */
@@ -49,9 +44,6 @@ public class UserMngDto {
 //	private String addr_mod_dt;
 	
 	final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-
-
 	
 	/* 유저 1명의 userMst 테이블만 조회 */
 	public UserMngDto(YsyUserMst user) {
@@ -64,14 +56,10 @@ public class UserMngDto {
 	/* 유저 1명의 userMst 테이블 + 어드레스 조회 */
 	public UserMngDto(YsyUserMst user, List<YsyUserAddress> addrList) {
 		this.userId = user.getUsername();
-		this.modDt = user.getModDt().format(formatter);
-		this.regDt = user.getRegDt().format(formatter);
-		this.isEmailAuth = user.getIsEmailAuth();
 		this.userNm = user.getName();
+		this.regDt = user.getRegDt().format(formatter);
 		this.oauthPath = user.getOAuthPath();
-		this.userPw = user.getPassword();
 		this.bizNm = user.getYsyGrpMst().getYsyBizMst().getBizNm();
-		this.grpId = user.getYsyGrpMst().getGrpPK().getGrpId();
 		this.addrList = addrList;
 		
 	}

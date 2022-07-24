@@ -43,6 +43,7 @@ export default {
 	props: ['addr'],
 	data() {
 		return {
+			idx: [1, 2, 3, 4, 5],
 			temInfo: {
 				label: '우편번호1',
 				icon: 'mdi-mailbox-up',
