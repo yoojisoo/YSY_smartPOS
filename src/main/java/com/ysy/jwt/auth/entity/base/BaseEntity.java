@@ -34,8 +34,13 @@ public abstract class BaseEntity {
 	protected LocalDateTime modDt;
 	
 	@Column(name="ROW_DESC")
-	@Comment(value = "상속받은 테이블 행의 Description")
+	@Comment(value = "baseEntity에서 상속받은 테이블 행의 Description")
 	protected String desc;
+	
+	
+	@Comment(value = "baseEntity에서 상속받은 행")
+	@Column(name = "USE_YN" , columnDefinition = "varchar(1) default 'Y'")
+	private String useYn;
 	
 	@PrePersist
     public void prePersist() {

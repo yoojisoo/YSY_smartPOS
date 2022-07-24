@@ -3,7 +3,6 @@ package com.ysy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,7 +18,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.entity.QStoreNotice;
 import com.ysy.biz.entity.StoreNotice;
 import com.ysy.jwt.auth.dto.UserInfoDto;
-import com.ysy.jwt.auth.dto.UserMngDto2;
 import com.ysy.jwt.auth.entity.QYsyBtnMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
@@ -153,11 +151,11 @@ public class Jpa_1_N_test {
 				.where(qYsyUserMst.username.eq(userId))
 				.fetch();
 		
-		List<UserMngDto2> userMngList = 
-				userResult.stream()
-					.map(x-> new UserMngDto2(x.getUsername() , x.getAddressList()))
-					.collect(Collectors.toList());
-		UserMngDto2 userMngDto2 = userMngList.get(0);
+//		List<UserMngDto2> userMngList = 
+//				userResult.stream()
+//					.map(x-> new UserMngDto2(x.getUsername() , x.getAddressList()))
+//					.collect(Collectors.toList());
+//		UserMngDto2 userMngDto2 = userMngList.get(0);
 		
 		
 		YsyUserMst user = ysyUserMstRepository.findById(userId)
