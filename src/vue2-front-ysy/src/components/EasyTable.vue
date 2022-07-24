@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { veLoading } from "vue-easytable";
+// import { veLoading } from "vue-easytable";
  export default {
     props: [ "dataList","headers","colHiddenOption"],
     components:{
