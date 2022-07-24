@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { veLoading } from "vue-easytable";
+// import { veLoading } from "vue-easytable";
  export default {
     props: [ "dataList","headers","colHiddenOption"],
     components:{
@@ -117,11 +117,11 @@ import { veLoading } from "vue-easytable";
      
     },
     mounted() {
-        this.loadingInstance = this.$veLoading({
-            fullscreen: true,
-            name: "bounce",
-            lock: true,
-        });
+        // this.loadingInstance = this.$veLoading({
+        //     fullscreen: true,
+        //     name: "bounce",
+        //     lock: true,
+        // });
     },
     destroyed() {
         this.loadingInstance.destroy();
