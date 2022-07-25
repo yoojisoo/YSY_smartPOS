@@ -66,26 +66,32 @@
 
 <script>
 export default {
+
     data() {
         return {
             selected: null,
             isSuccess: false,
             filterList: { //필터 조건들
-                lastDate: ['최근 6개월'],
-                role: [],
-                bizCode: [],
-                oauthPath: [],
-                city: [],
-                date: [],
+                lastDate : ['최근 6개월'],
+                role     : ["1","2"],
+                bizCode  : ["3","4"],
+                oauthPath: ["5","6"],
+                city     : ["7","8"],
+                date     : ["9","10"],
             },
             rules: {
                 email: [
-                    // v => (v || '').length <= 30 || 'Max 30 characters',
-                    // v => {
-                    //     const replaceV = v.replace(/(\s*)/g, '');
-                    //     const pattern  = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
-                    //     return pattern.test(replaceV) || '이메일 형식으로 입력해주세요'        
-                    // }
+                    v => {
+                        console.log("v ===> " + v);
+                        return ( v || '').length <= 30 || 'Max 30 characters';
+                    },
+                    v => {
+                        console.log("====================================================>"+v);
+                        const replaceV = v!= undefined? v.replace(/(\s*)/g, '') : "";
+                        
+                        const pattern  = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
+                        return pattern.test(replaceV) || '이메일 형식으로 입력해주세요'       
+                    }
                 ],
                 name: []
             },

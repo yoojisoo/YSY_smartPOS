@@ -17,6 +17,8 @@ import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserMngDto;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author clubbboy@naver.com
  *  2022. 5. 1
@@ -55,6 +57,8 @@ public class YsyUserMstController {
 		return ysyUserService.modUserInfo(modUserDto);
 	}
 	
+	
+	@ApiOperation(value="user 전체 리스트" , notes="parameter는 requestDto 생성 후 client와 맞춰서 사용함.")
 	/** 2022 06 02 yoojisoo */
 	@GetMapping("/manager/getUserList") // 모든 유저 조회 size만큼
 	public ResponseAuthDto<UserMngDto> getUserList(@RequestParam int size){
