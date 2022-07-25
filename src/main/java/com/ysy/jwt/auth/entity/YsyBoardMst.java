@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Comment;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
@@ -56,6 +58,10 @@ public class YsyBoardMst extends BaseEntity implements Serializable {
     @Column(name = "CONTENT", nullable = false)
     @Lob
     private String content;
+    
+    @Comment(value="조회수")
+    @Column(name = "VIEW_CNT",nullable = false)
+    private int viewCnt;
 
     
     /** File 처리 관련 table */

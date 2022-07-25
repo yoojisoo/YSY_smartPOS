@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Comment;
+
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;
@@ -53,6 +55,14 @@ public class YsyBoardFile extends BaseEntity implements Serializable{
 
     @Column(name = "FILE_SIZE" )
     private Long fileSize;
+   
+    @Comment(value="대표 이미지 여부")
+    @Column(name = "IS_THUMBNAIL" )
+    private String isThumbnail;
+    
+    @Comment(value="파일 순서 - 썸네이은 -1이고 나머지 0부터 시작(썸네이은 본문에 적용 안함.)")
+    @Column(name = "FILE_IDX" )
+    private int fileIdx;
 
     
     // Board 정보 저장
