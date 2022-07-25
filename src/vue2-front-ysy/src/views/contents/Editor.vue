@@ -123,6 +123,9 @@ export default {
 				userId: '',
 				title: '',
 				isEdit: null,
+				btnClick:(content , actionType) =>{
+					console.log(content +"====="+ actionType);
+				}
 			},
 		};
 	},

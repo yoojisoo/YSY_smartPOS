@@ -1,6 +1,7 @@
 <!-- 22.06.29 yoojisoo -->
 <template>
 	<div class="editor-page">
+		<v-btn @click="btnclick"></v-btn>
 		<div id="summernote"></div>
 	</div>
 </template>
@@ -43,6 +44,11 @@ export default {
 			if (this.editorInfo.isSave) {
 				this.summernoteStr = $('#summernote').summernote('code'); //값 가져오기
 				console.log('확인중~' + typeof this.summernoteStr);
+			}
+		},
+		btnclick(){
+			if(this.editorInfo.btnClick){
+				this.editorInfo.btnClick($('#summernote').summernote('code') , "save");
 			}
 		},
 	},

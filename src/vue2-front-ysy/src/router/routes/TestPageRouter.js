@@ -10,4 +10,14 @@ export default [
 		name: 'excelUpDown',
 		component: () => import('@/views/testPages/ExcelUpDown.vue'),
 	},
+	{
+		path: '/summerNoteVue',
+		name: 'summerNoteVue',
+		component: () => import('@/views/contents/Editor.vue'),
+	},
+	{
+		path: '/summerNote',
+		name: 'summerNote',
+		component: () => import('@/components/1_molecules/editors/FSummerNote.vue'),
+	},
 ];

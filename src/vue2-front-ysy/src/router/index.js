@@ -7,19 +7,13 @@ import ErrorRouter from './routes/ErrorRouter';
 import TestPageRouter from './routes/TestPageRouter'; // add by clubbboy@naver.com
 
 Vue.use(VueRouter);
-//const routes = [
-//	/** Test Page */
-//	{
-//		path: '/editor',
-//		name: 'editor',
-//		component: () => import('../views/contents/Editor.vue'),
-//	},
-//];
+
 
 const router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
-	routes: [...AuthRouter, ...CommonRouter, ...SignRouter, ...TestPageRouter, ...ErrorRouter],
+	routes: [...AuthRouter, ...CommonRouter, ...SignRouter, ...TestPageRouter
+		   , ...ErrorRouter],
 });
 
 export default router;
