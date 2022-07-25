@@ -4,11 +4,11 @@ spring:
       matching-strategy: ant-path-matcher
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://192.168.0.114:3306/semes_db
-    url: jdbc:mariadb://localhost:3306/ysy_db
+    url: jdbc:mariadb://192.168.0.114:3306/audib
+#    url: jdbc:mariadb://localhost:3306/ysy_db
     username: root
-#    password: password
-    password: 1234
+    password: password
+#    password: 1234
     
 # 
   jackson:
