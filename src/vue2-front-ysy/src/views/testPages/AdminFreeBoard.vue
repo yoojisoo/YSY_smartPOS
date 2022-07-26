@@ -3,8 +3,8 @@
     sm=600 - 960
     md=960이상
 
-     outlined rounded text  동그란 라인
-                                plain 배경없앰.
+    outlined rounded text	동그란 라인
+                            plain 배경없앰.
 -->
 <template>
 	<v-app>
@@ -75,7 +75,6 @@
                                 </v-col>
                             </v-row>
                         </v-card> -->
-
 					<ImgCard :data="data" />
 				</v-col>
 			</v-row>
@@ -99,13 +98,14 @@ export default {
 	},
 	data() {
 		return {
+			cardCntInPage: 6, // 한 페이지에 표시 될 카드 수
+			cardCntInAll: 0, // 전체 카드 수
 			paginationInfo: {
-				cardCntInPage: 6, // 한 페이지에 표시 될 카드 수 ⭐
-				cardCntInAll: 0, // 전체 카드 수 ⭐
+				pageCnt: 0, // 총 페이지 수 ⭐
 				//totalVisible: 5, // 페이지 버튼 표시 사이즈
 				//useCircle: true, // 페이지 버튼 circle로
 				updatePage: page => {
-					// 페이지 넘어갈때 실행될 함수 ⭐
+					// 페이지 넘어갈때 실행될 함수
 					this.updatePage(page);
 				},
 			},
@@ -124,14 +124,15 @@ export default {
 	mounted() {
 		this.dataInit();
 		this.initPage(); // 초기 데이터를 불러온 후 첫페이지 셋팅
+		this.paginationInfo.pageCnt = this.pages();
 	},
 	methods: {
 		dataInit() {
-			for (var i = 0; i < 50; i++) {
+			for (var i = 0; i < 10000; i++) {
 				var json = {
 					title: 'title' + i,
-					content: 'content2',
-					writer: 'writer 2',
+					content: 'content' + i,
+					writer: 'writer' + i,
 					count: ' 20',
 					commentCnt: '3',
 					contentList: [
@@ -145,27 +146,30 @@ export default {
 				};
 				if (i == 0) {
 					json.isOwner = true;
-					json.content =
-						'1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890';
+					json.content = '1234567890123456789012345678901234567890';
 				}
 				this.dataList.push(json);
 			}
 		},
+		pages() {
+			if (this.dataList.length === 0) return 0;
+			else return Math.ceil(this.dataList.length / this.cardCntInPage);
+		},
 		initPage() {
 			// 처음에 dataInit에서 조회해온 데이터들을 사이즈에 맞게 잘라서 보관
-			this.paginationInfo.cardCntInAll = this.dataList.length;
-			if (this.paginationInfo.cardCntInAll < this.paginationInfo.cardCntInPage) {
+			this.cardCntInAll = this.dataList.length;
+			if (this.cardCntInAll < this.cardCntInPage) {
 				// 한 페이지에 보여줄 카드 수가 전체 카드 수 초과 (그대로 씀)
 				this.cardList = this.dataList;
 			} else {
 				// 한 페이지에 보여줄 카드 수가 전체 카드 수 이하 (사이즈만큼 잘라서 씀)
-				this.cardList = this.dataList.slice(0, this.paginationInfo.cardCntInPage);
+				this.cardList = this.dataList.slice(0, this.cardCntInPage);
 			}
 		},
 		updatePage(page) {
 			// Pagination을 눌렀을때 해당 페이지의 데이터를 보관
-			let start = (page - 1) * this.paginationInfo.cardCntInPage;
-			let end = page * this.paginationInfo.cardCntInPage;
+			let start = (page - 1) * this.cardCntInPage;
+			let end = page * this.cardCntInPage;
 			this.cardList = this.dataList.slice(start, end);
 		},
 		cardClick() {
