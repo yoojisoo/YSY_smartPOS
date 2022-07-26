@@ -25,4 +25,9 @@ export default [
 		name: 'adminFreeBoard',
 		component: () => import('@/views/testPages/AdminFreeBoard.vue'),
 	},
+	{
+		path: '/summernote2',
+		name: 'summernote2',
+		component: () => import('@/components/1_molecules/editors/SummerNote.vue'),
+	},
 ];

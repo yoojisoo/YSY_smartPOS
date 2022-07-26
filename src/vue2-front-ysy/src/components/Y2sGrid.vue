@@ -29,20 +29,6 @@
 
 			</v-card-title>
 
-			<!-- @page-count="pageCount = $event"  dark -->
-			<!-- :items-per-page="gridInfo.rowCnt == undefined? 5: gridInfo.rowCnt"  -->
-
-			<!-- @page-count="pageCount = $event"
-				:show-select="gridInfo.isCheckBox"
-				:single-select="gridInfo.isSingleSelect" 
-				:hide-default-header="false"
-				:hide-default-footer="gridInfo.hide_default_footer" 
-				:item-key="gridKey"
-				:disable-sort="gridInfo.isNotSort==undefined?true:gridInfo.isNotSort" 
-				multi-sort
-				@click:row="rowClick"
-				@dblclick:row="rowDbClick"  -->
-
 			<v-data-table 
 				:dense="gridInfo.dense== undefined? true:gridInfo.dense" 
 				v-model="selected"

@@ -19,9 +19,9 @@
                 />
         </v-card>
         
-            <!-- <Y2sGrid :gridInfo="gridInfo" :gridDataList="getExcelToJson" /> -->
+            <Y2sGrid :gridInfo="gridInfo" :gridDataList="getExcelToJson" />
             <!-- <Y2sGridBigData :headers="gridInfo.headers" :dataList="getExcelToJson" /> -->
-            <EasyTable :dataList="getExcelToJson" :headers="gridInfo.easyHeaders" :colHiddenOption="gridInfo.easyColumnHiddenOption" />
+            <!-- <EasyTable :dataList="getExcelToJson" :headers="gridInfo.easyHeaders" :colHiddenOption="gridInfo.easyColumnHiddenOption" /> -->
         
         
         filename = [{{getFileName}}]
@@ -118,6 +118,7 @@ export default {
                 isNotSort:true,
                 isUseHeader:false,
                 isUseBody:false,
+                isFiltering:true,
 				// rowClick: (event, dataInfo , gridNm) => {
 				// 	console.log("rowClick =>" + gridNm);
 				// }, //로우 클릭 이벤트 콜백
@@ -133,6 +134,14 @@ export default {
 				},
                 addBtnClick: ( gridNm, curIndex ) => {
                     console.log("addItemBtn =>" + curIndex , gridNm);
+                    let json = {
+                        col1:"111",col2:"112",col3:"113",col4:"1114",col5:"115",col6:"1116",
+                    };
+                    let pay = {
+                        index : curIndex+1,
+                        data : json
+                    }
+                    this.$store.dispatch('excelStore/addData',pay);
 				},
                 excelDownClick: ( gridNm) => {
                     this.excelData.body = this.getExcelToJson;

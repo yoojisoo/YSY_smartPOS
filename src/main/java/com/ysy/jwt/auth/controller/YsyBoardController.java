@@ -1,9 +1,14 @@
 package com.ysy.jwt.auth.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ysy.jwt.auth.dto.BoardDto;
+import com.ysy.jwt.auth.service.YsyBoardService;
 
 import io.swagger.annotations.ApiOperation;
 /**
@@ -15,6 +20,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/ysy/v1")
 public class YsyBoardController {
+	
+	@Autowired
+	private YsyBoardService ysyBoardService;
 	
 	
 	@ApiOperation(value = "get 방식 admin만 사용할 수 있는 board" 
@@ -70,5 +78,25 @@ public class YsyBoardController {
 	public void delYsyComment(String BoardId) {
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	@PostMapping("/createSummerNote")
+	public String createSummerNote(@RequestBody BoardDto dto) {
+//		System.out.println("title="+dto.getTitle());
+//		System.out.println("content="+dto.getContent());
+		
+		return ysyBoardService.createSummerNote(dto.getContent());
+		
+	}
 
+	
+	
+	
+	
+	
 }

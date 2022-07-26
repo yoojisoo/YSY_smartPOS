@@ -33,11 +33,20 @@ import * as XLSX from 'xlsx';
         setExcelToJson(state, payload) {
             state.excelToJson = payload;
         },
-        
+        addData(state, payload){
+            state.excelToJson.splice(payload.index , 0 ,payload.data );
+        }
     },
  
  
     actions: {
+        //데이터 로우 추가
+        //payload { json , index}
+        addData({ commit },payload){
+            console.log("addData payload");
+            console.log(payload);
+            commit('addData', payload);
+        },
 
         downloadExcelFile({ commit },payload ) {
             console.log("ExcelUtil downloadExcelFile = " );

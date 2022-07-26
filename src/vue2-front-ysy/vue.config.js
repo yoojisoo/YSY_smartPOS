@@ -16,6 +16,7 @@ module.exports = defineConfig({
     outputDir: path.resolve(__dirname, "../main/resources/static"),
     devServer: {
         proxy: "http://localhost:8000",
+        // proxy: "http://192.168.0.77:8000",
     },
     transpileDependencies: ["vuetify"],
     css: {

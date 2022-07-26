@@ -91,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/ysy/v1/user/vip3/**").access(user3_roles)
 		.antMatchers("/ysy/v1/manager/**")  .access(mng_roles)
 		.antMatchers("/ysy/v1/admin/**")    .access(admin_roles)
-		.antMatchers(PERMIT_URL_ARRAY).permitAll()
+//		.antMatchers(PERMIT_URL_ARRAY).permitAll()
 		.anyRequest().permitAll()
 		;
 		
