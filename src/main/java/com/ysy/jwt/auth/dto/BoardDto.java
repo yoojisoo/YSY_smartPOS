@@ -1,5 +1,9 @@
 package com.ysy.jwt.auth.dto;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +21,6 @@ public class BoardDto {
 	private String fileName;
 	private String useYn;
 	private String writer;
+	private List<MultipartFile> files;
+//	private MultipartFile files;
 }

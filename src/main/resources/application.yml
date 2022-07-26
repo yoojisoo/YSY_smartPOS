@@ -1,4 +1,5 @@
 spring:
+
   mvc:
     pathmatch:
       matching-strategy: ant-path-matcher
@@ -9,8 +10,12 @@ spring:
     username: root
     password: password
 #    password: 1234
-    
-# 
+
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 20MB
+
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false

@@ -8,43 +8,77 @@
 <template>
 	<div class="editor-page">
 
-		<v-btn outlined height="50px" width="100px" @click="saveClick">
-			<v-icon>mdi-content-save</v-icon> 저장
-		</v-btn>
-		<v-btn outlined height="50px" width="100px" @click="cancelClick">
-			<v-icon>mdi-pen</v-icon> 수정
-		</v-btn>
-		<v-btn outlined height="50px" width="100px" @click="deleteClick">
-			<v-icon>mdi-delete</v-icon> 삭제
-		</v-btn>
+		<!--버튼 영역 -->
+		<v-row no-gutters justify="end">
+			<v-col class="pt-3 px-3" cols="12" style="text-align: end;">
+				<!-- <v-spacer></v-spacer> -->
+				<span class="btn_mr_nolast">
+					<v-btn outlined height="40px" width="80px" @click="saveClick">
+						<v-icon>mdi-content-save</v-icon> 저장
+					</v-btn>
+					<v-btn outlined height="40px" width="80px" @click="cancelClick">
+						<v-icon>mdi-pen</v-icon> 수정
+					</v-btn>
+					<v-btn outlined  height="40px" width="80px" @click="deleteClick">
+						<v-icon>mdi-delete</v-icon> 삭제
+					</v-btn>
+				</span>
+			</v-col>
+		</v-row>
+		
 
-
-		<v-file-input v-model="files" color="deep-purple accent-4" counter label="대표이미지 Upload" multiple
-		accept="image/*"
-			placeholder="Select your files" prepend-icon="mdi-paperclip" outlined :show-size="1000" @onChange="fileChange">
-			<template v-slot:selection="{ index, text }">
-				<v-chip color="deep-purple accent-4" dark label small>
-					{{ text }}
-				</v-chip>
-				<!-- <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>
-					{{ text }}
-				</v-chip>
-
-				<span v-else-if="index === 2" class="text-overline grey--text text--darken-3 mx-2">
-					+{{ files.length - 2 }} File(s)
-				</span> -->
-			</template>
-		</v-file-input>
+		
 
 
 
+		<!-- 제목 영역 -->
+		<v-row no-gutters class="pb-5">
+			<v-col class="pt-3" cols="12">
+				<v-text-field class="px-3" v-model="title" outlined placeholder="제목 입력" hide-details/>
+			</v-col>
+		</v-row>
 
 
-		<v-text-field class="px-3" v-model="title" hint="제목" placeholder="제목 입력">
+		<!-- 파일 첨부 영역 -->
+		<v-row no-gutters>
+			<v-col cols="12">
+				<v-file-input v-model="files" class="mx-3"
+						color="deep-purple accent-4"
+						counter label="대표이미지 Upload"
+						:multiple = true
+						:dense = false
+						accept="image/*"
+						placeholder="Select your files"
+						:prepend-icon="info && info.iconNm?info.iconNm : ''"
+						outlined
+						:show-size="1000"
+						@change="fileChange">
+					<template v-slot:selection="{ index, text }">
+						<v-chip color="deep-purple accent-4" dark label small>
+							{{ text }}
+						</v-chip>
+						<!-- <v-chip v-if="index < 2" color="deep-purple accent-4" dark label small>
+							{{ text }}
+						</v-chip>
+		
+						<span v-else-if="index === 2" class="text-overline grey--text text--darken-3 mx-2">
+							+{{ files.length - 2 }} File(s)
+						</span> -->
+					</template>
+				</v-file-input>
+			</v-col>
+		</v-row>
 
-		</v-text-field>
 
-		<div id="summernote"></div>
+		<!-- content 영역 -->
+		<v-row no-gutters class="px-3">
+			<v-col  cols="12">
+				<div id="summernote"></div>
+			</v-col>
+		</v-row>
+
+
+		
 	</div>
 </template>
 
@@ -67,10 +101,10 @@ export default {
 	},
 	mounted() {
 		$('#summernote').summernote({
-			height: "400",
+			height: "500",
 			minHeight: null,
 			maxHeight: null,
-			focus: true,
+			focus: false,
 			lang: 'ko-KR',
 			callbacks: {
               onImageUpload: function(image) {
@@ -115,23 +149,36 @@ export default {
 			this.content = $('#summernote').summernote('code'); //값 가져오기
 			console.log("content = ["+this.content + "] \n orgContent = [" + this.orgContent +"]");
 			console.log('확인중~' + typeof this.content);
+			console.log(this.files);
 			let param = {
+				
 				content : this.content,
-				title : "title1",
+				title : this.title,
+				files : this.files
 			};
-			
-			this.$axios.post("/ysy/v1/createSummerNote",param).then(res=>{
-				console.log("");
-				console.log(res);
-				console.log(res.config.data);
-				$('#summernote').summernote('code', res.data); 
-				// $('#summernote').summernote('fullscreen.toggle');
-
-				alert("success");
+			// this.$axios.defaults.headers.post['Content-Type'] = 'multipart/form-data';
+			let formData = new FormData();
+			// formData.append('title', this.title);
+			// formData.append('files', this.files);
+			formData.append('content', this.content);
+			formData.append('title', this.title);
+			this.files.forEach(x=>{
+				formData.append('files', x);
 			})
-			.catch(error=>{
-				console.log(error);
-			});
+			
+			
+			
+			this.$axios.post("/ysy/v1/createSummerNote",formData,
+						{headers: {'Content-Type': 'multipart/form-data'}})
+				.then(res=>{
+					console.log("");
+					console.log(res);
+					$('#summernote').summernote('code', res.data); 
+					alert("success");
+				})
+				.catch(error=>{
+					console.log(error);
+				});
 		},
 		cancelClick() {
 

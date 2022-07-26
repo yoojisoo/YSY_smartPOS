@@ -85,12 +85,14 @@ public class YsyBoardController {
 	
 	
 	
-	@PostMapping("/createSummerNote")
-	public String createSummerNote(@RequestBody BoardDto dto) {
+	@PostMapping(value="/createSummerNote" , consumes = {"multipart/form-data"})
+	public String createSummerNote( BoardDto dto) {
+//	public String createSummerNote(@RequestBody MultipartFile files, String title) {
 //		System.out.println("title="+dto.getTitle());
 //		System.out.println("content="+dto.getContent());
 		
-		return ysyBoardService.createSummerNote(dto.getContent());
+		return "test";
+//		return ysyBoardService.createSummerNote(dto.getContent());
 		
 	}
 
