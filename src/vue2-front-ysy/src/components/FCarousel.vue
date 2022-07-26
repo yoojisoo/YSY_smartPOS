@@ -1,5 +1,5 @@
 <template>
-	<div class="mt-n4">
+	<div class="mt-n8">
 		<agile :initial-slide="0">
 			<img
 				class="slide"

@@ -5,39 +5,30 @@
 -->
 
 <template>
-	<v-app>
-		<TheSystemBar />
-		<TheHeader :pageName="pageName" />
-		<v-main>
-			<v-container class="main_layout_container">
-				<v-row class="main_layout_row">
-					<v-col class="main_layout_row" clos="12" md="8" lg="8" xl="8">
-						<v-row justify="center" no-gutters style="height: inherit">
+	<v-container class="main_layout_container">
+		<v-row class="main_layout_row">
+			<v-col class="main_layout_row" clos="12" md="8" lg="8" xl="8">
+				<v-row justify="center" no-gutters style="height: inherit">
+					<v-col cols="12">
+						<v-row align="start" justify="start" no-gutters>
+							<v-col cols="3">
+								<v-autocomplete
+									label="사용자선택"
+									:items="users"
+									:item-text="itemText"
+									item-value="userId"
+									@input="findUserMenuList"
+								></v-autocomplete>
+							</v-col>
 							<v-col cols="12">
-								<v-row align="start" justify="start" no-gutters>
-									<v-col cols="3">
-										<v-autocomplete
-											label="사용자선택"
-											:items="users"
-											:item-text="itemText"
-											item-value="userId"
-											@input="findUserMenuList"
-										></v-autocomplete>
-									</v-col>
-									<v-col cols="12">
-										<ysyGrid :gridInfo="gridInfo" />
-									</v-col>
-								</v-row>
+								<ysyGrid :gridInfo="gridInfo" />
 							</v-col>
 						</v-row>
 					</v-col>
 				</v-row>
-			</v-container>
-		</v-main>
-		<v-footer class="ma-0 pa-0" fixed app>
-			<TheFooter />
-		</v-footer>
-	</v-app>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script>

@@ -1,36 +1,19 @@
 <!-- main 화면 -->
 <template>
-	<v-app>
-		<!-- Header Start -->
-		<TheSystemBar />
-		<TheHeader :pageName="pageName" />
-		<!-- Header End -->
-
-		<!-- Main Start -->
-		<v-main>
-			<v-container fluid pa-0 ma-0>
-				<v-row justify="center" no-gutters>
-					<v-col cols="12" md="8" lg="8" xl="8">
-						<v-row justify="center" no-gutters style="height: inherit">
-							<v-col cols="12">
-								<ysyGrid :gridInfo="storeNoticeInfo" />
-							</v-col>
-						</v-row>
+	<v-container class="main_layout_container">
+		<v-row class="main_layout_row">
+			<v-col cols="12" md="8" lg="8" xl="8">
+				<v-row justify="center" no-gutters style="height: inherit">
+					<v-col cols="12">
+						<ysyGrid :gridInfo="storeNoticeInfo" />
 					</v-col>
 				</v-row>
-				<template v-if="isPopup">
-					<boardDialog :boardObj="currentRow" :callback="dialogCallback" />
-				</template>
-			</v-container>
-		</v-main>
-		<!-- Main End -->
-
-		<!-- Footer Start -->
-		<v-footer class="ma-0 pa-0" fixed app>
-			<TheFooter />
-		</v-footer>
-		<!-- Footer End -->
-	</v-app>
+			</v-col>
+		</v-row>
+		<template v-if="isPopup">
+			<boardDialog :boardObj="currentRow" :callback="dialogCallback" />
+		</template>
+	</v-container>
 </template>
 
 <script>

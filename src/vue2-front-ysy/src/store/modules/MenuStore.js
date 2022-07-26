@@ -31,11 +31,15 @@ const menuStore = {
 	actions: {
 		async findMenuList({ commit }, userId) {
 			try {
-				let res = await menuService.findMenuList(userId);
-				if (res) {
-					console.log('✅ menuStore findMenuList');
-					console.log(res);
-					commit('setMenuList', res);
+				let menuList = await menuService.findMenuList(userId);
+				if (menuList !== null && menuList !== undefined) {
+					if (menuList.length > 0) {
+						console.log('✅ menuStore findMenuList');
+						console.log(menuList);
+						commit('setMenuList', menuList);
+					} else {
+						console.log('Menu List Length 0');
+					}
 				} else {
 					console.log('❌ menuStore findMenuList ❌');
 				}

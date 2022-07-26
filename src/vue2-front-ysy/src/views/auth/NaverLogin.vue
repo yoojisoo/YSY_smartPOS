@@ -19,23 +19,18 @@ export default {
 	methods: {
 		async naverLogin() {
 			try {
-
 				this.params.data.code = this.$route.query.code;
 				let res = await this.$store.dispatch('authStore/signIn', this.params);
-				console.log("kakao login =>");
+				console.log('naver login =>');
 				console.log(res);
-				if (res.status != undefined && res.status == 200)
-				{
+				if (res.status != undefined && res.status == 200) {
 					this.$router.replace('/');
-				}
-				else {
-					console.log("res ===========>"+res);
+				} else {
+					console.log('res ===========>' + res);
 					alert(res);
 					this.$router.replace('/signIn');
 				}
-			} catch (error) {
-				
-			}
+			} catch (error) {}
 		},
 	},
 };

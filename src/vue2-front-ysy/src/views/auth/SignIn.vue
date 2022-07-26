@@ -152,7 +152,7 @@ export default {
 		async signIn() {
 			try {
 				let res = await this.$store.dispatch('authStore/signIn', this.params);
-				console.log('res.status = ' + res.status);
+				console.log('🎀🎀🎀 res.status = ' + res.status);
 				if (res.status != undefined && res.status == 200) {
 					this.$router.replace('/');
 				} else {

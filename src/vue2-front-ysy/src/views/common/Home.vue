@@ -1,42 +1,28 @@
 <!-- main 화면 -->
 <template>
-	<v-app>
-		<!-- Header Start -->
-		<TheSystemBar />
-		<TheHeader :pageName="pageName" />
-		<!-- Header End -->
-
-		<!-- Main Start -->
-		<v-main>
-			<v-container class="main_layout_container">
-				<!-- style="background-color: white" -->
-				<v-row class="main_layout_row">
-					<!-- 슬라이드 배너 가로 폭 : 전체 -->
-					<v-col class="main_layout_col" cols="12">
-						<carousel />
-					</v-col>
-					<v-col class="main_layout_col" cols="12" md="8" lg="8" xl="8">
-						<!-- style="background-color: #6667ab" -->
-						<v-row justify="center" no-gutters style="height: inherit">
-							<!-- 슬라이드 배너 가로 폭 : 맞춤 -->
-							<!--<v-col cols="12">
+	<v-container class="main_layout_container">
+		<!-- style="background-color: white" -->
+		<v-row class="main_layout_row">
+			<!-- 슬라이드 배너 가로 폭 : 전체 -->
+			<v-col class="main_layout_col" cols="12">
+				<carousel />
+			</v-col>
+			<v-col class="main_layout_col" cols="12" md="8" lg="8" xl="8">
+				<!-- style="background-color: #6667ab" -->
+				<v-row justify="center" no-gutters style="height: inherit">
+					<!-- 슬라이드 배너 가로 폭 : 맞춤 -->
+					<!--<v-col cols="12">
 								<carousel />
 							</v-col>-->
-							<v-col :cols="filterCols" class="hidden-xs-only">
-								<v-card
-									v-if="filterShow"
-									height="100%"
-									tile
-									color="indigo"
-									flat
-								></v-card>
-							</v-col>
-							<v-col :cols="mainCols">
-								<!--<v-row justify="center" no-gutters>
+					<v-col :cols="filterCols" class="hidden-xs-only">
+						<v-card v-if="filterShow" height="100%" tile color="indigo" flat></v-card>
+					</v-col>
+					<v-col :cols="mainCols">
+						<!--<v-row justify="center" no-gutters>
 									<v-col align-self="center" class="hidden-xs-only">
 										<v-btn
 										class="ma-2 hidden-xs-only"
-										@click="colsChange"
+										@click="colsChange" 
 										>
 										web filter
 										</v-btn>
@@ -50,36 +36,27 @@
 										</v-btn>
 									</v-col>
 								</v-row>-->
-								<v-row align="start" justify="center" no-gutters>
-									<v-col cols="12">
-										<ysyGrid :gridInfo="systemNoticeInfo" />
-									</v-col>
-									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="storeNoticeInfo" />
-									</v-col>
-									<v-col cols="12" md="6" lg="6" xl="6">
-										<ysyGrid :gridInfo="systemNoticeInfo" />
-									</v-col>
-								</v-row>
+						<v-row align="start" justify="center" no-gutters>
+							<v-col cols="12">
+								<ysyGrid :gridInfo="systemNoticeInfo" />
+							</v-col>
+							<v-col cols="12" md="6" lg="6" xl="6">
+								<ysyGrid :gridInfo="storeNoticeInfo" />
+							</v-col>
+							<v-col cols="12" md="6" lg="6" xl="6">
+								<ysyGrid :gridInfo="systemNoticeInfo" />
 							</v-col>
 						</v-row>
 					</v-col>
 				</v-row>
-				<template v-if="isPopup">
-					<div>
-						<noticeDialog :boardObj="currentRow" :callback="dialogCallback" />
-					</div>
-				</template>
-			</v-container>
-		</v-main>
-		<!-- Main End -->
-
-		<!-- Footer Start -->
-		<v-footer class="ma-0 pa-0" fixed app>
-			<TheFooter />
-		</v-footer>
-		<!-- Footer End -->
-	</v-app>
+			</v-col>
+		</v-row>
+		<template v-if="isPopup">
+			<div>
+				<noticeDialog :boardObj="currentRow" :callback="dialogCallback" />
+			</div>
+		</template>
+	</v-container>
 </template>
 
 <script>
