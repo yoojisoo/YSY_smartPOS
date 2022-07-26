@@ -80,7 +80,7 @@ const authStore = {
 		},
 	},
 	actions: {
-		async signUp(signUpInfo) {
+		async signUp({ dispatch }, signUpInfo) {
 			try {
 				let res = await authService.signUp(signUpInfo);
 				return res;
