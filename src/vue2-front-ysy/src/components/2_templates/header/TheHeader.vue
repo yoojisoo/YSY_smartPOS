@@ -163,9 +163,11 @@ export default {
 		iconImg: 'mdi-dots-vertical',
 	}),
 	mounted() {
-		const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
-			.access_token;
-		this.$axios.defaults.headers.common['access_token'] = access_token;
+		if(sessionStorage.getItem('loginData')) {
+			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
+				.access_token;
+			this.$axios.defaults.headers.common['access_token'] = access_token;
+		}
 		this.findMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
 		window.addEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 추가

@@ -24,9 +24,11 @@ export default {
 	components: { TheSystemBar, TheHeader, TheFooter },
 	mounted() {
 		console.log('app.vue mounted ');
-		const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
-			.access_token;
-		this.$axios.defaults.headers.common['access_token'] = access_token;
+		if(sessionStorage.getItem('loginData')) {
+			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
+				.access_token;
+			this.$axios.defaults.headers.common['access_token'] = access_token;
+		}
 	},
 	methods: {
 		refreshAll() {
