@@ -21,8 +21,9 @@ import FThemeChgBtn from '@/components/1_molecules/buttons/FThemeChgBtn.vue';
 //import FDialog from '@/components/1_molecules/FDialog.vue';
 import FGrid from '@/components/FGrid.vue';
 import FOutlinedBtn from '@/components/1_molecules/buttons/FOutlinedBtn.vue';
-//, FSummerNote, FTextField, FCarousel, FDateForm, FDialog, FGrid
-export { FLogoBtnS, FLogoBtnB, FThemeChgBtn, FGrid, FOutlinedBtn };
+import ImgCard from '@/components/1_molecules/ImgCard.vue';
+import Pagination from '@/components/1_molecules/Pagination.vue';
+export { FLogoBtnS, FLogoBtnB, FThemeChgBtn, FGrid, FOutlinedBtn, ImgCard, Pagination };
 
 /** 2_templates */
 import TheHeader from '@/components/2_templates/header/TheHeader.vue';
