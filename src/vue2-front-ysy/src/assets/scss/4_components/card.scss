@@ -1,0 +1,20 @@
+.card_ma_nolast .v-btcardn:not(:last-child){
+    margin: 10px;
+}
+
+.card_mt_nolast .v-card:not(:last-child){
+    margin-top: 10px;
+}
+
+.card_mb_nolast .v-card:not(:last-child){
+	background-color: #ff0000;
+    margin-bottom: 10px;
+}
+
+.card_ml_nolast .v-card:not(:last-child){
+    margin-left: 10px;
+}
+
+.card_mr_nolast .v-card:not(:last-child){
+    margin-right: 10px;
+}

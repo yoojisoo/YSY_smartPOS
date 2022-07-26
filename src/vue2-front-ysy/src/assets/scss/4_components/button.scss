@@ -1,3 +1,24 @@
 .btn_remove_bg::before {
     background-color: transparent !important;
 }
+
+.btn_ma_nolast .v-btn:not(:last-child){
+    margin: 10px;
+}
+
+.btn_mt_nolast .v-btn:not(:last-child){
+    margin-top: 10px;
+}
+
+.btn_mb_nolast .v-btn:not(:last-child){
+    margin-bottom: 10px;
+}
+
+.btn_ml_nolast .v-btn:not(:last-child){
+    margin-left: 10px;
+}
+
+.btn_mr_nolast .v-btn:not(:last-child){
+    margin-right: 10px;
+}
+
