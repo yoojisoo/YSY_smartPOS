@@ -3,9 +3,9 @@ package com.ysy.jwt.auth.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ysy.jwt.auth.dto.BoardDto;
 import com.ysy.jwt.auth.service.YsyBoardService;
@@ -91,6 +91,17 @@ public class YsyBoardController {
 //		System.out.println("title="+dto.getTitle());
 //		System.out.println("content="+dto.getContent());
 		
+		if(dto.getTitle() == null || dto.getTitle().isEmpty()) {
+			new Exception("제목이 없습니다.");
+		}
+		
+		for(MultipartFile file :dto.getFiles()) {
+			System.out.println("getOriginalFilename = "+file.getOriginalFilename());
+			System.out.println("getName = "+file.getName());
+			System.out.println("getSize = "+file.getSize());
+			System.out.println("getContentType = "+file.getContentType());
+			System.out.println("");
+		}
 		return "test";
 //		return ysyBoardService.createSummerNote(dto.getContent());
 		

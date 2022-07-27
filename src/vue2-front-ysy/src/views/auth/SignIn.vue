@@ -170,7 +170,8 @@ export default {
 
 		kakaoLogin() {
 			var client_id = 'f21217ecb3112aa4791cbdc7d7e8b4ed'; // kako client key
-			var callbackUrl = 'http://localhost:8080/kakaoLogin&response_type=code'; // 서버 주소
+			// var callbackUrl = 'http://localhost:8000/ysy/v1/oauth/kakao/getCode&response_type=code'; // 서버 주소
+			var callbackUrl = 'http://localhost:8000/kakaoLogin/getCode&response_type=code'; // 서버 주소
 			var url =
 				'https://kauth.kakao.com/oauth/authorize?client_id=' +
 				client_id +
@@ -180,7 +181,8 @@ export default {
 		},
 		naverLogin() {
 			var client_id = '75NEjj6MeqfW6we4eFlJ'; // naver client key
-			var callbackUrl = 'http://localhost:8080/naverLogin'; // 서버 주소
+			// var callbackUrl = 'http://localhost:8080/naverLogin'; // 서버 주소
+			var callbackUrl = 'http://localhost:8000/naverLogin/getCode'; // 서버 주소
 			var url =
 				'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
 				client_id +

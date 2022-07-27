@@ -168,8 +168,7 @@ export default {
 			
 			
 			
-			this.$axios.post("/ysy/v1/createSummerNote",formData,
-						{headers: {'Content-Type': 'multipart/form-data'}})
+			this.$axios.post("/ysy/v1/createSummerNote",formData)//,{headers: {'Content-Type': 'multipart/form-data'}}
 				.then(res=>{
 					console.log("");
 					console.log(res);

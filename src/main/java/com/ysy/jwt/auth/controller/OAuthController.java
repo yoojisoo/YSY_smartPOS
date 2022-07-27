@@ -63,8 +63,8 @@ public class OAuthController {
 	private final String kakao_Content_type = "application/x-www-form-urlencoded;charset=utf-8";
 	private final String kakao_client_id    = "4c9e081b17404f289741f6792bd4c6e7";
 	private final String kakao_grant_type   = "authorization_code";
-//	private final String kakao_redirect_uri = SystemConfig.SEVER_URL + "/ysy/v1/auth/kakao/redirect";
-	private final String kakao_redirect_uri = "http://localhost:8080/kakaoLogin";
+	private final String kakao_redirect_uri = "http://localhost:8000/kakaoLogin/getCode";
+//	private final String kakao_redirect_uri = "http://localhost:8080/kakaoLogin";
 	private final String kakao_auth_addr    = "https://kauth.kakao.com/oauth/token";
 	
 	
@@ -76,6 +76,7 @@ public class OAuthController {
 	//원래 회원 정보를 각 kakao나 naver에 요청 후 추가정보를 입력받고 현 db에 저장해야 함.
 	// 지금은 테스트로 그냥 바로 회원가입 진행중임.
 	private final String tmp_biz_cd = "0001";
+	
 	
 	
 	@Data

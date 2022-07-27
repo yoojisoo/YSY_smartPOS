@@ -19,7 +19,7 @@ export default {
 	methods: {
 		async kakaoLogin() {
 			try {
-
+				console.log("this.$route.query.code" , this.$route.query.code);
 				this.params.data.code = this.$route.query.code;
 				let res = await this.$store.dispatch('authStore/signIn', this.params);
 				console.log("kakao login =>");
