@@ -13,7 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.databind.util.ArrayBuilders.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.common.SysEnum;
 import com.ysy.common.SysEnum.enumGrps;
@@ -21,8 +24,9 @@ import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
+import com.ysy.jwt.auth.dto.UserRequestDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
-import com.ysy.jwt.auth.dto.UserMngDto;
+import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.entity.QYsyBizMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
@@ -39,6 +43,7 @@ import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
 @Service
 public class YsyUserMstService {
+	private static final int UserDto = 0;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -55,6 +60,10 @@ public class YsyUserMstService {
 	YsyUtil util;
 	@PersistenceContext
 	EntityManager em;
+	
+	@Autowired
+	JPAQueryFactory query = new JPAQueryFactory(em);
+	
 	@Autowired
 	private YsyUtil ysyUtil;
 	
@@ -71,7 +80,6 @@ public class YsyUserMstService {
 	public ResponseAuthDto<String> signUp(JoinDto joinDto) {
 		
 		ResponseAuthDto<String> resDto = new ResponseAuthDto<String>();
-		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		try 
 		{
@@ -210,7 +218,6 @@ public class YsyUserMstService {
 	/** ID에 해당하는 userInfo return */
 	public YsyUserMst userInfo(String username) {
 		
-		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		YsyUserMst user = query
 				.select(qYsyUserMst)
@@ -224,7 +231,6 @@ public class YsyUserMstService {
 	/** user 존재여부 확인 존재 : true */
 	public boolean isUser(String username) {
 		
-		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		YsyUserMst user = query
 				.select(qYsyUserMst)
@@ -240,7 +246,6 @@ public class YsyUserMstService {
 	/** isAdmin 체크 : admin이면 true */
 	public boolean isAdmin(String username) {
 		
-		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		YsyUserMst user = query
 				.select(qYsyUserMst)
@@ -256,66 +261,121 @@ public class YsyUserMstService {
 		return false;
 	}
 	
-	/** 유저 1명 조회 : userId의 연관 테이블 (UserAddress) 조회 */
-	@Transactional
-	public ResponseAuthDto<UserMngDto> getUserDetail(String userId) {
-//		ResponseAuthDto<UserMngDto>
-		/**
-		 * 문제1. 유저 정보 1개에 어드레스 정보 여러개 : 구조 문제(무한순환)
-		 *		  ex) user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
-		 *		  dto로 변환하여 조회로 인한 순환 방지 & @JsonBackReference로 순환 방지 & get(0)만 사용하여 중복 해결
-		 * 문제2. addrList를 dto List로 보내도 jackson 에러 -> addrList 형태로 내보냄
-		 * */
-		JPAQueryFactory query = new JPAQueryFactory(em);
+	public ResponseAuthDto<UserDto> getUserListCondition(UserDto condition) {
 		
 		List<YsyUserMst> userInfoList = query
 				.select(qYsyUserMst)
 				.from(qYsyUserMst)
-				.leftJoin(qYsyBizMst)
-				.on(qYsyUserMst.ysyGrpMst.ysyBizMst.bizNm.eq(qYsyBizMst.bizNm))
-				.leftJoin(qYsyUserAddress)
-				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
+				.leftJoin(qYsyGrpMst)
+				.on(qYsyUserMst.ysyGrpMst.grpPK.bizCd.eq(qYsyGrpMst.grpPK.bizCd)
+				   ,qYsyUserMst.ysyGrpMst.grpPK.grpId.eq(qYsyGrpMst.grpPK.grpId))
 				.fetchJoin()
-				.where(qYsyUserMst.username.eq(userId))
+				.leftJoin(qYsyBizMst)
+				.on(qYsyGrpMst.grpPK.bizCd.eq(qYsyBizMst.bizCd))
+				.fetchJoin()
+//				.leftJoin(qYsyUserAddress)
+//				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
+//				.fetchJoin()
+				.where(
+						userIdEq(condition.getUserId()),
+						userNmEq(condition.getUserNm()),
+						isEmailAuthEq(condition.getOauthPath()),
+						oauthPathEq(condition.getOauthPath()),
+						useYnEq(condition.getUseYn()),
+						bizCdEq(condition.getBizCd()),
+						bizNmEq(condition.getBizNm()),
+						grpIdEq(condition.getGrpId()),
+						grpNmEq(condition.getGrpNm())
+						)
 				.fetch();
 		
-		/** dto 변환 방식 1 - 0번째와 1번째의 데이터가 중복되므로 0번째만 사용 */
-		UserMngDto userToDto = new UserMngDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
+		List<UserDto> resultUserList = new ArrayList<UserDto>();
 		
-//		/** dto 변환 방식 2 */
-//		List<UserMngDto> tmpList = userInfoList.stream()
-//				.map( x-> new UserMngDto(
-//											x.getUsername(), x.getName(), x.getRegDt(), x.getOAuthPath(),
-//											x.getYsyGrpMst().getYsyBizMst().getBizNm(), x.getAddressList())
-//										)
-//				.collect(Collectors.toList());
-//		UserMngDto result = tmpList.get(0);
-		
-		return new ResponseAuthDto<UserMngDto>(userToDto, HttpStatus.OK); 
+		for(YsyUserMst userInfo : userInfoList) {
+			resultUserList.add( new UserDto(userInfo) );
+		}
+//		
+		return new ResponseAuthDto<UserDto>(resultUserList, HttpStatus.OK); 
 	}
 	
-	/** 모든 유저 조회 : UserMst의 모든 정보를 size만큼 */
-	@Transactional
-	public ResponseAuthDto<UserMngDto> getUserList(int size) {
-		
-		JPAQueryFactory query = new JPAQueryFactory(em);
-		
-		List<UserMngDto> userList = query
-				.selectFrom(qYsyUserMst)
-				.limit(size)
-				.fetch()
-				.stream()
-				.map(x->new UserMngDto(x))
-				.collect(Collectors.toList());
-		
-		return new ResponseAuthDto<UserMngDto>(userList, HttpStatus.OK);
+	/** 검색 조건 where절 - null return 시 쿼리 적용 X */
+	private BooleanExpression userIdEq(String userId) {
+		return StringUtils.hasText(userId) ? qYsyUserMst.username.eq(userId) : null; 
+	}
+	private BooleanExpression userNmEq(String userNm) {
+		return StringUtils.hasText(userNm) ? qYsyUserMst.name.eq(userNm) : null; 
+	}
+	private BooleanExpression isEmailAuthEq(String isEmailAuth) {
+		return StringUtils.hasText(isEmailAuth) ? qYsyUserMst.isEmailAuth.eq(isEmailAuth) : null; 
+	}
+	private BooleanExpression oauthPathEq(String oauthPath) {
+		return StringUtils.hasText(oauthPath) ? qYsyUserMst.oAuthPath.eq(oauthPath) : null; 
+	}
+	private BooleanExpression useYnEq(String useYn) {
+		return StringUtils.hasText(useYn) ? qYsyUserMst.useYn.eq(useYn) : null; 
 	}
 	
 	
+	private BooleanExpression bizCdEq(String bizCd) {
+		return StringUtils.hasText(bizCd) ? qYsyBizMst.bizCd.eq(bizCd) : null; 
+	}
+	private BooleanExpression bizNmEq(String bizNm) {
+		return StringUtils.hasText(bizNm) ? qYsyBizMst.bizNm.eq(bizNm) : null; 
+	}
+	
+	private BooleanExpression grpIdEq(enumGrps grpId) {
+		return StringUtils.hasText(grpId.toString()) ? qYsyGrpMst.grpPK.grpId.eq(grpId) : null; 
+	}
+	private BooleanExpression grpNmEq(String grpNm) {
+		return StringUtils.hasText(grpNm) ? qYsyGrpMst.grpNm.eq(grpNm) : null; 
+	}
+	
+	
+//	private BooleanExpression addrCityEq(String addrCity) {
+//		return StringUtils.hasText(addrCity) ? qYsyUserAddress.addrCity.eq(addrCity) : null; 
+//	}
+//	private BooleanExpression phone1Eq(String phone1) {
+//		return StringUtils.hasText(phone1) ? qYsyUserAddress.phone1.eq(phone1) : null; 
+//	}
+//	private BooleanExpression phone2Eq(String phone2) {
+//		return StringUtils.hasText(phone2) ? qYsyUserAddress.phone2.eq(phone2) : null; 
+//	}
+	
+	
+	
+	/** 유저 1명 조회 : userId의 연관 테이블 (UserAddress) 조회 */
+//	@Transactional
+//	public ResponseAuthDto<UserDto> getUserDetail(String userId) {
+////		ResponseAuthDto<UserMngDto>
+//		/**
+//		 * 문제1. 유저 정보 1개에 어드레스 정보 여러개 : 구조 문제(무한순환)
+//		 *		  ex) user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
+//		 *		  dto로 변환하여 조회로 인한 순환 방지 & @JsonBackReference로 순환 방지 & get(0)만 사용하여 중복 해결
+//		 * 문제2. addrList를 dto List로 보내도 jackson 에러 -> addrList 형태로 내보냄
+//		 * */
+//		JPAQueryFactory query = new JPAQueryFactory(em);
+//		
+//		List<YsyUserMst> userInfoList = query
+//				.select(qYsyUserMst)
+//				.from(qYsyUserMst)
+//				.leftJoin(qYsyBizMst)
+//				.on(qYsyUserMst.ysyGrpMst.ysyBizMst.bizNm.eq(qYsyBizMst.bizNm))
+//				.leftJoin(qYsyUserAddress)
+//				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
+//				.fetchJoin()
+//				.where(qYsyUserMst.username.eq(userId))
+//				.fetch();
+//		
+//		/** dto 변환 방식 1 - 0번째와 1번째의 데이터가 중복되므로 0번째만 사용 */
+//		UserDto userToDto = new UserDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
+//		
+//		return new ResponseAuthDto<UserDto>(userToDto, HttpStatus.OK); 
+//	}
+	
+	
 	@Transactional
-	public ResponseAuthDto<UserMngDto> getFilterUserList(String userId) {
+	public ResponseAuthDto<UserDto> getFilterUserList(String userId) {
 		
-		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		/** 나의 정보 start */
 		YsyUserMst myInfo = query
@@ -340,18 +400,17 @@ public class YsyUserMstService {
 				.fetch();
 		/** 나보다 낮은 등급의 사용자 정보 end */
 		
-		List<UserMngDto> resultList = new ArrayList<UserMngDto>();
+		List<UserDto> resultList = new ArrayList<UserDto>();
 		for(YsyUserMst user : userList) {
-			resultList.add(new UserMngDto(user));
+			resultList.add(new UserDto(user));
 		}
 		
-		return new ResponseAuthDto<UserMngDto>(resultList, HttpStatus.OK);
+		return new ResponseAuthDto<UserDto>(resultList, HttpStatus.OK);
 	}
 	
 	@Transactional
 	public ResponseAuthDto<MenuDto> getUserMenuList(String userId) {
 		
-		JPAQueryFactory query = new JPAQueryFactory(em);
 		
 		/** 해당 유저의 정보 start */
 		YsyUserMst userInfo = query
@@ -397,7 +456,6 @@ public class YsyUserMstService {
 //						.build();
 //				ysyUserRepository.save(ysyUser);
 				
-				JPAQueryFactory query = new JPAQueryFactory(em);
 				
 				query
 				.select(qYsyUserMst)

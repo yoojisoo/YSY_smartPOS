@@ -1,44 +1,29 @@
 import axios from 'axios';
 
 class UserService {
-	// 모든 유저 목록 조회
-	async fn_getUserList() {
-		try {
-			let url = 'ysy/v1/manager/getUserList?size=10';
-			let res = await axios.get(url);
-
-			if (res) {
-				console.log('✅ UserService fn_getUserList');
-				console.log(res.data);
-				return res.data;
-			} else {
-				console.log('❌ UserService fn_getUserList ❌');
-				return null;
-			}
-		} catch (error) {
-			console.log('UserService fn_getUserList error => ' + error);
-			return error;
-		}
+	// 모든 유저 목록 조회 : 조건이 있다면 조건으로 아니면 모든 유저 조회
+	async fn_getUserList(condition) {
+		await axios.post('/ysy/v1/getUserListCondition', condition)
+					.then(res => {
+							console.log('🟢 UserService fn_getUserList');
+							// console.log(res.data);
+							return res.data;
+						})
+						.catch(error=>{
+							console.log('⛔ UserService fn_getUserList error => ' + error);
+						});
 	}
 
-	// 유저 상세정보 조회 : 1명의 아이디로 어드레스 조회
-	async fn_getUserDetail(userId) {
-		try {
-			let url = 'ysy/v1/manager/getUserDetail?userId=' + userId;
-			let res = await axios.get(url);
-
-			if (res) {
-				console.log('✅ UserService fn_getUserDetail');
-				console.log(res.data);
-				return res.data;
-			} else {
-				console.log('❌ UserService fn_getUserDetail ❌');
-				return null;
-			}
-		} catch (error) {
-			console.log('UserService fn_getUserDetail error => ' + error);
-			return error;
-		}
+	// 유저 1명의 아이디로 어드레스 조회
+	async fn_getUserAddr(userId) {
+		await axios.get('ysy/v1/manager/getUserAddr?userId=' + userId)
+				   .then(res => {
+						console.log('🟢 UserService fn_getUserAddr');
+						return res.data;
+					})
+					.catch(error => {
+						console.log('⛔ UserService fn_getUserAddr error => ' + error);
+					});
 	}
 
 	async getFilterUserList(userId) {

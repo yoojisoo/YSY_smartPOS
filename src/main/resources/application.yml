@@ -19,6 +19,9 @@ spring:
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
+     
+    #deserialization:
+      #fail-on-unknown-properties: true #json->Object 변환 시 unknowon 오류 무시      
 
   jpa:
     hibernate:

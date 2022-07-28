@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
+import com.ysy.jwt.auth.dto.UserRequestDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
-import com.ysy.jwt.auth.dto.UserMngDto;
+import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
 import io.swagger.annotations.ApiOperation;
@@ -58,17 +59,32 @@ public class YsyUserMstController {
 	}
 	
 	
-	@ApiOperation(value="user 전체 리스트" , notes="parameter는 requestDto 생성 후 client와 맞춰서 사용함.")
-	/** 2022 06 02 yoojisoo */
-	@GetMapping("/manager/getUserList") // 모든 유저 조회 size만큼
-	public ResponseAuthDto<UserMngDto> getUserList(@RequestParam int size){
-		return ysyUserService.getUserList(size);
+//	@ApiOperation(value="user 전체 리스트" , notes="parameter는 requestDto 생성 후 client와 맞춰서 사용함.")
+//	/** 2022 06 02 yoojisoo */
+//	@GetMapping("/manager/getUserList") // 모든 유저 조회 size만큼
+//	public ResponseAuthDto<UserMngDto> getUserList(@RequestParam int size){
+//		return ysyUserService.getUserList(size);
+//	}
+	
+	/**
+	 * 2022 07 27 s_plus7
+	 * 모든 유저, 모든 정보 list
+	 * */
+	// -------------> 이거 안됨!!
+	@ApiOperation(value="유저 전체 리스트" , notes="parameter : 검색조건 | 조건 없을 시 전체 가져오기")
+	@PostMapping("/getUserListCondition")
+	public ResponseAuthDto<UserDto> getUserListCondition (@RequestBody UserDto condition){
+
+		System.out.println("뿅");
+//		return null;
+		return ysyUserService.getUserListCondition(condition);
 	}
 	
-	@GetMapping("/manager/getUserDetail") // 유저 1명의 상세정보 조회(UserAddress)
-	public ResponseAuthDto<UserMngDto> getUserDetail(@RequestParam String userId){
-		return ysyUserService.getUserDetail(userId);
-	}
+	
+//	@GetMapping("/manager/getUserDetail") // 유저 1명의 상세정보 조회(UserAddress)
+//	public ResponseAuthDto<UserDto> getUserDetail(@RequestParam String userId){
+//		return ysyUserService.getUserDetail(userId);
+//	}
 	
 //	@PostMapping("/admin/delGridUserInfo")
 //	public void delGridUserInfo(@RequestBody List<String> usernameList) {
@@ -79,7 +95,7 @@ public class YsyUserMstController {
 	 * 컨트롤 가능한 모든 유저 조회
 	 * userId Param -> 해당 userId보다 낮은 등급인 유저를 조회 */
 	@GetMapping("/manager/getFilterUserList")
-	public ResponseAuthDto<UserMngDto> getFilterUserList(@RequestParam String userId) {
+	public ResponseAuthDto<UserDto> getFilterUserList(@RequestParam String userId) {
 		return ysyUserService.getFilterUserList(userId);
 	}
 	

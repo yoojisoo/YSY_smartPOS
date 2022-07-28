@@ -1,5 +1,7 @@
 import axios from 'axios';
 import userService from '@/service/UserService.js';
+import { YsyUtil } from '@/mixin/MixinGlobal.js';
+
 
 const userStore = {
 	namespaced: true,
@@ -7,13 +9,13 @@ const userStore = {
 		userList: [],
 		filterUserList: [],
 		menuList: [],
-		userDetail: {},
+		userAddr: {},
 	},
 	getters: {
 		getUserList: state => state.userList,
 		getFilterUserList: state => state.filterUserList,
 		getMenuList: state => state.menuList,
-		getUserDetail: state => state.userDetail,
+		getUserAddr: state => state.userAddr,
 	},
 	mutations: {
 		setUserList(state, userList) {
@@ -25,23 +27,21 @@ const userStore = {
 		setUserMenuList(state, menuList) {
 			state.menuList = menuList;
 		},
-		setUserDetail(state, userDetail) {
-			state.userDetail = userDetail;
+		setUserAddr(state, userAddr) {
+			state.userAddr = userAddr;
 		},
 	},
 	actions: {
-		//모든 유저 목록 조회	- yoojisoo
-		async fn_getUserList({ commit }) {
+		//모든 유저 목록 조회 : 조건이 있다면 조건으로 아니면 모든 유저 조회 ... size 어떻게 계속 가져오는지 ?
+		async fn_getUserList({ commit }, condition) {
 			try {
-				let userList = await userService.fn_getUserList();
-				if (userList !== null && userList !== undefined) {
-					console.log('✅ userStore fn_getUserList');
+				let userList = await userService.fn_getUserList(condition);
+				if(YsyUtil.methods.isNullAndEmpty(userList)) {
+					console.log('🟢 userStore fn_getUserList');
 					commit('setUserList', userList.objList);
-				} else {
-					console.log('❌ userStore fn_getUserList ❌');
 				}
 			} catch (error) {
-				console.log('MenuService findMenuList error => ' + error);
+				console.log('⛔ MenuService findMenuList error => ' + error);
 			}
 		},
 
@@ -75,18 +75,16 @@ const userStore = {
 		},
 
 		// 유저 상세정보 조회 : 1명의 아이디로 어드레스 조회	- yoojisoo
-		async fn_getUserDetail({ commit }, userId) {
+		async fn_getUserAddr({ commit }, userId) {
 			try {
-				let userDetail = await userService.fn_getUserDetail(userId);
-				if (userDetail !== null && userDetail !== undefined) {
-					console.log('✅ userStore fn_getUserDetail');
-					console.log(userDetail);
-					commit('setUserDetail', userDetail);
-				} else {
-					console.log('❌ userStore fn_getUserDetail ❌');
+				let userAddr = await userService.fn_getUserAddr(userId);
+				if (YsyUtil.methods.isNullAndEmpty(userAddr)) {
+					console.log('🟢 userStore fn_getUserAddr');
+					console.log(userAddr);
+					commit('setUserAddr', userAddr);
 				}
 			} catch (error) {
-				console.log('UserStore fn_getUserDetail error => ' + error);
+				console.log('⛔ UserStore fn_getUserAddr error => ' + error);
 			}
 		},
 	},

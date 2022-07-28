@@ -57,7 +57,7 @@ export default {
 	props: ['gridInfo', 'cardHeight'],
 	data: () => ({
 		selected: [],
-		page: 1, // 최초 나타나는 페이지
+		page: 5, // 최초 나타나는 페이지
 		pageCount: 0, // 데이터 겟수에 따라 변경됨 ->  @page-count="pageCount = $event"
 	}),
 	methods: {

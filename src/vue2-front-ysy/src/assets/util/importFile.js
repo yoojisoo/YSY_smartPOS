@@ -31,8 +31,9 @@ import TheSystemBar from '@/components/2_templates/header/TheSystemBar.vue';
 import TheFooter from '@/components/2_templates/footer/TheFooter.vue';
 import TheAddrEdit from '@/components/2_templates/TheAddrEdit.vue';
 import TheSearch from '@/components/2_templates/TheSearch.vue';
+import TheDetailInfoVue from '@/components/2_templates/TheDetailInfo.vue';
 
-export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit, TheSearch };
+export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit, TheSearch, TheDetailInfoVue };
 
 //import '@/mixin/MixinGlobal.js';
 //import '@/mixin/UserMixin.js';

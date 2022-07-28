@@ -1,67 +1,72 @@
 <template>
-  <v-card outlined tile>
-    <v-card-title class="pb-0">검색</v-card-title>
-    <v-card-text>
-        <!-- :rules="rules.email" 생명 주기 또는 코드 수정해야함 -->
-        <v-text-field 
-            label="이메일 검색"
-            :rules="rules.email"
-            :success="isSuccess"
-            dense
-        ></v-text-field>
-        <v-text-field 
-            label="이름 검색"
-            dense
-        ></v-text-field>
-        <p>{{rules.email}}</p>
-    </v-card-text>
-
-    <v-card-title class="pb-0">필터</v-card-title>
-    <v-card-text>
-        <v-autocomplete
-            v-for="filter in filterList" :key="filter.index"
-            v-model="selected"
-            :items="filter"
-            clearable
-            dense
-        ></v-autocomplete>
-    </v-card-text>
-
-    <!-- <v-card-text>
-        <v-menu
-          v-model="menu2"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          lazy
-          transition="scale-transition"
-          offset-y
-          full-width
-          max-width="290px"
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="computedDateFormatted"
-              label="Date (read only text field)"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-on="on"
+    <v-card
+        outlined 
+        tile
+        class="overflow-y-auto"
+        max-height="550"
+    >
+        <v-card-title class="pb-0">검색</v-card-title>
+        <v-card-text>
+            <!-- :rules="rules.email" 생명 주기 또는 코드 수정해야함 -->
+            <v-text-field 
+                label="이메일 검색"
+                :rules="rules.email"
+                :success="isSuccess"
+                dense
             ></v-text-field>
-          </template>
-          <v-date-picker v-model="date" no-title @input="menu2 = false"></v-date-picker>
-        </v-menu>
-        <p>Date in ISO format: <strong>{{ date }}</strong></p>
-    </v-card-text> -->
+            <v-text-field 
+                label="이름 검색"
+                dense
+            ></v-text-field>
+            <p>{{rules.email}}</p>
+        </v-card-text>
 
-    <v-card-title class="pb-0">선택한 조건</v-card-title>
-    <v-card-text>
-    </v-card-text>
+        <v-card-title class="pb-0">필터</v-card-title>
+        <v-card-text>
+            <v-autocomplete
+                v-for="filter in filterList" :key="filter.index"
+                v-model="selected"
+                :items="filter"
+                clearable
+                dense
+            ></v-autocomplete>
+        </v-card-text>
 
-    <v-card-text>
-        <v-btn block outlined>검색하기</v-btn>
-    </v-card-text>
+        <!-- <v-card-text>
+            <v-menu
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            max-width="290px"
+            min-width="290px"
+            >
+            <template v-slot:activator="{ on }">
+                <v-text-field
+                v-model="computedDateFormatted"
+                label="Date (read only text field)"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-on="on"
+                ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" no-title @input="menu2 = false"></v-date-picker>
+            </v-menu>
+            <p>Date in ISO format: <strong>{{ date }}</strong></p>
+        </v-card-text> -->
 
-  </v-card>
+        <v-card-title class="pb-0">선택한 조건</v-card-title>
+        <v-card-text>
+        </v-card-text>
+
+        <v-card-text>
+            <v-btn block outlined>검색하기</v-btn>
+        </v-card-text>
+
+    </v-card>
 </template>
 
 <script>
