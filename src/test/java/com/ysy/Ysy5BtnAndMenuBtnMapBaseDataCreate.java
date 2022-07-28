@@ -1,7 +1,7 @@
 package com.ysy;
 
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.biz.entity.QStoreNotice;
+import com.ysy.biz.entity.QStoreNoticeMst;
 import com.ysy.jwt.auth.entity.QYsyBtnMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
@@ -46,7 +46,7 @@ public class Ysy5BtnAndMenuBtnMapBaseDataCreate {
 		System.out.println("menu btn map data start =========================");
 
 		JPAQueryFactory           query = new JPAQueryFactory(em); 
-		QStoreNotice       qStoreNotice = QStoreNotice.storeNotice;
+		QStoreNoticeMst qStoreNoticeMst = QStoreNoticeMst.storeNoticeMst;
 		QYsyGrpMenuMap   qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
 		QYsyUserMst         qYsyUserMst = QYsyUserMst.ysyUserMst;
 		

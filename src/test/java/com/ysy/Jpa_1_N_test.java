@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.biz.entity.QStoreNotice;
+import com.ysy.biz.entity.QStoreNoticeMst;
 import com.ysy.biz.entity.StoreNoticeMst;
 import com.ysy.jwt.auth.dto.UserInfoDto;
 import com.ysy.jwt.auth.entity.QYsyBtnMst;
@@ -61,7 +61,7 @@ public class Jpa_1_N_test {
 		}
 		 
 		JPAQueryFactory           query = new JPAQueryFactory(em); // 2
-		QStoreNotice       qStoreNotice = QStoreNotice.storeNotice;
+		QStoreNoticeMst qStoreNoticeMst = QStoreNoticeMst.storeNoticeMst;
 		QYsyGrpMenuMap   qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
 		QYsyUserMst         qYsyUserMst = QYsyUserMst.ysyUserMst;
 		QYsyMenuMst         qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
@@ -82,9 +82,9 @@ public class Jpa_1_N_test {
 				.fetchOne();
 		
 		List<StoreNoticeMst> noticeList = query
-				.select(qStoreNotice)
-				.from(qStoreNotice)
-				.where(qStoreNotice.ysyUserMst.username.eq(userId))
+				.select(qStoreNoticeMst)
+				.from(qStoreNoticeMst)
+				.where(qStoreNoticeMst.ysyUserMst.username.eq(userId))
 				.fetch();
 		
 		List<YsyUserAddress> addrList = query
