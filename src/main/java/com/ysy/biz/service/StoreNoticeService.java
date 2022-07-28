@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.dto.ResponseDto;
 import com.ysy.biz.dto.StoreNoticeDto;
-import com.ysy.biz.entity.QStoreNotice;
-import com.ysy.biz.entity.StoreNotice;
+import com.ysy.biz.entity.QStoreNoticeMst;
+import com.ysy.biz.entity.StoreNoticeMst;
 
 @Service
 /** 22-07-05 mnew2m Q Class, DTO 추가 */
@@ -25,7 +25,7 @@ public class StoreNoticeService {
 	
 	/** 22-07-06 mnew2m
 	 * 사용하는 Q Class */
-	QStoreNotice qStoreNotice = QStoreNotice.storeNotice;
+	QStoreNoticeMst qStoreNoticeMst = QStoreNoticeMst.storeNoticeMst;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
@@ -33,15 +33,15 @@ public class StoreNoticeService {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		List<StoreNotice> noticeList = query
-				.selectFrom(qStoreNotice)
+		List<StoreNoticeMst> noticeList = query
+				.selectFrom(qStoreNoticeMst)
 				.limit(size)
-				.orderBy(qStoreNotice.boardId.desc())
+				.orderBy(qStoreNoticeMst.boardId.desc())
 				.fetch();
 		
 		List<StoreNoticeDto> resultList = new ArrayList<StoreNoticeDto>();
 		int loop = 1;
-		for(StoreNotice notice : noticeList) {
+		for(StoreNoticeMst notice : noticeList) {
 			resultList.add(new StoreNoticeDto(notice, loop));
 			loop++;
 		}

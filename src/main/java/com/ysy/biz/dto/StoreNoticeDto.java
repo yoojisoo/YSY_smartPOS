@@ -1,6 +1,6 @@
 package com.ysy.biz.dto;
 
-import com.ysy.biz.entity.StoreNotice;
+import com.ysy.biz.entity.StoreNoticeMst;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class StoreNoticeDto {
 	String title;
 	String writer;
 	
-	public StoreNoticeDto(StoreNotice notice , int index) {
+	public StoreNoticeDto(StoreNoticeMst notice , int index) {
 		this.no      = index;
 		this.boardId = (int)notice.getBoardId();
 		this.title   = notice.getTitle();

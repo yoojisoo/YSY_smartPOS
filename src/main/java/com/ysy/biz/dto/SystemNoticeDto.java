@@ -1,6 +1,6 @@
 package com.ysy.biz.dto;
 
-import com.ysy.biz.entity.SystemNotice;
+import com.ysy.biz.entity.SystemNoticeMst;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class SystemNoticeDto {
 	String title;
 	String writer;
 	
-	public SystemNoticeDto(SystemNotice notice , int index) {
+	public SystemNoticeDto(SystemNoticeMst notice , int index) {
 		this.no = index;
 		this.boardId = (int)notice.getBoardId();
 		this.title = notice.getTitle();

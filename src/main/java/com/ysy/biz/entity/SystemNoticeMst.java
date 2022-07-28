@@ -32,7 +32,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Table(name = "SYSTEM_NOTICE_MST")
 @Entity
-public class SystemNotice  extends BaseEntity implements Serializable{
+public class SystemNoticeMst  extends BaseEntity implements Serializable{
 
 	/**
 	 * 
@@ -48,7 +48,7 @@ public class SystemNotice  extends BaseEntity implements Serializable{
 	
 	@Column(name="CONTENT" , length=250 , nullable = false)
 	@Lob
-	private Blob content;
+	private String content;
 	
 	
 	

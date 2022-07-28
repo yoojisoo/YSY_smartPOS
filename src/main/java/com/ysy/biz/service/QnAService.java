@@ -13,10 +13,8 @@ import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.dto.QnADto;
 import com.ysy.biz.dto.ResponseDto;
-import com.ysy.biz.dto.StoreNoticeDto;
-import com.ysy.biz.entity.QQnA;
-import com.ysy.biz.entity.QnA;
-import com.ysy.biz.entity.StoreNotice;
+import com.ysy.biz.entity.QQnAMst;
+import com.ysy.biz.entity.QnAMst;
 
 @Service
 /** 22-07-28 mnew2m Q Class, DTO 추가 */
@@ -27,7 +25,7 @@ public class QnAService {
 	
 	/** 22-07-06 mnew2m
 	 * 사용하는 Q Class */
-	QQnA qQnA = QQnA.qnA;
+	QQnAMst qQnAMst = QQnAMst.qnAMst;
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
@@ -35,15 +33,15 @@ public class QnAService {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		List<QnA> qnaList = query
-				.selectFrom(qQnA)
+		List<QnAMst> qnaList = query
+				.selectFrom(qQnAMst)
 				.limit(size)
-				.orderBy(qQnA.boardId.desc())
+				.orderBy(qQnAMst.boardId.desc())
 				.fetch();
 		
 		List<QnADto> resultList = new ArrayList<QnADto>();
 		int loop = 1;
-		for(QnA qna : qnaList) {
+		for(QnAMst qna : qnaList) {
 			resultList.add(new QnADto(qna, loop));
 			loop++;
 		}

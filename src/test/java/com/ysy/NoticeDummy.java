@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ysy.biz.entity.SystemNotice;
+import com.ysy.biz.entity.SystemNoticeMst;
 import com.ysy.biz.repository.SystemNoticeRepository;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
@@ -76,7 +76,7 @@ public class NoticeDummy {
 //			ysyUserMst.setUsername("");
 //			ysyUserMst.setName("");
 			
-			SystemNotice systemNotice = SystemNotice.builder()
+			SystemNoticeMst systemNotice = SystemNoticeMst.builder()
 					.content(null)
 					.title(titleList.get(i))
 					.ysyUserMst(userMstList.get(i))

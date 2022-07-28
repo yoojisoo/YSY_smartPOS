@@ -30,11 +30,13 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "QNA_MST")
+@Table(name = "STORE_NOTICE_MST")
 @Entity
-public class QnA  extends BaseEntity implements Serializable{
+public class StoreNoticeMst  extends BaseEntity implements Serializable{
 
-	/** 22-07-28 mnew2m QnA 추가 */
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -46,7 +48,7 @@ public class QnA  extends BaseEntity implements Serializable{
 	
 	@Column(name="CONTENT" , length=250 , nullable = false)
 	@Lob
-	private Blob content;
+	private String content;
 	
 	
 	

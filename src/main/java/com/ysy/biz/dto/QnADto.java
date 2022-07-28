@@ -1,6 +1,6 @@
 package com.ysy.biz.dto;
 
-import com.ysy.biz.entity.QnA;
+import com.ysy.biz.entity.QnAMst;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class QnADto {
 	String title;
 	String writer;
 	
-	public QnADto(QnA qna , int index) {
+	public QnADto(QnAMst qna , int index) {
 		this.no      = index;
 		this.boardId = (int)qna.getBoardId();
 		this.title   = qna.getTitle();

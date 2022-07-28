@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.entity.QStoreNotice;
-import com.ysy.biz.entity.StoreNotice;
+import com.ysy.biz.entity.StoreNoticeMst;
 import com.ysy.jwt.auth.dto.UserInfoDto;
 import com.ysy.jwt.auth.entity.QYsyBtnMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
@@ -81,7 +81,7 @@ public class Jpa_1_N_test {
 				.limit(1)
 				.fetchOne();
 		
-		List<StoreNotice> noticeList = query
+		List<StoreNoticeMst> noticeList = query
 				.select(qStoreNotice)
 				.from(qStoreNotice)
 				.where(qStoreNotice.ysyUserMst.username.eq(userId))

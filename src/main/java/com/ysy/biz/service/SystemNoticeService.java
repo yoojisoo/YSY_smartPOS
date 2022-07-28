@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.biz.dto.ResponseDto;
 import com.ysy.biz.dto.SystemNoticeDto;
-import com.ysy.biz.entity.QSystemNotice;
-import com.ysy.biz.entity.SystemNotice;
+import com.ysy.biz.entity.QSystemNoticeMst;
+import com.ysy.biz.entity.SystemNoticeMst;
 
 @Service
 //@AllArgsConstructor
@@ -25,7 +25,7 @@ public class SystemNoticeService {
 	
 	/** 22-07-06 mnew2m
 	 * 사용하는 Q Class */
-	QSystemNotice qSystemNotice = QSystemNotice.systemNotice; 
+	QSystemNoticeMst qSystemNoticeMst = QSystemNoticeMst.systemNoticeMst; 
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
@@ -33,15 +33,15 @@ public class SystemNoticeService {
 		
 		JPAQueryFactory query = new JPAQueryFactory(em);
 		
-		List<SystemNotice> noticeList =  query
-				.selectFrom(qSystemNotice)
+		List<SystemNoticeMst> noticeList =  query
+				.selectFrom(qSystemNoticeMst)
 				.limit(size)
-				.orderBy(qSystemNotice.boardId.desc())
+				.orderBy(qSystemNoticeMst.boardId.desc())
 				.fetch();
 		
 		List<SystemNoticeDto> resultList = new ArrayList<SystemNoticeDto>();
 		int loop = 1;
-		for(SystemNotice notice : noticeList) {
+		for(SystemNoticeMst notice : noticeList) {
 			resultList.add(new SystemNoticeDto(notice, loop));
 			loop++;
 		}

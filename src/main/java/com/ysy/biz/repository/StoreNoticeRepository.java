@@ -2,8 +2,8 @@ package com.ysy.biz.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ysy.biz.entity.StoreNotice;
+import com.ysy.biz.entity.StoreNoticeMst;
 
-public interface StoreNoticeRepository extends JpaRepository<StoreNotice, String>{
+public interface StoreNoticeRepository extends JpaRepository<StoreNoticeMst, String>{
 
 }
