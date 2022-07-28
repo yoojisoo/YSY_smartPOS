@@ -10,10 +10,6 @@
 			<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
 				<!-- style="background-color: #6667ab" -->
 				<v-row justify="center" no-gutters style="height: inherit">
-					<!-- 슬라이드 배너 가로 폭 : 맞춤 -->
-					<!--<v-col cols="12">
-								<carousel />
-							</v-col>-->
 					<v-col :cols="filterCols" class="hidden-xs-only">
 						<v-card v-if="filterShow" height="100%" tile color="indigo" flat></v-card>
 					</v-col>

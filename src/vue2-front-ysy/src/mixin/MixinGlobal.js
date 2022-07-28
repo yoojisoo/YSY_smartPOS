@@ -7,8 +7,4 @@
 import UserMixin from './UserMixin';
 import YsyUtil from './YsyUtil';
 
-const MixinGlobal = {
-	mixins: [YsyUtil, UserMixin],
-};
-
-export default MixinGlobal;
+export { UserMixin, YsyUtil };

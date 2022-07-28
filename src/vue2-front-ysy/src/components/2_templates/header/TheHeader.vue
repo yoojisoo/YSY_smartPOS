@@ -5,7 +5,7 @@
 		<v-app-bar app flat outlined>
 			<v-container class="ma-0 pa-0" fluid>
 				<v-row justify="center" no-gutters>
-					<v-col cols="12" md="8" lg="8" xl="8">
+					<v-col cols="12" md="10" lg="10" xl="10">
 						<v-row justify="start" align="center" no-gutters>
 							<v-col cols="12" md="2" lg="2" xl="1" class="pa-0 ma-0">
 								<v-row justify="center" align="center" class="ma-0 pa-0" no-gutters>

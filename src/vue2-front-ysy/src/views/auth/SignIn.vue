@@ -1,141 +1,130 @@
 <template>
-	<v-app>
-		<v-main>
-			<v-container class="sign_container">
+	<v-container class="sign_container">
+		<v-row class="sign_row">
+			<v-col class="sign_logo" cols="12">
+				<FLogoBtnB />
+			</v-col>
+			<v-col class="sign_col" cols="12">
 				<v-row class="sign_row">
-					<v-col class="sign_logo" cols="12">
-						<FLogoBtnB />
-					</v-col>
-					<v-col class="sign_col" cols="12">
-						<v-row class="sign_row">
-							<v-col cols="md-4 xs-12">
-								<v-card elevation="0">
-									<v-card-text>
-										<v-row justify="space-between" no-gutters>
-											<v-col cols="12" class="mb-6">
-												<v-text-field
-													v-model="params.data.username"
-													name="user_id"
-													type="text"
-													prepend-inner-icon="mdi-human-greeting-variant"
-													placeholder="  Hello, Donkey! What's your ID?"
-													required
-													filled
-													hide-details
-												></v-text-field>
-											</v-col>
-											<v-col cols="12" class="mb-6">
-												<v-text-field
-													v-model="params.data.password"
-													name="user_pw"
-													type="password"
-													prepend-inner-icon="mdi-donkey"
-													placeholder="  Hmm.. My Password is..."
-													required
-													filled
-													hide-details
-												></v-text-field>
-											</v-col>
-											<v-col
-												cols="auto"
-												class="mb-1"
-												v-for="(item, idx) in toggleMessage"
-												:key="idx"
-											>
-												<span>{{ item.title }}</span>
-											</v-col>
-											<v-col cols="12">
-												<v-btn
-													block
-													class="my-2 deep-purple lighten-1"
-													dark
-													value="sign in"
-													@click="signIn"
-													>로그인</v-btn
-												>
-											</v-col>
-											<v-col cols="12">
-												<v-btn
-													block
-													outlined
-													class="my-2"
-													color="#7E57C2"
-													value="sign up"
-													@click="signUp"
-													>회원가입</v-btn
-												>
-											</v-col>
-										</v-row>
-										<v-row justify="center">
-											<v-col cols="4">
-												<!-- <v-btn
+					<v-col cols="md-4 xs-12">
+						<v-card elevation="0">
+							<v-card-text>
+								<v-row justify="space-between" no-gutters>
+									<v-col cols="12" class="mb-6">
+										<v-text-field
+											v-model="params.data.username"
+											name="user_id"
+											type="text"
+											prepend-inner-icon="mdi-human-greeting-variant"
+											placeholder="  Hello, Donkey! What's your ID?"
+											required
+											filled
+											hide-details
+											@keyup.enter="signIn"
+										></v-text-field>
+									</v-col>
+									<v-col cols="12" class="mb-6">
+										<v-text-field
+											v-model="params.data.password"
+											name="user_pw"
+											type="password"
+											prepend-inner-icon="mdi-donkey"
+											placeholder="  Hmm.. My Password is..."
+											required
+											filled
+											hide-details
+											@keyup.enter="signIn"
+										></v-text-field>
+									</v-col>
+									<v-col
+										cols="auto"
+										class="mb-1"
+										v-for="(item, idx) in toggleMessage"
+										:key="idx"
+									>
+										<span>{{ item.title }}</span>
+									</v-col>
+									<v-col cols="12">
+										<v-btn
+											block
+											class="my-2 deep-purple lighten-1"
+											dark
+											value="sign in"
+											@click="signIn"
+											>로그인</v-btn
+										>
+									</v-col>
+									<v-col cols="12">
+										<v-btn
+											block
+											outlined
+											class="my-2"
+											color="#7E57C2"
+											value="sign up"
+											@click="signUp"
+											>회원가입</v-btn
+										>
+									</v-col>
+								</v-row>
+								<v-row justify="center">
+									<v-col cols="4">
+										<!-- <v-btn
 													block
 													large
 													color="#ffe812"
 													href="https://kauth.kakao.com/oauth/authorize?client_id=4c9e081b17404f289741f6792bd4c6e7&redirect_uri=http://localhost:8000/ysy/v1/auth/kakao/redirect&response_type=code"
 												> -->
-												<!-- javascript 방식 -->
-												<v-btn
-													block
-													large
-													color="#ffe812"
-													@click="kakaoLogin"
-												>
-													<v-img
-														contain
-														max-height="40"
-														max-width="40"
-														src="@/assets/img/png/kakao_logo.png"
-													></v-img>
-													<h4 style="color: black">카카오 로그인</h4>
-												</v-btn>
-											</v-col>
-											<v-col cols="4">
-												<v-btn
-													block
-													large
-													color="#03c75a"
-													@click="naverLogin"
-												>
-													<v-img
-														contain
-														max-height="40"
-														max-width="40"
-														src="@/assets/img/png/naver_logo.png"
-													></v-img>
-													<h4 style="color: white">네이버 로그인</h4>
-												</v-btn>
-											</v-col>
-											<v-col cols="4">
-												<v-btn block large color="white" href="">
-													<v-img
-														contain
-														max-height="40"
-														max-width="40"
-														src="@/assets/img/png/google_logo.png"
-													></v-img>
-													<h4 style="color: black">구글 로그인</h4>
-												</v-btn>
-											</v-col>
-										</v-row>
-									</v-card-text>
-								</v-card>
-							</v-col>
-						</v-row>
+										<!-- javascript 방식 -->
+										<v-btn block large color="#ffe812" @click="kakaoLogin">
+											<v-img
+												contain
+												max-height="40"
+												max-width="40"
+												src="@/assets/img/png/kakao_logo.png"
+											></v-img>
+											<h4 style="color: black">카카오 로그인</h4>
+										</v-btn>
+									</v-col>
+									<v-col cols="4">
+										<v-btn block large color="#03c75a" @click="naverLogin">
+											<v-img
+												contain
+												max-height="40"
+												max-width="40"
+												src="@/assets/img/png/naver_logo.png"
+											></v-img>
+											<h4 style="color: white">네이버 로그인</h4>
+										</v-btn>
+									</v-col>
+									<v-col cols="4">
+										<v-btn block large color="white" href="">
+											<v-img
+												contain
+												max-height="40"
+												max-width="40"
+												src="@/assets/img/png/google_logo.png"
+											></v-img>
+											<h4 style="color: black">구글 로그인</h4>
+										</v-btn>
+									</v-col>
+								</v-row>
+							</v-card-text>
+						</v-card>
 					</v-col>
 				</v-row>
-			</v-container>
-		</v-main>
-	</v-app>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script>
 import { FLogoBtnB } from '@/assets/util/importFile.js';
+import { YsyUtil } from '@/mixin/MixinGlobal.js';
 
 export default {
 	name: 'App',
 	components: { FLogoBtnB },
-
+	mixins: [YsyUtil],
 	data() {
 		return {
 			toggleMessage: [{ title: 'REMEMBER' }, { title: 'FORGET ID/PW?' }],
@@ -150,17 +139,23 @@ export default {
 	},
 	methods: {
 		async signIn() {
-			try {
-				let res = await this.$store.dispatch('authStore/signIn', this.params);
-				console.log('🎀🎀🎀 res.status = ' + res.status);
-				if (res.status != undefined && res.status == 200) {
-					this.$router.replace('/');
-				} else {
-					console.log('res ===========>' + res);
-					alert(res);
+			if (
+				this.isNullAndEmpty(this.params.data.username) ||
+				this.isNullAndEmpty(this.params.data.password)
+			) {
+				alert('ID와 비밀번호를 입력해주세요.');
+			} else {
+				try {
+					let res = await this.$store.dispatch('authStore/signIn', this.params);
+					if (res.status != undefined && res.status == 200) {
+						this.$router.replace({ name: 'home' });
+					} else {
+						console.log('res ===========>' + res);
+						alert(res);
+					}
+				} catch (error) {
+					console.log('signIn => ' + error.response.status);
 				}
-			} catch (error) {
-				console.log('signIn => ' + error.response.status);
 			}
 		},
 
