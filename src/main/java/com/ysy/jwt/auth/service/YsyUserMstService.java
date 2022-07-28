@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.fasterxml.jackson.databind.util.ArrayBuilders.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ysy.common.SysEnum;
@@ -24,7 +23,6 @@ import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
-import com.ysy.jwt.auth.dto.UserRequestDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.entity.QYsyBizMst;
