@@ -44,7 +44,7 @@ export default {
 			this.$router.replace({ name: 'signUp' }).catch(() => {});
 		},
 		myInfo() {
-			this.$router.replace({ name: 'myInfo' }).catch(() => {});
+			this.$router.push({ name: 'myInfo' }).catch(() => {});
 		},
 		logout() {
 			this.$store.dispatch('authStore/clearUserInfo');

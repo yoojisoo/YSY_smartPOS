@@ -7,7 +7,7 @@
 <template>
 	<v-container class="main_layout_container">
 		<v-row class="main_layout_row">
-			<v-col class="main_layout_row" clos="12" md="8" lg="8" xl="8">
+			<v-col class="main_layout_row" clos="12" md="10" lg="10" xl="10">
 				<v-row justify="center" no-gutters style="height: inherit">
 					<v-col cols="12">
 						<v-row align="start" justify="start" no-gutters>
@@ -68,6 +68,9 @@ export default {
 	mounted() {
 		// 해당 유저 권한 이하의 사용자들을 불러옴
 		this.findFilterUserList();
+		console.log('😛 메롱메롱 😛');
+		console.log(this.getMenuList);
+		console.log(window.history);
 	},
 
 	methods: {

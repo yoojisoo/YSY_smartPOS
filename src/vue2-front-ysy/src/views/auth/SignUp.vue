@@ -250,7 +250,7 @@ export default {
 							alert(
 								'회원가입이 완료되었습니다.\n메일을 확인하여 인증을 완료해주세요.',
 							);
-							this.$router.replace({ name: 'signIn' });
+							this.$router.push({ name: 'signIn' });
 						} else {
 							alert('회원가입 실패\n관리자에게 문의바랍니다.');
 							this.$router.replace('/signUp').catch(() => {});
@@ -263,7 +263,7 @@ export default {
 			} else alert('이메일 중복확인은 필수 항목입니다.');
 		},
 		signIn() {
-			this.$router.replace({ name: 'signIn' });
+			this.$router.push({ name: 'signIn' });
 		},
 	},
 };

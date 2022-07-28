@@ -160,7 +160,7 @@ export default {
 		},
 
 		signUp() {
-			this.$router.replace({ name: 'signUp' });
+			this.$router.push({ name: 'signUp' });
 		},
 
 		kakaoLogin() {
