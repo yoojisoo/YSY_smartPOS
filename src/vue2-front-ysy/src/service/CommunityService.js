@@ -55,18 +55,28 @@ class NoticeService {
 		let url = 'ysy/v1/editSystemNotice';
 	}
 
-	// class AuthService {
-	// 	async signIn(params) {
-	// 		let res = (await axios.post(params.url, params.data)).headers;
-	// 		if (res.access_token !== null || res.access_token !== '') {
-	// 			axios.defaults.headers.common['access_token'] = res.access_token;
-	// 			return res;
-	// 		} else {
-	// 			console.log('AuthService setLoginData ==> error !!!!!!!!!!!');
-	// 			return null;
-	// 		}
-	// 	}
-	// }
+	/**
+	 * QnA
+	 * server controller -> JPA를 통해 DB 데이터 find
+	 */
+	async findQnA() {
+		try {
+			let url = 'ysy/v1/findQnA?size=5';
+			let res = await axios.get(url);
+			if (res.status === 200) {
+				console.log('NoticeService - findQnA ==> start');
+				console.log(res.data.objList);
+				console.log('NoticeService - findQnA ==> end');
+				return res.data.objList;
+			} else {
+				console.log('❌ NoticeService - findQnA ERROR STATUS : ' + res.status);
+				return null;
+			}
+		} catch (error) {
+			console.log('MenuService findQnA error => ' + error);
+			return error;
+		}
+	}
 }
 
 export default new NoticeService();

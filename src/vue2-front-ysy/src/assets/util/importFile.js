@@ -54,7 +54,7 @@ export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit, TheSearch };
 
 //import '@/store/modules/AuthStore.js';
 //import '@/store/modules/MenuStore';
-//import '@/store/modules/NoticeStore';
+//import '@/store/modules/CommunityStore';
 //import '@/store/modules/UserStore';
 //import '@/store/index.js';
 

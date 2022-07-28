@@ -2,7 +2,7 @@
 <template>
 	<v-container class="main_layout_container">
 		<v-row class="main_layout_row">
-			<v-col cols="12" md="8" lg="8" xl="8">
+			<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
 				<v-row justify="center" no-gutters style="height: inherit">
 					<v-col cols="12">
 						<ysyGrid :gridInfo="systemNoticeInfo" />
@@ -17,16 +17,12 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
 import ysyGrid from '@/components/FGrid.vue';
 import { mapGetters } from 'vuex';
 import boardDialog from '@/components/FDialog.vue';
 
 export default {
 	components: {
-		TheSystemBar,
-		TheHeader,
-		TheFooter,
 		ysyGrid,
 		boardDialog,
 	},
@@ -62,12 +58,12 @@ export default {
 		this.findSystemNoticeList();
 	},
 	computed: {
-		...mapGetters({ getSystemNoticeList: 'noticeStore/getSystemNoticeList' }),
+		...mapGetters({ getSystemNoticeList: 'communityStore/getSystemNoticeList' }),
 	},
 	methods: {
 		async findSystemNoticeList() {
-			await this.$store.dispatch('noticeStore/findSystemNotice').catch(error => {
-				console.log('===============> noticeStore/findSystemNotice error');
+			await this.$store.dispatch('communityStore/findSystemNotice').catch(error => {
+				console.log('===============> communityStore/findSystemNotice error');
 				console.log(error);
 			});
 

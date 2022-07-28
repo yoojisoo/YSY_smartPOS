@@ -7,7 +7,7 @@
 			<v-col class="main_layout_col" cols="12">
 				<carousel />
 			</v-col>
-			<v-col class="main_layout_col" cols="12" md="8" lg="8" xl="8">
+			<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
 				<!-- style="background-color: #6667ab" -->
 				<v-row justify="center" no-gutters style="height: inherit">
 					<!-- 슬라이드 배너 가로 폭 : 맞춤 -->
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
 import ysyGrid from '@/components/FGrid.vue';
 import carousel from '@/components/FCarousel.vue';
 import noticeDialog from '@/components/FDialog.vue';
@@ -68,9 +67,6 @@ import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		TheSystemBar,
-		TheHeader,
-		TheFooter,
 		ysyGrid,
 		carousel,
 		noticeDialog,
@@ -180,8 +176,8 @@ export default {
 
 		//시스템 공지사항 셋팅
 		async findSystemNoticeList() {
-			await this.$store.dispatch('noticeStore/findSystemNotice').catch(error => {
-				console.log('===============> noticeStore/findSystemNotice error');
+			await this.$store.dispatch('communityStore/findSystemNotice').catch(error => {
+				console.log('===============> communityStore/findSystemNotice error');
 				console.log(error);
 			});
 
@@ -194,8 +190,8 @@ export default {
 
 		// 스토어 공지사항 셋팅
 		async findStoreNoticeList() {
-			await this.$store.dispatch('noticeStore/findStoreNotice').catch(error => {
-				console.log('===============> noticeStore/findStoreNotice error');
+			await this.$store.dispatch('communityStore/findStoreNotice').catch(error => {
+				console.log('===============> communityStore/findStoreNotice error');
 				console.log(error);
 			});
 
@@ -208,8 +204,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({ getUser: 'authStore/getUser' }),
-		...mapGetters({ getSystemNoticeList: 'noticeStore/getSystemNoticeList' }),
-		...mapGetters({ getStoreNoticeList: 'noticeStore/getStoreNoticeList' }),
+		...mapGetters({ getSystemNoticeList: 'communityStore/getSystemNoticeList' }),
+		...mapGetters({ getStoreNoticeList: 'communityStore/getStoreNoticeList' }),
 	},
 };
 </script>
