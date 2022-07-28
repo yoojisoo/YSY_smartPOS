@@ -30,4 +30,9 @@ export default [
 		name: 'summernote2',
 		component: () => import('@/components/1_molecules/editors/SummerNote.vue'),
 	},
+	{
+		path: '/adminBoardMod',
+		name: 'adminBoardMod',
+		component: () => import('@/views/testPages/AdminFreeBoardMod.vue'),
+	},
 ];

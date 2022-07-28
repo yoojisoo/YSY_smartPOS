@@ -1,13 +1,17 @@
 package com.ysy.jwt.auth.controller;
 
+import java.util.logging.FileHandler;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ysy.jwt.auth.dto.BoardDto;
+import com.ysy.jwt.auth.handler.YsyFlieHandler;
 import com.ysy.jwt.auth.service.YsyBoardService;
 
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +27,8 @@ public class YsyBoardController {
 	
 	@Autowired
 	private YsyBoardService ysyBoardService;
+	@Autowired
+	private YsyFlieHandler ysyFlieHandler;
 	
 	
 	@ApiOperation(value = "get 방식 admin만 사용할 수 있는 board" 
@@ -86,7 +92,7 @@ public class YsyBoardController {
 	
 	
 	@PostMapping(value="/createSummerNote" , consumes = {"multipart/form-data"})
-	public String createSummerNote( BoardDto dto) {
+	public String createSummerNote( BoardDto dto) throws Exception {
 //	public String createSummerNote(@RequestBody MultipartFile files, String title) {
 //		System.out.println("title="+dto.getTitle());
 //		System.out.println("content="+dto.getContent());
@@ -102,9 +108,19 @@ public class YsyBoardController {
 			System.out.println("getContentType = "+file.getContentType());
 			System.out.println("");
 		}
+		
+		ysyFlieHandler.parseFileInfo(dto);
 		return "test";
 //		return ysyBoardService.createSummerNote(dto.getContent());
 		
+	}
+	
+	@PostMapping("/testDto")
+	public String getTest(@RequestBody BoardDto dto) {
+		
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		return "잘됨";
 	}
 
 	

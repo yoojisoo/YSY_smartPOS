@@ -1,5 +1,6 @@
 package com.ysy.jwt.auth.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -17,10 +18,8 @@ public class BoardDto {
 	private long   boardId;
 	private String title;
 	private String content;
-	private String filePath;
-	private String fileName;
 	private String useYn;
 	private String writer;
-	private List<MultipartFile> files;
+	private List<MultipartFile> files = new ArrayList<>();
 //	private MultipartFile files;
 }
