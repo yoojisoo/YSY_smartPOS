@@ -161,9 +161,10 @@ export default {
 		headerMenu: null,
 		row: null,
 		iconImg: 'mdi-dots-vertical',
+		userLogin: false,
 	}),
 	mounted() {
-		if(sessionStorage.getItem('loginData')) {
+		if (sessionStorage.getItem('loginData')) {
 			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
 				.access_token;
 			this.$axios.defaults.headers.common['access_token'] = access_token;
@@ -180,9 +181,21 @@ export default {
 			// windowWidth 라는 값이 변경되면 실행
 			this.drawer = false;
 		},
+		userLogin() {
+			this.findMenuList();
+		},
 	},
 	computed: {
-		...mapGetters(authStore, ['isLogin', 'getUserId', 'getUserName']),
+		isLogin() {
+			if (this.$store.state.authStore.loginData.isLogin) this.userLogin = true;
+			return this.$store.state.authStore.loginData.isLogin;
+		},
+		getUserId() {
+			return this.$store.state.authStore.loginData.user_id;
+		},
+		getUserName() {
+			return this.$store.state.authStore.loginData.user_name;
+		},
 		...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
 	},
 	methods: {
@@ -210,9 +223,6 @@ export default {
 			console.log(this.iconImg);
 		},
 		setHeaderMenu() {
-			console.log(' ↓↓↓ headerMenuFilter Start ↓↓↓');
-			console.log(' →→→ this.pageValue = ' + this.pageName);
-			console.log(this.menuList);
 			var parentList = [];
 			var childList = [];
 			this.menuList.forEach(x => {
@@ -238,10 +248,9 @@ export default {
 			});
 			this.headerMenu = [];
 			this.headerMenu = parentList;
-			console.log(' ↓↓↓ this.headerMenu ↓↓↓ ');
+			console.log(' ⬇️ this.headerMenu ⬇️ ');
 			console.log(this.headerMenu);
-			console.log(' ↑↑↑ this.headerMenu ↑↑↑ ');
-			console.log(' ↑↑↑ headerMenuFilter End ↑↑↑ ');
+			console.log(' ⬆️ this.headerMenu ⬆️ ');
 		},
 		async findMenuList() {
 			await store.dispatch('menuStore/findMenuList', this.getUserId);

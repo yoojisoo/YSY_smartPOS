@@ -4,7 +4,9 @@
 			<keep-alive>
 				<TheSystemBar />
 			</keep-alive>
-			<TheHeader />
+			<keep-alive>
+				<TheHeader />
+			</keep-alive>
 		</div>
 		<v-main>
 			<router-view />
@@ -24,7 +26,7 @@ export default {
 	components: { TheSystemBar, TheHeader, TheFooter },
 	mounted() {
 		console.log('app.vue mounted ');
-		if(sessionStorage.getItem('loginData')) {
+		if (sessionStorage.getItem('loginData')) {
 			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
 				.access_token;
 			this.$axios.defaults.headers.common['access_token'] = access_token;

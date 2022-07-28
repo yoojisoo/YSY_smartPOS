@@ -6,17 +6,13 @@ const authStore = {
 	namespaced: true,
 	state: {
 		loginData: {
-			/*  기본 셋팅 키
-				user_id
-				user_name
-				access_token
-				access_token_exp
-				refresh_token
-				refresh_token_exp
-			*/
 			isLogin: null,
 			user_id: null,
 			user_name: null,
+			access_token: null,
+			access_token_exp: null,
+			refresh_token: null,
+			refresh_token_exp: null,
 			isAdmin: null,
 		},
 		adminPage: {
@@ -132,6 +128,7 @@ const authStore = {
 				};
 				dispatch('isAdmin', payload.user_id);
 				console.log('✅ authStore setUserInfo');
+				console.log(payload);
 				commit('setUserInfo', payload);
 				return true;
 			} else {
