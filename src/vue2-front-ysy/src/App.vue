@@ -5,11 +5,11 @@
 				<TheSystemBar />
 			</keep-alive>
 			<keep-alive>
-				<TheHeader />
+				<TheHeader :parentPage="parentPage" @menuClick="menuClick" />
 			</keep-alive>
 		</div>
 		<v-main>
-			<router-view />
+			<router-view :parentPageName="parentPage" />
 		</v-main>
 		<keep-alive>
 			<v-footer v-if="!isSignView" class="ma-0 pa-0" app fixed>
@@ -24,6 +24,11 @@ import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js'
 
 export default {
 	components: { TheSystemBar, TheHeader, TheFooter },
+	data() {
+		return {
+			parentPage: '',
+		};
+	},
 	mounted() {
 		console.log('app.vue mounted ');
 		if (sessionStorage.getItem('loginData')) {
@@ -36,6 +41,9 @@ export default {
 		refreshAll() {
 			// 새로고침
 			console.log('새로고침');
+		},
+		menuClick(parentPageName) {
+			this.parentPage = parentPageName;
 		},
 	},
 	beforeCreate() {

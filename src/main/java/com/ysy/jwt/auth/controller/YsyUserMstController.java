@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserDto;
@@ -97,18 +96,4 @@ public class YsyUserMstController {
 	public ResponseAuthDto<UserDto> getFilterUserList(@RequestParam String userId) {
 		return ysyUserService.getFilterUserList(userId);
 	}
-	
-	/** 2022 07 07 mnew2m
-	 * 컨트롤 가능한 유저들 중 선택한 유저의 접근가능메뉴 리스트 조회
-	 * userId Param -> 해당 userId가 접근가능한 메뉴 리스트를 조회 */
-	@GetMapping("/manager/getUserMenuList")
-	public ResponseAuthDto<MenuDto> getUserMenuList(@RequestParam String userId) {
-		return ysyUserService.getUserMenuList(userId);
-	}
-	
-
-	
-
-	
-
 }

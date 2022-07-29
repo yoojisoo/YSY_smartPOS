@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
+import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
+import com.ysy.jwt.auth.service.YsyUserMstService;
 
 @RestController
 @RequestMapping("/ysy/v1")
@@ -31,5 +33,13 @@ public class YsyMenuController {
 	@GetMapping("/user/findMenuList")
 	public ResponseDto<MenuDto> findMenuList(@RequestParam String userId) {
 		return ysyMenuMstService.findMenuList(userId);
+	}
+	
+	/** 2022 07 07 mnew2m
+	 * 컨트롤 가능한 유저들 중 선택한 유저의 접근가능메뉴 리스트 조회
+	 * userId Param -> 해당 userId가 접근가능한 메뉴 리스트를 조회 */
+	@GetMapping("/manager/getFilterMenuList")
+	public ResponseAuthDto<MenuDto> getFilterMenuList(@RequestParam String userId) {
+		return ysyMenuMstService.getFilterMenuList(userId);
 	}
 }

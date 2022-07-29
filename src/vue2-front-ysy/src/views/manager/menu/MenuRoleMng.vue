@@ -7,8 +7,15 @@
 <template>
 	<v-container class="main_layout_container">
 		<v-row class="main_layout_row">
-			<v-col class="main_layout_row" clos="12" md="10" lg="10" xl="10">
+			<v-col class="main_layout_col" clos="12" md="10" lg="10" xl="10">
 				<v-row justify="center" no-gutters style="height: inherit">
+					<v-col cols="12">
+						<v-breadcrumbs :items="breadCrumbsInfo">
+							<template v-slot:divider>
+								<v-icon>mdi-chevron-right</v-icon>
+							</template>
+						</v-breadcrumbs>
+					</v-col>
 					<v-col cols="12">
 						<v-row align="start" justify="start" no-gutters>
 							<v-col cols="3">
@@ -17,7 +24,7 @@
 									:items="users"
 									:item-text="itemText"
 									item-value="userId"
-									@input="findUserMenuList"
+									@input="findFilterMenuList"
 								></v-autocomplete>
 							</v-col>
 							<v-col cols="12">
@@ -43,7 +50,7 @@ export default {
 		TheFooter,
 		ysyGrid,
 	},
-
+	props: ['parentPageName'],
 	data() {
 		return {
 			pageName: 'menuRoleManager',
@@ -62,15 +69,13 @@ export default {
 				useBtn: false,
 				rowCnt: 100,
 			},
+			breadCrumbsInfo: [{ text: this.parentPageName }, { text: '메뉴권한관리' }],
 		};
 	},
 
 	mounted() {
 		// 해당 유저 권한 이하의 사용자들을 불러옴
 		this.findFilterUserList();
-		console.log('😛 메롱메롱 😛');
-		console.log(this.getMenuList);
-		console.log(window.history);
 	},
 
 	methods: {
@@ -90,21 +95,21 @@ export default {
 		},
 
 		// 선택된 유저의 접근권한이 있는 메뉴 리스트를 불러옴
-		async findUserMenuList(userId) {
-			await this.$store.dispatch('userStore/findUserMenuList', userId).catch(error => {
-				console.log('===============> userStore/findUserMenuList error');
+		async findFilterMenuList(userId) {
+			await this.$store.dispatch('menuStore/findFilterMenuList', userId).catch(error => {
+				console.log('===============> menuStore/findFilterMenuList error');
 				console.log(error);
 			});
 
-			if (this.getMenuList) this.gridInfo.dataList = this.getMenuList;
-			else console.log('MenuRoleMng --- findUserMenuList() 실패 !!');
+			if (this.getFilterMenuList) this.gridInfo.dataList = this.getFilterMenuList;
+			else console.log('MenuRoleMng --- findFilterMenuList() 실패 !!');
 		},
 	},
 
 	computed: {
 		...mapGetters({ userId: 'authStore/getUserId' }),
 		...mapGetters({ getFilterUserList: 'userStore/getFilterUserList' }),
-		...mapGetters({ getMenuList: 'userStore/getMenuList' }),
+		...mapGetters({ getFilterMenuList: 'menuStore/getFilterMenuList' }),
 	},
 };
 </script>

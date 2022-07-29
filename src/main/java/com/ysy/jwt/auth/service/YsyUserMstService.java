@@ -407,36 +407,6 @@ public class YsyUserMstService {
 	}
 	
 	@Transactional
-	public ResponseAuthDto<MenuDto> getUserMenuList(String userId) {
-		
-		
-		/** 해당 유저의 정보 start */
-		YsyUserMst userInfo = query
-				.selectFrom(qYsyUserMst)
-				.where(qYsyUserMst.username.eq(userId))
-				.fetchOne();
-		
-		int levelId = userInfo.getYsyGrpMst().getLevelId();
-		/** 해당 유저의 정보 end */
-		
-		/** 해당 유저의 접근가능메뉴 정보 start */
-		List<YsyGrpMenuMap> menuList = query
-				.selectFrom(qYsyGrpMenuMap)
-				.where(qYsyGrpMenuMap.ysyGrpMst.levelId.goe(levelId))
-				.orderBy(qYsyGrpMenuMap.ysyMenuMst.menuSeq.asc())
-				.fetch();
-		/** 해당 유저의 접근가능메뉴 정보 end */
-		
-		List<MenuDto> resultList = new ArrayList<MenuDto>();
-		for(YsyGrpMenuMap menu : menuList) {
-			resultList.add(new MenuDto(menu));
-		}
-		
-		return new ResponseAuthDto<MenuDto>(resultList, HttpStatus.OK);
-	}
-	
-	
-	@Transactional
 	public String modUserInfo(ModUserDto modUserDto) {
 		try {
 			if(!ysyUtil.isNullAndEmpty(modUserDto.getUsername())

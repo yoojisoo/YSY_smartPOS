@@ -5,6 +5,13 @@
 			<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
 				<v-row justify="center" no-gutters style="height: inherit">
 					<v-col cols="12">
+						<v-breadcrumbs :items="breadCrumbsInfo">
+							<template v-slot:divider>
+								<v-icon>mdi-chevron-right</v-icon>
+							</template>
+						</v-breadcrumbs>
+					</v-col>
+					<v-col cols="12">
 						<ysyGrid :gridInfo="storeNoticeInfo" />
 					</v-col>
 				</v-row>
@@ -26,6 +33,7 @@ export default {
 		ysyGrid,
 		boardDialog,
 	},
+	props: ['parentPageName'],
 	data() {
 		return {
 			pageName: 'storeNotice',
@@ -52,6 +60,7 @@ export default {
 			},
 			isPopup: false,
 			currentRow: {},
+			breadCrumbsInfo: [{ text: this.parentPageName }, { text: '스토어공지사항' }],
 		};
 	},
 	mounted() {

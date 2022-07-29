@@ -12,11 +12,13 @@ const menuStore = {
 	state: {
 		menuList: [],
 		adminMenuList: [],
+		filterMenuList: [],
 	},
 
 	getters: {
 		getMenuList: state => state.menuList,
 		getAdminMenuList: state => state.adminMenuList,
+		getFilterMenuList: state => state.filterMenuList,
 	},
 
 	mutations: {
@@ -25,6 +27,9 @@ const menuStore = {
 		},
 		setAdminMenuList(state, menuList) {
 			state.adminMenuList = menuList;
+		},
+		setFilterMenuList(state, menuList) {
+			state.filterMenuList = menuList;
 		},
 	},
 
@@ -45,6 +50,19 @@ const menuStore = {
 				}
 			} catch (error) {
 				console.log('MenuStore findMenuList error => ' + error);
+			}
+		},
+		async findFilterMenuList({ commit }, userId) {
+			try {
+				let menuList = await menuService.getFilterMenuList(userId);
+				if (menuList !== null && menuList !== undefined) {
+					console.log('✅ userStore findFilterMenuList');
+					commit('setFilterMenuList', menuList);
+				} else {
+					console.log('❌ userStore findFilterMenuList ❌');
+				}
+			} catch (error) {
+				console.log('UserStore findFilterMenuList error => ' + error);
 			}
 		},
 	},

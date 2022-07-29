@@ -2,19 +2,16 @@ import axios from 'axios';
 import userService from '@/service/UserService.js';
 import { YsyUtil } from '@/mixin/MixinGlobal.js';
 
-
 const userStore = {
 	namespaced: true,
 	state: {
 		userList: [],
 		filterUserList: [],
-		menuList: [],
 		userAddr: {},
 	},
 	getters: {
 		getUserList: state => state.userList,
 		getFilterUserList: state => state.filterUserList,
-		getMenuList: state => state.menuList,
 		getUserAddr: state => state.userAddr,
 	},
 	mutations: {
@@ -23,9 +20,6 @@ const userStore = {
 		},
 		setFilterUserList(state, userList) {
 			state.filterUserList = userList;
-		},
-		setUserMenuList(state, menuList) {
-			state.menuList = menuList;
 		},
 		setUserAddr(state, userAddr) {
 			state.userAddr = userAddr;
@@ -36,7 +30,7 @@ const userStore = {
 		async fn_getUserList({ commit }, condition) {
 			try {
 				let userList = await userService.fn_getUserList(condition);
-				if(YsyUtil.methods.isNullAndEmpty(userList)) {
+				if (YsyUtil.methods.isNullAndEmpty(userList)) {
 					console.log('🟢 userStore fn_getUserList');
 					commit('setUserList', userList.objList);
 				}
@@ -57,20 +51,6 @@ const userStore = {
 				}
 			} catch (error) {
 				console.log('UserStore findFilterUserList error => ' + error);
-			}
-		},
-
-		async findUserMenuList({ commit }, userId) {
-			try {
-				let userMenuList = await userService.getUserMenuList(userId);
-				if (userMenuList !== null && userMenuList !== undefined) {
-					console.log('✅ userStore findUserMenuList');
-					commit('setUserMenuList', userMenuList);
-				} else {
-					console.log('❌ userStore findUserMenuList ❌');
-				}
-			} catch (error) {
-				console.log('UserStore findUserMenuList error => ' + error);
 			}
 		},
 

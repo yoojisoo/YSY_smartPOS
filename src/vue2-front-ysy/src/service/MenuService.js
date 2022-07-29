@@ -35,6 +35,26 @@ class MenuService {
 			return error;
 		}
 	}
+
+	async getFilterMenuList(userId) {
+		try {
+			let url = 'ysy/v1/manager/getFilterMenuList?userId=' + userId;
+			let res = await axios.get(url);
+			console.log(res);
+
+			if (res.statusText === 'OK' && res.data.objList !== null) {
+				console.log('✅ UserService getFilterMenuList');
+				console.log(res.data.objList);
+				return res.data.objList;
+			} else {
+				console.log('❌ UserService getFilterMenuList ❌');
+				return null;
+			}
+		} catch (error) {
+			console.log('UserService getFilterMenuList error => ' + error);
+			return error;
+		}
+	}
 }
 
 export default new MenuService();

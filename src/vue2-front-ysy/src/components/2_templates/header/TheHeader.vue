@@ -45,7 +45,7 @@
 											>
 												<v-list-item-title
 													v-text="menus.menu_nm"
-													@click="goPage(menus.menu_path)"
+													@click="goPage(item, menus)"
 												/>
 											</v-list-item>
 										</v-list>
@@ -112,7 +112,7 @@
 							<v-list-item-content>
 								<v-list-item-title
 									v-text="menus.menu_nm"
-									@click="goPage(menus.menu_path)"
+									@click="goPage(item, menus)"
 								/>
 							</v-list-item-content>
 						</v-list-item>
@@ -125,10 +125,7 @@
 							<v-icon> {{ item.menu_icon }} </v-icon>
 						</v-list-item-icon>
 						<v-list-item-content>
-							<v-list-item-title
-								v-text="item.menu_nm"
-								@click="goPage(menus.menu_path)"
-							/>
+							<v-list-item-title v-text="item.menu_nm" @click="goPage(item, menus)" />
 						</v-list-item-content>
 					</v-list-item>
 				</div>
@@ -147,7 +144,7 @@ const authStore = 'authStore';
 
 export default {
 	name: 'main-header',
-	props: ['pageName'],
+	props: ['parentPage'],
 	components: { FLogoBtnS },
 	data: () => ({
 		active: null,
@@ -226,16 +223,11 @@ export default {
 			var parentList = [];
 			var childList = [];
 			this.menuList.forEach(x => {
-				if (this.pageName === 'admin' && x.is_admin === 'Y' && x.p_menu_id == null) {
-					// admin 메뉴 구성
+				if (x.p_menu_id == null || x.p_menu_id == '') {
+					// home 메뉴 구성
 					parentList.push(x);
-				} else {
-					if (x.p_menu_id == null || x.p_menu_id == '') {
-						// home 메뉴 구성
-						parentList.push(x);
-					} else if (x.p_menu_id != null || x.p_menu_id != '') {
-						childList.push(x);
-					}
+				} else if (x.p_menu_id != null || x.p_menu_id != '') {
+					childList.push(x);
 				}
 			});
 			parentList.forEach(h => {
@@ -261,9 +253,17 @@ export default {
 				console.log('this.findMenuList 실패 !!');
 			}
 		},
-		goPage(path) {
-			if (path !== undefined && path !== '' && path !== null) {
-				this.$router.push({ path: path });
+		goPage(parent, child) {
+			if (
+				parent !== undefined &&
+				parent !== '' &&
+				parent !== null &&
+				child !== undefined &&
+				child !== '' &&
+				child !== null
+			) {
+				this.$emit('menuClick', parent.menu_nm);
+				this.$router.push({ path: child.menu_path });
 			}
 		},
 	},
