@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.jwt.auth.entity.QSummernote;
-import com.ysy.jwt.auth.entity.Summernote;
 
 @Service
 public class YsyBoardService {
@@ -19,7 +17,6 @@ public class YsyBoardService {
 	
 	@Autowired
 	JPAQueryFactory query = new JPAQueryFactory(em);
-	QSummernote qSummernote = QSummernote.summernote;
 	
 	
 //	public void getYsyBoardList() {
@@ -68,14 +65,11 @@ public class YsyBoardService {
 		  .executeUpdate();
 		
 		
-		Summernote res =  query.select(qSummernote)
-			.from(qSummernote)
-			.where(qSummernote.id.eq(22l))
-			.fetchOne();
+		
 		
 //		System.out.println(res.getContent());
-		System.out.println(res.toString());
+//		System.out.println(res.toString());
 		
-		return res.getContent();
+		return null;
 	}
 }
