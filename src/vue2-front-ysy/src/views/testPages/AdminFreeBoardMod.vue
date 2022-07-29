@@ -11,10 +11,10 @@
 <!-- 파일 첨부 영역 -->
     <FileAttach :info = "FileAttachInfo"/>
 
-
-
     <!-- editor 영역 -->
     <SummerNote :info = "SummerNoteInfo" />
+
+       
   </div>
 </template>
 
@@ -23,7 +23,6 @@ import Thumbnail from '@/components/1_molecules/Thumbnail.vue';
 import ButtonGroup from '@/components/1_molecules/buttons/ButtonGroup.vue';
 import FileAttach from '@/components/1_molecules/FileAttach.vue';
 import SummerNote from '@/components/1_molecules/editors/SummerNote.vue';
-
 
 
 export default {
@@ -36,6 +35,7 @@ export default {
     },
     data(){
         return {
+            files : [],
             //버튼 그룹 정보
 			ButtonGroupInfo : {
 				// callbackSearch : ()=>{  console.log("callbackSearch Click");    },
@@ -51,10 +51,9 @@ export default {
 				isMulti : true,
 				isAdd : true,
 				callback:(uploadFiles)=>{
-                    this.ThumbnailInfo.files = uploadFiles;
-					console.log("this.ThumbnailInfo.files callback " , this.ThumbnailInfo.files);
+                    this.files = uploadFiles;
+					console.log("this.ThumbnailInfo.files callback " , this.files);
 				},
-                files : [],
 			},
 			//파일 업로드 정보
 			FileAttachInfo : {
@@ -62,52 +61,62 @@ export default {
 				label : "업로드 파일",
 				placeholder : "파일을 선택하세요",
 				callback:(uploadFiles)=>{
-                    this.FileAttachInfo.files = uploadFiles;
-					console.log("this.FileAttachInfo.files callback " , this.FileAttachInfo.files);
+					console.log("this.FileAttachInfo.files callback " , uploadFiles);
 				},
-                files : [],
 			},
             //summerNote info
 			SummerNoteInfo : {
 				isEdit : true,
-				getContent : (content)=>{ 
-                    this.SummerNoteInfo.contentStr = content;
-                    console.log("this.SummerNoteInfo.contentStr callback ", this.SummerNoteInfo.contentStr); 
+                isTitle: true,
+                orgTitle: "",
+                orgContent: "",
+                contentCallback : (chgContent)=>{
+                    console.log("ContentCallback",chgContent);
+                     this.$store.dispatch('adminFreeBoardStore/setContent' , chgContent);
                 },
-                contentStr : "",
+                titleCallback : (chgTitle)=>{
+                    console.log("TitleCallback",chgTitle);
+                    this.$store.dispatch('adminFreeBoardStore/setTitle' , chgTitle);
+                },
+				
 			},
         }
     },
     computed:{
-        summerNoteContent(){
-            return "";
-        }
+       
     },
     methods : {
         saveClick(){
 			console.log("saveClick");
-			// this.content = $('#summernote').summernote('code'); //값 가져오기
-			// console.log("content = ["+this.content + "] \n orgContent = [" + this.orgContent +"]");
-			// console.log('확인중~' + typeof this.content);
-			// console.log(this.files);
+            
+			const title   = this.$store.state.adminFreeBoardStore.title;
+			const content = this.$store.state.adminFreeBoardStore.content;
+            if(title   === this.$store.state.adminFreeBoardStore.orgTitle && content === this.$store.state.adminFreeBoardStore.orgContent){
+                console.log("같음");
+                return;
+            }
 
-			// let formData = new FormData();
-			// formData.append('content', this.content);
-			// formData.append('title', this.title);
-			// this.files.forEach(x=>{
-			// 	formData.append('files', x);
-			// })
 
-			// this.$axios.post("/ysy/v1/createSummerNote",formData)//,{headers: {'Content-Type': 'multipart/form-data'}} //content-type 셋팅 안해도 올라가네??
-			// 	.then(res=>{
-			// 		console.log("");
-			// 		console.log(res);
-			// 		$('#summernote').summernote('code', res.data); 
-			// 		alert("success");
-			// 	})
-			// 	.catch(error=>{
-			// 		console.log(error);
-			// 	});
+			console.log("title "    , title);
+			console.log("content "  , content);
+			console.log("this.files", this.files);
+
+			let formData = new FormData();
+			formData.append('title'  , title);
+            formData.append('content', content);
+			this.files.forEach(x=>{
+				formData.append('files', x);
+			})
+
+			this.$axios.post("/ysy/v1/createSummerNote",formData)//,{headers: {'Content-Type': 'multipart/form-data'}} //content-type 셋팅 안해도 올라가네??
+				.then(res=>{
+					console.log("");
+					console.log(res.data);
+					alert("success");
+				})
+				.catch(error=>{
+					console.log(error);
+				});
 		},
     }
 }

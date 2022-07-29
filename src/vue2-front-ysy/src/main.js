@@ -5,43 +5,26 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import axios from 'axios';
 
-//easy table 
-import "vue-easytable/libs/theme-default/index.css";
+import "vue-easytable/libs/theme-default/index.css";//easy table 
 import VueEasytable from "vue-easytable";
+
+
 
 export const eventBus = new Vue();
 Vue.prototype.$axios = axios;
 
-Vue.use(VueEasytable);
+
 // Vue.prototype.axios = axios
 // Vue.config.globalProperties.axios = axios;
 // axios.defaults.baseURL = 'http://localhost:8000';
 
 Vue.config.productionTip = false;
-
-
-var urlParams1 = location.search.split(/[?&]/).slice(1).map(function(paramPair) {
-
-	return paramPair.split(/=(.+)?/).slice(0, 2);
-
-}).reduce(function(obj, pairArray) {
-
-	obj[pairArray[0]] = pairArray[1];
-
-	return obj;
-
-}, {});
-console.log("urlParams1.code) ===================================================="+urlParams1.code);
-console.log("urlParams1.oauth_path) ===================================================="+urlParams1.oauth_path);
-
-
-
-
-
+// Vue.use(VueEasytable);
 new Vue({
 	router,
 	store,
 	vuetify,
+	VueEasytable,
 	render: h => h(App),
 }).$mount('#app');
 
@@ -71,19 +54,13 @@ console.log('oauthPath =  ' , oauthPath);
 
 if (code) {
     
-	// if(reqUrl.indexOf("kakao") > -1){
-	// 	router.push({ path: '/kakaoLogin', query: { "code": code } })
-	// }
-    // else if(reqUrl.indexOf("naver") > -1){
-	// 	router.push({ path: '/naverLogin', query: { "code": code } })
-	// }
 	if(oauthPath === "kakao"){
 		router.push({ path: '/kakaoLogin', query: { "code": code } })
 	}
     else if(oauthPath === "naver"){
 		router.push({ path: '/naverLogin', query: { "code": code } })
 	}
-	// else{
-	// 	router.push({ path: '/kakaoLogin', query: { "code": code } })
-	// }
+	else{
+		router.push({ path: '/', query: { "oauthMsg": "oauth login fail!" } })
+	}
 }

@@ -1,6 +1,7 @@
 package com.ysy.jwt.auth.controller;
 
-import java.util.logging.FileHandler;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -123,6 +124,21 @@ public class YsyBoardController {
 		return "잘됨";
 	}
 
+	@GetMapping("/getFreeBoardDataList")
+	public List<BoardDto> getFreeBoardDataList() {
+		List<BoardDto> list = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			list.add(BoardDto.builder()
+						.title("title"+i)
+						.content("content"+i)
+						.writer("윤정호"+i)
+						.build()
+					);
+		}
+		
+		return list;
+	}
+	
 	
 	
 	

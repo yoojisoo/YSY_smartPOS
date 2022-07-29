@@ -19,62 +19,7 @@
 					class="mt-0 pa-0"
 					:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
 				>
-					<!-- <v-card class="pa-3 ma-0 mx-2" outlined >
-                            <v-row no-gutters>
-                                <v-col cols="8" class="ma-0 pa-0">
-                                    <v-card-title class="pl-1 pt-0 ma-0 text-h5" @click="detailMove('content')" v-text="data.title" />
-                                    <v-card-subtitle @click="detailMove('content')"  class="pa-0 pr-3">
-
-                                        <v-card-text v-if="data.contentList" class="pa-0">
-                                            <div v-for="(content1, idx2) in data.contentList" :key="idx2">
-                                                {{content1.title}} : {{content1.text}}
-                                            </div>
-                                        </v-card-text>
-                                        <v-card-text v-else class="pa-0">
-                                            <div
-                                                class="d-inline-block text-truncate cursor_finger"
-                                                style="max-width: 100%;">
-                                                {{data.content}}
-                                            </div>
-                                        </v-card-text>
-                                    </v-card-subtitle>
-                                </v-col>
-
-
-                                <v-col cols="4"  class="ma-0 pa-0" style="text-align: center;">
-                                    <v-avatar size="110" :tile = "info && info.isTile? info.isTile : true">
-                                        <v-img class="cursor_finger" :src="dataList.img? dataList.img[0] : default_img" />
-                                    </v-avatar>
-                                </v-col>
-                            </v-row>
-                            <v-row no-gutters v-if="data.isAction">
-                                <v-col cols="12">
-                                    <v-card-actions>
-                                        <span>
-                                            <v-icon>mdi-eye </v-icon>
-                                            {{info && info.viewCnt ?info.viewCnt : 0}}
-                                        </span>
-                                        <v-btn @click="detailMove('comment')" icon>
-                                            <v-icon>mdi-comment</v-icon>
-                                            {{info && info.commentCnt ?info.commentCnt : 0}}
-                                        </v-btn>
-                                        <v-spacer></v-spacer>
-                                        <v-btn icon>
-                                            <v-icon>mdi-heart</v-icon>
-                                        </v-btn>
-                                        <v-btn icon>
-                                            <v-icon>mdi-bookmark</v-icon>
-                                        </v-btn>
-                                        <v-btn icon>
-                                            <v-icon>mdi-share-variant</v-icon>
-                                        </v-btn>
-                                        <v-btn v-if="data.isOwner" icon>
-                                            <v-icon>mdi-pencil</v-icon>
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-col>
-                            </v-row>
-                        </v-card> -->
+					
 					<ImgCard :data="data" />
 				</v-col>
 			</v-row>
@@ -89,6 +34,8 @@
 
 <script>
 import { ImgCard, Pagination } from '@/assets/util/importFile.js';
+
+import CommonService from '@/service/CommonService';
 
 export default {
 	props: ['info'],
@@ -122,11 +69,20 @@ export default {
 		};
 	},
 	mounted() {
-		this.dataInit();
-		this.initPage(); // 초기 데이터를 불러온 후 첫페이지 셋팅
-		this.paginationInfo.pageCnt = this.pages();
+		this.getDataList();
+		// this.dataInit();
+		// this.initPage(); // 초기 데이터를 불러온 후 첫페이지 셋팅
+		// this.paginationInfo.pageCnt = this.pages();
 	},
 	methods: {
+		async getDataList(){
+			const params = {
+
+			};
+			const dataList1 = await CommonService.fn_getDataList("/ysy/v1/getFreeBoardDataList" ,params);
+			console.log("admin board free veiw getDataList ",dataList1);
+
+		},
 		dataInit() {
 			for (var i = 0; i < 100; i++) {
 				var json = {

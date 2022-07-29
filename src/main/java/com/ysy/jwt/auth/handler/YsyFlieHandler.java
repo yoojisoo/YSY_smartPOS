@@ -12,6 +12,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ysy.jwt.auth.dto.BoardDto;
+import com.ysy.jwt.auth.dto.FileDto;
 /**
  * 
  * @author clubbboy@naver.com
@@ -98,6 +99,16 @@ public class YsyFlieHandler {
                         
                         
                         delFullPath = absolutePath + path + File.separator;
+                        
+                        FileDto fileDto = FileDto.builder()
+                        		.orgFileName(orgFileName)
+                        		.newFileName(new_file_name)
+                        		.filePath(filePath)
+                        		.fileFullPath(fullPath)
+                        		.fileSize(fileSize)
+                        		.build();
+                        
+                        
                         // 파일 DTO 이용하여 Photo 엔티티 생성
 //                        YsyBoardFile ysyBoardFile = new YsyBoardFile(
 //                                photoDto.getOrigFileName(),

@@ -100,4 +100,27 @@ export default [
 		icon: 'mdi-account',
 		component: () => import('@/views/user/MyInfo.vue'),
 	},
+	/** admin 자유 게시판 Role가 admin인 사람만 이용가능함. */
+	{
+		path: '/adminFreeBoard',
+		name: 'adminFreeBoard',
+		icon: 'mdi-account',
+		component: () => import('@/views/testPages/AdminFreeBoard.vue'),
+		// children:[
+		// 	{
+		// 		path: '/adminFreeBoardMod/',
+		// 		name: 'adminFreeBoardMod',
+		// 		icon: 'mdi-account',
+		// 		component: () => import('@/views/testPages/AdminFreeBoardMod.vue'),
+		// 	}
+		// ],
+	},
+	/** admin 자유 게시판 Role가 admin인 사람만 이용가능함. */
+	{
+		path: '/adminFreeBoardMod/',
+		name: 'adminFreeBoardMod',
+		icon: 'mdi-account',
+		component: () => import('@/views/testPages/AdminFreeBoardMod.vue'),
+	},
+	
 ];

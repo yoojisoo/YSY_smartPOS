@@ -21,6 +21,7 @@ const authStore = {
 		singUpKey: {
 			key: '',
 		},
+		myRole : "ADMIN",
 	},
 	getters: {
 		isLogin: state => {
@@ -147,6 +148,15 @@ const authStore = {
 				console.log('AuthStore isAdmin error -> ' + error);
 			}
 		},
+
+		/**
+		 * 	해당 사용자의 권한 정보 get
+		 */
+		// async getRole({ commit }){
+		// 	let role = await authService.getRole();
+		// 	console.log('✅ authStore isAdmin');
+		// 	commit('setRole', role);
+		// },
 
 		setSignUpKey: ({ commit }, key) => {
 			commit('setSignUpKey', key);

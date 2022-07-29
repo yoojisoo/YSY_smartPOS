@@ -5,6 +5,11 @@
 				<v-col cols="10">
 					<v-row justify="end" no-gutters>
 						<v-btn-toggle tile group v-if="isLogin && isAdmin">
+							<v-btn v-if="getMyRole && getMyRole == 'ADMIN'"
+								plain 
+								@click="fn_freeBoard">
+								admin 자유게시판
+							</v-btn>
 							<v-btn plain @click="myInfo">관리자페이지</v-btn>
 							<v-btn plain @click="myInfo">내프로필</v-btn>
 							<v-btn plain @click="logout">로그아웃</v-btn>
@@ -31,6 +36,7 @@
 
 <script>
 import { FThemeChgBtn } from '@/assets/util/importFile.js';
+import store from '@/store';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -53,11 +59,19 @@ export default {
 			this.$router.replace({ name: 'home' }).catch(() => {});
 			location.reload();
 		},
+		//admin만 사용하는 자유 게시판임.
+		fn_freeBoard() {
+			this.$router.push({ name: 'adminFreeBoard' }).catch(() => {});
+		},
 	},
 	computed: {
 		...mapGetters({ isLogin: 'authStore/isLogin' }),
 		...mapGetters({ isAdmin: 'authStore/isAdmin' }),
 		...mapGetters({ getUserId: 'authStore/getUserId' }),
+
+		getMyRole(){
+			return this.$store.state.authStore.myRole;
+		},
 	},
 };
 </script>
