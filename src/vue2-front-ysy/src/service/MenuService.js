@@ -17,6 +17,7 @@ class MenuService {
 
 		console.log(url);
 		try {
+			console.log("axios.defaults.headers.common ",axios.defaults.headers.common);
 			let res = await axios.get(url);
 			console.log('menuService findMenuList');
 			console.log(res);

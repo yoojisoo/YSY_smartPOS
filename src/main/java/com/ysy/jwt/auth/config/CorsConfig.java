@@ -24,10 +24,14 @@ public class CorsConfig {
 		UrlBasedCorsConfigurationSource source  = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);////내서버가 응답을 할 때 json을 자바스크립트에서 처리할 수 있게 할지 설정하는것 false면 자바스크립트에서 요청 안됨
-		config.addAllowedOriginPattern("*");// ip의 응답 허용 , 모든 ip :*
+//		config.addAllowedHeader("access_token");
+//		config.addAllowedHeader("refresh_token");
+		config.setAllowedOriginPatterns(Arrays.asList("*"));// ip의 응답 허용 , 모든 ip :*
 //		config.addAllowedOriginPattern("http://localhost:8080");// ip의 응답 허용 , 모든 ip :*
 //		config.addAllowedOriginPattern("http://192.168.0.77:8080");// ip의 응답 허용 , 모든 ip :*
+//		config.addAllowedOriginPattern("http://ysy899.cafe24.com");// ip의 응답 허용 , 모든 ip :*
 		config.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT"));
+		config.setAllowedHeaders(Arrays.asList("*"));
 		config.addAllowedHeader("*");// 모든 header의 응답 허용
 		config.addAllowedMethod("*");// 모든 요청 허용 (post , get , put ,fatch)
 		config.addExposedHeader("*");

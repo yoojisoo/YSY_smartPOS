@@ -27,7 +27,7 @@ import com.ysy.jwt.auth.repository.YsyUserRTokenMapRepository;
 public class JwtService {
 
 	public final String SECRET              = "ysyFirstPjt";   // JWT Token 생성시 서버만 알고있는 비밀 값 , 이 값으로 복호화 함.
-	public final long   EXPIRATION_TIME     = 1000*1*60*60L;   // (1/1000초) -> 1초 단위 (1000*1  수정X)
+	public final long   EXPIRATION_TIME     = 1000*1*60*600L;   // (1/1000초) -> 1초 단위 (1000*1  수정X)
 	public final long   EXPIRATION_TIME_RE  = 1000*60*60*24L;  // (1/1000초) -> 1분 단위 (1000*60 수정X)
 	public final String TOKEN_PREFIX        = "Bearer ";       // token 생성 후 client 전송시 token앞에 붙을 값. 인증시에 이 값으로 1차 검사 진행
 	public final String HEADER_STRING       = "access_token";  // Client 전송시 token에 대한 key Authorization
@@ -89,6 +89,8 @@ public class JwtService {
 		try {
 			
 			saveRefreshToken(jwtTokenRe);
+			System.out.println("TOKEN_PREFIX+jwtToken=>\n"+TOKEN_PREFIX+jwtToken);
+			System.out.println("TOKEN_PREFIX+jwtTokenRe=>\n"+TOKEN_PREFIX+jwtTokenRe);
 			response.addHeader(HEADER_STRING  , TOKEN_PREFIX+jwtToken);
 			response.addHeader(HEADER_REFRESH , TOKEN_PREFIX+jwtTokenRe);
 			response.addHeader("state","200");

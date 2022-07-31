@@ -25,13 +25,13 @@ public class ResponseDto<T> {
 	}
 	
 	/** data return */
-	public ResponseDto(T data , HttpStatus status){
+	public ResponseDto(T data , HttpStatus status){ 
 		this.obj = data;
 		this.status = status;
 	}
 	
 	/** error response return */
-	public ResponseDto(String msg , HttpStatus status){
+	public ResponseDto(String msg , HttpStatus status){ 
 		this.msg = msg;
 		this.status = status;
 	}

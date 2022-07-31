@@ -37,7 +37,7 @@ public class StoreNoticeMst  extends BaseEntity implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

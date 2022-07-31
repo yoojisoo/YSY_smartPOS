@@ -1,6 +1,9 @@
 package com.ysy.jwt.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
+import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
-import com.ysy.jwt.auth.service.YsyUserMstService;
 
 @RestController
 @RequestMapping("/ysy/v1")
@@ -27,12 +31,16 @@ public class YsyMenuController {
 	 * 도는 쿼리가 달라서 분리함 ! */
 	@GetMapping("/findDefaultMenuList")
 	public ResponseDto<MenuDto> findDefaultMenuList() {
+		
 		return ysyMenuMstService.findDefaultMenuList();
 	}
 	
 	@GetMapping("/user/findMenuList")
-	public ResponseDto<MenuDto> findMenuList(@RequestParam String userId) {
-		return ysyMenuMstService.findMenuList(userId);
+	public ResponseDto<MenuDto> findMenuList(@RequestParam String userId , @AuthenticationPrincipal PrincipalDetails p ) {
+		System.out.println("findMenuList ysyUserMst.toString()"+p.getUser().getUsername());
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		YsyUserMst user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
+		return ysyMenuMstService.findMenuList(p.getUser().getUsername());
 	}
 	
 	/** 2022 07 07 mnew2m

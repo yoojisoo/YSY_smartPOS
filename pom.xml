@@ -17,7 +17,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>17</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -31,6 +31,7 @@
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-tomcat</artifactId>
+					
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -57,7 +58,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -115,21 +116,22 @@
 			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
 		
-		<!--
+		
+				
 		<dependency>
 		    <groupId>javax.annotation</groupId>
 		    <artifactId>javax.annotation-api</artifactId>
 		</dependency>
-		-->	
+		
 		<!-- queryDsl end -->
 		
 		
-		<dependency>
-		  <groupId>junit</groupId>     <!-- NOT org.junit here -->
+		 <dependency>
+		  <groupId>junit</groupId>     
 		  <artifactId>junit-dep</artifactId>
 		  <version>4.8.2</version>
 		  <scope>test</scope>
-		</dependency>
+		</dependency> 
 				
 		<!-- swagger 설정 start -->
         <dependency>
@@ -157,6 +159,8 @@
         <!-- multipart end -->
 				
 					
+					
+		
 	</dependencies>
 
 	<build>
@@ -185,8 +189,9 @@
 			                <goal>process</goal>
 			            </goals>
 			            <configuration>
-			                <outputDirectory>target/generated-sources/java</outputDirectory>
+			                <outputDirectory>target/generated-sources/annotations</outputDirectory>
 			                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+			                <!--  -->
 			            </configuration>
 			        </execution>
 			    </executions>

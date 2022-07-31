@@ -35,6 +35,7 @@ export default {
 			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
 				.access_token;
 			this.$axios.defaults.headers.common['access_token'] = access_token;
+			this.$axios.defaults.headers.common['Authorization'] = 'Authorization 12345678';
 		}
 	},
 	methods: {

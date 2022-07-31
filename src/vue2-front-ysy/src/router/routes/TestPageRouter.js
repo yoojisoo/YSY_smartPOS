@@ -20,11 +20,7 @@ export default [
 		name: 'summerNote',
 		component: () => import('@/components/1_molecules/editors/FSummerNote.vue'),
 	},
-	{
-		path: '/adminFreeBoard',
-		name: 'adminFreeBoard',
-		component: () => import('@/views/testPages/AdminFreeBoard.vue'),
-	},
+	
 	{
 		path: '/summernote2',
 		name: 'summernote2',
