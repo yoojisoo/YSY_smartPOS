@@ -59,17 +59,23 @@ if (code) {
 	}
 }
 /**
- *  file naming role
- *  Vue{
- * 		The***.vue    : 가장 작은 단위의 vue 작성시
- *      Block****.vue : The*** Vue가 합쳐진 반제품의 컴포넌트
- *      View*****.vue  : 화면에 보여지는 마지막 화면 - 완제품
- * 	    Display****.vue :
- *  }
  *
+ * Style Guide *****
  *
+ * [ .vue ]
+ * Base***.vue		: Base Component			(부품 단위)
+ * Block****.vue	: Base Components의 집합	(반제품 단위)
+ * The***.vue		: Single Instance Component (한 페이지당 한 번만 사용되는 컴포넌트)
+ * View*****.vue	: 다양한 Components의 집합	(완제품 단위 - App.vue에서 router-view에 들어가는 화면)
  *
+ * [ script - 필요한것만 사용 ]
+ * name > props > components > mixins > data
+ * (before)created > (before)mounted
+ * computed > watch > methods
+ * (before)updated > (before)destroyed
  *
- *
+ * [ function ]
+ * fn_ + [ get, set, save, modify, delete ] + [ 가져올 데이터 정보 ]
+ * ex) fn_getDataList , fn_modifyData , fn_setDataList ...
  *
  */
