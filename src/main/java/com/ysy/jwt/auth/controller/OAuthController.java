@@ -345,23 +345,6 @@ public class OAuthController {
 			
 			String tokenMsg = authUtil.tokenSend(response, jwtToken, jwtTokenRe);
 			
-//			String jwtToken = JWT.create()
-//					.withSubject("jwtToken")
-//					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-//					.withClaim("name"    , joinDto.getName())
-//					.withClaim("username", joinDto.getUsername())
-//					.sign(Algorithm.HMAC512(JwtProperties.SECRET));
-//			
-//			String jwtTokenRe = JWT.create()
-//					.withSubject("jwtToken")
-//					.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME_RE))
-//					.withClaim("name"    , joinDto.getName())
-//					.withClaim("username", joinDto.getUsername())
-//					.sign(Algorithm.HMAC512(JwtProperties.SECRET+"refresh"));
-//			
-//			response.addHeader(JwtProperties.HEADER_STRING  , JwtProperties.TOKEN_PREFIX+jwtToken);
-//			response.addHeader(JwtProperties.HEADER_REFRESH , JwtProperties.TOKEN_PREFIX+jwtTokenRe);
-//			response.addHeader("state","200");
 			
 			return resDto;
 		}

@@ -30,7 +30,8 @@ public class JwtService {
 	public final long   EXPIRATION_TIME     = 1000*1*60*600L;   // (1/1000초) -> 1초 단위 (1000*1  수정X)
 	public final long   EXPIRATION_TIME_RE  = 1000*60*60*24L;  // (1/1000초) -> 1분 단위 (1000*60 수정X)
 	public final String TOKEN_PREFIX        = "Bearer ";       // token 생성 후 client 전송시 token앞에 붙을 값. 인증시에 이 값으로 1차 검사 진행
-	public final String HEADER_STRING       = "access_token";  // Client 전송시 token에 대한 key Authorization
+//	public final String HEADER_STRING       = "access_token";  // Client 전송시 token에 대한 key Authorization
+	public final String HEADER_STRING       = "authorization";  // Client 전송시 token에 대한 key Authorization
 	public final String HEADER_REFRESH      = "refresh_token"; // Client 전송시 token에 대한 key
 	public final String HEADER_USER_NAME    = "user_name";
 

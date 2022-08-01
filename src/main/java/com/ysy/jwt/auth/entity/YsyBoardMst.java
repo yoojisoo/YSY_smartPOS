@@ -40,10 +40,10 @@ import lombok.ToString;
 @Entity
 public class YsyBoardMst extends BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "BOARD_ID")
     private Long boardId;
 	

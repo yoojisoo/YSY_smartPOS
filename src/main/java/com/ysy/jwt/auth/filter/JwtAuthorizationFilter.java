@@ -65,7 +65,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		System.out.println("request.getHeaderNames() ======= end ");
 		
 		String header = request.getHeader(jwtService.HEADER_STRING);
-//		printPostData(request);
 		
 		
 		System.out.println("header == null 이전 => "+header);

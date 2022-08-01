@@ -1,9 +1,8 @@
 package com.ysy.jwt.auth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
-import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
@@ -32,6 +30,12 @@ public class YsyMenuController {
 	@GetMapping("/findDefaultMenuList")
 	public ResponseDto<MenuDto> findDefaultMenuList() {
 		
+		try {
+			if(1==2)throw new Exception("error");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseDto<MenuDto>("error menu" , HttpStatus.UNAUTHORIZED);
+		}
 		return ysyMenuMstService.findDefaultMenuList();
 	}
 	
