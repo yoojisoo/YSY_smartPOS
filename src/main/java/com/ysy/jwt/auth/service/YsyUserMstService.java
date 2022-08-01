@@ -21,7 +21,6 @@ import com.ysy.common.SysEnum;
 import com.ysy.common.SysEnum.enumGrps;
 import com.ysy.common.YsyUtil;
 import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.dto.MenuDto;
 import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserDto;
@@ -31,9 +30,9 @@ import com.ysy.jwt.auth.entity.QYsyGrpMst;
 import com.ysy.jwt.auth.entity.QYsyUserAddress;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyBizMst;
-import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;
+import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.repository.YsyBizMstRepository;
 import com.ysy.jwt.auth.repository.YsyGrpMstRepository;
@@ -259,8 +258,9 @@ public class YsyUserMstService {
 		return false;
 	}
 	
-	public ResponseAuthDto<UserDto> getUserListCondition(UserDto condition) {
-		
+	/** 👻s_plus7 : 조건으로 모든 유저 조회, 없다면 조건 없이 모든 유저 조회 */
+	@Transactional
+	public ResponseAuthDto<UserDto> getUserListCondition() {
 		List<YsyUserMst> userInfoList = query
 				.select(qYsyUserMst)
 				.from(qYsyUserMst)
@@ -274,17 +274,17 @@ public class YsyUserMstService {
 //				.leftJoin(qYsyUserAddress)
 //				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
 //				.fetchJoin()
-				.where(
-						userIdEq(condition.getUserId()),
-						userNmEq(condition.getUserNm()),
-						isEmailAuthEq(condition.getOauthPath()),
-						oauthPathEq(condition.getOauthPath()),
-						useYnEq(condition.getUseYn()),
-						bizCdEq(condition.getBizCd()),
-						bizNmEq(condition.getBizNm()),
-						grpIdEq(condition.getGrpId()),
-						grpNmEq(condition.getGrpNm())
-						)
+//				.where(
+//						userIdEq(condition.getUserId()),
+//						userNmEq(condition.getUserNm()),
+//						isEmailAuthEq(condition.getOauthPath()),
+//						oauthPathEq(condition.getOauthPath()),
+//						useYnEq(condition.getUseYn()),
+//						bizCdEq(condition.getBizCd()),
+//						bizNmEq(condition.getBizNm()),
+//						grpIdEq(condition.getGrpId()),
+//						grpNmEq(condition.getGrpNm())
+//						)
 				.fetch();
 		
 		List<UserDto> resultUserList = new ArrayList<UserDto>();
@@ -292,11 +292,11 @@ public class YsyUserMstService {
 		for(YsyUserMst userInfo : userInfoList) {
 			resultUserList.add( new UserDto(userInfo) );
 		}
-//		
+		
 		return new ResponseAuthDto<UserDto>(resultUserList, HttpStatus.OK); 
 	}
 	
-	/** 검색 조건 where절 - null return 시 쿼리 적용 X */
+	/** 👻s_plus7 : 검색 조건 where절 - null return 시 쿼리 적용 X */
 	private BooleanExpression userIdEq(String userId) {
 		return StringUtils.hasText(userId) ? qYsyUserMst.username.eq(userId) : null; 
 	}
@@ -329,46 +329,48 @@ public class YsyUserMstService {
 	}
 	
 	
-//	private BooleanExpression addrCityEq(String addrCity) {
-//		return StringUtils.hasText(addrCity) ? qYsyUserAddress.addrCity.eq(addrCity) : null; 
-//	}
-//	private BooleanExpression phone1Eq(String phone1) {
-//		return StringUtils.hasText(phone1) ? qYsyUserAddress.phone1.eq(phone1) : null; 
-//	}
-//	private BooleanExpression phone2Eq(String phone2) {
-//		return StringUtils.hasText(phone2) ? qYsyUserAddress.phone2.eq(phone2) : null; 
-//	}
+	/** 👻s_plus7 : userId의 연관 테이블 (UserAddress) 조회 */
+	@Transactional
+	public ResponseAuthDto<UserDto> getUserAddr(String userId) {
+		/**
+		 * 문제1. 유저 정보 1개에 어드레스 정보 여러개 : 구조 문제(무한순환)
+		 *		  ex) user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
+		 *		  dto로 변환하여 조회로 인한 순환 방지 & @JsonBackReference로 순환 방지 & get(0)만 사용하여 중복 해결
+		 * 문제2. addrList를 dto List로 보내도 jackson 에러 -> addrList 형태로 내보냄
+		 * */
+		
+		List<YsyUserAddress> addrList = query
+				.select(qYsyUserAddress)
+				.from(qYsyUserAddress)
+				.where(qYsyUserMst.username.eq(userId))
+				.fetch();
+		
+		List<UserDto> resultList = new ArrayList<UserDto>();
+		
+		for(YsyUserAddress addr : addrList) {
+			resultList.add(new UserDto(addr));
+		}
+		
+		return new ResponseAuthDto<UserDto>(resultList, HttpStatus.OK); 
+	}
 	
-	
-	
-	/** 유저 1명 조회 : userId의 연관 테이블 (UserAddress) 조회 */
-//	@Transactional
-//	public ResponseAuthDto<UserDto> getUserDetail(String userId) {
-////		ResponseAuthDto<UserMngDto>
-//		/**
-//		 * 문제1. 유저 정보 1개에 어드레스 정보 여러개 : 구조 문제(무한순환)
-//		 *		  ex) user.get(0).ysyAddr.get(0) 과 user.get(1).ysyAddr.get(0) 의 내용 같음 : 중복
-//		 *		  dto로 변환하여 조회로 인한 순환 방지 & @JsonBackReference로 순환 방지 & get(0)만 사용하여 중복 해결
-//		 * 문제2. addrList를 dto List로 보내도 jackson 에러 -> addrList 형태로 내보냄
-//		 * */
-//		JPAQueryFactory query = new JPAQueryFactory(em);
-//		
-//		List<YsyUserMst> userInfoList = query
-//				.select(qYsyUserMst)
-//				.from(qYsyUserMst)
-//				.leftJoin(qYsyBizMst)
-//				.on(qYsyUserMst.ysyGrpMst.ysyBizMst.bizNm.eq(qYsyBizMst.bizNm))
-//				.leftJoin(qYsyUserAddress)
-//				.on(qYsyUserMst.username.eq(qYsyUserAddress.ysyUserMst.username))
-//				.fetchJoin()
-//				.where(qYsyUserMst.username.eq(userId))
-//				.fetch();
-//		
-//		/** dto 변환 방식 1 - 0번째와 1번째의 데이터가 중복되므로 0번째만 사용 */
-//		UserDto userToDto = new UserDto(userInfoList.get(0), userInfoList.get(0).getAddressList());
-//		
-//		return new ResponseAuthDto<UserDto>(userToDto, HttpStatus.OK); 
-//	}
+	/** 👻s_plus7 : 검색 조건 가져오기 - userMst의 가입경로, 이메일인증, 회사명(bizNm), 권한등급(grpNm) */
+	@Transactional
+	public ResponseAuthDto<UserDto> getConditionItems() {
+		List<String> grpNmList = query
+				.select(qYsyGrpMst.grpNm)
+				.from(qYsyGrpMst)
+				.where(qYsyGrpMst.grpPK.bizCd.eq("0001"))
+				.fetch();
+		
+		List<UserDto> resultList = new ArrayList<UserDto>();
+		
+		for(String grpNm : grpNmList) {
+			resultList.add(new UserDto(grpNm));
+		}
+				
+		return new ResponseAuthDto<UserDto>(resultList, HttpStatus.OK);
+	}
 	
 	
 	@Transactional

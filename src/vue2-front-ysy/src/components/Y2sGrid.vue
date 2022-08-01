@@ -31,8 +31,8 @@
 		  -> colEditList : Array(json)  { isEdit:true , obj : textBox} ,{ isEdit:true , obj : Btn , action:rowBtnClick(row , gridNm)}
 -->
 <template>
-	<v-container fluid pa-0 ma-0>
-		<v-card class="mb-3 pa-0" outlined tile>
+	<v-container fluid pa-0 ma-0 style="background-color: lightcoral; height: 100%;">
+		<v-card class="mb-3 pa-0" outlined tile height="100%">
 			<v-card-title>
 
 			</v-card-title>
@@ -62,7 +62,7 @@
 				fixed-header
 				height="50vh"
 				
-				mobile-breakpoint="sm"
+				mobile-breakpoint="xs"
 				>
 
 				<template v-slot:top>

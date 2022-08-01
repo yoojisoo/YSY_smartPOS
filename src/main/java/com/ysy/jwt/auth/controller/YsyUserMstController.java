@@ -56,38 +56,29 @@ public class YsyUserMstController {
 		return ysyUserService.modUserInfo(modUserDto);
 	}
 	
-	
-//	@ApiOperation(value="user 전체 리스트" , notes="parameter는 requestDto 생성 후 client와 맞춰서 사용함.")
-//	/** 2022 06 02 yoojisoo */
-//	@GetMapping("/manager/getUserList") // 모든 유저 조회 size만큼
-//	public ResponseAuthDto<UserMngDto> getUserList(@RequestParam int size){
-//		return ysyUserService.getUserList(size);
-//	}
-	
 	/**
 	 * 2022 07 27 s_plus7
 	 * 모든 유저, 모든 정보 list
 	 * */
-	// -------------> 이거 안됨!!
 	@ApiOperation(value="유저 전체 리스트" , notes="parameter : 검색조건 | 조건 없을 시 전체 가져오기")
-	@PostMapping("/getUserListCondition")
-	public ResponseAuthDto<UserDto> getUserListCondition (@RequestBody UserDto condition){
+	@PostMapping("/manager/getUserListCondition")
+	public ResponseAuthDto<UserDto> getUserListCondition (){
 
 		System.out.println("뿅");
 //		return null;
-		return ysyUserService.getUserListCondition(condition);
+		return ysyUserService.getUserListCondition();
 	}
 	
 	
-//	@GetMapping("/manager/getUserDetail") // 유저 1명의 상세정보 조회(UserAddress)
-//	public ResponseAuthDto<UserDto> getUserDetail(@RequestParam String userId){
-//		return ysyUserService.getUserDetail(userId);
-//	}
+	@GetMapping("/manager/getUserAddr")
+	public ResponseAuthDto<UserDto> getUserDetail(@RequestParam String userId){
+		return ysyUserService.getUserAddr(userId);
+	}
 	
-//	@PostMapping("/admin/delGridUserInfo")
-//	public void delGridUserInfo(@RequestBody List<String> usernameList) {
-//		ysyUserService.delGridUserInfo(usernameList);
-//	}
+	@GetMapping("/manager/getConditionItems")
+	public ResponseAuthDto<UserDto> getConditionItems(){
+		return ysyUserService.getConditionItems();
+	}
 	
 	/** 2022 07 07 mnew2m
 	 * 컨트롤 가능한 모든 유저 조회

@@ -40,23 +40,19 @@ public class UserDto {
 	private enumGrps grpId; //권한 아이디
 	private String grpNm; //권한 이름
 	
-	
 	/** 주소정보 */
 	List<YsyUserAddress> addrList = new ArrayList<YsyUserAddress>();
-	
-//	private String addrType;
-//	private String addrZipCode;
-//	private String addrCity;
-//	private String addrDetail;
-//	private String addrEtc;
-//	private String phone1;
-//	private String phone2;
-//	private String addr_reg_id;
-//	private String addr_reg_dt;
-//	private String addr_mod_id; 
-//	private String addr_mod_dt;
-	
-	
+	private String addrType;
+	private String addrZipCode;
+	private String addrCity;
+	private String addrDetail;
+	private String addrEtc;
+	private String phone1;
+	private String phone2;
+	private String addrRegId;
+	private String addrRegDt;
+	private String addrModId; 
+	private String addrModDt;
 	
 	/* 유저 1명의 userMst 테이블만 조회 */
 	public UserDto(YsyUserMst user) {
@@ -77,20 +73,41 @@ public class UserDto {
 	}
 	
 	/* 유저 1명의 어드레스 조회 */
-//	public UserDto(YsyUserMst user, List<YsyUserAddress> addrList) {
-//		this.userId = user.getUsername();
-//		this.userNm = user.getName();
-//		this.regDt = user.getRegDt().format(formatter);
-//		this.oauthPath = user.getOAuthPath();
-//		
-//		this.bizNm = user.getYsyGrpMst().getYsyBizMst().getBizNm();
-//		this.bizCd = user.getYsyGrpMst().getYsyBizMst().getBizCd();
-//		
-//		this.grpId = user.getYsyGrpMst().getGrpPK().getGrpId();
-//		this.grpNm = user.getYsyGrpMst().getGrpNm();
-//		
-//		this.addrList = addrList;
-//	}
+	public UserDto(List<YsyUserAddress> addrList) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		for(YsyUserAddress addr : addrList) {
+			this.addrType 	 = addr.getAddrType();
+			this.addrZipCode = addr.getAddrZipCode();
+			this.addrCity 	 = addr.getAddrCity();
+			this.addrDetail  = addr.getAddrDetail();
+			this.addrEtc 	 = addr.getAddrEtc();
+			this.phone1 	 = addr.getPhone1();
+			this.phone2 	 = addr.getPhone2();
+			this.addrRegId   = addr.getRegId();
+			this.addrRegDt   = addr.getRegDt().format(formatter);
+			this.addrModId   = addr.getModId(); 
+			this.addrModDt   = addr.getModDt().format(formatter);
+		}
+	}
+	
+	public UserDto(YsyUserAddress addr) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		this.addrType 	 = addr.getAddrType();
+		this.addrZipCode = addr.getAddrZipCode();
+		this.addrCity 	 = addr.getAddrCity();
+		this.addrDetail  = addr.getAddrDetail();
+		this.addrEtc 	 = addr.getAddrEtc();
+		this.phone1 	 = addr.getPhone1();
+		this.phone2 	 = addr.getPhone2();
+		this.addrRegId   = addr.getRegId();
+		this.addrRegDt   = addr.getRegDt().format(formatter);
+		this.addrModId   = addr.getModId(); 
+		this.addrModDt   = addr.getModDt().format(formatter);
+	}
+	
+	public UserDto(String grpNm) {
+		this.grpNm = grpNm;
+	}
 	
 	
 	

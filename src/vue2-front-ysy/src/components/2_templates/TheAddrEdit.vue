@@ -1,64 +1,60 @@
 <template>
-	<v-container>
+	<v-container class="pa-0 ma-0">
 		<v-divider class="ma-0 pa-0" />
-		<v-card-title>
+		<v-card-title class="pt-3">
 			{{ addr.addrType }}
 			<v-spacer />
-			<v-btn class="mr-2" outlined>삭제</v-btn>
-			<v-btn outlined>수정</v-btn>
+			<span class="btn_mr_nolast">
+				<v-btn outlined>삭제</v-btn>
+				<v-btn outlined>저장</v-btn>
+			</span>
 		</v-card-title>
-		<v-card-text>
-			<ysyTextField :fieldInfo="temInfo" />
+
+		<v-card-text class="pb-2">
 			<v-text-field
-				label="우편번호"
-				prepend-icon="mdi-mailbox-up"
-				v-model="addr.addrZipCode"
-			></v-text-field>
-			<v-text-field
-				label="기본주소"
-				prepend-icon="mdi-map-marker"
-				v-model="addr.addrDetail"
-			></v-text-field>
-			<v-text-field
-				label="상세주소"
-				prepend-icon="mdi-home-map-marker"
-				v-model="addr.addrEtc"
-			></v-text-field>
-			<v-text-field
-				label="전화번호1"
-				prepend-icon="mdi-phone"
-				v-model="addr.phone1"
-			></v-text-field>
-			<v-text-field
-				label="전화번호2"
-				prepend-icon="mdi-phone"
-				v-model="addr.phone2"
+				v-for="n in textFieldLength" :key="n"
+				:label="textFieldInfo.labels[n-1]"
+				:prepend-icon="textFieldInfo.icons[n-1]"
+				v-model="textFieldInfo.datas[n-1]"
+				dense
 			></v-text-field>
 		</v-card-text>
 	</v-container>
 </template>
 <script>
-import ysyTextField from '@/components/1_molecules/textFields/FTextField.vue';
+import { YsyUtil } from '@/mixin/MixinGlobal.js';
 export default {
 	props: ['addr'],
+	mixins: [YsyUtil],
 	data() {
 		return {
-			idx: [1, 2, 3, 4, 5],
-			temInfo: {
-				label: '우편번호1',
-				icon: 'mdi-mailbox-up',
-				data: 'data1',
+			textFieldLength: 0,
+			textFieldInfo: {
+				labels: [],
+				icons: [],
+				datas: [],
 			},
-		};
+		}
 	},
-	components: {
-		ysyTextField,
+	methods: {
+		fn_textFieldInfoInit() {
+			this.textFieldInfo.labels = ['우편번호', '기본주소', '상세주소', '전화번호1', '전화번호2'];
+			// this.textFieldInfo.icons = ['mdi-mailbox-up', 'mdi-map-marker', 'mdi-home-map-marker', 'mdi-phone', 'mdi-phone'];
+			this.textFieldInfo.datas = [this.addr.addrZipCode, this.addr.addrDetail, this.addr.addrEtc, this.addr.phone1, this.addr.phone2];
+			this.textFieldLength = this.textFieldInfo.labels.length;
+		},
+		fn_isNullAndEmpty() {
+			this.isNullAndEmpty(this.addr.addrZipCode) === true ? this.addr.addrZipCode = 'NONE' : '';
+			this.isNullAndEmpty(this.addr.addrDetail) === true ? this.addr.addrDetail = 'NONE' : '';
+			this.isNullAndEmpty(this.addr.addrEtc) === true ? this.addr.addrEtc = 'NONE' : '';
+			this.isNullAndEmpty(this.addr.phone1) === true ? this.addr.phone1 = 'NONE' : '';
+			this.isNullAndEmpty(this.addr.phone2) === true ? this.addr.phone2 = 'NONE' : '';
+		},
 	},
-	methods: {},
 	mounted() {
-		console.log('this.addr ------->');
-		console.log(this.addr);
-	},
+		this.fn_isNullAndEmpty();
+		this.fn_textFieldInfoInit();
+	}
 };
 </script>
 

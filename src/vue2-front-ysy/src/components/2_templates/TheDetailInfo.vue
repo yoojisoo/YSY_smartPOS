@@ -1,189 +1,95 @@
 <template>
-	<v-card outlined tile class="overflow-y-auto" max-height="450">
+	<v-card outlined tile class="overflow-y-auto" height="100%">
 		<v-card-title>
 			<span> 유저상세정보 </span>
 			<v-spacer />
-			<v-card-actions>
-				<FOutlinedBtn
-					v-if="btnDetailText === '수정'"
-					:btnText="btnDetailText"
-					:btnHeight="35"
-					@click="fn_detailEvent"
-				/>
-				<FOutlinedBtn
-					v-else-if="btnDetailText === '저장'"
-					:btnText="btnDetailText"
-					:btnHeight="35"
-					@click="fn_modify"
-				/>
+			<v-card-actions class="pa-0">
+				<v-btn v-if		="btnDetailText === '수정'" outlined height="35">수정</v-btn>
+				<v-btn v-else-if="btnDetailText === '저장'" outlined height="35">저장</v-btn>
 			</v-card-actions>
 		</v-card-title>
-
 		<v-card-text>
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 아이디 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.userId"
-						dense
-						hide-details
-						disabled
-						class="my-0"
-					></v-text-field>
+			<v-row align="center" class="mb-1">
+				<v-col cols="4" class="py-0 mt-2">
+					<div v-for="subTitle in subTitles" :key="subTitle" style="height: 26px;">
+						{{ subTitle }}
+					</div>
 				</v-col>
-			</v-row>
-
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 수정일 </v-col>
-				<v-col class="py-0">
+				<v-col cols="8" class="py-0">
 					<v-text-field
-						v-model="userDetailInfo.modDt"
-						dense
-						hide-details
-						disabled
-						class="my-0"
-					></v-text-field>
-				</v-col>
-			</v-row>
-
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 이메일인증 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.isEmailAuth"
-						dense
-						hide-details
-						disabled
-						class="my-0"
-					></v-text-field>
-				</v-col>
-			</v-row>
-
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 이름 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.userNm"
+						v-for="n in listLength" :key="n"
+						v-model="datas[n-1]"
 						dense
 						hide-details
 						:disabled="isDisabled"
-						class="my-0"
-						clearable
-					></v-text-field>
-				</v-col>
-			</v-row>
-
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 가입경로 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.oauthPath"
-						dense
-						hide-details
-						disabled
-						class="my-0"
-					></v-text-field>
-				</v-col>
-			</v-row>
-
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 비밀번호 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.userPw"
-						dense
-						hide-details
-						disabled
-						class="my-0"
-					></v-text-field>
-				</v-col>
-			</v-row>
-
-			<v-row align="center" class="mb-2">
-				<v-col cols="4" class="pb-0 pt-1"> 비즈네임 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.bizNm"
-						dense
-						hide-details
-						disabled
-						class="my-0"
-					></v-text-field>
-				</v-col>
-			</v-row>
-
-			<v-row align="center">
-				<v-col cols="4" class="pb-0 pt-1"> 그룹아이디 </v-col>
-				<v-col class="py-0">
-					<v-text-field
-						v-model="userDetailInfo.grpId"
-						dense
-						hide-details
-						disabled
 						class="my-0"
 					></v-text-field>
 				</v-col>
 			</v-row>
 		</v-card-text>
 
-		<div v-for="addr in userDetailInfo.addrList" :key="addr.id">
-			<TheAddrEdit :addr="addr" />
-		</div>
+		<v-sheet>
+			<v-card-title class="pb-3" style="height: 65px;">
+				<span> 유저주소정보 </span>
+				<v-spacer />
+				<v-card-actions class="pa-0" >
+					<v-btn v-if="userDetailInfo.addrList.length > 0" outlined height="35">추가</v-btn>
+				</v-card-actions>
+			</v-card-title>
+
+			<v-card-text class="ma-0 pa-0">
+				<div v-if="userDetailInfo.addrList">
+					<span v-for="addr in userDetailInfo.addrList" :key="addr.id">
+						<TheAddrEdit :addr="addr" />
+					</span>
+				</div>
+	
+				<div v-if="userDetailInfo.addrList.length <= 0">
+					<v-divider class="ma-0 pa-0" />
+					<div class="mx-4">
+						<v-btn outlined height="35" class="mt-5" block min-height="50">주소지 추가</v-btn>
+					</div>
+				</div>
+			</v-card-text>
+
+		</v-sheet>
+
 	</v-card>
 </template>
 
 <script>
 import { TheAddrEdit } from '@/assets/util/importFile.js';
-// import { YsyUtil } from '@/mixin/MixinGlobal.js';
-import FOutlinedBtn from '../1_molecules/buttons/FOutlinedBtn.vue';
+import { YsyUtil } from '@/mixin/MixinGlobal.js';
 
 export default {
 	props: ['userDetailInfo'],
-	comments: {
+	mixins: [YsyUtil],
+	components: {
 		TheAddrEdit,
-		FOutlinedBtn,
 	},
-	// mixins: [YsyUtil],
 	data() {
 		return {
 			btnDetailText: '수정',
 			isDisabled: false,
+			subTitles: [],
+			datas: [],
+			listLength: 0,
 		};
 	},
 	methods: {
-		fn_isNullAndEmpty(info) {
-			this.isNullAndEmpty(info.userId) === true ? (info.userId = 'NONE') : '';
-			this.isNullAndEmpty(info.modDt) === true ? (info.modDt = 'NONE') : '';
-			this.isNullAndEmpty(info.regDt) === true ? (info.regDt = 'NONE') : '';
-			this.isNullAndEmpty(info.isEmailAuth) === true ? (info.isEmailAuth = 'NONE') : '';
-			this.isNullAndEmpty(info.oauthPath) === true ? (info.oauthPath = 'NONE') : '';
-			this.isNullAndEmpty(info.userPw) === true
-				? (info.userPw = 'NONE')
-				: (this.userDetailInfo.userPw = 'NONE');
-			this.isNullAndEmpty(info.bizNm) === true ? (info.bizNm = 'NONE') : '';
-			this.isNullAndEmpty(info.grpId) === true ? (info.grpId = 'NONE') : '';
+		fn_init() {
+			this.datas = [
+				this.userDetailInfo.row.userId, this.userDetailInfo.row.modDt, this.userDetailInfo.row.isEmailAuth,
+				this.userDetailInfo.row.userNm, this.userDetailInfo.row.oauthPath, this.userDetailInfo.row.userPw,
+				this.userDetailInfo.row.bizNm, this.userDetailInfo.row.grpNm
+				],
+			this.subTitles = ['아이디', '수정일', '이메일인증', '이름', '가입경로', '비밀번호', '회사명', '권한등급']
+			this.listLength = this.subTitles.length;
 		},
-		fn_detailEvent(eventResponse) {
-			this.isDisabled === true ? (this.isDisabled = false) : (this.isDisabled = true);
-			this.btnDetailText === '수정'
-				? (this.btnDetailText = '저장')
-				: (this.btnDetailText = '수정');
-			this.edlitedUserDetailInfo = Object.assign({}, this.userDetailInfo);
-			console.log('👌this.edlitedUserDetailInfo');
-			console.log(this.userDetailInfo);
-			console.log(this.edlitedUserDetailInfo);
-		},
-		fn_modify(eventResponse) {
-			console.log(eventResponse);
-			this.isDisabled === true ? (this.isDisabled = false) : (this.isDisabled = true);
-			this.btnDetailText === '수정'
-				? (this.btnDetailText = '저장')
-				: (this.btnDetailText = '수정');
-			console.log('this.userDetailInfo.userNm ------------>');
-			console.log(this.userDetailInfo.userNm);
-		},
+	},
+	mounted() {
+		this.fn_init();
 	},
 };
 </script>
 
-<style></style>

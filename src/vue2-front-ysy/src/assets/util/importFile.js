@@ -20,10 +20,9 @@ import FThemeChgBtn from '@/components/1_molecules/buttons/FThemeChgBtn.vue';
 //import FDateForm from '@/components/1_molecules/FDateForm.vue';
 //import FDialog from '@/components/1_molecules/FDialog.vue';
 import FGrid from '@/components/FGrid.vue';
-import FOutlinedBtn from '@/components/1_molecules/buttons/FOutlinedBtn.vue';
 import ImgCard from '@/components/1_molecules/ImgCard.vue';
 import Pagination from '@/components/1_molecules/Pagination.vue';
-export { FLogoBtnS, FLogoBtnB, FThemeChgBtn, FGrid, FOutlinedBtn, ImgCard, Pagination };
+export { FLogoBtnS, FLogoBtnB, FThemeChgBtn, FGrid, ImgCard, Pagination };
 
 /** 2_templates */
 import TheHeader from '@/components/2_templates/header/TheHeader.vue';

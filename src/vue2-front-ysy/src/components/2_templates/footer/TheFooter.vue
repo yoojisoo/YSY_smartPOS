@@ -1,5 +1,5 @@
 <template>
-	<v-card flat tile width="100%" class="text-center ma-0 pa-0">
+	<v-card outlined flat tile width="100%" class="text-center ma-0 pa-0">
 		<v-card-text class="black--text"> Copy Right YSY </v-card-text>
 	</v-card>
 </template>
