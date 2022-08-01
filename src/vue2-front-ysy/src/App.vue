@@ -20,8 +20,7 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
-
+import { TheSystemBar, TheHeader, TheFooter, YsyUtil } from '@/assets/util/importFile.js';
 export default {
 	components: { TheSystemBar, TheHeader, TheFooter },
 	data() {
@@ -29,14 +28,23 @@ export default {
 			parentPage: '',
 		};
 	},
-	mounted() {
-		console.log('app.vue mounted ');
+	mixins: [],
+	created() {
+		console.log('app.vue created');
 		if (sessionStorage.getItem('loginData')) {
 			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
 				.access_token;
-			this.$axios.defaults.headers.common['access_token'] = access_token;
-			this.$axios.defaults.headers.common['Authorization'] = 'Authorization 12345678';
+			YsyUtil.setAccessToken(this.$axios, access_token);
 		}
+	},
+	mounted() {
+		//console.log('app.vue mounted ');
+		///** 페이지 새로고침시access 유실되는 문제 발생으로 로그인 데이터를 다시 참조하여 accessToken을 넣어줌 */
+		//if (sessionStorage.getItem('loginData')) {
+		//	const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
+		//		.access_token;
+		//	YsyUtil.setAccessToken(this.$axios, access_token);
+		//}
 	},
 	methods: {
 		refreshAll() {

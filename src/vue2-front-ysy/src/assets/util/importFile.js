@@ -37,7 +37,8 @@ export { TheHeader, TheSystemBar, TheFooter, TheAddrEdit, TheSearch, TheDetailIn
 
 //import '@/mixin/MixinGlobal.js';
 //import '@/mixin/UserMixin.js';
-//import '@/mixin/YsyUtil.js';
+import YsyUtil from '@/mixin/YsyUtil.js';
+export { YsyUtil };
 
 //import '@/plugins/axios.js';
 //import '@/plugins/vuetify.js';

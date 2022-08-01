@@ -17,19 +17,19 @@ class MenuService {
 
 		console.log(url);
 		try {
-			console.log("axios.defaults.headers.common ",axios.defaults.headers.common);
+			console.log('axios.defaults.headers.common =  ', axios.defaults.headers.common);
 			let res = await axios.get(url);
 			console.log('menuService findMenuList');
 			console.log(res);
 
-			if (res.statusText === 'OK' && res.data.objList !== null) {
+			if (res.data.status === 'OK' && res.data.objList !== null) {
 				console.log('🟢 MenuService findMenuList');
 				console.log(res.data.objList);
 				console.log('🔴 MenuService findMenuList');
-				return res.data.objList;
+				return res.data;
 			} else {
 				console.log('❌ MenuService findMenuList ❌');
-				return res;
+				return res.data;
 			}
 		} catch (error) {
 			console.log('MenuService findMenuList error => ' + error);
