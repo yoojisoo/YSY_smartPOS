@@ -2,6 +2,7 @@ package com.ysy.jwt.auth.filter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -54,12 +55,21 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		ResponseAuthDto<String> resDto = new ResponseAuthDto<String>();
 		
 		
+		System.out.println("request.getHeaderNames() ======= start ");
+		Enumeration headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+		    String key = (String) headerNames.nextElement();
+		    String value = request.getHeader(key);
+		    System.out.println(key+" === "+ value);
+		}
+		System.out.println("request.getHeaderNames() ======= end ");
+		
 		String header = request.getHeader(jwtService.HEADER_STRING);
-//		printPostData(request);
 		
 		
-		
+		System.out.println("header == null 이전 => "+header);
 		if(header == null || !header.startsWith(jwtService.TOKEN_PREFIX)) {//내가 보낸 해더인지 검사
+			System.out.println("header == null => "+header);
 			chain.doFilter(request, response);
 			return;
 		}

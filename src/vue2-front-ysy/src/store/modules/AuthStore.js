@@ -118,7 +118,7 @@ const authStore = {
 				var decodedHeader_refresh = jwt_decode(res.refresh_token, { payload: true });
 
 				axios.defaults.headers.common['access_token'] = res.access_token;
-
+				axios.defaults.headers.common['Authorization'] = 'Authorization 12345678';
 				let payload = {
 					user_id: decodedHeader_access.username,
 					user_name: decodedHeader_access.name,

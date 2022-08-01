@@ -119,26 +119,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		jwtUtil.tokenSend(response, jwtToken, jwtTokenRe);
 		
-//		String jwtToken = JWT.create()
-//				.withSubject("jwtToken")
-//				.withExpiresAt(new Date(System.currentTimeMillis()+JwtUtil.EXPIRATION_TIME))
-//				.withClaim("name"    , principalDetails.getUser().getName())
-//				.withClaim("username", principalDetails.getUser().getUsername())
-//				.sign(Algorithm.HMAC512(JwtUtil.SECRET));
-//		
-//		String jwtTokenRe = JWT.create()
-//				.withSubject("jwtToken")
-//				.withExpiresAt(new Date(System.currentTimeMillis()+JwtUtil.EXPIRATION_TIME_RE))
-//				.withClaim("name"    , principalDetails.getUser().getName())// 이름
-//				.withClaim("username", principalDetails.getUser().getUsername())//id
-//				.sign(Algorithm.HMAC512(JwtUtil.SECRET+"refresh"));
-//		
-//		
-//		response.addHeader(jwtUtil.HEADER_STRING  , jwtUtil.TOKEN_PREFIX+jwtToken);
-//		response.addHeader(jwtUtil.HEADER_REFRESH , jwtUtil.TOKEN_PREFIX+jwtTokenRe);
-//		response.addHeader("state","200");
-//		
-//		System.out.println("header key ["+jwtUtil.HEADER_STRING+"] \njwt token = " + jwtToken);
 	}
 	
 	

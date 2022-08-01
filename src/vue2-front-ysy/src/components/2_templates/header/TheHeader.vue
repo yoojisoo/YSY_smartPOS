@@ -165,6 +165,7 @@ export default {
 			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
 				.access_token;
 			this.$axios.defaults.headers.common['access_token'] = access_token;
+			this.$axios.defaults.headers.common['Authorization'] = 'Authorization 12345678';
 		}
 		this.findMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
