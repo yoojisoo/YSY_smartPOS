@@ -27,24 +27,15 @@ public class YsyMenuController {
 	 * 로그인 된 아이디가 들어왔을 때,
 	 * 로그인을 하지 않았을 때,
 	 * 도는 쿼리가 달라서 분리함 ! */
-	@GetMapping("/findDefaultMenuList")
-	public ResponseDto<MenuDto> findDefaultMenuList() {
+	@GetMapping("/findMenuList")
+	public ResponseDto<MenuDto> findDefaultMenuList(@AuthenticationPrincipal PrincipalDetails p) {
 		
-		try {
-			if(1==2)throw new Exception("error");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseDto<MenuDto>("error menu" , HttpStatus.UNAUTHORIZED);
+		if(p ==null || p.getUser() == null || p.getUser().getUsername().isEmpty()) {
+			return ysyMenuMstService.findDefaultMenuList();
+		}else {
+			return ysyMenuMstService.findMenuList(p.getUser().getUsername());
 		}
-		return ysyMenuMstService.findDefaultMenuList();
-	}
-	
-	@GetMapping("/user/findMenuList")
-	public ResponseDto<MenuDto> findMenuList(@RequestParam String userId , @AuthenticationPrincipal PrincipalDetails p ) {
-		System.out.println("findMenuList ysyUserMst.toString()"+p.getUser().getUsername());
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		YsyUserMst user = ((PrincipalDetails)authentication.getPrincipal()).getUser();
-		return ysyMenuMstService.findMenuList(p.getUser().getUsername());
+		
 	}
 	
 	/** 2022 07 07 mnew2m

@@ -119,12 +119,13 @@
 
 <script>
 import { FLogoBtnB } from '@/assets/util/importFile.js';
-import { YsyUtil } from '@/mixin/MixinGlobal.js';
+//import { YsyUtil } from '@/mixin/MixinGlobal.js';
+import YsyUtil from '@/mixin/YsyUtil.js';
 
 export default {
 	name: 'App',
 	components: { FLogoBtnB },
-	mixins: [YsyUtil],
+	//mixins: [YsyUtil],
 	data() {
 		return {
 			toggleMessage: [{ title: 'REMEMBER' }, { title: 'FORGET ID/PW?' }],
@@ -140,13 +141,14 @@ export default {
 	methods: {
 		async signIn() {
 			if (
-				this.isNullAndEmpty(this.params.data.username) ||
-				this.isNullAndEmpty(this.params.data.password)
+				YsyUtil.isNullAndEmpty(this.params.data.username) ||
+				YsyUtil.isNullAndEmpty(this.params.data.password)
 			) {
 				alert('ID와 비밀번호를 입력해주세요.');
 			} else {
 				try {
 					let res = await this.$store.dispatch('authStore/signIn', this.params);
+					console.log('res sign in ', res);
 					if (res.status != undefined && res.status == 200) {
 						this.$router.replace({ name: 'home' });
 					} else {
@@ -166,7 +168,9 @@ export default {
 		kakaoLogin() {
 			var client_id = 'f21217ecb3112aa4791cbdc7d7e8b4ed'; // kako client key
 			// var callbackUrl = 'http://localhost:8000/ysy/v1/oauth/kakao/getCode&response_type=code'; // 서버 주소
-			var callbackUrl = 'http://localhost:8000/kakaoLogin/getCode&response_type=code'; // 서버 주소
+			//var callbackUrl = 'http://localhost:8000/kakaoLogin/getCode&response_type=code'; // 서버 주소
+			//var callbackUrl = 'http://ysy899.cafe24.com/kakaoLogin/getCode&response_type=code'; // 서버 주소
+			var callbackUrl = 'http://tboom.shop/kakaoLogin/getCode&response_type=code'; // 서버 주소
 			var url =
 				'https://kauth.kakao.com/oauth/authorize?client_id=' +
 				client_id +

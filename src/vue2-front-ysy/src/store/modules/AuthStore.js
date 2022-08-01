@@ -2,6 +2,8 @@ import authService from '@/service/AuthService.js';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
+import { YsyUtil } from '@/assets/util/importFile.js';
+
 const authStore = {
 	namespaced: true,
 	state: {
@@ -21,7 +23,7 @@ const authStore = {
 		singUpKey: {
 			key: '',
 		},
-		myRole : "ADMIN",
+		myRole: 'ADMIN',
 	},
 	getters: {
 		isLogin: state => {
@@ -69,7 +71,7 @@ const authStore = {
 			state.singUpKey.key = key;
 		},
 		clearUserInfo: state => {
-			axios.defaults.headers.common['access_token'] = '';
+			YsyUtil.removeAccessToken(axios);
 			var keys = Object.keys(state.loginData);
 			keys.forEach(key => {
 				state.loginData[key] = '';
@@ -90,8 +92,9 @@ const authStore = {
 		async signIn({ dispatch }, params) {
 			try {
 				let res = await authService.signIn(params);
-
-				if (res.headers && res.headers.access_token != undefined) {
+				console.log('YsyUtil.accessToken = ', YsyUtil.accessToken);
+				console.log('res.headers[accessTokenKey]', res.headers[YsyUtil.accessToken]);
+				if (res.headers && res.headers[YsyUtil.accessToken] != undefined) {
 					dispatch('setUserInfo', res.headers);
 					return res;
 				}
@@ -112,19 +115,20 @@ const authStore = {
 			}
 		},
 
-		setUserInfo({ commit, dispatch }, res) {
-			if (res !== null && res !== undefined) {
-				var decodedHeader_access = jwt_decode(res.access_token, { payload: true });
-				var decodedHeader_refresh = jwt_decode(res.refresh_token, { payload: true });
+		setUserInfo({ commit, dispatch }, headers) {
+			if (headers !== null && headers !== undefined) {
+				const token = headers[YsyUtil.accessToken];
+				var decodedHeader_access = jwt_decode(token, { payload: true });
+				var decodedHeader_refresh = jwt_decode(headers.refresh_token, { payload: true });
 
-				axios.defaults.headers.common['access_token'] = res.access_token;
-				axios.defaults.headers.common['Authorization'] = 'Authorization 12345678';
+				YsyUtil.setAccessToken(axios, token);
+
 				let payload = {
 					user_id: decodedHeader_access.username,
 					user_name: decodedHeader_access.name,
-					access_token: res.access_token,
+					access_token: token,
 					access_token_exp: decodedHeader_access.exp,
-					refresh_token: res.refresh_token,
+					refresh_token: headers.refresh_token,
 					refresh_token_exp: decodedHeader_refresh.exp,
 				};
 				dispatch('isAdmin', payload.user_id);

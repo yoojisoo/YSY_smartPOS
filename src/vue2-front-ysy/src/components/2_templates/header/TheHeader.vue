@@ -1,7 +1,7 @@
 <template>
 	<!-- flat : remove box-shadow -->
 	<div>
-		<!-- web 메뉴 start -->
+		<!-- PC 메뉴 start  -->
 		<v-app-bar app flat outlined>
 			<v-container class="ma-0 pa-0" fluid>
 				<v-row justify="center" no-gutters>
@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { FLogoBtnS } from '@/assets/util/importFile.js';
+import { FLogoBtnS, YsyUtil } from '@/assets/util/importFile.js';
 import store from '@/store/index';
 import { eventBus } from '@/main.js';
 import { mapGetters } from 'vuex';
@@ -151,7 +151,7 @@ export default {
 		isOpen: false,
 		menuList: [],
 		windowWidth: 0,
-		drawer: null,
+		drawer: null, // 모바일 메뉴 on off -> true : on
 		eventData: 'header event data',
 		appTitle: 'Title',
 		group: true,
@@ -160,29 +160,25 @@ export default {
 		iconImg: 'mdi-dots-vertical',
 		userLogin: false,
 	}),
+	created() {},
 	mounted() {
-		if (sessionStorage.getItem('loginData')) {
-			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
-				.access_token;
-			this.$axios.defaults.headers.common['access_token'] = access_token;
-			this.$axios.defaults.headers.common['Authorization'] = 'Authorization 12345678';
-		}
+		//민경 체킹
+
 		this.findMenuList();
 		this.windowWidth = window.innerWidth; // 현재 화면 사이즈
 		window.addEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 추가
 	},
-	beforeDestroy() {
-		window.removeEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 제거
-	},
+
 	watch: {
 		windowWidth() {
 			// windowWidth 라는 값이 변경되면 실행
 			this.drawer = false;
 		},
-		userLogin() {
-			this.findMenuList();
-		},
+		//userLogin() {
+		//	this.findMenuList();
+		//},
 	},
+
 	computed: {
 		isLogin() {
 			if (this.$store.state.authStore.loginData.isLogin) this.userLogin = true;
@@ -194,7 +190,15 @@ export default {
 		getUserName() {
 			return this.$store.state.authStore.loginData.user_name;
 		},
-		...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
+		getMenuList() {
+			return this.$store.state.menuStore.menuList;
+		},
+		getErrorMsg() {
+			return this.$store.state.menuStore.errorMsg;
+		},
+
+		//...mapGetters({ getMenuList: 'menuStore/getMenuList' }),
+		//isMobile() {},
 	},
 	methods: {
 		activeTab(index) {
@@ -246,11 +250,15 @@ export default {
 			console.log(' ⬆️ this.headerMenu ⬆️ ');
 		},
 		async findMenuList() {
-			await store.dispatch('menuStore/findMenuList', this.getUserId);
+			let params = {
+				url: 'ysy/v1/findMenuList',
+			};
+			await store.dispatch('menuStore/findMenuList', params);
 			if (this.getMenuList) {
 				this.menuList = this.getMenuList;
 				this.setHeaderMenu();
 			} else {
+				alert(this.getErrorMsg);
 				console.log('this.findMenuList 실패 !!');
 			}
 		},
@@ -267,6 +275,10 @@ export default {
 				this.$router.push({ path: child.menu_path });
 			}
 		},
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('resize', this.viewResize); // 화면 resize 이벤트, 실행함수 제거
 	},
 };
 </script>

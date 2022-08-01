@@ -5,14 +5,13 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import axios from 'axios';
 
-import "vue-easytable/libs/theme-default/index.css";//easy table 
-import VueEasytable from "vue-easytable";
-
-
+import 'vue-easytable/libs/theme-default/index.css'; //easy table
+import VueEasytable from 'vue-easytable';
 
 export const eventBus = new Vue();
 Vue.prototype.$axios = axios;
 
+Vue.prototype.$accessTokenKey = 'authorization';
 
 // Vue.prototype.axios = axios
 // Vue.config.globalProperties.axios = axios;
@@ -28,39 +27,49 @@ new Vue({
 	render: h => h(App),
 }).$mount('#app');
 
-
 /**
  * ** oauth login path 설정
  * sns에서 로그인시 code callback받고 redirect할 페이지 지정.
  */
- const re11 = document.referrer;
-console.log("re11 ",re11);
+const re11 = document.referrer;
+console.log('re11 ', re11);
 
 const reqUrl = window.location.toString();
 const urlParams = new URLSearchParams(window.location.search);
-console.log("window.location.search", window.location.search)
-console.log("urlParams", urlParams)
+console.log('window.location.search', window.location.search);
+console.log('urlParams', urlParams);
 urlParams.forEach((v, k) => {
-    console.log(`key: ${k} value: ${v}`)
-})
+	console.log(`key: ${k} value: ${v}`);
+});
 
+const code = urlParams.get('code');
+const oauthPath = urlParams.get('oauth_path');
 
-const code      = urlParams.get("code");
-const oauthPath = urlParams.get("oauth_path");
-
-console.log("reqUrl ", reqUrl);
-console.log('code =  ' , code);
-console.log('oauthPath =  ' , oauthPath);
+console.log('reqUrl ', reqUrl);
+console.log('code =  ', code);
+console.log('oauthPath =  ', oauthPath);
 
 if (code) {
-    
-	if(oauthPath === "kakao"){
-		router.push({ path: '/kakaoLogin', query: { "code": code } })
-	}
-    else if(oauthPath === "naver"){
-		router.push({ path: '/naverLogin', query: { "code": code } })
-	}
-	else{
-		router.push({ path: '/', query: { "oauthMsg": "oauth login fail!" } })
+	if (oauthPath === 'kakao') {
+		router.push({ path: '/kakaoLogin', query: { code: code } });
+	} else if (oauthPath === 'naver') {
+		router.push({ path: '/naverLogin', query: { code: code } });
+	} else {
+		router.push({ path: '/', query: { oauthMsg: 'oauth login fail!' } });
 	}
 }
+/**
+ *  file naming role
+ *  Vue{
+ * 		The***.vue    : 가장 작은 단위의 vue 작성시
+ *      Block****.vue : The*** Vue가 합쳐진 반제품의 컴포넌트
+ *      View*****.vue  : 화면에 보여지는 마지막 화면 - 완제품
+ * 	    Display****.vue :
+ *  }
+ *
+ *
+ *
+ *
+ *
+ *
+ */

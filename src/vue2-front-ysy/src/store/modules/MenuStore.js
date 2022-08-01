@@ -5,6 +5,8 @@
  */
 
 import menuService from '@/service/MenuService.js';
+import CommonService from '@/service/CommonService.js';
+import YsyUtil from '@/mixin/YsyUtil';
 
 const menuStore = {
 	namespaced: true,
@@ -13,6 +15,7 @@ const menuStore = {
 		menuList: [],
 		adminMenuList: [],
 		filterMenuList: [],
+		errorMsg: '',
 	},
 
 	getters: {
@@ -31,25 +34,37 @@ const menuStore = {
 		setFilterMenuList(state, menuList) {
 			state.filterMenuList = menuList;
 		},
+		setFilterMenuList(state, errorMsg) {
+			state.errorMsg = errorMsg;
+		},
 	},
 
 	actions: {
-		async findMenuList({ commit }, userId) {
+		async findMenuList({ commit }, params) {
 			try {
-				let menuList = await menuService.findMenuList(userId);
-				if (menuList !== null && menuList !== undefined) {
-					if (menuList.length > 0) {
-						console.log('✅ menuStore findMenuList');
-						console.log(menuList);
-						commit('setMenuList', menuList);
-					} else {
-						console.log('Menu List Length 0');
-					}
+				let res = await CommonService.fn_getDataList(params.url, null);
+
+				if (res.data && res.data.status === 'OK' && res.data.objList !== null) {
+					YsyUtil.log('res.data.objList', res.data.objList);
+					commit('setMenuList', res.data.objList);
 				} else {
-					console.log('❌ menuStore findMenuList ❌');
+					commit('setErrorMsg', res.data.msg);
+					YsyUtil.log('❌ menuStore findMenuList ❌');
 				}
+
+				//if (menuList !== null && menuList !== undefined) {
+				//	if (menuList.length > 0) {
+				//		console.log('✅ menuStore findMenuList');
+				//		console.log(menuList);
+				//		commit('setMenuList', menuList);
+				//	} else {
+				//		console.log('Menu List Length 0');
+				//	}
+				//} else {
+				//	console.log('❌ menuStore findMenuList ❌');
+				//}
 			} catch (error) {
-				console.log('MenuStore findMenuList error => ' + error);
+				YsyUtil.log('❌❌❌ MenuStore findMenuList error => ', error);
 			}
 		},
 		async findFilterMenuList({ commit }, userId) {
