@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.data.domain.Sort;
@@ -75,5 +76,21 @@ public class YsyUtil {
 		UUID uuid = UUID.randomUUID();
 		
 		return keyNm + "-" + uuid.toString();
+	}
+	public String createUUID() {
+		UUID uuid = UUID.randomUUID();
+		
+		return uuid.toString();
+	}
+	
+	/** 6자리 숫자 생성 - 무결성 보장 못함 */
+	public String createKey() {
+		StringBuffer key = new StringBuffer();
+		Random rnd = new Random();
+		
+		for(int i = 0; i < 6; i++) { // 인증 키 6자리 숫자
+			key.append((rnd.nextInt(10)));
+		}
+		return key.toString();
 	}
 }

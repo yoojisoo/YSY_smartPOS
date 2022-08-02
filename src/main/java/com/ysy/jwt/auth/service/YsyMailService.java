@@ -1,29 +1,39 @@
 package com.ysy.jwt.auth.service;
 
-import java.util.Random;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import com.ysy.common.YsyUtil;
-import com.ysy.jwt.auth.config.MailHandler;
+import com.ysy.jwt.auth.config.SystemConfig;
 import com.ysy.jwt.auth.dto.MailDto;
-import com.ysy.jwt.auth.entity.YsyEmailAuth;
-import com.ysy.jwt.auth.repository.YsyEmailAuthRepository;
+import com.ysy.jwt.auth.entity.QYsyUserMst;
+import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.handler.MailHandler;
 
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 //@RequiredArgsConstructor
 public class YsyMailService {
 	
 	private JavaMailSender mailSender;
-	private static final String FROM_ADDRESS = "mnew2m@gmail.com";
+	
+	
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Autowired
-	private YsyEmailAuthRepository ysyEmailAuthRepository;
+	private JPAQueryFactory   query = new JPAQueryFactory(em);
+	
+	private QYsyUserMst qYsyUserMst = QYsyUserMst.ysyUserMst;
+	
 	@Autowired
 	private YsyUtil util;
 	
@@ -36,23 +46,22 @@ public class YsyMailService {
 	            // 받는 사람
 	           mailHandler.setTo(mailDto.getEmail());
 	            // 보내는 사람
-	           mailHandler.setFrom(YsyMailService.FROM_ADDRESS);
+	           mailHandler.setFrom(SystemConfig.FROM_ADDRESS);
 	            // 제목
 	           mailHandler.setSubject("[ " + util.PJT_NAME + " ] 회원가입 인증 이메일 도착 😍");
 	            // 내용
-	           String key = createKey();
+	           String key = util.createUUID();
+	           
+	           JPAUpdateClause update = new JPAUpdateClause(em, qYsyUserMst);
+	           update.set(qYsyUserMst.emailKey , key)
+	             	 .where(qYsyUserMst.username.eq(mailDto.getEmail()))
+	             	 .execute();
+	           
 	           String params = "email=" + mailDto.getEmail() + "&key=" + key;
-	           String htmlContent = "<a href='http://localhost:8000/ysy/v1/mail/mailKeyConfirm?" + params + "'> 인증을 하시려면 여기를 눌러주세요.</a>";
+	           String htmlContent = "<a href='http://"+SystemConfig.SEVER_URL+"/mailAuthCode?" + params + "'> 인증을 하시려면 여기를 눌러주세요.</a>";
 	           mailHandler.setText(htmlContent, true);
 	           mailHandler.send();
 	           
-	           YsyEmailAuth ysyEmailAuth = YsyEmailAuth
-	        		   .builder()
-	        		   .tmpEmail(mailDto.getEmail())
-	        		   .tmpEmailKey(key)
-	        		   .build();
-	           
-	           ysyEmailAuthRepository.save(ysyEmailAuth);
 	           return true;
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -62,34 +71,18 @@ public class YsyMailService {
 	}
 	
 	
-	public boolean mailAuth(MailDto mailDto) throws Exception{
-		String key = mailDto.getKey();
-		YsyEmailAuth ysyEmailAuth = ysyEmailAuthRepository.findByTmpEmail(key);
-		if(key.equals(ysyEmailAuth.getTmpEmailKey())) {
-			ysyEmailAuthRepository.delete(ysyEmailAuth);
-			return true;
-		}
-		
-		return false;
-	}
 	
-	/** 이메일 인증 키 6자리 숫자 만들기 */
-	public String createKey() {
-		StringBuffer key = new StringBuffer();
-		Random rnd = new Random();
-		
-		for(int i = 0; i < 6; i++) { // 인증 키 6자리 숫자
-			key.append((rnd.nextInt(10)));
-		}
-		return key.toString();
-	}
-	
-	/** user 존재여부 확인 존재 : true */
 	public boolean mailKeyConfirm(MailDto mailDto) {
-		System.out.println();
-//		if(ysyUserRepository.findByUsername(username) == null)
-//			return false;
 		
-		return true;
+		YsyUserMst result = query.select(qYsyUserMst)
+								.from(qYsyUserMst)
+								.where(qYsyUserMst.username.eq(mailDto.getEmail())
+									  ,qYsyUserMst.emailKey.eq(mailDto.getKey())
+									  )
+								.limit(1L)
+								.fetchOne()
+								;
+		System.out.println("mailKeyConfirm email = [" + mailDto.getEmail() + "] == [" + result.getUsername() + "]");
+		return result == null || result.getUsername().isEmpty()? false : true;
 	}
 }

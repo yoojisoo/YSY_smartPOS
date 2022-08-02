@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.service.YsyUserMstService;
@@ -52,8 +51,8 @@ public class YsyUserMstController {
 	
 	@PostMapping("/user/modUserInfo") // 회원정보 수정
 	@ResponseBody
-	public String modUserInfo(@RequestBody ModUserDto modUserDto) {
-		return ysyUserService.modUserInfo(modUserDto);
+	public String modUserInfo(@RequestBody UserDto userDto) {
+		return ysyUserService.modUserInfo(userDto);
 	}
 	
 	

@@ -14,6 +14,8 @@ import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.model.PrincipalDetails;
 import com.ysy.jwt.auth.service.YsyMenuMstService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/ysy/v1")
 /** findDefaultMenuList -> 로그인 X -> 권한 X
@@ -23,10 +25,10 @@ public class YsyMenuController {
 	@Autowired
 	private  YsyMenuMstService ysyMenuMstService;
 	
-	/** 22-07-05 mnew2m
-	 * 로그인 된 아이디가 들어왔을 때,
-	 * 로그인을 하지 않았을 때,
-	 * 도는 쿼리가 달라서 분리함 ! */
+	@ApiOperation(value = " 메뉴 리스트 조회 - 파리미터 없음" 
+			    , notes = "조회시 로그인 된 사람의 권한에 따라 메뉴 리스트 조회됨.\n"
+			    		+ "로그인 안된 사람은 default menu 조회됨. \n"
+			    		+ "return  type = List<MenuDto> ")
 	@GetMapping("/findMenuList")
 	public ResponseDto<MenuDto> findDefaultMenuList(@AuthenticationPrincipal PrincipalDetails p) {
 		
@@ -41,6 +43,9 @@ public class YsyMenuController {
 	/** 2022 07 07 mnew2m
 	 * 컨트롤 가능한 유저들 중 선택한 유저의 접근가능메뉴 리스트 조회
 	 * userId Param -> 해당 userId가 접근가능한 메뉴 리스트를 조회 */
+	@ApiOperation(value = " 메뉴 권한관리 - parameter - userId" 
+		    , notes = " 메뉴 권한 관리시 해당 유저의 접근 가능한 메뉴 정보 리스트\n"
+		    		+ "return  type = List<MenuDto> ")
 	@GetMapping("/manager/getFilterMenuList")
 	public ResponseAuthDto<MenuDto> getFilterMenuList(@RequestParam String userId) {
 		return ysyMenuMstService.getFilterMenuList(userId);

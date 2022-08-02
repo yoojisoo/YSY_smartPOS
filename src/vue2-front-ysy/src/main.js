@@ -42,20 +42,24 @@ urlParams.forEach((v, k) => {
 	console.log(`key: ${k} value: ${v}`);
 });
 
-const code = urlParams.get('code');
-const oauthPath = urlParams.get('oauth_path');
+const __code   = urlParams.get('code');
+const __gubun  = urlParams.get('gubun');
+const __status = urlParams.get('status');//이메일 인증시 완료 여부
+const __msg    = urlParams.get('msg');
 
 console.log('reqUrl ', reqUrl);
-console.log('code =  ', code);
-console.log('oauthPath =  ', oauthPath);
+console.log('__code =    ', __code);
+console.log('__gubun =   ', __gubun);
+console.log('__status =  ', __status);
+console.log('__msg =     ', __msg);
 
 if (code) {
-	if (oauthPath === 'kakao') {
-		router.push({ path: '/kakaoLogin', query: { code: code } });
-	} else if (oauthPath === 'naver') {
-		router.push({ path: '/naverLogin', query: { code: code } });
-	} else {
-		router.push({ path: '/', query: { oauthMsg: 'oauth login fail!' } });
+	if (__gubun === 'kakao') {
+		router.push({ path: '/kakaoLogin', query: { code: __code } });
+	} else if (__gubun === 'naver') {
+		router.push({ path: '/naverLogin', query: { code: __code } });
+	} else if(__gubun === 'email') {
+		router.push({ path: '/signIn', query: { status: __status , msg : __msg} });
 	}
 }
 /**

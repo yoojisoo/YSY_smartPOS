@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.ysy.jwt.auth.dto.MenuDtoIf;
 import com.ysy.jwt.auth.entity.YsyMenuMst;
 
 public interface YsyMenuMstRepository extends JpaRepository<YsyMenuMst, String>{//
