@@ -1,7 +1,5 @@
 package com.ysy.jwt.auth.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
  * findMenuList -> 로그인 O -> user 권한 O */
 public class YsyMenuController {
 	
-	private final Logger logger = LogManager.getLogger(YsyMenuController.class);
+//	private final Logger logger = LogManager.getLogger(YsyMenuController.class);
 	
 	
 	
@@ -38,15 +36,15 @@ public class YsyMenuController {
 	public ResponseDto<MenuDto> findDefaultMenuList(@AuthenticationPrincipal PrincipalDetails p) {
 		System.out.println("findDefaultMenuList system.out###########################################");
 		System.out.println("findDefaultMenuList system.out###########################################");
-		logger.info("info*************************************************************************");
-		logger.info("info*************************************************************************");
-		logger.debug("debug$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-		logger.debug("debug$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-		logger.debug("Hello Debug level log");
-        logger.warn("Warn @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        logger.warn("Warn @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        logger.error("error %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        logger.error("error %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+//		logger.info("info*************************************************************************");
+//		logger.info("info*************************************************************************");
+//		logger.debug("debug$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+//		logger.debug("debug$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+//		logger.debug("Hello Debug level log");
+//        logger.warn("Warn @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        logger.warn("Warn @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//        logger.error("error %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+//        logger.error("error %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		if(p ==null || p.getUser() == null || p.getUser().getUsername().isEmpty()) {
 			return ysyMenuMstService.findDefaultMenuList();
 		}else {

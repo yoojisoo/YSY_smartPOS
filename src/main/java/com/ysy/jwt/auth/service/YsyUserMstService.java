@@ -58,9 +58,7 @@ public class YsyUserMstService {
 	
 	@Autowired
 	JPAQueryFactory query = new JPAQueryFactory(em);
-	
-	@Autowired
-	private YsyUtil ysyUtil;
+
 	
 	/** 2022 07 07 mnew2m
 	 * 사용하는 Q Class List */
@@ -406,8 +404,8 @@ public class YsyUserMstService {
 	@Transactional
 	public String modUserInfo(UserDto userDto) {
 		try {
-			if(!ysyUtil.isNullAndEmpty(userDto.getUserId())
-			&& !ysyUtil.isNullAndEmpty(userDto.getUserNm())
+			if(!util.isNullAndEmpty(userDto.getUserId())
+			&& !util.isNullAndEmpty(userDto.getUserNm())
 			  ) 
 			{
 				
