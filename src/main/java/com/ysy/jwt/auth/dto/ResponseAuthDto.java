@@ -31,7 +31,7 @@ public class ResponseAuthDto<T> {
 	}
 	
 	/** error response return */
-	public ResponseAuthDto(String msg , HttpStatus status){
+	public ResponseAuthDto(String tmp , String msg , HttpStatus status){
 		this.msg = msg;
 		this.status = status;
 	}

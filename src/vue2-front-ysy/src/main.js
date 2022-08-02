@@ -53,11 +53,12 @@ console.log('__gubun =   ', __gubun);
 console.log('__status =  ', __status);
 console.log('__msg =     ', __msg);
 
-if (code) {
+if (__code) {
+
 	if (__gubun === 'kakao') {
-		router.push({ path: '/kakaoLogin', query: { code: __code } });
+		router.push({ path: '/kakaoLogin', query: { "code": __code } });
 	} else if (__gubun === 'naver') {
-		router.push({ path: '/naverLogin', query: { code: __code } });
+		router.push({ path: '/naverLogin', query: { "code": __code } });
 	} else if(__gubun === 'email') {
 		router.push({ path: '/signIn', query: { status: __status , msg : __msg} });
 	}

@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { FLogoBtnB } from '@/assets/util/importFile.js';
+import { FLogoBtnB , CommonService } from '@/assets/util/importFile.js';
 //import { YsyUtil } from '@/mixin/MixinGlobal.js';
 import YsyUtil from '@/mixin/YsyUtil.js';
 
@@ -165,29 +165,51 @@ export default {
 			this.$router.push({ name: 'signUp' });
 		},
 
-		kakaoLogin() {
-			var client_id = 'f21217ecb3112aa4791cbdc7d7e8b4ed'; // kako client key
-			// var callbackUrl = 'http://localhost:8000/ysy/v1/oauth/kakao/getCode&response_type=code'; // 서버 주소
-			//var callbackUrl = 'http://localhost:8000/kakaoLogin/getCode&response_type=code'; // 서버 주소
-			//var callbackUrl = 'http://ysy899.cafe24.com/kakaoLogin/getCode&response_type=code'; // 서버 주소
-			var callbackUrl = 'http://tboom.shop/kakaoLogin/getCode&response_type=code'; // 서버 주소
-			var url =
-				'https://kauth.kakao.com/oauth/authorize?client_id=' +
-				client_id +
-				'&redirect_uri=' +
-				callbackUrl;
-			window.location.replace(url);
+		async kakaoLogin() {
+			try {
+				let res = await CommonService.fn_getDataList("/ysy/v1/oauth/getKakaoRedirectUrl");
+				YsyUtil.log("kakaoLogin callback url  ",res.data.obj);
+
+				var client_id = 'f21217ecb3112aa4791cbdc7d7e8b4ed'; // kako client key
+				// var callbackUrl = 'http://localhost:8000/ysy/v1/oauth/kakao/getCode&response_type=code'; // 서버 주소
+				//var callbackUrl = 'http://localhost:8000/kakaoLogin/getCode&response_type=code'; // 서버 주소
+				//var callbackUrl = 'http://ysy899.cafe24.com/kakaoLogin/getCode&response_type=code'; // 서버 주소
+				// var callbackUrl = 'http://tboom.shop/kakaoLogin/getCode&response_type=code'; // 서버 주소
+				var callbackUrl = res.data.obj + "&response_type=code"; // 서버 주소
+
+				YsyUtil.log("callbackUrl ==  ",callbackUrl);
+				var url =
+					'https://kauth.kakao.com/oauth/authorize?client_id=' +
+					client_id +
+					'&redirect_uri=' +
+					callbackUrl;
+				window.location.replace(url);
+			} catch (error) {
+				YsyUtil.log("kakaoLogin error ",error);
+			}
+
+			
 		},
-		naverLogin() {
-			var client_id = '75NEjj6MeqfW6we4eFlJ'; // naver client key
-			// var callbackUrl = 'http://localhost:8080/naverLogin'; // 서버 주소
-			var callbackUrl = 'http://localhost:8000/naverLogin/getCode'; // 서버 주소
-			var url =
-				'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
-				client_id +
-				'&redirect_uri=' +
-				callbackUrl;
-			window.location.replace(url);
+		async naverLogin() {
+			try {
+				let res = await CommonService.fn_getDataList("/ysy/v1/oauth/getNaverRedirectUrl");
+				YsyUtil.log("naverLogin callback url  ",res.data.obj);
+
+				var client_id = '75NEjj6MeqfW6we4eFlJ'; // naver client key
+				// var callbackUrl = 'http://localhost:8080/naverLogin'; // 서버 주소
+				// var callbackUrl = 'http://localhost:8000/naverLogin/getCode'; // 서버 주소
+				var callbackUrl = res.data.obj; // 서버 주소
+				YsyUtil.log("callbackUrl ==  ",callbackUrl);
+				var url =
+					'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
+					client_id +
+					'&redirect_uri=' +
+					callbackUrl;
+				window.location.replace(url);
+			} catch (error) {
+				YsyUtil.log("naverLogin error ",error);
+			}
+				
 		},
 	},
 };

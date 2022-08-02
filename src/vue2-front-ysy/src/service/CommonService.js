@@ -77,16 +77,7 @@ class CommonService {
 		console.log('result', result);
 		return result;
 	}
-	async fn_getData(url, params) {
-		await axios
-			.get(url, params)
-			.then(res => {
-				return res;
-			})
-			.catch(error => {
-				console.log('CommonService fn_getData error', error);
-			});
-	}
+	
 }
 
 export default new CommonService();

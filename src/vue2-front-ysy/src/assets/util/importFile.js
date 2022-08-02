@@ -53,6 +53,8 @@ export { YsyUtil };
 //import '@/service/MenuService';
 //import '@/service/NoticeService';
 //import '@/service/UserService';
+import CommonService from "@/service/CommonService.js"
+export { CommonService };
 
 //import '@/store/modules/AuthStore.js';
 //import '@/store/modules/MenuStore';
