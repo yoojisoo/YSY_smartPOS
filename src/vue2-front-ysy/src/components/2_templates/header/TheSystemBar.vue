@@ -32,7 +32,7 @@
 
 <script>
 import { BaseButtonThemeChange } from '@/assets/util/importFile.js';
-import store from '@/store';
+//import Swal from 'sweetalert2';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -49,6 +49,7 @@ export default {
 			this.$router.push({ name: 'myInfo' }).catch(() => {});
 		},
 		logout() {
+			//Swal.fire('Hey user!', 'You are the rockstar!', 'info');
 			this.$store.dispatch('authStore/clearUserInfo');
 			// [ '/' 오류 뜨는 이유 ]
 			// 현재 '/' 경로에 있기 때문에 뜨는거라서 catch로 오류를 잡아줌

@@ -2,7 +2,7 @@
 	<v-container class="sign_container">
 		<v-row class="sign_row">
 			<v-col class="sign_logo" cols="12">
-				<BaseButtonLogoSmall />
+				<BaseButtonLogoBig />
 			</v-col>
 			<v-col class="sign_col" cols="12">
 				<v-row class="sign_row">
@@ -83,13 +83,13 @@
 </template>
 
 <script>
-import { BaseButtonLogoSmall, CommonService } from '@/assets/util/importFile.js';
+import { BaseButtonLogoBig, CommonService } from '@/assets/util/importFile.js';
 //import { YsyUtil } from '@/mixin/MixinGlobal.js';
 import YsyUtil from '@/mixin/YsyUtil.js';
 
 export default {
 	name: 'App',
-	components: { BaseButtonLogoSmall },
+	components: { BaseButtonLogoBig },
 	//mixins: [YsyUtil],
 	data() {
 		return {

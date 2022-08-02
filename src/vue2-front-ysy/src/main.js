@@ -7,23 +7,19 @@ import axios from 'axios';
 
 import 'vue-easytable/libs/theme-default/index.css'; //easy table
 import VueEasytable from 'vue-easytable';
+import VueSweetalert2 from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-export const eventBus = new Vue();
 Vue.prototype.$axios = axios;
-
 Vue.prototype.$accessTokenKey = 'authorization';
-
-// Vue.prototype.axios = axios
-// Vue.config.globalProperties.axios = axios;
-// axios.defaults.baseURL = 'http://localhost:8000';
-
 Vue.config.productionTip = false;
-// Vue.use(VueEasytable);
+
 new Vue({
 	router,
 	store,
 	vuetify,
 	VueEasytable,
+	VueSweetalert2,
 	render: h => h(App),
 }).$mount('#app');
 
