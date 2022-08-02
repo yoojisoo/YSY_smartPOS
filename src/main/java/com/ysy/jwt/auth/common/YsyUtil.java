@@ -1,4 +1,4 @@
-package com.ysy.common;
+package com.ysy.jwt.auth.common;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

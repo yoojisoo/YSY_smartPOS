@@ -17,9 +17,9 @@ import org.springframework.util.StringUtils;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.common.SysEnum;
-import com.ysy.common.SysEnum.enumGrps;
-import com.ysy.common.YsyUtil;
+import com.ysy.jwt.auth.common.SysEnum;
+import com.ysy.jwt.auth.common.YsyUtil;
+import com.ysy.jwt.auth.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserDto;

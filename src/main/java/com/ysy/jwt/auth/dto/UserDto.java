@@ -4,7 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ysy.common.SysEnum.enumGrps;
+import com.ysy.jwt.auth.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.YsyUserAddress;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 

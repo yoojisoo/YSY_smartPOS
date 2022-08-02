@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.querydsl.jpa.impl.JPAUpdateClause;
-import com.ysy.common.YsyUtil;
+import com.ysy.jwt.auth.common.YsyUtil;
 import com.ysy.jwt.auth.config.SystemConfig;
 import com.ysy.jwt.auth.dto.MailDto;
 import com.ysy.jwt.auth.entity.QYsyUserMst;

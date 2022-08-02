@@ -19,8 +19,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ysy.common.SysEnum.enumGrps;
+import com.ysy.jwt.auth.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
 
 import lombok.AllArgsConstructor;

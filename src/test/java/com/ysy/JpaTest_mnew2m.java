@@ -1,7 +1,5 @@
 package com.ysy;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -12,15 +10,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.common.SysEnum;
-import com.ysy.common.SysEnum.enumGrps;
+import com.ysy.jwt.auth.common.SysEnum;
+import com.ysy.jwt.auth.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.QYsyBizMst;
 import com.ysy.jwt.auth.entity.QYsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.QYsyGrpMst;
 import com.ysy.jwt.auth.entity.QYsyMenuMst;
 import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyBizMst;
-import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 
