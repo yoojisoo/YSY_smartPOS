@@ -47,7 +47,7 @@ const __gubun  = urlParams.get('gubun');
 const __status = urlParams.get('status');//이메일 인증시 완료 여부
 const __msg    = urlParams.get('msg');
 
-console.log('reqUrl ', reqUrl);
+console.log('reqUrl      ', reqUrl);
 console.log('__code =    ', __code);
 console.log('__gubun =   ', __gubun);
 console.log('__status =  ', __status);
@@ -60,6 +60,9 @@ if (code) {
 		router.push({ path: '/naverLogin', query: { code: __code } });
 	} else if(__gubun === 'email') {
 		router.push({ path: '/signIn', query: { status: __status , msg : __msg} });
+	}
+	else{
+		router.push({ path: '/', query: { msg : "Redirect Url Error! 관리자에게 문의하세요."} });
 	}
 }
 /**
