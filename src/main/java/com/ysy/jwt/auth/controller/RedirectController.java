@@ -8,6 +8,13 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.ysy.jwt.auth.dto.MailDto;
 import com.ysy.jwt.auth.service.YsyMailService;
 
+/**
+ * 
+ * @author clubbboy@naver.com
+ * desc : 다른 쪽에서 url 호출시 spa특성상 index.html로 redirect하고
+ *        index.html에서 param에 따라 해당 페이지로 이동시켜 줌.
+ *
+ */
 @Controller
 public class RedirectController {
 
