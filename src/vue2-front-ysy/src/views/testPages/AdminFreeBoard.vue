@@ -19,13 +19,12 @@
 					class="mt-0 pa-0"
 					:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
 				>
-					
-					<ImgCard :data="data" />
+					<BaseCardImg :data="data" />
 				</v-col>
 			</v-row>
 			<v-row no_gutters>
 				<v-col cols="12" style="text-align: center">
-					<Pagination :paginationInfo="paginationInfo" />
+					<BasePagination :paginationInfo="paginationInfo" />
 				</v-col>
 			</v-row>
 		</v-container>
@@ -33,15 +32,15 @@
 </template>
 
 <script>
-import { ImgCard, Pagination } from '@/assets/util/importFile.js';
+import { BaseCardImg, BasePagination } from '@/assets/util/importFile.js';
 
 import CommonService from '@/service/CommonService';
 
 export default {
 	props: ['info'],
 	components: {
-		ImgCard,
-		Pagination,
+		BaseCardImg,
+		BasePagination,
 	},
 	data() {
 		return {
@@ -75,13 +74,10 @@ export default {
 		// this.paginationInfo.pageCnt = this.pages();
 	},
 	methods: {
-		async getDataList(){
-			const params = {
-
-			};
-			const dataList1 = await CommonService.fn_getDataList("/ysy/v1/getFreeBoardDataList" ,params);
-			console.log("admin board free veiw getDataList ",dataList1);
-
+		async getDataList() {
+			const params = {};
+			const dataList1 = await CommonService.fn_getDataList('/ysy/v1/getFreeBoardDataList', params);
+			console.log('admin board free veiw getDataList ', dataList1);
 		},
 		dataInit() {
 			for (var i = 0; i < 100; i++) {

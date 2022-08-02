@@ -1,32 +1,28 @@
 <!-- 22.06.29 yoojisoo -->
 <template>
 	<div class="editor-page">
-		<FOutlinedBtn :btnText="'저장'" :btnHeight="100" @click="aaa"/>
-		<v-btn outlined height="100px" width="100px" @click="aaa">
-			저장
-		</v-btn>
+		<BaseButtonOutlined :btnText="'저장'" :btnHeight="100" @click="aaa" />
+		<v-btn outlined height="100px" width="100px" @click="aaa"> 저장 </v-btn>
 		<div id="summernote"></div>
 	</div>
 </template>
 
 <script>
-import {FOutlinedBtn} from '@/assets/util/importFile.js';
+import { BaseButtonOutlined } from '@/assets/util/importFile.js';
 export default {
 	props: ['editorInfo', 'isSave'],
-	components:{
-	FOutlinedBtn,
+	components: {
+		BaseButtonOutlined,
 	},
 	data() {
 		return {
 			summernoteStr: '',
-			text:"aa",
-			height:20,
-
+			text: 'aa',
+			height: 20,
 		};
 	},
-	
+
 	mounted() {
-		
 		$('#summernote').summernote({
 			height: 400,
 			minHeight: null,
@@ -52,8 +48,8 @@ export default {
 		// let markupStr1 = $('.summernote').eq(1).summernote('code'); //html의 콘텐츠 가져오기
 	},
 	methods: {
-		aaa(){
-			console.log("btn click");
+		aaa() {
+			console.log('btn click');
 		},
 		getContent() {
 			if (this.editorInfo.isSave) {
@@ -61,9 +57,9 @@ export default {
 				console.log('확인중~' + typeof this.summernoteStr);
 			}
 		},
-		btnclick(){
-			if(this.editorInfo.btnClick){
-				this.editorInfo.btnClick($('#summernote').summernote('code') , "save");
+		btnclick() {
+			if (this.editorInfo.btnClick) {
+				this.editorInfo.btnClick($('#summernote').summernote('code'), 'save');
 			}
 		},
 	},

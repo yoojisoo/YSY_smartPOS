@@ -39,7 +39,7 @@ import {
 	TheAddrEdit,
 	FGrid,
 	TheSearch,
-	FOutlinedBtn,
+	BaseButtonOutlinedtn,
 	TheDetailInfoVue,
 } from '@/assets/util/importFile.js';
 import { mapGetters } from 'vuex';
@@ -53,7 +53,7 @@ export default {
 		TheAddrEdit,
 		FGrid,
 		TheSearch,
-		FOutlinedBtn,
+		BaseButtonOutlinedtn,
 		TheDetailInfoVue,
 		Y2sGridVue,
 	},

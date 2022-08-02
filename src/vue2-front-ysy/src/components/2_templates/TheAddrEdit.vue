@@ -8,7 +8,7 @@
 			<v-btn outlined>수정</v-btn>
 		</v-card-title>
 		<v-card-text>
-			<ysyTextField :fieldInfo="temInfo" />
+			<BaseTextField :fieldInfo="temInfo" />
 			<v-text-field
 				label="우편번호"
 				prepend-icon="mdi-mailbox-up"
@@ -38,9 +38,12 @@
 	</v-container>
 </template>
 <script>
-import ysyTextField from '@/components/1_molecules/textFields/FTextField.vue';
+import { BaseTextField } from '@/assets/util/importFile.js';
 export default {
 	props: ['addr'],
+	components: {
+		BaseTextField,
+	},
 	data() {
 		return {
 			idx: [1, 2, 3, 4, 5],
@@ -50,9 +53,6 @@ export default {
 				data: 'data1',
 			},
 		};
-	},
-	components: {
-		ysyTextField,
 	},
 	methods: {},
 	mounted() {

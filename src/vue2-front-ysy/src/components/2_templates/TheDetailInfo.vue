@@ -4,13 +4,13 @@
 			<span> 유저상세정보 </span>
 			<v-spacer />
 			<v-card-actions>
-				<FOutlinedBtn
+				<BaseButtonOutlined
 					v-if="btnDetailText === '수정'"
 					:btnText="btnDetailText"
 					:btnHeight="35"
 					@click="fn_detailEvent"
 				/>
-				<FOutlinedBtn
+				<BaseButtonOutlined
 					v-else-if="btnDetailText === '저장'"
 					:btnText="btnDetailText"
 					:btnHeight="35"
@@ -133,15 +133,14 @@
 </template>
 
 <script>
-import { TheAddrEdit } from '@/assets/util/importFile.js';
+import { BaseButtonOutlined, TheAddrEdit } from '@/assets/util/importFile.js';
 // import { YsyUtil } from '@/mixin/MixinGlobal.js';
-import FOutlinedBtn from '../1_molecules/buttons/FOutlinedBtn.vue';
 
 export default {
 	props: ['userDetailInfo'],
 	comments: {
 		TheAddrEdit,
-		FOutlinedBtn,
+		BaseButtonOutlined,
 	},
 	// mixins: [YsyUtil],
 	data() {
