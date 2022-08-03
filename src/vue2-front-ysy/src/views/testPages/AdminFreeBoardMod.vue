@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { BaseThumbnail, BlockButtonGroup } from '@/assets/util/importFile.js';
+import { BaseThumbnail, BlockButtonGroup ,CommonService } from '@/assets/util/importFile.js';
 import FileAttach from '@/components/1_molecules/FileAttach.vue';
 import SummerNote from '@/components/1_molecules/editors/SummerNote.vue';
 
@@ -84,8 +84,10 @@ export default {
 	},
 	computed: {},
 	methods: {
-		saveClick() {
+		async saveClick() {
 			console.log('saveClick');
+
+			
 
 			const title = this.$store.state.adminFreeBoardStore.title;
 			const content = this.$store.state.adminFreeBoardStore.content;
@@ -105,16 +107,22 @@ export default {
 				formData.append('files', x);
 			});
 
-			this.$axios
-				.post('/ysy/v1/createSummerNote', formData) //,{headers: {'Content-Type': 'multipart/form-data'}} //content-type 셋팅 안해도 올라가네??
-				.then(res => {
-					console.log('');
-					console.log(res.data);
-					alert('success');
-				})
-				.catch(error => {
-					console.log(error);
-				});
+			let res = await CommonService.fn_save("/ysy/v1/admin/saveYsyBoard" , formData);
+			console.log("res",res);
+			if(res.data.status == "OK"){
+				alert("success");
+			}
+			
+			// this.$axios
+			// 	.post('/ysy/v1/saveYsyBoard', formData) //,{headers: {'Content-Type': 'multipart/form-data'}} //content-type 셋팅 안해도 올라가네??
+			// 	.then(res => {
+			// 		console.log('');
+			// 		console.log(res.data);
+			// 		alert('success');
+			// 	})
+			// 	.catch(error => {
+			// 		console.log(error);
+			// 	});
 		},
 	},
 };

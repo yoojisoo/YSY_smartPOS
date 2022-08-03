@@ -19,7 +19,7 @@
 					class="mt-0 pa-0"
 					:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
 				>
-					<BaseCardImg :data="data" />
+					<BaseCardImg :info="data" />
 				</v-col>
 			</v-row>
 			<v-row no_gutters>
@@ -69,6 +69,7 @@ export default {
 	},
 	mounted() {
 		this.getDataList();
+		
 		// this.dataInit();
 		// this.initPage(); // 초기 데이터를 불러온 후 첫페이지 셋팅
 		// this.paginationInfo.pageCnt = this.pages();
@@ -76,8 +77,8 @@ export default {
 	methods: {
 		async getDataList() {
 			const params = {};
-			const dataList1 = await CommonService.fn_getDataList('/ysy/v1/getFreeBoardDataList', params);
-			console.log('admin board free veiw getDataList ', dataList1);
+			this.dataList = await CommonService.fn_getDataList('/ysy/v1/admin/getYsyBoardList', params);
+			console.log('admin board free veiw getDataList ', this.dataList);
 		},
 		dataInit() {
 			for (var i = 0; i < 100; i++) {

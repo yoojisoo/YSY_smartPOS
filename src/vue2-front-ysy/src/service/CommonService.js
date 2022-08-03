@@ -7,15 +7,20 @@ import axios from 'axios';
 
 class CommonService {
 	async fn_save(url, params) {
+		let result ;
 		await axios
 			.post(url, params)
 			.then(res => {
-				return res.data;
+				result = res;
+				// return res.data;
 			})
 			.catch(error => {
+				result = null;
 				console.log('CommonService fn_save error', error);
 				return { data: 'error' };
 			});
+			console.log("commonService save result ",result);
+			return result;
 	}
 
 	async fn_saveMultipart(url, params) {
