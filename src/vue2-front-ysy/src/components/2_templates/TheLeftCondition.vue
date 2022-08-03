@@ -1,11 +1,11 @@
-<template>
+<!-- <template>
 	<v-card outlined tile class="overflow-y-auto d-flex flex-column" height="100%">
 		<v-card-title class="pb-0">검색</v-card-title>
 		<v-card-text>
-			<!-- :rules="rules.email" 생명 주기 또는 코드 수정해야함 -->
+
 			<v-row justify="center" align="center">
 				<v-col cols="5">
-					<!-- v-model="selectMenu[0]" -->
+		
 					<v-select
 						v-model="selectMenuDefalut"
 						:items="selectMenu"
@@ -19,7 +19,6 @@
 				<v-col cols="7">
 					<v-text-field
 						:rules="rules.email"
-						:success="isSuccess"
 						dense
 						class="mt-2"
 					></v-text-field>
@@ -29,10 +28,11 @@
 
 		<v-card-title class="pb-0">필터</v-card-title>
 		<v-card-text>
+
 			<v-autocomplete
 				v-for="filter in filters.slice(2, 6)"
 				:key="filter.index"
-				:items="filter.text"
+				
 				:label="filter.text"
 				clearable
 				dense
@@ -49,15 +49,74 @@
 			</v-card-actions>
 		</div>
 	</v-card>
-</template>
+</template> -->
+ <template>
+ 
+ <div>
+	<v-row class="ma-0 pa-0">
+		<v-col cols="6" class="ma-0 pa-0">
+			<v-select
+			:items="idSearchList"
+			label="선택"
+			></v-select>
+		</v-col>
+		<v-col cols="6" class="ma-0 pa-0">
+			<v-text-field
+            label="Regular"
+			placeholder="Placeholder"
+          ></v-text-field>
+		</v-col>
+		
+	</v-row>
 
+	<v-row class="ma-0 pa-0" v-for="(obj , idx) in arrayList" :key="idx">
+		<v-col cols="12" class="ma-0 pa-0">
+			<v-select
+			:items="obj.dataList"
+			:label="obj.displayName"
+			v-model = "obj.defaultSelectName"
+			></v-select>
+		</v-col>
+	</v-row>
+
+	<v-row class="ma-0 pa-0" >
+		<v-col cols="12" class="ma-0 pa-0">
+			<v-select
+			:items="selectMenu2"
+			label="홈페이지"
+			v-model = "testName"
+			></v-select>
+		</v-col>
+	</v-row>
+	
+ </div>
+ 
+ </template>
 <script>
 export default {
 	props: ['filters'],
 	data() {
 		return {
+			testName : '홈페이지',
 			selectMenuDefalut: '아이디',
-			selectMenu: ['아이디', '전화번호'],
+			idSearchList: ['아이디', '이름'],
+			selectMenu2: ["","ALL","홈페이지",'카카오', '네이버'],//가입경로
+			selectMenu3: ["","ALL",'Y', 'N'],//이메일 인증
+			selectMenu4: ["","ALL",'Y', 'N'],//
+
+			arrayList:[
+				{	
+					defaultSelectName : '네이버',
+					dataList : ["","ALL","홈페이지",'카카오', '네이버'] ,
+					displayName : "가입경로 선택"
+				},
+				{	
+					defaultSelectName : 'Y',
+					dataList : ["","ALL",'Y', 'N'] ,
+					displayName : "이메일 인증여부 선택"
+				},
+				
+			],
 			rules: {
 				email: [
 					v => {
@@ -95,17 +154,10 @@ export default {
 			} catch (error) {
 				console.log('⛔ userMng fn_getConditionItems');
 			}
-		}
-	},
-	mounted() {
-
-	},
-	methods: {
-		onChg(value) {
-			console.log('value -------------------------->');
-			console.log(value);
 		},
 	},
+	mounted() {
+	}
 };
 </script>
 

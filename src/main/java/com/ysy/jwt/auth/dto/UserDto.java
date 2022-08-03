@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-	
 	// userMst 정보
 	private String userId;
 	private String userNm;
@@ -31,6 +30,7 @@ public class UserDto {
 	private String modDt;
 	private String password;
 	private String useYn;
+	private String isEmailAuth;
 	
 	// bizMst 정보
 	private String bizCd;
@@ -41,7 +41,6 @@ public class UserDto {
 	private String grpNm; //권한 이름
 	
 	/** 주소정보 */
-	List<YsyUserAddress> addrList = new ArrayList<YsyUserAddress>();
 	private String addrType;
 	private String addrZipCode;
 	private String addrCity;
@@ -64,6 +63,7 @@ public class UserDto {
 		this.oauthPath = user.getOAuthPath();
 		this.password = user.getPassword();
 		this.useYn = user.getUseYn();
+		this.isEmailAuth = user.getIsEmailAuth();
 		
 		this.bizNm = user.getYsyGrpMst().getYsyBizMst().getBizNm();
 		this.bizCd = user.getYsyGrpMst().getGrpPK().getBizCd();
@@ -73,23 +73,6 @@ public class UserDto {
 	}
 	
 	/* 유저 1명의 어드레스 조회 */
-	public UserDto(List<YsyUserAddress> addrList) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		for(YsyUserAddress addr : addrList) {
-			this.addrType 	 = addr.getAddrType();
-			this.addrZipCode = addr.getAddrZipCode();
-			this.addrCity 	 = addr.getAddrCity();
-			this.addrDetail  = addr.getAddrDetail();
-			this.addrEtc 	 = addr.getAddrEtc();
-			this.phone1 	 = addr.getPhone1();
-			this.phone2 	 = addr.getPhone2();
-			this.addrRegId   = addr.getRegId();
-			this.addrRegDt   = addr.getRegDt().format(formatter);
-			this.addrModId   = addr.getModId(); 
-			this.addrModDt   = addr.getModDt().format(formatter);
-		}
-	}
-	
 	public UserDto(YsyUserAddress addr) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		this.addrType 	 = addr.getAddrType();

@@ -43,16 +43,16 @@ export default {
 			this.textFieldInfo.datas = [this.addr.addrZipCode, this.addr.addrDetail, this.addr.addrEtc, this.addr.phone1, this.addr.phone2];
 			this.textFieldLength = this.textFieldInfo.labels.length;
 		},
-		fn_isNullAndEmpty() {
-			this.isNullAndEmpty(this.addr.addrZipCode) === true ? this.addr.addrZipCode = 'NONE' : '';
-			this.isNullAndEmpty(this.addr.addrDetail) === true ? this.addr.addrDetail = 'NONE' : '';
-			this.isNullAndEmpty(this.addr.addrEtc) === true ? this.addr.addrEtc = 'NONE' : '';
-			this.isNullAndEmpty(this.addr.phone1) === true ? this.addr.phone1 = 'NONE' : '';
-			this.isNullAndEmpty(this.addr.phone2) === true ? this.addr.phone2 = 'NONE' : '';
-		},
+		// fn_isNullAndEmpty() {
+		// 	this.isNullAndEmpty(this.addr.addrZipCode) === true ? this.addr.addrZipCode = 'NONE' : '';
+		// 	this.isNullAndEmpty(this.addr.addrDetail) === true ? this.addr.addrDetail = 'NONE' : '';
+		// 	this.isNullAndEmpty(this.addr.addrEtc) === true ? this.addr.addrEtc = 'NONE' : '';
+		// 	this.isNullAndEmpty(this.addr.phone1) === true ? this.addr.phone1 = 'NONE' : '';
+		// 	this.isNullAndEmpty(this.addr.phone2) === true ? this.addr.phone2 = 'NONE' : '';
+		// },
 	},
 	mounted() {
-		this.fn_isNullAndEmpty();
+		// this.fn_isNullAndEmpty();
 		this.fn_textFieldInfoInit();
 	}
 };

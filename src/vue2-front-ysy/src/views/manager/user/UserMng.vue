@@ -7,15 +7,15 @@
 	<v-container class="main_layout_container">
 		<!-- {{ this.$vuetify.breakpoint.name }} -->
 		<v-row class="main_layout_row">
-			<v-col cols="3" class="main_layout_col hidden-sm-and-down">
-				<TheSearch :filters="userInfo.headers"/>
+			<v-col cols="3" md="2" class="main_layout_col hidden-sm-and-down">
+				<TheLeftCondition :filters="userInfo.headers"/>
 			</v-col>
 
-			<v-col cols="12" md="6" class="main_layout_col">
+			<v-col cols="12" md="7" class="main_layout_col">
 				<Y2sGridVue :gridInfo="userInfo" :gridDataList="getUserList" />
 			</v-col>
 
-			<v-col cols="3" v-if="isAddr" class="main_layout_col hidden-sm-and-down">
+			<v-col cols="3" md="3" v-if="isAddr" class="main_layout_col hidden-sm-and-down">
 				<TheDetailInfoVue :userDetailInfo="userDetailInfo" />
 			</v-col>
 		</v-row>
@@ -29,7 +29,7 @@ import {
 	TheFooter,
 	TheAddrEdit,
 	FGrid,
-	TheSearch,
+	TheLeftCondition,
 	FOutlinedBtn,
 	TheDetailInfoVue,
 } from '@/assets/util/importFile.js';
@@ -44,11 +44,10 @@ export default {
     TheFooter,
     TheAddrEdit,
     FGrid,
-    TheSearch,
+    TheLeftCondition,
     FOutlinedBtn,
     TheDetailInfoVue,
     Y2sGridVue,
-    TheSearch
 },
 	data() {
 		return {
@@ -115,15 +114,13 @@ export default {
 		},
 		// 🔅 유저 아이디 1개로 주소 정보 가져오기
 		async fn_getUserAddr(userId, row) {
+			
 			try {
 				await this.$store.dispatch('userStore/fn_getUserAddr', userId);
 				if (this.getUserAddr) {
 					console.log('🟢 userMng getUserAddr - userAddrInfo');
 					this.userDetailInfo.addrList = this.getUserAddr;
 					this.userDetailInfo.row = row;
-					console.log(this.userDetailInfo.addrList);
-					console.log(this.userDetailInfo.row.userId);
-					// this.fn_isNullAndEmpty(this.userAddr);
 				}
 			} catch (error) {
 				console.log('⛔ userMng fn_getUserAddr error =>' + error);
@@ -132,6 +129,7 @@ export default {
 	},
 	mounted() {
 		this.fn_getUserList();
+		console.log('유저Mng 마운티드 --------------');
 	},
 };
 </script>
