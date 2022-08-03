@@ -13,6 +13,7 @@ import com.ysy.jwt.auth.dto.MailDto;
 import com.ysy.jwt.auth.service.YsyMailService;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -25,21 +26,19 @@ public class YsyMailController {
 	@Autowired
 	private YsyUserMstService userService;
 	
+	@ApiOperation(value="메일 중복여부 확인")
 	@PostMapping("/mailConfirm")
 	@ResponseBody
 	public Boolean mailConfirm(@RequestBody MailDto mailDto) {
 		return userService.isUser(mailDto.getEmail());
 	}
 	
+	@ApiOperation(value="회원가입 후 메일 인증 코드 발송")
 	@PostMapping("/mailSend")
 	@ResponseBody
 	public Boolean mailSend(@RequestBody MailDto mailDto) throws Exception {
 		return mailService.mailSend(mailDto);
 	}
 	
-	@GetMapping("/mailKeyConfirm")
-//	@ResponseBody
-	public Boolean mailKeyConfirm(@RequestParam MailDto mailDto) {
-		return mailService.mailKeyConfirm(mailDto);
-	}
+	
 }

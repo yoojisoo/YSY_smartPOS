@@ -47,11 +47,19 @@ public class YsyBoardFile extends BaseEntity implements Serializable{
     @JoinColumn(name = "BOARD_ID" , referencedColumnName = "BOARD_ID" )
     private YsyBoardMst ysyBoardMst;
 
-    @Column(name = "ORG_FILE_NAME" , nullable = false)
+    @Comment(value="파일 서버 저장시 파일명 중복을 피하기 위해 새로운 값을 원본파일명과 병합하여 생성")
+    @Column(name = "NEW_FILE_NAME" , nullable = false)
+    private String newFileName;  // 파일 원본명
+
+    @Comment(value = "user가 올린 실질적인 파일명")
+    @Column(name = "ORG_FILE_NAME" , nullable = false) 
     private String orgFileName;  // 파일 원본명
 
     @Column(name = "FILE_PATH" ,nullable = false)
     private String filePath;  // 파일 저장 경로
+
+    @Column(name = "FILE_FULL_PATH" ,nullable = false)
+    private String fileFullPath;  // 파일 저장 경로
 
     @Column(name = "FILE_SIZE" )
     private Long fileSize;
@@ -60,7 +68,7 @@ public class YsyBoardFile extends BaseEntity implements Serializable{
     @Column(name = "IS_THUMBNAIL" )
     private String isThumbnail;
     
-    @Comment(value="파일 순서 - 썸네이은 -1이고 나머지 0부터 시작(썸네이은 본문에 적용 안함.)")
+    @Comment(value="파일 순서")
     @Column(name = "FILE_IDX" )
     private int fileIdx;
 

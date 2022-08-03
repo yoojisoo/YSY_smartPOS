@@ -29,18 +29,18 @@ import com.ysy.jwt.auth.entity.YsyUserMst;
 public class YsyMenuMstService {
 	
 	@PersistenceContext
-	EntityManager em;
+	private EntityManager em;
 	
 	@Autowired
-	JPAQueryFactory query = new JPAQueryFactory(em);
+	private JPAQueryFactory query = new JPAQueryFactory(em);
 	
 	/** 22-07-05 mnew2m
 	 * 사용하는 Q Class */
-	QYsyGrpMenuMap qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
-	QYsyUserMst       qYsyUserMst = QYsyUserMst.ysyUserMst;
-	QYsyMenuMst       qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
-	QYsyGrpMst         qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
-	QYsyBizMst         qYsyBizMst = QYsyBizMst.ysyBizMst; 
+	private QYsyGrpMenuMap qYsyGrpMenuMap = QYsyGrpMenuMap.ysyGrpMenuMap;
+	private QYsyUserMst       qYsyUserMst = QYsyUserMst.ysyUserMst;
+	private QYsyMenuMst       qYsyMenuMst = QYsyMenuMst.ysyMenuMst;
+	private QYsyGrpMst         qYsyGrpMst = QYsyGrpMst.ysyGrpMst;
+	private QYsyBizMst         qYsyBizMst = QYsyBizMst.ysyBizMst; 
 	
 	/** 22-07-05 mnew2m
 	 * 로그인 된 아이디가 없을 때 */

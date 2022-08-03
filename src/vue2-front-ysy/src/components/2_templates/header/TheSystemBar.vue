@@ -5,27 +5,23 @@
 				<v-col cols="10">
 					<v-row justify="end" no-gutters>
 						<v-btn-toggle tile group v-if="isLogin && isAdmin">
-							<v-btn v-if="getMyRole && getMyRole == 'ADMIN'"
-								plain 
-								@click="fn_freeBoard">
-								admin 자유게시판
-							</v-btn>
+							<v-btn v-if="getMyRole && getMyRole == 'ADMIN'" plain @click="fn_freeBoard"> admin 자유게시판 </v-btn>
 							<v-btn plain @click="myInfo">관리자페이지</v-btn>
 							<v-btn plain @click="myInfo">내프로필</v-btn>
 							<v-btn plain @click="logout">로그아웃</v-btn>
-							<FThemeChgBtn />
+							<BaseButtonThemeChange />
 						</v-btn-toggle>
 
 						<v-btn-toggle tile group v-else-if="isLogin && !isAdmin">
 							<v-btn plain @click="myInfo">내프로필</v-btn>
 							<v-btn plain @click="logout">로그아웃</v-btn>
-							<FThemeChgBtn />
+							<BaseButtonThemeChange />
 						</v-btn-toggle>
 
 						<v-btn-toggle tile group v-else>
 							<v-btn plain @click="signIn">로그인</v-btn>
 							<v-btn plain @click="signUp">회원가입</v-btn>
-							<FThemeChgBtn />
+							<BaseButtonThemeChange />
 						</v-btn-toggle>
 					</v-row>
 				</v-col>
@@ -35,13 +31,13 @@
 </template>
 
 <script>
-import { FThemeChgBtn } from '@/assets/util/importFile.js';
-import store from '@/store';
+import { BaseButtonThemeChange } from '@/assets/util/importFile.js';
+//import Swal from 'sweetalert2';
 import { mapGetters } from 'vuex';
 
 export default {
 	name: 'main-system-bar',
-	components: { FThemeChgBtn },
+	components: { BaseButtonThemeChange },
 	methods: {
 		signIn() {
 			this.$router.replace({ name: 'signIn' }).catch(() => {});
@@ -53,6 +49,7 @@ export default {
 			this.$router.push({ name: 'myInfo' }).catch(() => {});
 		},
 		logout() {
+			//Swal.fire('Hey user!', 'You are the rockstar!', 'info');
 			this.$store.dispatch('authStore/clearUserInfo');
 			// [ '/' 오류 뜨는 이유 ]
 			// 현재 '/' 경로에 있기 때문에 뜨는거라서 catch로 오류를 잡아줌
@@ -69,7 +66,7 @@ export default {
 		...mapGetters({ isAdmin: 'authStore/isAdmin' }),
 		...mapGetters({ getUserId: 'authStore/getUserId' }),
 
-		getMyRole(){
+		getMyRole() {
 			return this.$store.state.authStore.myRole;
 		},
 	},

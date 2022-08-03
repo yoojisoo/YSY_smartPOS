@@ -1,4 +1,4 @@
-package com.ysy.jwt.auth.config;
+package com.ysy.jwt.auth.handler;
 
 import java.io.File;
 import java.io.IOException;

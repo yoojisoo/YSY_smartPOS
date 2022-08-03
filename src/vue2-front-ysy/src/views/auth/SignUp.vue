@@ -6,7 +6,7 @@
 					<v-col class="sign_col" cols="12">
 						<v-row class="sign_row">
 							<v-col class="sign_logo" cols="12">
-								<FLogoBtnB />
+								<BaseButtonLogoBig />
 							</v-col>
 							<v-col class="sign_col" cols="md-4 xs-12">
 								<v-card class="elevation-0">
@@ -153,11 +153,11 @@
 </template>
 
 <script>
-import { FLogoBtnB } from '@/assets/util/importFile.js';
+import { BaseButtonLogoBig } from '@/assets/util/importFile.js';
 
 export default {
 	name: 'App',
-	components: { FLogoBtnB },
+	components: { BaseButtonLogoBig },
 	data() {
 		return {
 			isConfirmEmail: false, // 이메일 중복확인 (true:가입 가능, false: 가입 불가능)

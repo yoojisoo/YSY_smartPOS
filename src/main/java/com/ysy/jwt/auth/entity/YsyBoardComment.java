@@ -17,7 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ysy.jwt.auth.entity.base.BaseEntity;
@@ -58,7 +60,8 @@ public class YsyBoardComment extends BaseEntity implements Serializable{
 	
 	
 	@Comment(value="삭제유무")
-	@Column(name = "IS_DEL" , length = 1)
+	@Column(name = "IS_DEL" , columnDefinition = "varchar(1) default 'N'")
+//	@ColumnDefault("'N'")
 	private String isDel;
 	
 	

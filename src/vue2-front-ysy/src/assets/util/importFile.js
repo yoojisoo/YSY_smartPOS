@@ -11,14 +11,33 @@
  */
 
 /** 1_molecules */
-import FLogoBtnS from '@/components/1_molecules/buttons/FLogoBtnS.vue';
-import FLogoBtnB from '@/components/1_molecules/buttons/FLogoBtnB.vue';
-import FThemeChgBtn from '@/components/1_molecules/buttons/FThemeChgBtn.vue';
-//import FSummerNote from '@/components/1_molecules/editors/FSummerNote.vue';
-//import FTextField from '@/components/1_molecules/textFields/FTextField.vue';
-//import FCarousel from '@/components/1_molecules/FCarousel.vue';
-//import FDateForm from '@/components/1_molecules/FDateForm.vue';
-//import FDialog from '@/components/1_molecules/FDialog.vue';
+// buttons
+import BaseButtonLogoSmall from '@/components/1_molecules/buttons/BaseButtonLogoSmall.vue';
+import BaseButtonLogoBig from '@/components/1_molecules/buttons/BaseButtonLogoBig.vue';
+import BaseButtonOutlined from '@/components/1_molecules/buttons/BaseButtonOutlined.vue';
+import BaseButtonThemeChange from '@/components/1_molecules/buttons/BaseButtonThemeChange.vue';
+import BlockButtonGroup from '@/components/1_molecules/buttons/BlockButtonGroup.vue';
+export { BaseButtonLogoSmall, BaseButtonLogoBig, BaseButtonOutlined, BaseButtonThemeChange, BlockButtonGroup };
+
+// cards
+import BaseCardImg from '@/components/1_molecules/cards/BaseCardImg.vue';
+export { BaseCardImg };
+
+// editors
+export {};
+
+// pagination
+import BasePagination from '@/components/1_molecules/pagination/BasePagination.vue';
+export { BasePagination };
+
+// textFields
+import BaseTextField from '@/components/1_molecules/textFields/BaseTextField.vue';
+export { BaseTextField };
+
+// thumbnail
+import BaseThumbnail from '@/components/1_molecules/thumbnail/BaseThumbnail.vue';
+export { BaseThumbnail };
+
 import FGrid from '@/components/FGrid.vue';
 import ImgCard from '@/components/1_molecules/ImgCard.vue';
 import Pagination from '@/components/1_molecules/Pagination.vue';
@@ -52,6 +71,8 @@ export { YsyUtil };
 //import '@/service/MenuService';
 //import '@/service/NoticeService';
 //import '@/service/UserService';
+import CommonService from '@/service/CommonService.js';
+export { CommonService };
 
 //import '@/store/modules/AuthStore.js';
 //import '@/store/modules/MenuStore';

@@ -1,4 +1,4 @@
-package com.ysy.common;
+package com.ysy.jwt.auth.handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

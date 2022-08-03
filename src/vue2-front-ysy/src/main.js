@@ -7,23 +7,19 @@ import axios from 'axios';
 
 import 'vue-easytable/libs/theme-default/index.css'; //easy table
 import VueEasytable from 'vue-easytable';
+import VueSweetalert2 from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-export const eventBus = new Vue();
 Vue.prototype.$axios = axios;
-
 Vue.prototype.$accessTokenKey = 'authorization';
-
-// Vue.prototype.axios = axios
-// Vue.config.globalProperties.axios = axios;
-// axios.defaults.baseURL = 'http://localhost:8000';
-
 Vue.config.productionTip = false;
-// Vue.use(VueEasytable);
+
 new Vue({
 	router,
 	store,
 	vuetify,
 	VueEasytable,
+	VueSweetalert2,
 	render: h => h(App),
 }).$mount('#app');
 
@@ -42,34 +38,46 @@ urlParams.forEach((v, k) => {
 	console.log(`key: ${k} value: ${v}`);
 });
 
-const code = urlParams.get('code');
-const oauthPath = urlParams.get('oauth_path');
+const __code = urlParams.get('code');
+const __gubun = urlParams.get('gubun');
+const __status = urlParams.get('status'); //이메일 인증시 완료 여부
+const __msg = urlParams.get('msg');
 
-console.log('reqUrl ', reqUrl);
-console.log('code =  ', code);
-console.log('oauthPath =  ', oauthPath);
+console.log('reqUrl      ', reqUrl);
+console.log('__code =    ', __code);
+console.log('__gubun =   ', __gubun);
+console.log('__status =  ', __status);
+console.log('__msg =     ', __msg);
 
-if (code) {
-	if (oauthPath === 'kakao') {
-		router.push({ path: '/kakaoLogin', query: { code: code } });
-	} else if (oauthPath === 'naver') {
-		router.push({ path: '/naverLogin', query: { code: code } });
+if (__code) {
+	if (__gubun === 'kakao') {
+		router.push({ path: '/kakaoLogin', query: { code: __code } });
+	} else if (__gubun === 'naver') {
+		router.push({ path: '/naverLogin', query: { code: __code } });
+	} else if (__gubun === 'email') {
+		router.push({ path: '/signIn', query: { status: __status, msg: __msg } });
 	} else {
-		router.push({ path: '/', query: { oauthMsg: 'oauth login fail!' } });
+		router.push({ path: '/', query: { msg: 'Redirect Url Error! 관리자에게 문의하세요.' } });
 	}
 }
 /**
- *  file naming role
- *  Vue{
- * 		The***.vue    : 가장 작은 단위의 vue 작성시
- *      Block****.vue : The*** Vue가 합쳐진 반제품의 컴포넌트
- *      View*****.vue  : 화면에 보여지는 마지막 화면 - 완제품
- * 	    Display****.vue :
- *  }
  *
+ * Style Guide *****
  *
+ * [ .vue ]
+ * Base***.vue		: Base Component			(부품 단위)
+ * Block****.vue	: Base Components의 집합	(반제품 단위)
+ * The***.vue		: Single Instance Component (한 페이지당 한 번만 사용되는 컴포넌트 : header footer ...)
+ * View*****.vue	: 다양한 Components의 집합	(완제품 단위 - App.vue에서 router-view에 들어가는 화면)
  *
+ * [ script - 필요한것만 사용 ]
+ * name > props > components > mixins > data
+ * (before)created > (before)mounted
+ * computed > watch > methods
+ * (before)updated > (before)destroyed
  *
- *
+ * [ function ]
+ * fn_ + [ get, set, save, modify, delete ] + [ 가져올 데이터 정보 ]
+ * ex) fn_getDataList , fn_modifyData , fn_setDataList ...
  *
  */

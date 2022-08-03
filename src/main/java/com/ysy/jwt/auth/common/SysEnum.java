@@ -1,4 +1,4 @@
-package com.ysy.common;
+package com.ysy.jwt.auth.common;
 
 public class SysEnum {
 	public static enum enumGrps{

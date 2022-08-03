@@ -2,7 +2,6 @@ package com.ysy;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -12,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ysy.common.SysEnum;
-import com.ysy.common.SysEnum.enumGrps;
+import com.ysy.jwt.auth.common.SysEnum;
+import com.ysy.jwt.auth.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.entity.YsyBizMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst;
 import com.ysy.jwt.auth.entity.YsyGrpMst.GrpPK;

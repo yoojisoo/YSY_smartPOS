@@ -15,7 +15,7 @@
 										</v-btn>
 									</v-col>
 									<v-col cols="8" style="text-align: center" class="ma-0 pa-0">
-										<FLogoBtnS />
+										<BaseButtonLogoSmall />
 									</v-col>
 									<v-col cols="2" class="ma-0 pa-0 hidden-md-and-up"></v-col>
 								</v-row>
@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import { FLogoBtnS, YsyUtil } from '@/assets/util/importFile.js';
+import { BaseButtonLogoSmall, YsyUtil } from '@/assets/util/importFile.js';
 import store from '@/store/index';
 import { eventBus } from '@/main.js';
 import { mapGetters } from 'vuex';
@@ -145,7 +145,7 @@ const authStore = 'authStore';
 export default {
 	name: 'main-header',
 	props: ['parentPage'],
-	components: { FLogoBtnS },
+	components: { BaseButtonLogoSmall },
 	data: () => ({
 		active: null,
 		isOpen: false,

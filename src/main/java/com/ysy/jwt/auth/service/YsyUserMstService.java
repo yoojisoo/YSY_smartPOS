@@ -17,11 +17,10 @@ import org.springframework.util.StringUtils;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ysy.common.SysEnum;
-import com.ysy.common.SysEnum.enumGrps;
-import com.ysy.common.YsyUtil;
+import com.ysy.jwt.auth.common.SysEnum;
+import com.ysy.jwt.auth.common.YsyUtil;
+import com.ysy.jwt.auth.common.SysEnum.enumGrps;
 import com.ysy.jwt.auth.dto.JoinDto;
-import com.ysy.jwt.auth.dto.ModUserDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.dto.UserDto;
 import com.ysy.jwt.auth.entity.QYsyBizMst;
@@ -60,9 +59,7 @@ public class YsyUserMstService {
 	
 	@Autowired
 	JPAQueryFactory query = new JPAQueryFactory(em);
-	
-	@Autowired
-	private YsyUtil ysyUtil;
+
 	
 	/** 2022 07 07 mnew2m
 	 * 사용하는 Q Class List */
@@ -409,36 +406,26 @@ public class YsyUserMstService {
 	}
 	
 	@Transactional
-	public String modUserInfo(ModUserDto modUserDto) {
+	public String modUserInfo(UserDto userDto) {
 		try {
-			if(!ysyUtil.isNullAndEmpty(modUserDto.getUsername())
-			&& !ysyUtil.isNullAndEmpty(modUserDto.getName())
-			&& !ysyUtil.isNullAndEmpty(modUserDto.getPassword())) 
+			if(!util.isNullAndEmpty(userDto.getUserId())
+			&& !util.isNullAndEmpty(userDto.getUserNm())
+			  ) 
 			{
-//				YsyUserMst orgYsyUser = ysyUserRepository.findById(modUserDto.getUsername())
-//						.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다.") );
-//				YsyUserMst ysyUser = YsyUserMst.builder()
-//						.username(modUserDto.getUsername())
-//						.password(bCryptPasswordEncoder.encode(modUserDto.getPassword()))
-//						.name(modUserDto.getName())
-//						.ysyGrpMst(orgYsyUser.getYsyGrpMst())
-//						.oAuthPath(orgYsyUser.getOAuthPath())
-//						.build();
-//				ysyUserRepository.save(ysyUser);
 				
-				
-				query
-				.select(qYsyUserMst)
-				.from(qYsyUserMst)
-				.fetchOne();
-				long execute = query
-				        .update(qYsyUserMst)
-				        .set(qYsyUserMst.name, modUserDto.getName())
-				        .where(qYsyUserMst.username.eq(modUserDto.getUsername()))
-				        .execute();
-				if(execute > 0)
-					return "ok";
-				else return "fail";
+//				query
+//				.select(qYsyUserMst)
+//				.from(qYsyUserMst)
+//				.fetchOne();
+//				long execute = query
+//				        .update(qYsyUserMst)
+//				        .set(qYsyUserMst.name, modUserDto.getName())
+//				        .where(qYsyUserMst.username.eq(modUserDto.getUsername()))
+//				        .execute();
+//				if(execute > 0)
+//					return "ok";
+//				else return "fail";
+				return "fail";
 			}
 			else 
 			{
@@ -451,10 +438,5 @@ public class YsyUserMstService {
 	}
 	
 	
-	/** grid에서 user 삭제 */
-//	public void delGridUserInfo(List<String> usernameList) {
-//		for(String username : usernameList) {
-//			ysyUserRepository.deleteById(username);
-//		}
-//	}
+
 }

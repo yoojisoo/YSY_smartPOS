@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ysy.jwt.auth.config.SystemConfig;
 import com.ysy.jwt.auth.dto.JoinDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.model.OAuthTokenModel;
@@ -30,6 +33,7 @@ import com.ysy.jwt.auth.model.naver.NaverProfile;
 import com.ysy.jwt.auth.service.JwtService;
 import com.ysy.jwt.auth.service.YsyUserMstService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 /**
  * @author clubbboy@naver.com
@@ -63,7 +67,7 @@ public class OAuthController {
 	private final String kakao_Content_type = "application/x-www-form-urlencoded;charset=utf-8";
 	private final String kakao_client_id    = "4c9e081b17404f289741f6792bd4c6e7";
 	private final String kakao_grant_type   = "authorization_code";
-	private final String kakao_redirect_uri = "http://localhost:8000/kakaoLogin/getCode";
+	private final String kakao_redirect_uri = SystemConfig.KAKAO_RE_URL;
 //	private final String kakao_redirect_uri = "http://localhost:8080/kakaoLogin";
 	private final String kakao_auth_addr    = "https://kauth.kakao.com/oauth/token";
 	
@@ -78,6 +82,22 @@ public class OAuthController {
 	private final String tmp_biz_cd = "0001";
 	
 	
+	@ApiOperation(value = "카카오 로그인시 redirect url " 
+			    , notes = "카카오 로그인 호출시 코드를 받기위해 서버에서 redirect url을 내려줌.")
+	@GetMapping("/getKakaoRedirectUrl")
+	public ResponseAuthDto<String>  getKakaoRedirectUrl() {
+		
+		return new ResponseAuthDto<String>(SystemConfig.KAKAO_RE_URL , HttpStatus.OK);
+	}
+	@ApiOperation(value = "네이버 로그인시 redirect url " 
+			    , notes = "네이버 로그인 호출시 코드를 받기위해 서버에서 redirect url을 내려줌.")
+	@GetMapping("/getNaverRedirectUrl")
+	public ResponseAuthDto<String> getNaverRedirectUrl() {
+		
+		return new ResponseAuthDto<String>(SystemConfig.NAVER_RE_URL , HttpStatus.OK);
+	}
+	
+	
 	
 	@Data
 	public static class OAuthCode{
@@ -85,6 +105,8 @@ public class OAuthController {
 		String path ;
 	}
 	//naver 인증 콜백
+	@ApiOperation(value = "naver oauth login " 
+		        , notes = "")
 	@PostMapping("/naver/setCode")
 	public ResponseAuthDto<String> naverSetCode(@RequestBody OAuthCode oAuthCode , HttpServletResponse response) {
 		System.out.println("naverSetCode code = [" + oAuthCode.getCode() + "] path = ["  + oAuthCode.getPath() +"]");

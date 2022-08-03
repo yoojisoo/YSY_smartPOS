@@ -78,6 +78,10 @@ public class YsyUserMst extends BaseEntity implements Serializable {
 	//이메일 인증 여부
 	@Column(name = "IS_EMAIL_AUTH" , length = 1)
 	private String isEmailAuth;
+	
+	@Comment(value="회원 가입시 이메일 인증을 위한 key - 가입시 생성됨.")
+	@Column(name = "EMAIL_KEY" , length = 255)
+	private String emailKey;
 
 	// ROLE 정보 들어있는 object
 	@ManyToOne(fetch = FetchType.LAZY)

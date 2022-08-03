@@ -13,34 +13,67 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ysy.jwt.auth.dto.BoardDto;
 import com.ysy.jwt.auth.dto.FileDto;
+
+import lombok.Data;
+
 /**
- * 
- * @author clubbboy@naver.com
- * board 저장시 파일 있을경우 파일은 해당 앱의 images폴더에 저장
- *
+ * @Path : com.ysy.jwt.auth.handler
+ * @Author : clubbboy@naver.com
+ * @Date   : 2022. 8. 3.
+ * @Desc : board 저장시 파일 있을경우 파일은 해당 앱의 images폴더에 현재날짜 폴더에 저장
  */
 @Component
+@Data
 public class YsyFlieHandler {
 
 	
-//	private final PhotoService photoService;
-//
-//    public FileHandler(PhotoService photoService) {
-//        this.photoService = photoService;
-//    }
-
-    public List parseFileInfo(BoardDto boardDto)throws Exception {
-    	
-    	// 반환할 파일 리스트
-        List fileList = new ArrayList<>();
-        
-        List <String> fileNames = new ArrayList<>();
+	//현재 저장된 파일명 리스트
+	private List <String> saveFileNames = null;
+	
+	//현재 저장된 파일 풀 경로
+	private String saveFullPath = "";
+	
+	//폴더명
+	private String preFoldNm = "images";
+	
+	/**
+	 * @Create by   : clubbboy@naver.com
+	 * @Create date : 2022. 8. 3. - 오전 10:34:23
+	 * @YsyFlieHandler - saveFiles
+	 * @param boardDto
+	 * @return
+	 * @throws Exception 
+	 * @Return Type : List<FileDto>
+	 * @Desc :전달된 boardDto의 파일여부 판단 후 파일을 해당 프로젝트 경로의 images라는 폴더에 저장한다
+	 *  db에는 경로를 저장하고 실제 파일은 폴더에 저장.
+	 */
+    public List<FileDto> saveFiles(BoardDto boardDto)throws Exception {
         
         //exception 발생시 파일 지울 리스트
         List<MultipartFile> files = boardDto.getFiles();
-        String delFullPath = "";
     	
-    	try {
+        return saveFiles(files);
+    }
+    
+    /**
+     * @Create by   : clubbboy@naver.com
+     * @Create date : 2022. 8. 3. - 오전 10:41:51
+     * @YsyFlieHandler - saveFiles
+     * @param List<MultipartFile> files
+     * @return
+     * @throws Exception 
+     * @Return Type : List<FileDto>
+     * @Desc : 전달된 boardDto의 파일여부 판단 후 파일을 해당 프로젝트 경로의 images라는 폴더에 저장한다
+	 *  db에는 경로를 저장하고 실제 파일은 폴더에 저장.
+     */
+    public List<FileDto> saveFiles(List<MultipartFile> files)throws Exception{
+    	// 반환할 파일 리스트
+        List<FileDto> fileList = new ArrayList<>();
+        
+        saveFileNames = new ArrayList<>();
+    	
+    	try 
+    	{
     		// 전달되어 온 파일이 존재할 경우
             if(!CollectionUtils.isEmpty(files)) 
             { 
@@ -55,7 +88,7 @@ public class YsyFlieHandler {
                 System.out.println("absolutePath => " + absolutePath);
 
                 // 파일을 저장할 세부 경로 지정
-                String path = "images" + File.separator + current_date;
+                String path = preFoldNm + File.separator + current_date;
                 File file = new File(path);
       
                 // 디렉터리가 존재하지 않을 경우
@@ -98,7 +131,7 @@ public class YsyFlieHandler {
                         long        fileSize = multipartFile.getSize();
                         
                         
-                        delFullPath = absolutePath + path + File.separator;
+                        saveFullPath = absolutePath + path + File.separator;
                         
                         FileDto fileDto = FileDto.builder()
                         		.orgFileName(orgFileName)
@@ -109,54 +142,70 @@ public class YsyFlieHandler {
                         		.build();
                         
                         
-                        // 파일 DTO 이용하여 Photo 엔티티 생성
-//                        YsyBoardFile ysyBoardFile = new YsyBoardFile(
-//                                photoDto.getOrigFileName(),
-//                                photoDto.getFilePath(),
-//                                photoDto.getFileSize()
-//                        );
-    //  
-//                        // 생성 후 리스트에 추가
-//                        fileList.add(photo);
       
                         // 업로드 한 파일 데이터를 지정한 파일에 저장
                         file = new File(fullPath);
                         multipartFile.transferTo(file);
                         
                         //exception 발생시 기존 저장했던 파일들 다 지우기 위해 
-                        fileNames.add(new_file_name);
+                        saveFileNames.add(new_file_name);
                         
                         
                         // 파일 권한 설정(쓰기, 읽기)
                         file.setWritable(true);
                         file.setReadable(true);
+                        
+                        fileList.add(fileDto);
                 }
             }
-		} catch (Exception e) {
+            
+            return fileList;
+		} 
+    	catch (Exception e) 
+    	{
 			System.out.println("file save Exception!!!!!!!!!!!!!!!!!!!!!!!!" + e.getMessage());
-			File delFile = null;
-			try {
-				for(String filename : fileNames) {
-					String path = delFullPath + filename;
-					delFile = new File(path);
-					if( delFile.exists() ){
-			    		if(delFile.delete()){
-			    			System.out.println("delete file success = " + path);
-			    		}else{
-			    			System.out.println("delete file fail!!");
-			    		}
-			    	}else{
-			    		System.out.println("file is not found!! = " + path);
-			    	}
-				}
+			deleteSaveFile(null);
 			e.printStackTrace();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
-  
-        
-
-        return fileList;
+    	return null;
+    }
+    
+    
+    /**
+    * @Create by   : clubbboy@naver.com
+    * @Create date : 2022. 8. 3. - 오전 10:34:33
+    * @YsyFlieHandler - deleteSaveFile
+    * @param List<String> fileNames
+    * @return 
+    * @Return Type : boolean
+    * @Desc : 파일 저장 후 저장이 잘못되었거나 db에 파일 경로가 저장이 안되었을 경우 기존 저장했던 파일을 모두 삭제한다.
+    */
+    public boolean deleteSaveFile(List<String> fileNames) {
+    	
+    	if(fileNames == null || fileNames.size() == 0)
+    	{
+    		fileNames = saveFileNames;
+    	}
+    	
+    	File delFile = null;
+		try {
+			for(String filename : saveFileNames) {
+				String path = saveFullPath + filename;
+				delFile = new File(path);
+				if( delFile.exists() ){
+		    		if(delFile.delete()){
+		    			System.out.println("delete file success = " + path);
+		    		}else{
+		    			System.out.println("delete file fail!!");
+		    		}
+		    	}else{
+		    		System.out.println("file is not found!! = " + path);
+		    	}
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
     }
 }

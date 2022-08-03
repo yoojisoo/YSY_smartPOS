@@ -2,11 +2,18 @@ package com.ysy.jwt.auth.dto;
 
 import com.ysy.jwt.auth.entity.YsyGrpMenuMap;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+/**
+ * 
+ * @author clubbboy@naver.com
+ * 메뉴에 관련된 client 전송 정보 data class
+ *
+ */
+@ApiOperation(value = "메뉴에 관련된 client 전송 정보 data class")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

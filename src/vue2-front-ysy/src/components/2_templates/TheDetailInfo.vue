@@ -4,9 +4,19 @@
 			<span> 유저상세정보 </span>
 			
 			<v-spacer />
-			<v-card-actions class="pa-0">
-				<v-btn v-if		="btnDetailText === '수정'" outlined height="35">수정</v-btn>
-				<v-btn v-else-if="btnDetailText === '저장'" outlined height="35">저장</v-btn>
+			<v-card-actions>
+				<BaseButtonOutlined
+					v-if="btnDetailText === '수정'"
+					:btnText="btnDetailText"
+					:btnHeight="35"
+					@click="fn_detailEvent"
+				/>
+				<BaseButtonOutlined
+					v-else-if="btnDetailText === '저장'"
+					:btnText="btnDetailText"
+					:btnHeight="35"
+					@click="fn_modify"
+				/>
 			</v-card-actions>
 		</v-card-title>
 		<v-card-text>
@@ -61,11 +71,15 @@
 </template>
 
 <script>
-import { TheAddrEdit } from '@/assets/util/importFile.js';
+import { BaseButtonOutlined, TheAddrEdit } from '@/assets/util/importFile.js';
 // import { YsyUtil } from '@/mixin/MixinGlobal.js';
 
 export default {
 	props: ['userDetailInfo'],
+	comments: {
+		TheAddrEdit,
+		BaseButtonOutlined,
+	},
 	// mixins: [YsyUtil],
 	components: {
 		TheAddrEdit,

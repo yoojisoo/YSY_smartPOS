@@ -29,8 +29,8 @@ import {
 	TheFooter,
 	TheAddrEdit,
 	FGrid,
-	TheLeftCondition,
-	FOutlinedBtn,
+	TheSearch,
+	BaseButtonOutlinedtn,
 	TheDetailInfoVue,
 } from '@/assets/util/importFile.js';
 import { mapGetters } from 'vuex';
