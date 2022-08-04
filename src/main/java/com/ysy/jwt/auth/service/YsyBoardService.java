@@ -52,14 +52,15 @@ public class YsyBoardService {
 	@ApiOperation(value = "admin free board 조회"
 			     ,notes = "")
 	@Transactional
-	public ResponseAuthDto<BoardDto> getBoardList() {
+	public ResponseAuthDto<BoardDto> getBoardList(String loginUserId) {
 		List<BoardDto> ysyBoardList =
 				query.select(qYsyBoardMst)
 					 .from(qYsyBoardMst)
 					 .where(qYsyBoardMst.useYn.eq("Y"))
+					 .orderBy(qYsyBoardMst.boardId.desc())
 					 .fetch()
 					 .stream()
-					 .map(ysyBoardMst -> new BoardDto(ysyBoardMst))
+					 .map(ysyBoardMst -> new BoardDto(ysyBoardMst, loginUserId))
 					 .collect(Collectors.toList());
 		
 		return new ResponseAuthDto<BoardDto>(ysyBoardList , HttpStatus.OK);

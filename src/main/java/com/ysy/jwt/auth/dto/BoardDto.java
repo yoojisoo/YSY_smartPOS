@@ -25,18 +25,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BoardDto extends BaseDto{
-	private long   boardId;
+	private long   boardId; // 게시판 아이디
 	private String userId; // 작성자 아이디  
-	private String writer;//작성자 - 
-	private String title;
-	private String content;
-	private int    viewCnt;
+	private String userName; // 작성자 이름
+	private String writer;//작성자 아이디
+	private String title; // 제목
+	private String content; // 내용
+	private int    viewCnt; // 조회수
+	private boolean modify;//수정여부
 	
-	private int attechFileSize;
+	private int attechFileCnt;//첨부파일 갯수
+	private int commentCnt;//댓글수
 	
-	
+	/** board 저장시 파일이 있을경우 client에서 전송된 파일이 여기로 담김. */
 	private List<MultipartFile> files = new ArrayList<>();
 	
+	/** board 조회시 파일이 같이 있을경우 파일정보 담아서 클라이언트에 내려주는 dto */
 	private List<FileDto> fileDtoList = new ArrayList<>();
 	
 	
@@ -44,17 +48,21 @@ public class BoardDto extends BaseDto{
 	 * @Create By : clubbboy@naver.com
 	 * @Date : 2022. 8. 3.
 	 * @param boardMst
-	 * @Desc : admin free board client전송을 위한 boardDto 생성자.
+	 * @Desc : admin free board에서 보드 상세 페이지 조회시 client전송을 위한 boardDto 생성자.
 	 */
-	public BoardDto(YsyBoardMst boardMst) {
+	public BoardDto(YsyBoardMst boardMst , String loginUserId) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
 		this.boardId        = boardMst.getBoardId();
-		this.userId         = boardMst.getYsyUserMst().getName();
+		this.userName       = boardMst.getYsyUserMst().getName();
+		this.userId         = boardMst.getYsyUserMst().getUsername();
 		this.writer         = boardMst.getYsyUserMst().getUsername();
 		this.title          = boardMst.getTitle();
 		this.content        = boardMst.getContent();
-		this.attechFileSize = boardMst.getFileList().size();
+		this.attechFileCnt  = boardMst.getFileList().size();
+		this.commentCnt     = boardMst.getCommentList().size();
+		
+		if(this.userId.equals(loginUserId)) modify = true;
 		
 		this.useYn = boardMst.getUseYn();
 		this.regId = boardMst.getRegId();
@@ -62,17 +70,18 @@ public class BoardDto extends BaseDto{
 		this.modId = boardMst.getModId();
 		this.modDt = boardMst.getModDt() != null?boardMst.getModDt().format(formatter):"";
 		
-//		for(YsyBoardFile file : boardMst.getFileList()) {
-//			fileDtoList.add(
-//				FileDto.builder()
-//				       .fileId(file.getFileId())
-//				       .newFileName(file.getNewFileName())
-//				       .orgFileName(file.getOrgFileName())
-//				       .filePath(file.getFilePath())
-//				       .fileFullPath(file.getFileFullPath())
-//					   .build()
-//			);
-//		}
+		for(YsyBoardFile file : boardMst.getFileList()) {
+			fileDtoList.add(
+				FileDto.builder()
+				       .fileId(file.getFileId())
+				       .newFileName(file.getNewFileName())
+				       .orgFileName(file.getOrgFileName())
+				       .folderName(file.getFolderName())
+				       .filePath(file.getFilePath())
+				       .fileFullPath(file.getFileFullPath())
+					   .build()
+			);
+		}
 	}
 	
 	

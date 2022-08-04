@@ -39,9 +39,11 @@ export default {
 				},
 				callbackModify: () => {
 					console.log('callbackModify Click');
+					this.modClick();
 				},
 				callbackDelete: () => {
 					console.log('callbackDelete Click');
+					this.delClick();
 				},
 				// callbackDown   : ()=>{  console.log("callbackDown Click");      },
 				// callbackUpload : ()=>{  console.log("callbackUpload Click");    },
@@ -123,6 +125,29 @@ export default {
 			// 	.catch(error => {
 			// 		console.log(error);
 			// 	});
+		},
+		async modClick(){
+			let params = {
+				boardId : "1",
+				fileId : "1",
+				fileName : "262832165620200_영업비밀1 - 복사본 (2).jpg",
+			}
+			try {
+				await CommonService.fn_downloadFile("/ysy/v1/admin/downloadYsyBoardFile", params);
+			} catch (error) {
+				
+			}
+		},
+		async delClick(){
+			let params = {
+				boardId : "1",
+			}
+			try {
+				let res = await CommonService.fn_downloadFiles("/ysy/v1/admin/downloadYsyBoardFiles", params);
+			// let res = await CommonService.fn_getDataList("?boardId=1&fileId=1&fileName=262832165620200_영업비밀1 - 복사본 (2).jpg" );
+			} catch (error) {
+				
+			}
 		},
 	},
 };

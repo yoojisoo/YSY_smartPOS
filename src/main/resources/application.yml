@@ -6,12 +6,13 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     #url: jdbc:mariadb://192.168.0.114:3306/audib
-#    url: jdbc:mariadb://ysy899.cafe24.com:3306/ysy899
-    url: jdbc:mariadb://localhost:3306/ysy_db
-    username: root
-#    username: ysy899
-#    password: YSY899!@
-    password: 1234
+    url: jdbc:mariadb://ysy899.cafe24.com:3306/ysy899
+#    url: jdbc:mariadb://localhost:3306/ysy_db
+#    username: root
+#    password: 1234
+    username: ysy899
+    password: YSY899!@
+    
 
   servlet:
     multipart:

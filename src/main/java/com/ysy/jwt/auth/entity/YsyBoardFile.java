@@ -55,6 +55,10 @@ public class YsyBoardFile extends BaseEntity implements Serializable{
     @Column(name = "ORG_FILE_NAME" , nullable = false) 
     private String orgFileName;  // 파일 원본명
 
+    @Comment(value = "파일이 올라갈 위치")
+    @Column(name = "FOLDER_NAME" , nullable = false) 
+    private String folderName;  // 파일 원본명
+
     @Column(name = "FILE_PATH" ,nullable = false)
     private String filePath;  // 파일 저장 경로
 

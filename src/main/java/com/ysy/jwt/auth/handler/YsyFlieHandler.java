@@ -1,11 +1,16 @@
 package com.ysy.jwt.auth.handler;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -136,6 +141,7 @@ public class YsyFlieHandler {
                         FileDto fileDto = FileDto.builder()
                         		.orgFileName(orgFileName)
                         		.newFileName(new_file_name)
+                        		.folderName(current_date)
                         		.filePath(filePath)
                         		.fileFullPath(fullPath)
                         		.fileSize(fileSize)
@@ -207,5 +213,38 @@ public class YsyFlieHandler {
 			e.printStackTrace();
 			return false;
 		}
+    }
+    
+    
+    
+    
+    /**
+     * @Create by   : clubbboy@naver.com
+     * @Create date : 2022. 8. 4. - 오후 4:27:48
+     * @YsyFlieHandler - downFile
+     * @param folderName
+     * @param fileName
+     * @return 
+     * @Return Type : Resource
+     * @Desc : 서버에 저장된 파일을 찾아서 return.
+     */
+    public Resource downFile(String folderName , String fileName)  {
+    	String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+    	String path         = preFoldNm + File.separator + folderName;
+    	String filePath     = absolutePath + path + File.separator + fileName;
+		try {
+			Path file = Paths.get(filePath);
+			Resource resource = new UrlResource(file.toUri());
+
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			} else {
+				throw new RuntimeException("Could not read the file!");
+			}
+		} catch (MalformedURLException e) {
+			throw new RuntimeException("Error downFile : " + e.getMessage());
+		}
+    	
+//    	return null;
     }
 }

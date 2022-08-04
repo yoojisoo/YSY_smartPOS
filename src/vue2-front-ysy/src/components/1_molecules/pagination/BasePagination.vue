@@ -1,6 +1,6 @@
 <!--
 	*** props ***
-	- paginationInfo : {
+	- info : {
 		pageCnt 	 : int 	    > 페이지 수 ⭐필수
 		totalVisible : int 	    > 표시될 버튼 수 				   (default 10개)
 		useCircle 	 : boolean  > 버튼 모양 : true 원, false 사각형 (default true)
@@ -9,18 +9,18 @@
 -->
 <template>
 	<v-pagination
-		v-if="paginationInfo"
+		v-if="info"
 		v-model="page"
-		:length="paginationInfo.pageCnt"
-		:total-visible="paginationInfo.totalVisible ? paginationInfo.totalVisible : 10"
-		:circle="paginationInfo.useCircle ? paginationInfo.useCircle : true"
+		:length="info.pageCnt"
+		:total-visible="info.totalVisible ? info.totalVisible : 10"
+		:circle="info.useCircle ? info.useCircle : true"
 		@input="updatePage"
 	></v-pagination>
 </template>
 
 <script>
 export default {
-	props: ['paginationInfo'],
+	props: ['info'],
 	data() {
 		return {
 			page: 1,
@@ -28,7 +28,7 @@ export default {
 	},
 	methods: {
 		updatePage(page) {
-			this.paginationInfo.updatePage(page);
+			this.info.updatePage(page);
 		},
 	},
 };

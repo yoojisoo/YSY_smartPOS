@@ -9,6 +9,7 @@
 <template>
 	<v-app>
 		<v-container fluid class="main_layout_container">
+			<!-- custom card grid -->
 			<v-row no_gutters class="mx-1 pa-0 mt-1">
 				<v-col
 					v-for="(data, idx) in cardList"
@@ -22,9 +23,11 @@
 					<BaseCardImg :info="data" />
 				</v-col>
 			</v-row>
+			
+			<!-- 페이징 정보 -->
 			<v-row no_gutters>
 				<v-col cols="12" style="text-align: center">
-					<BasePagination :paginationInfo="paginationInfo" />
+					<BasePagination :info="paginationInfo" />
 				</v-col>
 			</v-row>
 		</v-container>
@@ -32,9 +35,9 @@
 </template>
 
 <script>
-import { BaseCardImg, BasePagination } from '@/assets/util/importFile.js';
+import { BaseCardImg, BasePagination , CommonService } from '@/assets/util/importFile.js';
 
-import CommonService from '@/service/CommonService';
+// import CommonService from '@/service/CommonService';
 
 export default {
 	props: ['info'],
@@ -75,7 +78,7 @@ export default {
 		// this.paginationInfo.pageCnt = this.pages();
 	},
 	methods: {
-		async getDataList() {
+		async getDataList() { 
 			const params = {};
 			this.dataList = await CommonService.fn_getDataList('/ysy/v1/admin/getYsyBoardList', params);
 			console.log('admin board free veiw getDataList ', this.dataList);
