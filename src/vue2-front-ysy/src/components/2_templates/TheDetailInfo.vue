@@ -72,17 +72,12 @@
 
 <script>
 import { BaseButtonOutlined, TheAddrEdit } from '@/assets/util/importFile.js';
-// import { YsyUtil } from '@/mixin/MixinGlobal.js';
 
 export default {
 	props: ['userDetailInfo'],
-	comments: {
-		TheAddrEdit,
-		BaseButtonOutlined,
-	},
-	// mixins: [YsyUtil],
 	components: {
 		TheAddrEdit,
+		BaseButtonOutlined,
 	},
 	data() {
 		return {
@@ -99,9 +94,16 @@ export default {
 			this.subTitles = ['아이디', '수정일', '이메일인증', '이름', '가입경로', '비밀번호', '회사명', '권한등급'];
 			this.listLength = this.subTitles.length;
 		},
+		fn_detailEvent() {
+			
+		},
+		fn_modify() {
+
+		},
 	},
 	mounted() {
 		this.fn_init();
+
 	},
 	computed: {
 		nowUserDetailInfo() {

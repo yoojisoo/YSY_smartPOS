@@ -10,7 +10,7 @@
 			</span>
 		</v-card-title>
 		<v-card-text>
-			<BaseTextField :fieldInfo="temInfo" />
+			<!-- <BaseTextField :fieldInfo="fieldInfo" /> -->
 			<v-text-field
 				v-for="n in textFieldLength" :key="n"
 				:label="textFieldInfo.labels[n-1]"
@@ -36,6 +36,11 @@ export default {
 				icons: [],
 				datas: [],
 			},
+			fieldInfo: {
+				label: '',
+				icon: '',
+				data: ''
+			}
 		}
 	},
 	methods: {

@@ -5182,6 +5182,11 @@ svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
+sweetalert2@^11.4.24:
+  version "11.4.24"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.4.24.tgz#9dbe1e3096d6fd739e03d5c5fe2d218638fceaf4"
+  integrity sha512-wbD3SbaOhWyebVfnrY9rMjjVf7ZKUHjmn5Ch83NWUg84b/SYn0N4F0Dhxq3QYSAbnAQ7ArovQb2JfxZi5+Ieug==
+
 tapable@^2.0.0, tapable@^2.1.1, tapable@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
@@ -5448,18 +5453,13 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.3.3, vue@^2.6.12, vue@^2.6.14:
+vue@^2.3.3, vue@^2.6.12, vue@^2.7.0:
   version "2.7.8"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.7.8.tgz#34e06553137611d8cecc4b0cd78b7a59f80b1299"
   integrity sha512-ncwlZx5qOcn754bCu5/tS/IWPhXHopfit79cx+uIlLMyt3vCMGcXai5yCG5y+I6cDmEj4ukRYyZail9FTQh7lQ==
   dependencies:
     "@vue/compiler-sfc" "2.7.8"
     csstype "^3.1.0"
-
-vuejs-daum-postcode@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/vuejs-daum-postcode/-/vuejs-daum-postcode-1.0.4.tgz#084b7a6d3e42f3727c79f7ad7d5b161c7c27840d"
-  integrity sha512-xkKqhehDcZVrLAwA1bzbk1E9wA1v4qYcZnddso6W67snv9CWoQzhmlyvRr6LmaFNS4h53ja4paWpuiLXW9fA3g==
 
 vuetify-loader@^1.7.0:
   version "1.9.2"

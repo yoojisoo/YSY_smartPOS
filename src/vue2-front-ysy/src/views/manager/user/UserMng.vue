@@ -12,11 +12,11 @@
 			</v-col>
 
 			<v-col cols="12" md="7" class="main_layout_col">
-				<Y2sGridVue :gridInfo="userInfo" :gridDataList="getUserList" />
+				<Y2sGrid :gridInfo="userInfo" :gridDataList="getUserList" />
 			</v-col>
 
 			<v-col cols="3" md="3" v-if="isAddr" class="main_layout_col hidden-sm-and-down">
-				<TheDetailInfoVue :userDetailInfo="userDetailInfo" />
+				<TheDetailInfo :userDetailInfo="userDetailInfo" />
 			</v-col>
 		</v-row>
 	</v-container>
@@ -24,30 +24,18 @@
 
 <script>
 import {
-	TheSystemBar,
-	TheHeader,
-	TheFooter,
-	TheAddrEdit,
-	FGrid,
-	TheSearch,
-	BaseButtonOutlinedtn,
-	TheDetailInfoVue,
+	TheLeftCondition,
+	TheDetailInfo,
 } from '@/assets/util/importFile.js';
 import { mapGetters } from 'vuex';
-import Y2sGridVue from '@/components/Y2sGrid.vue';
+import Y2sGrid from '@/components/Y2sGrid.vue';
 import axios from 'axios';
 import store from '@/store/index';
 export default {
 	components: {
-    TheSystemBar,
-    TheHeader,
-    TheFooter,
-    TheAddrEdit,
-    FGrid,
     TheLeftCondition,
-    FOutlinedBtn,
-    TheDetailInfoVue,
-    Y2sGridVue,
+    TheDetailInfo,
+    Y2sGrid,
 },
 	data() {
 		return {
@@ -119,6 +107,7 @@ export default {
 				await this.$store.dispatch('userStore/fn_getUserAddr', userId);
 				if (this.getUserAddr) {
 					console.log('🟢 userMng getUserAddr - userAddrInfo');
+					console.log(this.userDetailInfo.addrList);
 					this.userDetailInfo.addrList = this.getUserAddr;
 					this.userDetailInfo.row = row;
 				}
@@ -129,7 +118,6 @@ export default {
 	},
 	mounted() {
 		this.fn_getUserList();
-		console.log('유저Mng 마운티드 --------------');
 	},
 };
 </script>
