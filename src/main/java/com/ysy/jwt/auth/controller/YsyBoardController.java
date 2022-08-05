@@ -131,18 +131,19 @@ public class YsyBoardController {
 	
 	/**
 	 * @Create by   : clubbboy@naver.com
-	 * @Create date : 2022. 8. 4. - 오후 5:27:38
+	 * @Create date : 2022. 8. 4. - 오후 5:46:18
 	 * @YsyBoardController - modifyYsyBoard
-	 * @param boardDto 
+	 * @param boardDto
+	 * @param p 
 	 * @Return Type : void
-	 * @Desc : admin board 수정
-	 *   파일 처리도 해야함.
+	 * @Desc : admin board 수정 . 파일 처리도 해야함.
 	 */
 	@PostMapping(value="/modifyYsyBoard" , consumes = {"multipart/form-data"})
 	public void modifyYsyBoard(BoardDto boardDto ,@AuthenticationPrincipal PrincipalDetails p) {
-		//새로운 파일이 올라오면 기존파일과 비교하고 없는것만 저장시킴
-		//기존에 파일있던게 삭제 되었는지 확인하여 파일 지워줌.
-		//
+		
+		if(boardDto.getUserId().equals(p.getUsername())) {
+			ysyBoardService.modifyYsyBoard(boardDto);
+		}
 	}
 	
 }

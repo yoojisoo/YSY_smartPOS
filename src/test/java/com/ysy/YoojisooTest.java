@@ -50,10 +50,10 @@ public class YoojisooTest {
 				.from(qYsyGrpMst)
 				.where(qYsyGrpMst.grpPK.bizCd.eq("0001"))
 				.fetch();
-		
-		System.out.println("grpList 테스트 ====================>");
-		System.out.println(grpList);
-		System.out.println(grpList2);
+//		
+//		System.out.println("grpList 테스트 ====================>");
+//		System.out.println(grpList);
+//		System.out.println(grpList2);
 		
 	}
 

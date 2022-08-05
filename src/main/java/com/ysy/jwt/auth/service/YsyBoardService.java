@@ -35,7 +35,8 @@ public class YsyBoardService {
 	@Autowired
 	private JPAQueryFactory query = new JPAQueryFactory(em);
 	
-	private QYsyBoardMst   qYsyBoardMst = QYsyBoardMst.ysyBoardMst; 
+	private QYsyBoardMst  qYsyBoardMst  = QYsyBoardMst.ysyBoardMst; 
+	private QYsyBoardFile qYsyBoardFile = QYsyBoardFile.ysyBoardFile; 
 	
 	
 	@Autowired
@@ -129,7 +130,19 @@ public class YsyBoardService {
 
 
 	
-	
+	@Transactional
+	public void modifyYsyBoard(BoardDto boardDto) {
+		//새로운 파일이 올라오면 기존파일과 비교하고 없는것만 저장시킴 
+		//기존에 파일있던게 삭제 되었는지 확인하여 파일 지워줌.
+		//
+//		ysyFlieService
+//		qYsyBoardMst
+//		qYsyBoardFile
+		boardDto.getBoardId();//board에 기존 내용 업데이트
+		boardDto.getFileDtoList().size();//기존 파일 삭제 여부 - db랑 비교하여 기존파일 없는건 삭제함
+		boardDto.getFiles();//새롭게 올린 파일 기존 폴더에 이미지 추가 후 db에 저장
+		
+	}
 	
 	
 	
