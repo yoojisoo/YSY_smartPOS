@@ -2,6 +2,7 @@ package com.ysy.jwt.auth.service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,15 +17,13 @@ import com.ysy.jwt.auth.entity.QYsyUserMst;
 import com.ysy.jwt.auth.entity.YsyUserMst;
 import com.ysy.jwt.auth.handler.MailHandler;
 
-import lombok.AllArgsConstructor;
-
 @Service
 //@AllArgsConstructor
 //@RequiredArgsConstructor
 public class YsyMailService {
 	
-	private JavaMailSender mailSender;
-	
+	@Autowired
+	private JavaMailSender sender;
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -37,11 +36,12 @@ public class YsyMailService {
 	@Autowired
 	private YsyUtil util;
 	
+	@Transactional // update, delete시 걸어줘야함
 	public Boolean mailSend(MailDto mailDto) {
 		if(!util.isNullAndEmpty(mailDto.getEmail())) {
 			
 			try {
-				MailHandler mailHandler = new MailHandler(mailSender);
+				MailHandler mailHandler = new MailHandler(sender);
 	            
 	            // 받는 사람
 	           mailHandler.setTo(mailDto.getEmail());
@@ -53,9 +53,9 @@ public class YsyMailService {
 	           String key = util.createUUID();
 	           
 	           JPAUpdateClause update = new JPAUpdateClause(em, qYsyUserMst);
-	           update.set(qYsyUserMst.emailKey , key)
-	             	 .where(qYsyUserMst.username.eq(mailDto.getEmail()))
-	             	 .execute();
+	           long up = update.where(qYsyUserMst.username.eq(mailDto.getEmail()))
+	        		   		   .set(qYsyUserMst.emailKey , key)
+	        		   		   .execute();
 	           
 	           String params = "email=" + mailDto.getEmail() + "&key=" + key;
 	           String htmlContent = "<a href='http://"+SystemConfig.SEVER_URL+"/mailAuthCode?" + params + "'> 인증을 하시려면 여기를 눌러주세요.</a>";

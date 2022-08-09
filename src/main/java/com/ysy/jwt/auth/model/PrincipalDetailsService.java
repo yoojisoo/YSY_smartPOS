@@ -3,14 +3,13 @@ package com.ysy.jwt.auth.model;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ysy.biz.dto.ResponseDto;
 import com.ysy.jwt.auth.entity.YsyUserMst;
+import com.ysy.jwt.auth.handler.ExptAuthHandler;
 import com.ysy.jwt.auth.repository.YsyUserMstRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -44,18 +43,35 @@ public class PrincipalDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		System.out.println("PrincipalDetailsService : 진입");
+		System.out.println("PrincipalDetailsService : 진입 " + username);
 		
-		YsyUserMst user = ysyUserRepository.findById(username)
-//				.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다."));//
-				.orElseThrow(()->{
-					response.setCharacterEncoding("utf-8");
-					response.setContentType("text/html; charset=utf-8");
-					response.addHeader("errormsg"  , "id not found");
-					IllegalArgumentException dd = new IllegalArgumentException("id not found!!!!!.");
-			return dd;
-		});
+//		YsyUserMst user = ysyUserRepository.findById(username)
+////				.orElseThrow(()->  new IllegalArgumentException("id가 존재하지 않습니다."));//
+//				.orElseThrow(()->{
+//					response.setCharacterEncoding("utf-8");
+//					response.setContentType("text/html; charset=utf-8");
+//					response.addHeader("errormsg"  , "id not found");
+//					IllegalArgumentException dd = new IllegalArgumentException("id not found!!!!!.");
+//					
+//					
+//			return dd;
+//		});
 		
+		YsyUserMst user = ysyUserRepository.findById(username).orElse(null);
+		if(user == null) {
+			try {
+				throw new ExptAuthHandler("id not found" , response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			try {
+//				
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//			}
+			
+		}
 		return new PrincipalDetails(user);
 	}
 

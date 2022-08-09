@@ -38,9 +38,11 @@ class AuthService {
 	}
 
 	async signIn(params) {
+		console.log('params >> ', params);
 		try {
 			let res = await axios.post(params.url, params.data);
 
+			console.log(res);
 			if (res.status === 200 && res.headers !== null) {
 				console.log('🟢 AuthService signIn');
 				console.log(res.headers);
@@ -51,8 +53,8 @@ class AuthService {
 				return res;
 			}
 		} catch (error) {
-			console.log('authService signIn error => ' + error);
-			return error;
+			console.log('authService signIn error => ', error.response);
+			return error.response;
 		}
 	}
 

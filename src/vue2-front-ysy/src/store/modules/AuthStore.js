@@ -99,9 +99,9 @@ const authStore = {
 					return res;
 				}
 
-				if (res.response != undefined && res.response.data.status == 401) {
+				if (res.headers.errormsg != undefined) {
 					//로그인 인증 에러시 처리 부분 -> id / pwd 에러시
-					console.log('login error msg -> ' + res.response.data.error);
+					console.log('login error msg -> ' + res.headers.errormsg);
 					return 'ID 또는 패스워드가 잘못되었습니다.';
 				}
 

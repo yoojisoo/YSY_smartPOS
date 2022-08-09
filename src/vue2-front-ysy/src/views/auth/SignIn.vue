@@ -36,14 +36,34 @@
 											@keyup.enter="signIn"
 										></v-text-field>
 									</v-col>
-									<v-col cols="auto" class="mb-1" v-for="(item, idx) in toggleMessage" :key="idx">
+									<v-col
+										cols="auto"
+										class="mb-1"
+										v-for="(item, idx) in toggleMessage"
+										:key="idx"
+									>
 										<span>{{ item.title }}</span>
 									</v-col>
 									<v-col cols="12">
-										<v-btn block class="my-2 deep-purple lighten-1" dark value="sign in" @click="signIn">로그인</v-btn>
+										<v-btn
+											block
+											class="my-2 deep-purple lighten-1"
+											dark
+											value="sign in"
+											@click="signIn"
+											>로그인</v-btn
+										>
 									</v-col>
 									<v-col cols="12">
-										<v-btn block outlined class="my-2" color="#7E57C2" value="sign up" @click="signUp">회원가입</v-btn>
+										<v-btn
+											block
+											outlined
+											class="my-2"
+											color="#7E57C2"
+											value="sign up"
+											@click="signUp"
+											>회원가입</v-btn
+										>
 									</v-col>
 								</v-row>
 								<v-row justify="center">
@@ -56,19 +76,34 @@
 												> -->
 										<!-- javascript 방식 -->
 										<v-btn block large color="#ffe812" @click="kakaoLogin">
-											<v-img contain max-height="40" max-width="40" src="@/assets/img/png/kakao_logo.png"></v-img>
+											<v-img
+												contain
+												max-height="40"
+												max-width="40"
+												src="@/assets/img/png/kakao_logo.png"
+											></v-img>
 											<h4 style="color: black">카카오 로그인</h4>
 										</v-btn>
 									</v-col>
 									<v-col cols="4">
 										<v-btn block large color="#03c75a" @click="naverLogin">
-											<v-img contain max-height="40" max-width="40" src="@/assets/img/png/naver_logo.png"></v-img>
+											<v-img
+												contain
+												max-height="40"
+												max-width="40"
+												src="@/assets/img/png/naver_logo.png"
+											></v-img>
 											<h4 style="color: white">네이버 로그인</h4>
 										</v-btn>
 									</v-col>
 									<v-col cols="4">
 										<v-btn block large color="white" href="">
-											<v-img contain max-height="40" max-width="40" src="@/assets/img/png/google_logo.png"></v-img>
+											<v-img
+												contain
+												max-height="40"
+												max-width="40"
+												src="@/assets/img/png/google_logo.png"
+											></v-img>
 											<h4 style="color: black">구글 로그인</h4>
 										</v-btn>
 									</v-col>
@@ -105,16 +140,18 @@ export default {
 	},
 	methods: {
 		async signIn() {
-			if (YsyUtil.isNullAndEmpty(this.params.data.username) || YsyUtil.isNullAndEmpty(this.params.data.password)) {
+			if (
+				YsyUtil.isNullAndEmpty(this.params.data.username) ||
+				YsyUtil.isNullAndEmpty(this.params.data.password)
+			) {
 				alert('ID와 비밀번호를 입력해주세요.');
 			} else {
 				try {
 					let res = await this.$store.dispatch('authStore/signIn', this.params);
-					console.log('res sign in ', res);
 					if (res.status != undefined && res.status == 200) {
 						this.$router.replace({ name: 'home' });
 					} else {
-						console.log('res ===========>' + res);
+						console.log('res ===========>', res);
 						alert(res);
 					}
 				} catch (error) {
@@ -140,7 +177,11 @@ export default {
 				var callbackUrl = res.data.obj + '&response_type=code'; // 서버 주소
 
 				YsyUtil.log('callbackUrl ==  ', callbackUrl);
-				var url = 'https://kauth.kakao.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callbackUrl;
+				var url =
+					'https://kauth.kakao.com/oauth/authorize?client_id=' +
+					client_id +
+					'&redirect_uri=' +
+					callbackUrl;
 				window.location.replace(url);
 			} catch (error) {
 				YsyUtil.log('kakaoLogin error ', error);
@@ -156,7 +197,11 @@ export default {
 				// var callbackUrl = 'http://localhost:8000/naverLogin/getCode'; // 서버 주소
 				var callbackUrl = res.data.obj; // 서버 주소
 				YsyUtil.log('callbackUrl ==  ', callbackUrl);
-				var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + callbackUrl;
+				var url =
+					'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
+					client_id +
+					'&redirect_uri=' +
+					callbackUrl;
 				window.location.replace(url);
 			} catch (error) {
 				YsyUtil.log('naverLogin error ', error);

@@ -36,7 +36,7 @@ public class YsyMailController {
 	@ApiOperation(value="회원가입 후 메일 인증 코드 발송")
 	@PostMapping("/mailSend")
 	@ResponseBody
-	public Boolean mailSend(@RequestBody MailDto mailDto) throws Exception {
+	public Boolean mailSend(@RequestBody MailDto mailDto) {
 		return mailService.mailSend(mailDto);
 	}
 	

@@ -9,8 +9,8 @@ import store from '@/store/index.js';
 /** 로그인 상태를 체크해서
  * 이동가능한 페이지인지 확인 */
 const isLoginChk = () => (to, from, next) => {
-	console.log(store.getters['isLogin']);
-	if (store.getters['isLogin']) {
+	console.log(store.state.authStore.loginData.isLogin);
+	if (store.state.authStore.loginData.isLogin) {
 		alert('로그인 상태로는 이동하실 수 없는 페이지입니다.\n로그아웃을 먼저 진행해주세요.');
 		next('/');
 	}

@@ -23,30 +23,13 @@
 							<v-col cols="10" class="ma-0 pa-0 hidden-sm-and-down">
 								<!-- 2022 06 02 smk : tab in menu가 안돼서 버튼으로 변경 -->
 								<v-tabs show-arrows v-model="active">
-									<v-menu
-										offset-y
-										transition="slide-y-transition"
-										content-class="menu_content elevation-0"
-										v-for="(item, index) in headerMenu"
-										:key="index"
-									>
+									<v-menu offset-y transition="slide-y-transition" content-class="menu_content elevation-0" v-for="(item, index) in headerMenu" :key="index">
 										<template v-slot:activator="{ on }">
-											<v-tab
-												v-on="on"
-												v-text="item.menu_nm"
-												@mouseover="activeTab(index)"
-											/>
+											<v-tab v-on="on" v-text="item.menu_nm" @mouseover="activeTab(index)" />
 										</template>
 										<v-list>
-											<v-list-item
-												v-for="(menus, index) in item.childMenus"
-												:key="index"
-												link
-											>
-												<v-list-item-title
-													v-text="menus.menu_nm"
-													@click="goPage(item, menus)"
-												/>
+											<v-list-item v-for="(menus, index) in item.childMenus" :key="index" link>
+												<v-list-item-title v-text="menus.menu_nm" @click="goPage(item, menus)" />
 											</v-list-item>
 										</v-list>
 									</v-menu>
@@ -99,21 +82,14 @@
 			<v-list>
 				<div v-for="item in headerMenu" :key="item.menu_nm">
 					<!-- 하위 메뉴가 존재할때 -->
-					<v-list-group
-						v-if="item.childMenus.length > 0"
-						:prepend-icon="item.menu_icon"
-						no-action
-					>
+					<v-list-group v-if="item.childMenus.length > 0" :prepend-icon="item.menu_icon" no-action>
 						<template v-slot:activator>
 							<v-list-item-title v-text="item.menu_nm" />
 						</template>
 
 						<v-list-item v-for="menus in item.childMenus" :key="menus.menu_nm" link>
 							<v-list-item-content>
-								<v-list-item-title
-									v-text="menus.menu_nm"
-									@click="goPage(item, menus)"
-								/>
+								<v-list-item-title v-text="menus.menu_nm" @click="goPage(item, menus)" />
 							</v-list-item-content>
 						</v-list-item>
 						<v-divider />
@@ -174,9 +150,9 @@ export default {
 			// windowWidth 라는 값이 변경되면 실행
 			this.drawer = false;
 		},
-		//userLogin() {
-		//	this.findMenuList();
-		//},
+		userLogin() {
+			this.findMenuList();
+		},
 	},
 
 	computed: {
@@ -263,14 +239,7 @@ export default {
 			}
 		},
 		goPage(parent, child) {
-			if (
-				parent !== undefined &&
-				parent !== '' &&
-				parent !== null &&
-				child !== undefined &&
-				child !== '' &&
-				child !== null
-			) {
+			if (parent !== undefined && parent !== '' && parent !== null && child !== undefined && child !== '' && child !== null) {
 				this.$emit('menuClick', parent.menu_nm);
 				this.$router.push({ path: child.menu_path });
 			}
