@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { BaseThumbnail, BlockButtonGroup ,CommonService } from '@/assets/util/importFile.js';
+import { BaseThumbnail, BlockButtonGroup ,CommonService , YsyUtil} from '@/assets/util/importFile.js';
 import FileAttach from '@/components/1_molecules/FileAttach.vue';
 import SummerNote from '@/components/1_molecules/editors/SummerNote.vue';
 
@@ -101,13 +101,14 @@ export default {
 			console.log('title ', title);
 			console.log('content ', content);
 			console.log('this.files', this.files);
-
-			let formData = new FormData();
-			formData.append('title', title);
-			formData.append('content', content);
-			this.files.forEach(x => {
-				formData.append('files', x);
-			});
+			
+			let formData = YsyUtil.createFormData({'title ': title , 'content ': content} , this.files);
+			// let formData = new FormData();
+			// formData.append('title', title);
+			// formData.append('content', content);
+			// this.files.forEach(x => {
+			// 	formData.append('files', x);
+			// });
 
 			let res = await CommonService.fn_save("/ysy/v1/admin/saveYsyBoard" , formData);
 			console.log("res",res);

@@ -8,6 +8,7 @@
 -->
 <template>
 	<v-app>
+		<v-btn @click="update">update</v-btn>
 		<v-container fluid class="main_layout_container">
 			<!-- custom card grid -->
 			<v-row no_gutters class="mx-1 pa-0 mt-1">
@@ -31,11 +32,12 @@
 				</v-col>
 			</v-row>
 		</v-container>
+		
 	</v-app>
 </template>
 
 <script>
-import { BaseCardImg, BasePagination , CommonService } from '@/assets/util/importFile.js';
+import { BaseCardImg, BasePagination , CommonService , YsyUtil } from '@/assets/util/importFile.js';
 
 // import CommonService from '@/service/CommonService';
 
@@ -80,8 +82,19 @@ export default {
 	methods: {
 		async getDataList() { 
 			const params = {};
-			this.dataList = await CommonService.fn_getDataList('/ysy/v1/admin/getYsyBoardList', params);
+			let {data} = await CommonService.fn_getDataList('/ysy/v1/admin/getYsyBoardList', params);
+			this.dataList = data.objList;
 			console.log('admin board free veiw getDataList ', this.dataList);
+		},
+		async update(){
+			let updateData = this.dataList.filter(x=>x.boardId == 1)[0];
+			updateData.title = "변경된 title 입니다.";
+			console.log("this.dataList",this.dataList);
+			console.log("updateData",updateData);
+			let formData = YsyUtil.createFormData(updateData );
+			let res = await CommonService.fn_save('/ysy/v1/admin/modifyYsyBoard', formData);
+			console.log('admin board free veiw update ', res);
+			
 		},
 		dataInit() {
 			for (var i = 0; i < 100; i++) {

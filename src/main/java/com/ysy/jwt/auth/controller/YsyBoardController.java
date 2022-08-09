@@ -139,7 +139,7 @@ public class YsyBoardController {
 	 * @Desc : admin board 수정 . 파일 처리도 해야함.
 	 */
 	@PostMapping(value="/modifyYsyBoard" , consumes = {"multipart/form-data"})
-	public void modifyYsyBoard(BoardDto boardDto ,@AuthenticationPrincipal PrincipalDetails p) {
+	public void modifyYsyBoard(BoardDto boardDto ,@AuthenticationPrincipal PrincipalDetails p)  throws Exception{
 		
 		if(boardDto.getUserId().equals(p.getUsername())) {
 			ysyBoardService.modifyYsyBoard(boardDto);

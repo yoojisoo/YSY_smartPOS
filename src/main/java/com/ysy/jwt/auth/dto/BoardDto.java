@@ -44,6 +44,7 @@ public class BoardDto extends BaseDto{
 	private List<FileDto> fileDtoList = new ArrayList<>();
 	
 	
+	
 	/**
 	 * @Create By : clubbboy@naver.com
 	 * @Date : 2022. 8. 3.
@@ -79,6 +80,7 @@ public class BoardDto extends BaseDto{
 				       .folderName(file.getFolderName())
 				       .filePath(file.getFilePath())
 				       .fileFullPath(file.getFileFullPath())
+				       .fileSize(file.getFileSize())
 					   .build()
 			);
 		}

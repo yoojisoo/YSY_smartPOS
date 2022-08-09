@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import com.ysy.jwt.auth.dto.BoardDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.entity.QYsyBoardFile;
@@ -138,9 +139,22 @@ public class YsyBoardService {
 //		ysyFlieService
 //		qYsyBoardMst
 //		qYsyBoardFile
+		
 		boardDto.getBoardId();//board에 기존 내용 업데이트
 		boardDto.getFileDtoList().size();//기존 파일 삭제 여부 - db랑 비교하여 기존파일 없는건 삭제함
 		boardDto.getFiles();//새롭게 올린 파일 기존 폴더에 이미지 추가 후 db에 저장
+		
+//		JPAUpdateClause update = new JPAUpdateClause(em, qYsyBoardMst);
+//		
+//		update.set(qYsyBoardMst.title, boardDto.getTitle())
+//		.set(null, null)
+		
+		YsyBoardMst ysyBoardMst = query.select(qYsyBoardMst)
+		.from(qYsyBoardMst)
+		.where(qYsyBoardMst.boardId.eq(boardDto.getBoardId()))
+		.fetchOne();
+		
+		ysyBoardMst.setTitle(boardDto.getTitle());
 		
 	}
 	
