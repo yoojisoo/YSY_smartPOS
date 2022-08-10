@@ -226,8 +226,6 @@ export default {
 		 * DB에 같은 아이디(이메일)가 있는지 체크한다. */
 		confirmEmail() {
 			this.signUpInfo.mailInfo.email = this.signUpInfo.userInfo.username;
-			console.log('✅✅✅✅✅');
-			console.log(this.signUpInfo.mailInfo);
 			this.$axios.post('ysy/v1/mail/mailConfirm', this.signUpInfo.mailInfo).then(res => {
 				if (res.data == true) {
 					//아이디 있는경우
@@ -241,7 +239,6 @@ export default {
 		},
 		/** 회원가입 btn */
 		async signUp() {
-			//const validate = this.$refs.form.validate();
 			if (this.isConfirmEmail) {
 				if (this.signUpInfo.userInfo.password === this.confirmPassword) {
 					try {

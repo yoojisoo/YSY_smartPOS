@@ -149,7 +149,8 @@ export default {
 				try {
 					let res = await this.$store.dispatch('authStore/signIn', this.params);
 					if (res.status != undefined && res.status == 200) {
-						this.$router.replace({ name: 'home' });
+						let routeName = sessionStorage.getItem('routeName');
+						this.$router.replace({ name: routeName });
 					} else {
 						console.log('res ===========>', res);
 						alert(res);

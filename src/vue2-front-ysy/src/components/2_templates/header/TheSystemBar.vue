@@ -5,7 +5,13 @@
 				<v-col cols="10">
 					<v-row justify="end" no-gutters>
 						<v-btn-toggle tile group v-if="isLogin && isAdmin">
-							<v-btn v-if="getMyRole && getMyRole == 'ADMIN'" plain @click="fn_freeBoard"> admin 자유게시판 </v-btn>
+							<v-btn
+								v-if="getMyRole && getMyRole == 'ADMIN'"
+								plain
+								@click="fn_freeBoard"
+							>
+								admin 자유게시판
+							</v-btn>
 							<v-btn plain @click="myInfo">관리자페이지</v-btn>
 							<v-btn plain @click="myInfo">내프로필</v-btn>
 							<v-btn plain @click="logout">로그아웃</v-btn>
@@ -40,10 +46,18 @@ export default {
 	components: { BaseButtonThemeChange },
 	methods: {
 		signIn() {
-			this.$router.replace({ name: 'signIn' }).catch(() => {});
+			// 로그인 후 기존 페이지로 이동하기 위해서 Storage에 name 저장
+			// ⭐ sessionStorage라서 브라우저를 닫으면 사라지지만
+			// ⭐ 페이지 이동 후 Storage를 비워줘야하는지 ...?
+			// ⭐ 왜냐면 굳이 안쓰는 데이터를 브라우저 종료 시점까지 가지고 가야하니까 ?
+			sessionStorage.setItem('routeName', this.$route.name);
+			this.$router.push({ name: 'signIn' }).catch(() => {});
 		},
 		signUp() {
-			this.$router.replace({ name: 'signUp' }).catch(() => {});
+			// 회원가입 후 로그인 페이지로 이동해서 로그인 후
+			// 기존 페이지로 이동하기 위해서 Storage에 name 저장
+			sessionStorage.setItem('routeName', this.$route.name);
+			this.$router.push({ name: 'signUp' }).catch(() => {});
 		},
 		myInfo() {
 			this.$router.push({ name: 'myInfo' }).catch(() => {});
