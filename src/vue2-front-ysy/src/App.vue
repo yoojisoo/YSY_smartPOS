@@ -31,38 +31,39 @@ export default {
 	mixins: [],
 	created() {
 		console.log('app.vue created');
-		if (sessionStorage.getItem('loginData')) {
-			const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
+		//window.addEventListener('beforeunload', this.handler);
+		/** 페이지 새로고침시access 유실되는 문제 발생으로 로그인 데이터를 다시 참조하여 accessToken을 넣어줌 */
+		if (localStorage.getItem('loginData')) {
+			const access_token = JSON.parse(localStorage.getItem('loginData')).authStore.loginData
 				.access_token;
 			YsyUtil.setAccessToken(this.$axios, access_token);
 		}
 	},
 	mounted() {
-		//console.log('app.vue mounted ');
-		///** 페이지 새로고침시access 유실되는 문제 발생으로 로그인 데이터를 다시 참조하여 accessToken을 넣어줌 */
-		//if (sessionStorage.getItem('loginData')) {
-		//	const access_token = JSON.parse(sessionStorage.getItem('loginData')).authStore.loginData
-		//		.access_token;
-		//	YsyUtil.setAccessToken(this.$axios, access_token);
-		//}
+		window.addEventListener('beforeunload', this.onUnload);
+	},
+	computed: {
+		isSignView() {
+			return this.$route.name === 'signIn' || this.$route.name === 'signUp';
+		},
 	},
 	methods: {
 		refreshAll() {
 			// 새로고침
 			console.log('새로고침');
 		},
+		beforePageDestroyed(event) {
+			console.log('beforePageDestroyed');
+		},
 		menuClick(parentPageName) {
 			this.parentPage = parentPageName;
 		},
-	},
-	beforeCreate() {
-		console.log('app.vue beforeCreate ');
-		//localStorage.clear();
-	},
-	computed: {
-		isSignView() {
-			return this.$route.name === 'signIn' || this.$route.name === 'signUp';
+		onUnload(event) {
+			window.localStorage.removeItem('loginData');
 		},
+	},
+	beforeDestroy() {
+		window.removeEventListener('beforeunload', this.onUnload);
 	},
 };
 </script>
