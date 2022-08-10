@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { BaseThumbnail, BlockButtonGroup ,CommonService , YsyUtil} from '@/assets/util/importFile.js';
+import { BaseThumbnail, BlockButtonGroup, CommonService, YsyUtil } from '@/assets/import/index.js';
 import FileAttach from '@/components/1_molecules/FileAttach.vue';
 import SummerNote from '@/components/1_molecules/editors/SummerNote.vue';
 
@@ -89,11 +89,12 @@ export default {
 		async saveClick() {
 			console.log('saveClick');
 
-			
-
 			const title = this.$store.state.adminFreeBoardStore.title;
 			const content = this.$store.state.adminFreeBoardStore.content;
-			if (title === this.$store.state.adminFreeBoardStore.orgTitle && content === this.$store.state.adminFreeBoardStore.orgContent) {
+			if (
+				title === this.$store.state.adminFreeBoardStore.orgTitle &&
+				content === this.$store.state.adminFreeBoardStore.orgContent
+			) {
 				console.log('같음');
 				return;
 			}
@@ -101,8 +102,11 @@ export default {
 			console.log('title ', title);
 			console.log('content ', content);
 			console.log('this.files', this.files);
-			
-			let formData = YsyUtil.createFormData({'title ': title , 'content ': content} , this.files);
+
+			let formData = YsyUtil.createFormData(
+				{ 'title ': title, 'content ': content },
+				this.files,
+			);
 			// let formData = new FormData();
 			// formData.append('title', title);
 			// formData.append('content', content);
@@ -110,12 +114,12 @@ export default {
 			// 	formData.append('files', x);
 			// });
 
-			let res = await CommonService.fn_save("/ysy/v1/admin/saveYsyBoard" , formData);
-			console.log("res",res);
-			if(res.data.status == "OK"){
-				alert("success");
+			let res = await CommonService.fn_save('/ysy/v1/admin/saveYsyBoard', formData);
+			console.log('res', res);
+			if (res.data.status == 'OK') {
+				alert('success');
 			}
-			
+
 			// this.$axios
 			// 	.post('/ysy/v1/saveYsyBoard', formData) //,{headers: {'Content-Type': 'multipart/form-data'}} //content-type 셋팅 안해도 올라가네??
 			// 	.then(res => {
@@ -127,28 +131,27 @@ export default {
 			// 		console.log(error);
 			// 	});
 		},
-		async modClick(){
+		async modClick() {
 			let params = {
-				boardId : "1",
-				fileId : "1",
-				fileName : "262832165620200_영업비밀1 - 복사본 (2).jpg",
-			}
+				boardId: '1',
+				fileId: '1',
+				fileName: '262832165620200_영업비밀1 - 복사본 (2).jpg',
+			};
 			try {
-				await CommonService.fn_downloadFile("/ysy/v1/admin/downloadYsyBoardFile", params);
-			} catch (error) {
-				
-			}
+				await CommonService.fn_downloadFile('/ysy/v1/admin/downloadYsyBoardFile', params);
+			} catch (error) {}
 		},
-		async delClick(){
+		async delClick() {
 			let params = {
-				boardId : "1",
-			}
+				boardId: '1',
+			};
 			try {
-				let res = await CommonService.fn_downloadFiles("/ysy/v1/admin/downloadYsyBoardFiles", params);
-			// let res = await CommonService.fn_getDataList("?boardId=1&fileId=1&fileName=262832165620200_영업비밀1 - 복사본 (2).jpg" );
-			} catch (error) {
-				
-			}
+				let res = await CommonService.fn_downloadFiles(
+					'/ysy/v1/admin/downloadYsyBoardFiles',
+					params,
+				);
+				// let res = await CommonService.fn_getDataList("?boardId=1&fileId=1&fileName=262832165620200_영업비밀1 - 복사본 (2).jpg" );
+			} catch (error) {}
 		},
 	},
 };

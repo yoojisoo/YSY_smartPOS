@@ -8,7 +8,7 @@
 		<!-- {{ this.$vuetify.breakpoint.name }} -->
 		<v-row class="main_layout_row">
 			<v-col cols="3" md="2" class="main_layout_col hidden-sm-and-down">
-				<TheLeftCondition :filters="userInfo.headers"/>
+				<TheLeftCondition :filters="userInfo.headers" />
 			</v-col>
 
 			<v-col cols="12" md="7" class="main_layout_col">
@@ -23,20 +23,17 @@
 </template>
 
 <script>
-import {
-	TheLeftCondition,
-	TheDetailInfo,
-} from '@/assets/util/importFile.js';
+import { TheLeftCondition, TheDetailInfo } from '@/assets/import/index.js';
 import { mapGetters } from 'vuex';
 import Y2sGrid from '@/components/Y2sGrid.vue';
 import axios from 'axios';
 import store from '@/store/index';
 export default {
 	components: {
-    TheLeftCondition,
-    TheDetailInfo,
-    Y2sGrid,
-},
+		TheLeftCondition,
+		TheDetailInfo,
+		Y2sGrid,
+	},
 	data() {
 		return {
 			name: '사용자 관리',
@@ -44,7 +41,7 @@ export default {
 			isAddr: true, // user 상세 정보 view 변수
 			userDetailInfo: {
 				addrList: [],
-				row: {}
+				row: {},
 			},
 			isAddrDialog: false,
 			userInfo: {
@@ -84,7 +81,7 @@ export default {
 		},
 		getUserAddr() {
 			return this.$store.state.userStore.userAddr;
-		}
+		},
 	},
 	methods: {
 		// 🔅 모든 유저 리스트 가져오기
@@ -102,7 +99,6 @@ export default {
 		},
 		// 🔅 유저 아이디 1개로 주소 정보 가져오기
 		async fn_getUserAddr(userId, row) {
-			
 			try {
 				await this.$store.dispatch('userStore/fn_getUserAddr', userId);
 				if (this.getUserAddr) {

@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { BaseButtonLogoBig, CommonService } from '@/assets/util/importFile.js';
+import { BaseButtonLogoBig, CommonService } from '@/assets/import/index.js';
 //import { YsyUtil } from '@/mixin/MixinGlobal.js';
 import YsyUtil from '@/mixin/YsyUtil.js';
 

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
+import { TheSystemBar, TheHeader, TheFooter } from '@/assets/import/index.js';
 import ysyGrid from '@/components/FGrid.vue';
 import { mapGetters } from 'vuex';
 
@@ -107,6 +107,9 @@ export default {
 	},
 
 	computed: {
+		getFilterUserList() {
+			return this.$store.state.userStore.filterUserList;
+		},
 		...mapGetters({ userId: 'authStore/getUserId' }),
 		...mapGetters({ getFilterUserList: 'userStore/getFilterUserList' }),
 		...mapGetters({ getFilterMenuList: 'menuStore/getFilterMenuList' }),

@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
+import { TheSystemBar, TheHeader, TheFooter } from '@/assets/import/index.js';
 import { mapGetters } from 'vuex';
 
 const authStore = 'authStore';

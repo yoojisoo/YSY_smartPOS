@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter } from '@/assets/util/importFile.js';
+import { TheSystemBar, TheHeader, TheFooter } from '@/assets/import/index.js';
 import summerNote from '@/components/1_molecules/editors/FSummerNote.vue';
 import { mapGetters } from 'vuex';
 
@@ -123,9 +123,9 @@ export default {
 				userId: '',
 				title: '',
 				isEdit: null,
-				btnClick:(content , actionType) =>{
-					console.log(content +"====="+ actionType);
-				}
+				btnClick: (content, actionType) => {
+					console.log(content + '=====' + actionType);
+				},
 			},
 		};
 	},

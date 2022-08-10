@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { BaseButtonLogoBig } from '@/assets/util/importFile.js';
+import { BaseButtonLogoBig } from '@/assets/import/index.js';
 
 export default {
 	name: 'App',

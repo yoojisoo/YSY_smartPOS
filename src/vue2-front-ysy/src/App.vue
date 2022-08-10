@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter, YsyUtil } from '@/assets/util/importFile.js';
+import { TheSystemBar, TheHeader, TheFooter, YsyUtil } from '@/assets/import/imports/templates.js';
 export default {
 	components: { TheSystemBar, TheHeader, TheFooter },
 	data() {

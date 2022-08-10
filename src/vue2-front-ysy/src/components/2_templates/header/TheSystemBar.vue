@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { BaseButtonThemeChange } from '@/assets/util/importFile.js';
+import { BaseButtonThemeChange } from '@/assets/import/index.js';
 //import Swal from 'sweetalert2';
 import { mapGetters } from 'vuex';
 

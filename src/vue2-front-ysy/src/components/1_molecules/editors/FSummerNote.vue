@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { BaseButtonOutlined } from '@/assets/util/importFile.js';
+import { BaseButtonOutlined } from '@/assets/import/index.js';
 export default {
 	props: ['editorInfo', 'isSave'],
 	components: {

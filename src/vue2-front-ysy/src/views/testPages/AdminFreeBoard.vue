@@ -24,7 +24,7 @@
 					<BaseCardImg :info="data" />
 				</v-col>
 			</v-row>
-			
+
 			<!-- 페이징 정보 -->
 			<v-row no_gutters>
 				<v-col cols="12" style="text-align: center">
@@ -32,12 +32,11 @@
 				</v-col>
 			</v-row>
 		</v-container>
-		
 	</v-app>
 </template>
 
 <script>
-import { BaseCardImg, BasePagination , CommonService , YsyUtil } from '@/assets/util/importFile.js';
+import { BaseCardImg, BasePagination, CommonService, YsyUtil } from '@/assets/import/index.js';
 
 // import CommonService from '@/service/CommonService';
 
@@ -74,27 +73,29 @@ export default {
 	},
 	mounted() {
 		this.getDataList();
-		
+
 		// this.dataInit();
 		// this.initPage(); // 초기 데이터를 불러온 후 첫페이지 셋팅
 		// this.paginationInfo.pageCnt = this.pages();
 	},
 	methods: {
-		async getDataList() { 
+		async getDataList() {
 			const params = {};
-			let {data} = await CommonService.fn_getDataList('/ysy/v1/admin/getYsyBoardList', params);
+			let { data } = await CommonService.fn_getDataList(
+				'/ysy/v1/admin/getYsyBoardList',
+				params,
+			);
 			this.dataList = data.objList;
 			console.log('admin board free veiw getDataList ', this.dataList);
 		},
-		async update(){
-			let updateData = this.dataList.filter(x=>x.boardId == 1)[0];
-			updateData.title = "변경된 title 입니다.";
-			console.log("this.dataList",this.dataList);
-			console.log("updateData",updateData);
-			let formData = YsyUtil.createFormData(updateData );
+		async update() {
+			let updateData = this.dataList.filter(x => x.boardId == 1)[0];
+			updateData.title = '변경된 title 입니다.';
+			console.log('this.dataList', this.dataList);
+			console.log('updateData', updateData);
+			let formData = YsyUtil.createFormData(updateData);
 			let res = await CommonService.fn_save('/ysy/v1/admin/modifyYsyBoard', formData);
 			console.log('admin board free veiw update ', res);
-			
 		},
 		dataInit() {
 			for (var i = 0; i < 100; i++) {

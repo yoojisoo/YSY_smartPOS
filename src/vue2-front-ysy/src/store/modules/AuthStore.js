@@ -2,7 +2,7 @@ import authService from '@/service/AuthService.js';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-import { YsyUtil } from '@/assets/util/importFile.js';
+import { YsyUtil } from '@/assets/import/index.js';
 
 const authStore = {
 	namespaced: true,
