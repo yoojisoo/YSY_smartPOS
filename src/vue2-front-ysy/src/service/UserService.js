@@ -2,8 +2,7 @@ import axios from 'axios';
 
 class UserService {
 	// 모든 유저 목록 조회 : 조건이 있다면 조건으로 아니면 모든 유저 조회
-	
-	
+
 	async fn_getUserList() {
 		try {
 			let res = await axios.post('/ysy/v1/manager/getUserListCondition');
@@ -33,9 +32,9 @@ class UserService {
 	async fn_getUserAddr(userId) {
 		try {
 			let res = await axios.get('ysy/v1/manager/getUserAddr?userId=' + userId);
-				console.log('🟢 UserService fn_getUserAddr');
-				console.log(res.data);
-				return res.data;
+			console.log('🟢 UserService fn_getUserAddr');
+			console.log(res.data);
+			return res.data;
 		} catch (error) {
 			console.log('⛔ UserService fn_getUserAddr error =>' + error);
 		}

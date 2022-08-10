@@ -34,7 +34,7 @@ const menuStore = {
 		setFilterMenuList(state, menuList) {
 			state.filterMenuList = menuList;
 		},
-		setFilterMenuList(state, errorMsg) {
+		setErrorMsg(state, errorMsg) {
 			state.errorMsg = errorMsg;
 		},
 	},
