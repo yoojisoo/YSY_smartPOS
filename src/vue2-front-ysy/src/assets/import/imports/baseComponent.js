@@ -4,14 +4,7 @@ import BaseButtonLogoSmall from '@/components/1_molecules/buttons/BaseButtonLogo
 import BaseButtonLogoBig from '@/components/1_molecules/buttons/BaseButtonLogoBig.vue';
 import BaseButtonOutlined from '@/components/1_molecules/buttons/BaseButtonOutlined.vue';
 import BaseButtonThemeChange from '@/components/1_molecules/buttons/BaseButtonThemeChange.vue';
-import BlockButtonGroup from '@/components/1_molecules/buttons/BlockButtonGroup.vue';
-export {
-	BaseButtonLogoSmall,
-	BaseButtonLogoBig,
-	BaseButtonOutlined,
-	BaseButtonThemeChange,
-	BlockButtonGroup,
-};
+export { BaseButtonLogoSmall, BaseButtonLogoBig, BaseButtonOutlined, BaseButtonThemeChange };
 
 // cards
 import BaseCardImg from '@/components/1_molecules/cards/BaseCardImg.vue';

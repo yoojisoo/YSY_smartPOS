@@ -5,23 +5,12 @@
 
 			<v-spacer />
 			<v-card-actions>
-				<BaseButtonOutlined
-					v-if="btnDetailText === '수정'"
-					:btnText="btnDetailText"
-					:btnHeight="35"
-					@click="fn_detailEvent"
-				/>
-				<BaseButtonOutlined
-					v-else-if="btnDetailText === '저장'"
-					:btnText="btnDetailText"
-					:btnHeight="35"
-					@click="fn_modify"
-				/>
+				<BaseButtonOutlined v-if="btnDetailText === '수정'" :btnText="btnDetailText" :btnHeight="35" @click="fn_detailEvent" />
+				<BaseButtonOutlined v-else-if="btnDetailText === '저장'" :btnText="btnDetailText" :btnHeight="35" @click="fn_modify" />
 			</v-card-actions>
 		</v-card-title>
 		<v-card-text>
-			✔️newUserInfoListOfLow :{{ newUserInfoListOfLow }} ✔️userDetailInfo.row :
-			{{ userDetailInfo.row.userId }} 🔅🔅
+			✔️newUserInfoListOfLow :{{ newUserInfoListOfLow }} ✔️userDetailInfo.row : {{ userDetailInfo.row.userId }} 🔅🔅
 			<v-row align="center" class="mb-1">
 				<v-col cols="4" class="py-0 mt-2">
 					<div v-for="subTitle in subTitles" :key="subTitle" style="height: 26px">
@@ -29,15 +18,7 @@
 					</div>
 				</v-col>
 				<v-col cols="8" class="py-0">
-					<v-text-field
-						v-for="n in newUserInfoListOfLow.length"
-						:key="n"
-						v-model="newUserInfoListOfLow[n - 1]"
-						dense
-						hide-details
-						:disabled="isDisabled"
-						class="my-0"
-					></v-text-field>
+					<v-text-field v-for="n in newUserInfoListOfLow.length" :key="n" v-model="newUserInfoListOfLow[n - 1]" dense hide-details :disabled="isDisabled" class="my-0"></v-text-field>
 				</v-col>
 			</v-row>
 		</v-card-text>
@@ -47,25 +28,21 @@
 				<span> 유저주소정보 </span>
 				<v-spacer />
 				<v-card-actions class="pa-0">
-					<v-btn v-if="userDetailInfo.addrList.length > 0" outlined height="35"
-						>추가</v-btn
-					>
+					<v-btn v-if="userDetailInfo.addrList.length > 0" outlined height="35">추가</v-btn>
 				</v-card-actions>
 			</v-card-title>
 
 			<v-card-text class="ma-0 pa-0">
 				<div v-if="userDetailInfo.addrList">
 					<span v-for="addr in userDetailInfo.addrList" :key="addr.id">
-						<TheAddrEdit :addr="addr" />
+						<BlockAddrEdit :addr="addr" />
 					</span>
 				</div>
 
 				<div v-if="userDetailInfo.addrList.length <= 0">
 					<v-divider class="ma-0 pa-0" />
 					<div class="mx-4">
-						<v-btn outlined height="35" class="mt-5" block min-height="50"
-							>주소지 추가</v-btn
-						>
+						<v-btn outlined height="35" class="mt-5" block min-height="50">주소지 추가</v-btn>
 					</div>
 				</div>
 			</v-card-text>
@@ -74,13 +51,13 @@
 </template>
 
 <script>
-import { BaseButtonOutlined, TheAddrEdit } from '@/assets/import/index.js';
+import { BaseButtonOutlined, BlockAddrEdit } from '@/assets/import/index.js';
 
 export default {
 	props: ['userDetailInfo'],
 	components: {
-		TheAddrEdit,
 		BaseButtonOutlined,
+		BlockAddrEdit,
 	},
 	data() {
 		return {
@@ -93,16 +70,7 @@ export default {
 	},
 	methods: {
 		fn_init() {
-			this.subTitles = [
-				'아이디',
-				'수정일',
-				'이메일인증',
-				'이름',
-				'가입경로',
-				'비밀번호',
-				'회사명',
-				'권한등급',
-			];
+			this.subTitles = ['아이디', '수정일', '이메일인증', '이름', '가입경로', '비밀번호', '회사명', '권한등급'];
 			this.listLength = this.subTitles.length;
 		},
 		fn_detailEvent() {},
@@ -123,10 +91,7 @@ export default {
 				this.userDetailInfo.row.bizNm,
 				this.userDetailInfo.row.grpNm,
 			];
-			console.log(
-				'newUserInfoListOfLow -------------------------->',
-				this.newUserInfoListOfLow,
-			);
+			console.log('newUserInfoListOfLow -------------------------->', this.newUserInfoListOfLow);
 			return this.userDetailInfo;
 		},
 	},

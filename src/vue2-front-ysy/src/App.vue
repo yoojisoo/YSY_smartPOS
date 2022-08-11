@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { TheSystemBar, TheHeader, TheFooter, YsyUtil } from '@/assets/import/imports/templates.js';
+import { TheSystemBar, TheHeader, TheFooter, YsyUtil } from '@/assets/import/index.js';
 export default {
 	components: { TheSystemBar, TheHeader, TheFooter },
 	data() {
@@ -33,9 +33,8 @@ export default {
 		console.log('app.vue created');
 		//window.addEventListener('beforeunload', this.handler);
 		/** 페이지 새로고침시access 유실되는 문제 발생으로 로그인 데이터를 다시 참조하여 accessToken을 넣어줌 */
-		if (localStorage.getItem('loginData')) {
-			const access_token = JSON.parse(localStorage.getItem('loginData')).authStore.loginData
-				.access_token;
+		if (localStorage.getItem('vuex')) {
+			const access_token = JSON.parse(localStorage.getItem('vuex')).authStore.loginData.access_token;
 			YsyUtil.setAccessToken(this.$axios, access_token);
 		}
 	},
