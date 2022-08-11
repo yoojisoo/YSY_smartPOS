@@ -14,9 +14,7 @@
 												아이디 변경이 불가능하게 해놨길래
 												여기도 아이디는 변경 불가능하게 해둠 -->
 								<v-col cols="5" md="3" lg="3" xl="3" align-self="center">
-									<v-subheader style="justify-content: center">
-										아이디
-									</v-subheader>
+									<v-subheader style="justify-content: center"> 아이디 </v-subheader>
 								</v-col>
 								<v-col cols="7" md="4" lg="4" xl="4" align-self="center">
 									<h4>{{ getUser.user_id }}</h4>
@@ -24,9 +22,7 @@
 							</v-row>
 							<v-row justify="center" class="mr-0">
 								<v-col cols="5" md="3" lg="3" xl="3" align-self="center">
-									<v-subheader style="justify-content: center">
-										비밀번호
-									</v-subheader>
+									<v-subheader style="justify-content: center"> 비밀번호 </v-subheader>
 								</v-col>
 								<v-col cols="7" md="4" lg="4" xl="4" align-self="center">
 									<h4 v-if="formDisabled">********</h4>
@@ -45,16 +41,12 @@
 							</v-row>
 							<v-row justify="center" class="mr-0" v-if="!formDisabled">
 								<v-col cols="5" md="3" lg="3" xl="3" align-self="center">
-									<v-subheader style="justify-content: center">
-										비밀번호 확인
-									</v-subheader>
+									<v-subheader style="justify-content: center"> 비밀번호 확인 </v-subheader>
 								</v-col>
 								<v-col cols="7" md="4" lg="4" xl="4" align-self="center">
 									<v-text-field
 										v-model="confirmPassword"
-										:append-icon="
-											confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'
-										"
+										:append-icon="confirmPasswordShow ? 'mdi-eye' : 'mdi-eye-off'"
 										:type="confirmPasswordShow ? 'text' : 'password'"
 										@click:append="confirmPasswordShow = !confirmPasswordShow"
 										filled
@@ -66,20 +58,11 @@
 							</v-row>
 							<v-row justify="center" class="mr-0">
 								<v-col cols="5" md="3" lg="3" xl="3" align-self="center">
-									<v-subheader style="justify-content: center">
-										이름
-									</v-subheader>
+									<v-subheader style="justify-content: center"> 이름 </v-subheader>
 								</v-col>
 								<v-col cols="7" md="4" lg="4" xl="4" align-self="center">
 									<h4 v-if="formDisabled">{{ getUser.user_name }}</h4>
-									<v-text-field
-										v-else
-										v-model="userInfoChange.name"
-										filled
-										dense
-										required
-										:rules="rules.name"
-									></v-text-field>
+									<v-text-field v-else v-model="userInfoChange.name" filled dense required :rules="rules.name"></v-text-field>
 								</v-col>
 							</v-row>
 						</v-form>
@@ -87,35 +70,9 @@
 					<v-divider />
 					<v-card-actions class="pt-5 pb-5 mr-5">
 						<v-spacer />
-						<v-btn
-							v-if="formDisabled"
-							color="purple lighten-2"
-							dark
-							depressed
-							large
-							@click="formDisabled = !formDisabled"
-							>수정</v-btn
-						>
-						<v-btn
-							v-if="!formDisabled"
-							class="mr-3"
-							color="purple lighten-2"
-							dark
-							depressed
-							large
-							@click="userInfoSave"
-							>저장</v-btn
-						>
-						<v-btn
-							v-if="!formDisabled"
-							color="purple lighten-2"
-							dark
-							depressed
-							large
-							@click="formDisabled = !formDisabled"
-						>
-							취소
-						</v-btn>
+						<v-btn v-if="formDisabled" color="purple lighten-2" dark depressed large @click="formDisabled = !formDisabled">수정</v-btn>
+						<v-btn v-if="!formDisabled" class="mr-3" color="purple lighten-2" dark depressed large @click="userInfoSave">저장</v-btn>
+						<v-btn v-if="!formDisabled" color="purple lighten-2" dark depressed large @click="formDisabled = !formDisabled"> 취소 </v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-col>
@@ -125,7 +82,6 @@
 
 <script>
 import { TheSystemBar, TheHeader, TheFooter } from '@/assets/import/index.js';
-import { mapGetters } from 'vuex';
 
 const authStore = 'authStore';
 
@@ -153,9 +109,7 @@ export default {
 				name: [
 					// 사용자 이름 규칙 (필수값, 특수문자 체크)
 					v => !!v || '이름은 필수 입력사항입니다.',
-					v =>
-						!/[~!@#$%^&*()_+|<>?:{}]/.test(v) ||
-						'이름에는 특수문자를 사용할 수 없습니다.',
+					v => !/[~!@#$%^&*()_+|<>?:{}]/.test(v) || '이름에는 특수문자를 사용할 수 없습니다.',
 				],
 				password: [
 					// 사용자 비밀번호 규칙 (필수값 체크)
@@ -170,7 +124,9 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(authStore, ['getUser']),
+		getUser() {
+			return this.$store.authStore.loginData;
+		},
 	},
 	mounted() {
 		if (this.getUser) {

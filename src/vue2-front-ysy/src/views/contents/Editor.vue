@@ -23,37 +23,19 @@
 										<v-col cols="auto" align-self="center">
 											<v-dialog v-model="isDialog" persistent max-width="290">
 												<template v-slot:activator="{ on }">
-													<v-btn outlined color="indigo" v-on="on">
-														등록
-													</v-btn>
+													<v-btn outlined color="indigo" v-on="on"> 등록 </v-btn>
 												</template>
 
 												<v-card>
 													<v-card-title class="d-flex justify-center">
 														<div class="text-center">
-															<h3
-																class="headline pink--text text--accent-2"
-															>
-																등록 하시겠습니까?
-															</h3>
+															<h3 class="headline pink--text text--accent-2">등록 하시겠습니까?</h3>
 														</div>
 													</v-card-title>
 													<v-card-actions class="d-flex justify-center">
 														<v-spacer />
-														<v-btn
-															color="green darken-1"
-															text
-															@click="isDialog = false"
-														>
-															취소
-														</v-btn>
-														<v-btn
-															color="green darken-1"
-															text
-															@click="submitNote"
-														>
-															등록
-														</v-btn>
+														<v-btn color="green darken-1" text @click="isDialog = false"> 취소 </v-btn>
+														<v-btn color="green darken-1" text @click="submitNote"> 등록 </v-btn>
 														<v-spacer />
 													</v-card-actions>
 												</v-card>
@@ -64,23 +46,11 @@
 								</v-col>
 
 								<v-col cols="12" align-self="center">
-									<v-text-field
-										label="제목을 입력하세요."
-										single-line
-										outlined
-										clearable
-										required
-										hide-details
-										class="pb-3"
-										v-model="titleInput"
-									></v-text-field>
+									<v-text-field label="제목을 입력하세요." single-line outlined clearable required hide-details class="pb-3" v-model="titleInput"></v-text-field>
 								</v-col>
 								<!-- 에디터 ~~~~~~ -->
 								<v-col cols="12">
-									<summer-note
-										:editorInfo="editorInfo"
-										:isSave="editorInfo.isSave"
-									/>
+									<summer-note :editorInfo="editorInfo" :isSave="editorInfo.isSave" />
 								</v-col>
 							</v-row>
 						</v-col>
@@ -101,9 +71,6 @@
 <script>
 import { TheSystemBar, TheHeader, TheFooter } from '@/assets/import/index.js';
 import summerNote from '@/components/1_molecules/editors/FSummerNote.vue';
-import { mapGetters } from 'vuex';
-
-const authStore = 'authStore';
 
 export default {
 	components: {
@@ -140,7 +107,9 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters(authStore, ['getUserId']),
+		getUserId() {
+			return this.$store.state.authStore.loginData.user_id;
+		},
 	},
 	mounted() {
 		// this.editorInfo.userId = this.getUserId;

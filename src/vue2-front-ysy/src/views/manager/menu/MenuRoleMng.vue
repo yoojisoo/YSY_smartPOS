@@ -19,13 +19,7 @@
 					<v-col cols="12">
 						<v-row align="start" justify="start" no-gutters>
 							<v-col cols="3">
-								<v-autocomplete
-									label="사용자선택"
-									:items="users"
-									:item-text="itemText"
-									item-value="userId"
-									@input="findFilterMenuList"
-								></v-autocomplete>
+								<v-autocomplete label="사용자선택" :items="users" :item-text="itemText" item-value="userId" @input="findFilterMenuList"></v-autocomplete>
 							</v-col>
 							<v-col cols="12">
 								<ysyGrid :gridInfo="gridInfo" />
@@ -41,7 +35,6 @@
 <script>
 import { TheSystemBar, TheHeader, TheFooter } from '@/assets/import/index.js';
 import ysyGrid from '@/components/FGrid.vue';
-import { mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -83,14 +76,12 @@ export default {
 
 		// 해당 유저 권한 이하의 사용자들을 불러옴
 		async findFilterUserList() {
-			await this.$store
-				.dispatch('userStore/findFilterUserList', this.getUserId)
-				.catch(error => {
-					console.log('===============> userStore/findFilterUserList error');
-					console.log(error);
-					alert('페이지 접근 권한이 없습니다.');
-					this.$router.replace('/');
-				});
+			await this.$store.dispatch('userStore/findFilterUserList', this.getUserId).catch(error => {
+				console.log('===============> userStore/findFilterUserList error');
+				console.log(error);
+				alert('페이지 접근 권한이 없습니다.');
+				this.$router.replace('/');
+			});
 
 			if (this.getFilterUserList) this.users = this.getFilterUserList;
 			else console.log('MenuRoleMng --- findFilterUserList() 실패 !!');

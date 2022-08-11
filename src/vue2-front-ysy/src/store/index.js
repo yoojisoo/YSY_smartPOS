@@ -24,7 +24,6 @@ const store = new Vuex.Store({
 		createPersistedState({
 			paths: ['authStore.loginData'],
 			storage: localStorage,
-			key: 'loginData',
 		}),
 	],
 });

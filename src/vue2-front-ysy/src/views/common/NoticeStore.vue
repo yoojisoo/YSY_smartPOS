@@ -25,7 +25,6 @@
 
 <script>
 import ysyGrid from '@/components/FGrid.vue';
-import { mapGetters } from 'vuex';
 import boardDialog from '@/components/FDialog.vue';
 
 export default {
@@ -67,7 +66,9 @@ export default {
 		this.findStoreNoticeList();
 	},
 	computed: {
-		...mapGetters({ getStoreNoticeList: 'communityStore/getStoreNoticeList' }),
+		getStoreNoticeList() {
+			return this.$store.state.communityStore.storeNoticeList;
+		},
 	},
 	methods: {
 		async findStoreNoticeList() {

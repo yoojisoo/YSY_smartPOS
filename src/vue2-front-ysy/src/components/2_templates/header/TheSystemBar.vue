@@ -5,13 +5,7 @@
 				<v-col cols="10">
 					<v-row justify="end" no-gutters>
 						<v-btn-toggle tile group v-if="isLogin && isAdmin">
-							<v-btn
-								v-if="getMyRole && getMyRole == 'ADMIN'"
-								plain
-								@click="fn_freeBoard"
-							>
-								admin 자유게시판
-							</v-btn>
+							<v-btn v-if="getMyRole && getMyRole == 'ADMIN'" plain @click="fn_freeBoard"> admin 자유게시판 </v-btn>
 							<v-btn plain @click="myInfo">관리자페이지</v-btn>
 							<v-btn plain @click="myInfo">내프로필</v-btn>
 							<v-btn plain @click="logout">로그아웃</v-btn>
@@ -39,7 +33,6 @@
 <script>
 import { BaseButtonThemeChange } from '@/assets/import/index.js';
 //import Swal from 'sweetalert2';
-import { mapGetters } from 'vuex';
 
 export default {
 	name: 'main-system-bar',
@@ -76,10 +69,15 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters({ isLogin: 'authStore/isLogin' }),
-		...mapGetters({ isAdmin: 'authStore/isAdmin' }),
-		...mapGetters({ getUserId: 'authStore/getUserId' }),
-
+		isLogin() {
+			return this.$store.state.authStore.loginData.isLogin;
+		},
+		isAdmin() {
+			return this.$store.state.authStore.loginData.isAdmin;
+		},
+		getUserId() {
+			return this.$store.state.authStore.loginData.user_id;
+		},
 		getMyRole() {
 			return this.$store.state.authStore.myRole;
 		},

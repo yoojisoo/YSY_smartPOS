@@ -5,7 +5,7 @@
 		<v-row class="main_layout_row">
 			<!-- 슬라이드 배너 가로 폭 : 전체 -->
 			<v-col class="main_layout_col" cols="12">
-				<carousel />
+				<TheCarousel />
 			</v-col>
 			<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
 				<!-- style="background-color: #6667ab" -->
@@ -40,7 +40,7 @@
 								<ysyGrid :gridInfo="storeNoticeInfo" />
 							</v-col>
 							<v-col cols="12" md="6" lg="6" xl="6">
-								<ysyGrid :gridInfo="systemNoticeInfo" />
+								<ysyGrid :gridInfo="qnAInfo" />
 							</v-col>
 						</v-row>
 					</v-col>
@@ -56,15 +56,14 @@
 </template>
 
 <script>
+import { TheCarousel } from '@/assets/import/index.js';
 import ysyGrid from '@/components/FGrid.vue';
-import carousel from '@/components/FCarousel.vue';
 import noticeDialog from '@/components/FDialog.vue';
-import { mapGetters } from 'vuex';
 
 export default {
 	components: {
 		ysyGrid,
-		carousel,
+		TheCarousel,
 		noticeDialog,
 	},
 
@@ -128,6 +127,29 @@ export default {
 					this.rowDbClick(row, gridNm);
 				}, //로우 더블클릭 이벤트 콜백
 			},
+			qnAInfo: {
+				dataList: [],
+				headers: [
+					{ text: '번호', value: 'no', width: '20%', key: true },
+					{ text: '제목', value: 'title', width: '40%' },
+					{ text: '작성자', value: 'writer', width: '40%' },
+				],
+				dateGubun: '/',
+				gridNm: 'QnA',
+				path: '/qna',
+				isCheckBox: true,
+				isSingleSelect: false,
+				rowCnt: 7,
+				gridDense: true,
+				useBtn: true,
+				isDetail: false,
+				rowClick: (row, gridNm) => {
+					this.rowClick(row, gridNm);
+				}, //로우 클릭 이벤트 콜백
+				rowDbClick: (row, gridNm) => {
+					this.rowDbClick(row, gridNm);
+				}, //로우 더블클릭 이벤트 콜백
+			},
 		};
 	},
 
@@ -137,6 +159,9 @@ export default {
 
 		// 스토어 공지사항 셋팅
 		this.findStoreNoticeList();
+
+		// QnA 셋팅
+		this.findQnAList();
 	},
 
 	methods: {
@@ -197,11 +222,34 @@ export default {
 				console.log('this.getStoreNoticeList 실패 !!');
 			}
 		},
+
+		// QnA 셋팅
+		async findQnAList() {
+			await this.$store.dispatch('communityStore/findQnA').catch(error => {
+				console.log('===============> communityStore/findQnA error');
+				console.log(error);
+			});
+
+			if (this.getQnAList) {
+				this.qnAInfo.dataList = this.getQnAList;
+			} else {
+				console.log('this.getQnAList 실패 !!');
+			}
+		},
 	},
 	computed: {
-		...mapGetters({ getUser: 'authStore/getUser' }),
-		...mapGetters({ getSystemNoticeList: 'communityStore/getSystemNoticeList' }),
-		...mapGetters({ getStoreNoticeList: 'communityStore/getStoreNoticeList' }),
+		getUser() {
+			return this.$store.state.authStore.loginData;
+		},
+		getSystemNoticeList() {
+			return this.$store.state.communityStore.systemNoticeList;
+		},
+		getStoreNoticeList() {
+			return this.$store.state.communityStore.storeNoticeList;
+		},
+		getQnAList() {
+			return this.$store.state.communityStore.qnaList;
+		},
 	},
 };
 </script>

@@ -24,10 +24,8 @@
 
 <script>
 import { TheLeftCondition, TheDetailInfo } from '@/assets/import/index.js';
-import { mapGetters } from 'vuex';
 import Y2sGrid from '@/components/Y2sGrid.vue';
-import axios from 'axios';
-import store from '@/store/index';
+
 export default {
 	components: {
 		TheLeftCondition,

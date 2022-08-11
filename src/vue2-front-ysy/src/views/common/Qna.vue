@@ -18,7 +18,6 @@
 
 <script>
 import ysyGrid from '@/components/FGrid.vue';
-import { mapGetters } from 'vuex';
 import boardDialog from '@/components/FDialog.vue';
 
 export default {
@@ -58,7 +57,9 @@ export default {
 		this.findQnAList();
 	},
 	computed: {
-		...mapGetters({ getQnAList: 'communityStore/getQnAList' }),
+		getQnAList() {
+			return this.$store.state.communityStore.qnaList;
+		},
 	},
 	methods: {
 		async findQnAList() {
