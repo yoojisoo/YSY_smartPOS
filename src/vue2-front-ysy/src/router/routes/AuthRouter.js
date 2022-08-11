@@ -50,7 +50,7 @@ export default [
 		// 사용자관리
 		path: '/userMng',
 		name: 'userMng',
-		component: () => import('@/views/manager/user/UserMng.vue'),
+		component: () => import('@/views/manager/user/UserMngContainer.vue'),
 	},
 	{
 		// 메뉴권한관리

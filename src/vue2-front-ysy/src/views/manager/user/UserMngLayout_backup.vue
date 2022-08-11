@@ -1,27 +1,32 @@
 <!--
 	@author 👻s_plus7
- 	@create date 2022-07-14
-	@desc   User 관리 페이지
+ 	@create date 2022-08-11
+	@desc   사용자 관리 페이지 HTML 레이아웃
  -->
 <template>
 	<v-container class="main_layout_container">
-		<!-- {{ this.$vuetify.breakpoint.name }} -->
+		{{ this.$vuetify.breakpoint.name }}
 		<v-row class="main_layout_row">
 			<v-col cols="3" md="2" class="main_layout_col hidden-sm-and-down">
 				<TheLeftCondition :filters="userInfo.headers" />
 			</v-col>
 
 			<v-col cols="12" md="7" class="main_layout_col">
-				<Y2sGrid :gridInfo="userInfo" :gridDataList="getUserList" />
+				<!-- <Y2sGrid :gridInfo="userInfo" :gridDataList="getUserList" /> -->
 			</v-col>
 
 			<v-col cols="3" md="3" v-if="isAddr" class="main_layout_col hidden-sm-and-down">
-				<TheDetailInfo :userDetailInfo="userDetailInfo" />
+				<!-- <TheDetailInfo :userDetailInfo="userDetailInfo" /> -->
 			</v-col>
 		</v-row>
 	</v-container>
 </template>
 
+
+<!--
+	composition api setup() 함수 : beforeCreate , create의 life cycle 포함
+	나머지 라이프 사이플은 onXXX function으로 사용
+-->
 <script>
 import { TheLeftCondition, TheDetailInfo } from '@/assets/import/index.js';
 import Y2sGrid from '@/components/Y2sGrid.vue';
