@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
  * @Desc : admin free board controller - admin만 작성 가능 
  */
 @RestController
-@RequestMapping("/ysy/v1/admin")
+@RequestMapping("/ysy/v1")
 public class YsyBoardController {
 	
 	@Autowired
@@ -51,7 +52,7 @@ public class YsyBoardController {
 	@ApiOperation(value = "get 방식 admin만 사용할 수 있는 board list 조회" 
 		        , notes = "Role 권한이 ADMIN인 사람만 이용가능. \n"
 		        		+ "아직 검색조건은 넣지 않았음.")
-	@GetMapping("/getYsyBoardList")
+	@GetMapping("/admin/getYsyBoardList")
 	public ResponseAuthDto<BoardDto> getYsyBoardList(@AuthenticationPrincipal PrincipalDetails p) {
 		
 		return ysyBoardService.getBoardList(p.getUsername());
@@ -69,7 +70,7 @@ public class YsyBoardController {
 	 * @Desc : admin free board 신규 저장 - 파일 업로드 가능.
 	 */
 	@ApiOperation(value = "신규 board 저장" , notes = "Role 권한이 ADMIN인 사람만 이용가능. ")
-	@PostMapping(value="/saveYsyBoard" , consumes = {"multipart/form-data"})
+	@PostMapping(value="/admin/saveYsyBoard" , consumes = {"multipart/form-data"})
 	public ResponseAuthDto<String> saveYsyBoard(BoardDto boardDto , @AuthenticationPrincipal PrincipalDetails p) throws Exception {
 //		System.out.println("title="+dto.getTitle());
 //		System.out.println("content="+dto.getContent());
@@ -102,7 +103,7 @@ public class YsyBoardController {
 	 * @Desc : 파일 단건 다운로드시
 	 */
 	@ApiOperation(value = "board 조회시 첨부파일 다운로드 - 단건씩만 가능" , notes = "Role 권한이 ADMIN인 사람만 이용가능. ")
-	@GetMapping(value="/downloadYsyBoardFile")
+	@GetMapping(value="/admin/downloadYsyBoardFile")
 	public ResponseEntity<Resource> downloadYsyBoardFile(@RequestParam long boardId 
 			                                            ,@RequestParam long fileId 
 			                                            ,@RequestParam String fileName) {
@@ -122,7 +123,7 @@ public class YsyBoardController {
 	 * @Desc : boardId에 걸려있는 모든 파일 다운로드시  - 아직 안됨... 클라이언트 처리가 안되었음 찾아봐야함.
 	 */
 	@ApiOperation(value = "board 조회시 board에 첨부된 모든파일 다운로드 - client쪽 아직 구현 안되었음." , notes = "Role 권한이 ADMIN인 사람만 이용가능. ")
-	@GetMapping(value="/downloadYsyBoardFiles")
+	@GetMapping(value="/admin/downloadYsyBoardFiles")
 	public ResponseEntity<List<Resource>> downloadYsyBoardFiles(long boardId ) {
 		
 		return ysyFlieService.getYsyBoardAllFiles(boardId);
@@ -138,12 +139,29 @@ public class YsyBoardController {
 	 * @Return Type : void
 	 * @Desc : admin board 수정 . 파일 처리도 해야함.
 	 */
-	@PostMapping(value="/modifyYsyBoard" , consumes = {"multipart/form-data"})
-	public void modifyYsyBoard(BoardDto boardDto ,@AuthenticationPrincipal PrincipalDetails p)  throws Exception{
+	@PostMapping(value="/admin/modifyYsyBoard" , consumes = {"multipart/form-data"})
+	public ResponseAuthDto<String> modifyYsyBoard(BoardDto boardDto ,@AuthenticationPrincipal PrincipalDetails p)  throws Exception{
 		
 		if(boardDto.getUserId().equals(p.getUsername())) {
-			ysyBoardService.modifyYsyBoard(boardDto);
+			return ysyBoardService.modifyYsyBoard(boardDto , p.getUsername());
 		}
+		
+		return new ResponseAuthDto<String>("error","writer error" , HttpStatus.UNAUTHORIZED);
+	}
+	
+	//ysy board delete 
+	public ResponseAuthDto<String> deleteYsyBoard(BoardDto boardDto , @AuthenticationPrincipal PrincipalDetails p) {
+		
+		if(boardDto.getUserId().equals(p.getUsername())) {
+			return ysyBoardService.deleteYsyBoard(boardDto , p.getUsername());
+		}
+		
+		return new ResponseAuthDto<String>("error","writer error" , HttpStatus.UNAUTHORIZED);
+	}
+	
+	//조회수 업데이트
+	public int updateYsyBoardViewCnt(long BoardId) {
+		return ysyBoardService.updateYsyBoardViewCnt(BoardId);
 	}
 	
 }

@@ -64,6 +64,10 @@ public class YsyBoardComment extends BaseEntity implements Serializable{
 //	@ColumnDefault("'N'")
 	private String isDel;
 	
+	@Comment(value="comment 순서정보")
+	@Column(name = "SORT_SEQ")
+	private int sortSeq;
+	
 	
 	@Comment(value="Comment 부모 Board")
 	@ManyToOne

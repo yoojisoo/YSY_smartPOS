@@ -31,4 +31,9 @@ export default [
 		name: 'adminBoardMod',
 		component: () => import('@/views/testPages/AdminFreeBoardMod.vue'),
 	},
+	{
+		path: '/adminSchedule',
+		name: 'adminSchedule',
+		component: () => import('@/views/testPages/AdminSchedule.vue'),
+	},
 ];

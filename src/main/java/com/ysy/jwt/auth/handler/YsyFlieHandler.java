@@ -170,7 +170,7 @@ public class YsyFlieHandler {
     	catch (Exception e) 
     	{
 			System.out.println("file save Exception!!!!!!!!!!!!!!!!!!!!!!!!" + e.getMessage());
-			deleteSaveFile(null);
+			deleteSaveFile(null , null);
 			e.printStackTrace();
 		}
     	return null;
@@ -186,17 +186,21 @@ public class YsyFlieHandler {
     * @Return Type : boolean
     * @Desc : 파일 저장 후 저장이 잘못되었거나 db에 파일 경로가 저장이 안되었을 경우 기존 저장했던 파일을 모두 삭제한다.
     */
-    public boolean deleteSaveFile(List<String> fileNames) {
+    public boolean deleteSaveFile(List<String> fileNames , String pullPath) {
     	
     	if(fileNames == null || fileNames.size() == 0)
     	{
     		fileNames = saveFileNames;
     	}
     	
+    	if(pullPath == null || pullPath.isEmpty()) {
+    		pullPath = saveFullPath;
+    	}
+    	
     	File delFile = null;
 		try {
 			for(String filename : saveFileNames) {
-				String path = saveFullPath + filename;
+				String path = pullPath + filename;
 				delFile = new File(path);
 				if( delFile.exists() ){
 		    		if(delFile.delete()){

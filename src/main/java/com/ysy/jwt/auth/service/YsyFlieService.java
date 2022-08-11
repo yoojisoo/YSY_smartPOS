@@ -89,7 +89,7 @@ public class YsyFlieService {
 		catch (Exception e) 
 		{
 			// db저장이 잘못되었을 경우 기존 저장했던 파일을 삭제해줌.
-			ysyFlieHandler.deleteSaveFile(null);
+			ysyFlieHandler.deleteSaveFile(null , null);
 		}
 		
 		return -1;
@@ -145,5 +145,12 @@ public class YsyFlieService {
 		
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=files").body(downFileList);
+	}
+	
+	
+	//실제 저장된 파일 삭제
+	public boolean deleteRealFile(List<String> fileNames , String fullPath) {
+		
+		return ysyFlieHandler.deleteSaveFile(fileNames , fullPath);
 	}
 }

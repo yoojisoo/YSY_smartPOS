@@ -1,5 +1,6 @@
 package com.ysy.jwt.auth.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,11 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
 import com.ysy.jwt.auth.dto.BoardDto;
 import com.ysy.jwt.auth.dto.ResponseAuthDto;
 import com.ysy.jwt.auth.entity.QYsyBoardFile;
 import com.ysy.jwt.auth.entity.QYsyBoardMst;
+import com.ysy.jwt.auth.entity.YsyBoardFile;
 import com.ysy.jwt.auth.entity.YsyBoardMst;
 
 import io.swagger.annotations.ApiOperation;
@@ -132,7 +133,7 @@ public class YsyBoardService {
 
 	
 	@Transactional
-	public void modifyYsyBoard(BoardDto boardDto) {
+	public ResponseAuthDto<String> modifyYsyBoard(BoardDto boardDto , String writer) {
 		//새로운 파일이 올라오면 기존파일과 비교하고 없는것만 저장시킴 
 		//기존에 파일있던게 삭제 되었는지 확인하여 파일 지워줌.
 		//
@@ -141,7 +142,7 @@ public class YsyBoardService {
 //		qYsyBoardFile
 		
 		boardDto.getBoardId();//board에 기존 내용 업데이트
-		boardDto.getFileDtoList().size();//기존 파일 삭제 여부 - db랑 비교하여 기존파일 없는건 삭제함
+		int newFileSize = boardDto.getFileDtoList().size();//기존 파일 삭제 여부 - db랑 비교하여 기존파일 없는건 삭제함
 		boardDto.getFiles();//새롭게 올린 파일 기존 폴더에 이미지 추가 후 db에 저장
 		
 //		JPAUpdateClause update = new JPAUpdateClause(em, qYsyBoardMst);
@@ -149,13 +150,122 @@ public class YsyBoardService {
 //		update.set(qYsyBoardMst.title, boardDto.getTitle())
 //		.set(null, null)
 		
+		//board master table get
 		YsyBoardMst ysyBoardMst = query.select(qYsyBoardMst)
-		.from(qYsyBoardMst)
-		.where(qYsyBoardMst.boardId.eq(boardDto.getBoardId()))
-		.fetchOne();
+			.from(qYsyBoardMst)
+			.where(qYsyBoardMst.boardId.eq(boardDto.getBoardId()))
+			.fetchOne();
+		int orgFileSize = ysyBoardMst.getFileList().size();
 		
+		//기존 파일에서 삭제된 파일 갯수
+		long delCnt = 0;
+		//기존 파일 중 new파일에 없는것 삭제
+		if(orgFileSize > newFileSize) {
+			List<YsyBoardFile> fileInfoList = 
+			   query.select(qYsyBoardFile)
+					.from(qYsyBoardFile)
+					.where(qYsyBoardFile.ysyBoardMst.boardId.eq(boardDto.getBoardId()))
+					.fetch()
+					;
+			//원본
+			for(YsyBoardFile fileInfo : fileInfoList) {
+				//client에서 전송된 파일 정보 - 기존 조회된 내용 중 삭제된것이 있나 확인
+				//원본 파일과 비교함
+				long cnt = 
+				boardDto.getFileDtoList()
+						.stream()
+						.filter(x->x.getOrgFileName().equals(fileInfo.getOrgFileName()))
+						.count();
+				if(cnt == 0) {
+					//client에서 삭제되어서 db에서 삭제해줌
+					delCnt =+ query.delete(qYsyBoardFile)
+							.where(qYsyBoardFile.fileId.eq(fileInfo.getFileId()))
+							.execute();
+				}
+			}
+		}
+		
+		if(boardDto.getFiles().size() > 0) {
+			int fileCnt = ysyFlieService.saveYsyBoardFile(boardDto, boardDto.getBoardId(), writer);
+			if(fileCnt <= 0) {
+				em.getTransaction().rollback();
+				return new ResponseAuthDto<String>("error","file save error" , HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		
+		//신규로 올라온 파일 저장.
+		
+		//board master table update
 		ysyBoardMst.setTitle(boardDto.getTitle());
+		ysyBoardMst.setContent(boardDto.getContent());
+		ysyBoardMst.setModDt(LocalDateTime.now());
+		ysyBoardMst.setModId(writer);
 		
+		
+		return new ResponseAuthDto<String>("save ok" , HttpStatus.OK);
+		
+	}
+	@Transactional
+	public ResponseAuthDto<String> deleteYsyBoard(BoardDto boardDto , String writer) {
+		//코멘트와 file info 삭제
+		//실제 파일 삭제
+		//board master 삭제
+		
+		
+		try {
+			//file info 삭제
+			List<YsyBoardFile> fileInfoList = 
+					query.select(qYsyBoardFile)
+					.from(qYsyBoardFile)
+					.where(qYsyBoardFile.ysyBoardMst.boardId.eq(boardDto.getBoardId()))
+					.fetch()
+					;
+			if(fileInfoList.size() > 0) {
+				String fullPath = fileInfoList.get(0).getFileFullPath();
+				List<String> filenames = fileInfoList.stream().map(x->x.getNewFileName()).collect(Collectors.toList());
+				//실제 파일 삭제
+				boolean isFileDel = ysyFlieService.deleteRealFile(filenames , fullPath);
+				if(!isFileDel) 
+				{
+					return new ResponseAuthDto<String>("Eeal File Delete Error" , HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+				//db에 저장된 file info 삭제
+				for(YsyBoardFile fileInfo :fileInfoList) {
+					query.delete(qYsyBoardFile)
+						 .where(qYsyBoardFile.fileId.eq(fileInfo.getFileId()))
+						 .execute();
+				}
+			}
+			
+			//comment 삭제해야함.
+			
+			//board master 삭제
+			query.delete(qYsyBoardMst)
+			 	 .where(qYsyBoardMst.boardId.eq(boardDto.getBoardId()))
+			 	 .execute();
+			return new ResponseAuthDto<String>("Save ok" , HttpStatus.OK);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseAuthDto<String>("delete error" , HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+	}
+	
+	
+	
+	public int updateYsyBoardViewCnt(long boardId) {
+		
+		YsyBoardMst ysyBoardMst = query.select(qYsyBoardMst)
+				.from(qYsyBoardMst)
+				.where(qYsyBoardMst.boardId.eq(boardId))
+				.fetchOne();
+		int cnt = ysyBoardMst.getViewCnt()+1;
+		ysyBoardMst.setViewCnt(cnt);
+		
+		return cnt;
 	}
 	
 	
