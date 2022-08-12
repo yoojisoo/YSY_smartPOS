@@ -8,20 +8,31 @@
 -->
 <template>
 	<v-app>
-		<v-btn @click="update">update</v-btn>
-		<v-container fluid class="main_layout_container">
-			<!-- custom card grid -->
-			<v-row no_gutters class="mx-1 pa-0 mt-1">
-				<v-col
-					v-for="(data, idx) in cardList"
-					:key="idx"
-					:cols="grid_layout.default"
-					:sm="grid_layout.tablet"
-					:md="grid_layout.pc"
-					class="mt-0 pa-0"
-					:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
-				>
-					<BaseCardImg :info="data" />
+		<!--<v-btn @click="update">update</v-btn>-->
+		<v-container class="main_layout_container">
+			<v-row class="main_layout_row">
+				<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
+					<v-row justify="start" no-gutters style="height: inherit">
+						<v-col cols="12">
+							<v-breadcrumbs :items="breadCrumbsInfo">
+								<template v-slot:divider>
+									<v-icon>mdi-chevron-right</v-icon>
+								</template>
+							</v-breadcrumbs>
+						</v-col>
+						<v-col
+							v-for="(data, idx) in dataList"
+							:key="idx"
+							:cols="grid_layout.default"
+							:sm="grid_layout.tablet"
+							:md="grid_layout.pc"
+							class="mt-0 pa-0"
+							:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
+							style="text-align: -webkit-center"
+						>
+							<BaseCardImg :info="data" />
+						</v-col>
+					</v-row>
 				</v-col>
 			</v-row>
 
@@ -38,13 +49,12 @@
 <script>
 import { BaseCardImg, BasePagination, CommonService, YsyUtil } from '@/assets/import/index.js';
 
-// import CommonService from '@/service/CommonService';
-
 export default {
-	props: ['info'],
+	props: ['info', 'parentPageName'],
 	components: {
 		BaseCardImg,
 		BasePagination,
+		BaseCardImg,
 	},
 	data() {
 		return {
@@ -69,6 +79,7 @@ export default {
 			bottomMargin: 'mb-3',
 			dataList: [], // 초기에 조회된 모든 카드 데이터 리스트
 			cardList: [], // 페이징 처리 된 카드 데이터 리스트
+			breadCrumbsInfo: [{ text: this.parentPageName }, { text: 'Admin 자유게시판' }],
 		};
 	},
 	mounted() {
@@ -81,10 +92,7 @@ export default {
 	methods: {
 		async getDataList() {
 			const params = {};
-			let { data } = await CommonService.fn_getDataList(
-				'/ysy/v1/admin/getYsyBoardList',
-				params,
-			);
+			let { data } = await CommonService.fn_getDataList('/ysy/v1/admin/getYsyBoardList', params);
 			this.dataList = data.objList;
 			console.log('admin board free veiw getDataList ', this.dataList);
 		},

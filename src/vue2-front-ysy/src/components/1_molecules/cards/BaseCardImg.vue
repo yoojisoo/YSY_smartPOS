@@ -11,7 +11,7 @@
     }
 -->
 <template>
-  <v-card class="pa-3 ma-0 mx-2" outlined >
+	<!--<v-card class="pa-3 ma-0 mx-2" outlined >
       <v-row no-gutters>
           <v-col cols="8" class="ma-0 pa-0">
               <v-card-title class="pl-1 pt-0 ma-0 text-h5" @click="detailMove('content')" v-text="info.title" />
@@ -38,67 +38,74 @@
                   <v-img class="cursor_finger" :src="info.img? info.img : default_img" />
               </v-avatar>
           </v-col>
-      </v-row>
-      <v-row no-gutters v-if="info.isAction">
-          <v-col cols="12">
-              <v-card-actions>
-                  <span v-if="info.viewCnt">
-                      <v-icon>mdi-eye </v-icon>
-                      {{info && info.viewCnt ?info.viewCnt : 0}}
-                  </span>
-                  <v-btn @click="detailMove('comment')" icon>
-                      <v-icon>mdi-comment</v-icon>
-                      {{info && info.commentCnt ?info.commentCnt : 0}}
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn icon>
-                      <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                      <v-icon>mdi-bookmark</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                      <v-icon>mdi-share-variant</v-icon>
-                  </v-btn>
-                  <v-btn v-if="info.isOwner" icon>
-                      <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-              </v-card-actions>
-          </v-col>
-      </v-row>
-  </v-card>
+      </v-row>-->
+	<v-card class="ma-0 pa-0" width="450" outlined>
+		<v-img class="cursor_finger" contain max-height="300" :src="info.img ? info.img : default_img" @click="detailMove('image')">
+			<v-btn absolute bottom right fab elevation="0" @click="detailMove('bookmark')">
+				<v-icon>mdi-bookmark-outline </v-icon>
+			</v-btn>
+		</v-img>
+		<v-card-title @click="detailMove('content')">
+			<v-icon left v-if="info.attechFileCnt > 0"> mdi-paperclip </v-icon>
+			<span>{{ info.title }}</span>
+		</v-card-title>
+		<v-card-subtitle style="text-align: start" @click="detailMove('content')">
+			<v-card-text v-if="info.content">
+				<div class="content_box" v-text="info.content" />
+			</v-card-text>
+			<v-card-text v-else>
+				<div class="d-inline-block text-truncate cursor_finger" style="max-width: 100%">
+					{{ !info.content ? info.content : 'Data Not Found!' }}
+				</div>
+			</v-card-text>
+		</v-card-subtitle>
+		<v-card-actions>
+			<v-list-item class="grow">
+				<v-list-item-avatar color="grey darken-3"></v-list-item-avatar>
+				<v-list-item-content>
+					<v-list-item-title>{{ info.userName }}</v-list-item-title>
+				</v-list-item-content>
+				<v-row align="center" justify="end">
+					<v-btn text> 조회수 {{ info.viewCnt }} </v-btn>
+					<v-btn text @click="detailMove('comment')"> 댓글수 {{ info.commentCnt }}</v-btn>
+				</v-row>
+			</v-list-item>
+		</v-card-actions>
+	</v-card>
 </template>
 
 <script>
 export default {
-  props :["info" ,"styleInfo"],
-  data(){
-    return {
-      default_img : "https://cdn.vuetifyjs.com/images/cards/cooking.png",
-      boardId : -1,
-    }
-  },
-  created(){
-
-  },
-  mounted(){
-    this.boardId = this.info.boardId ;
-  },
-  computed:{
-    boardId(){
-        console.log("this.boardId", this.boardId);
-        return this.boardId;
-    },
-  },
-  methods:{
-    detailMove(type){
-      console.log("detailMove => "+type);
-    }
-  },
-
-}
+	props: ['info', 'styleInfo'],
+	data() {
+		return {
+			default_img: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
+		};
+	},
+	methods: {
+		detailMove(type) {
+			console.log('detailMove => ' + type);
+		},
+	},
+};
 </script>
 
-<style>
+<style scoped>
+.content_box {
+	/** 한줄 !! */
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/** 특정 단위로 텍스트를 자르는 css */
+	/*white-space: normal;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;*/
+}
 
+.v-responsive {
+	overflow: visible;
+}
 </style>
