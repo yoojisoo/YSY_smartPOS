@@ -150,6 +150,7 @@ public class YsyBoardController {
 	}
 	
 	//ysy board delete 
+	@PostMapping(value="/admin/deleteYsyBoard")
 	public ResponseAuthDto<String> deleteYsyBoard(BoardDto boardDto , @AuthenticationPrincipal PrincipalDetails p) {
 		
 		if(boardDto.getUserId().equals(p.getUsername())) {
@@ -160,6 +161,7 @@ public class YsyBoardController {
 	}
 	
 	//조회수 업데이트
+	@PostMapping(value="/admin/updateYsyBoardViewCnt")
 	public int updateYsyBoardViewCnt(long BoardId) {
 		return ysyBoardService.updateYsyBoardViewCnt(BoardId);
 	}
