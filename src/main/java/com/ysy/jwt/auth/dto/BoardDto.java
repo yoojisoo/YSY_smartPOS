@@ -30,6 +30,7 @@ public class BoardDto extends BaseDto{
 	private String userName; // 작성자 이름
 	private String writer;//작성자 아이디
 	private String title; // 제목
+	private String subTitle;// 설명
 	private String content; // 내용
 	private int    viewCnt; // 조회수
 	private boolean modify;//수정여부
@@ -59,6 +60,7 @@ public class BoardDto extends BaseDto{
 		this.userId         = boardMst.getYsyUserMst().getUsername();
 		this.writer         = boardMst.getYsyUserMst().getUsername();
 		this.title          = boardMst.getTitle();
+		this.subTitle       = boardMst.getSubTitle();
 		this.content        = boardMst.getContent();
 		this.attechFileCnt  = boardMst.getFileList().size();
 		this.commentCnt     = boardMst.getCommentList().size();

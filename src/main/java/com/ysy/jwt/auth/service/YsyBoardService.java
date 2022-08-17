@@ -89,13 +89,14 @@ public class YsyBoardService {
 			 	   ;
 		System.out.println("boardId = "+boardId);
 		int cnt = em.createNativeQuery("INSERT INTO "
-					+ "ysy_board_mst (board_id , user_id , title , content , reg_id , reg_dt)"
-					+ "       VALUES (       ? ,       ? ,     ? ,       ? ,      ? , now() )")
+					+ "ysy_board_mst (board_id , user_id , title , sub_title, content , reg_id , reg_dt)"
+					+ "       VALUES (       ? ,       ? ,     ? ,        ? ,       ? ,      ? , now() )")
 				    .setParameter(1, boardId)
 				    .setParameter(2, userId)
 				    .setParameter(3, boardDto.getTitle())
-				    .setParameter(4, boardDto.getContent())
-				  	.setParameter(5, userId)
+				    .setParameter(4, boardDto.getSubTitle())
+				    .setParameter(5, boardDto.getContent())
+				  	.setParameter(6, userId)
 				  	.executeUpdate();
 		
 		

@@ -8,7 +8,7 @@
 		<!-- 썸네일 방식 파일 첨부영역 -->
 		<BaseThumbnail :info="ThumbnailInfo" />
 		<!-- 파일 첨부 영역 -->
-		<FileAttach :info="FileAttachInfo" />
+		<!--<FileAttach :info="FileAttachInfo" />-->
 
 		<!-- editor 영역 -->
 		<SummerNote :info="SummerNoteInfo" />
@@ -71,28 +71,35 @@ export default {
 			SummerNoteInfo: {
 				isEdit: true,
 				isTitle: true,
+				isSubTitle: true,
 				orgTitle: '',
+				orgSubTitle: '',
 				orgContent: '',
-				contentCallback: chgContent => {
-					console.log('ContentCallback', chgContent);
-					this.$store.dispatch('adminFreeBoardStore/setContent', chgContent);
-				},
 				titleCallback: chgTitle => {
 					console.log('TitleCallback', chgTitle);
 					this.$store.dispatch('adminFreeBoardStore/setTitle', chgTitle);
 				},
+				subTitleCallback: chgSubTitle => {
+					console.log('SubTitleCallback', chgSubTitle);
+					this.$store.dispatch('adminFreeBoardStore/setSubTitle', chgSubTitle);
+				},
+				contentCallback: chgContent => {
+					console.log('ContentCallback', chgContent);
+					this.$store.dispatch('adminFreeBoardStore/setContent', chgContent);
+				},
 			},
 		};
 	},
-	computed: {},
 	methods: {
 		async saveClick() {
 			console.log('saveClick');
 
 			const title = this.$store.state.adminFreeBoardStore.title;
+			const subTitle = this.$store.state.adminFreeBoardStore.subTitle;
 			const content = this.$store.state.adminFreeBoardStore.content;
 			if (
 				title === this.$store.state.adminFreeBoardStore.orgTitle &&
+				subTitle === this.$store.state.adminFreeBoardStore.orgSubTitle &&
 				content === this.$store.state.adminFreeBoardStore.orgContent
 			) {
 				console.log('같음');
@@ -100,13 +107,11 @@ export default {
 			}
 
 			console.log('title ', title);
+			console.log('subTitle', subTitle);
 			console.log('content ', content);
 			console.log('this.files', this.files);
 
-			let formData = YsyUtil.createFormData(
-				{ 'title ': title, 'content ': content },
-				this.files,
-			);
+			let formData = YsyUtil.createFormData({ 'title ': title, 'subTitle ': subTitle, 'content ': content }, this.files);
 			// let formData = new FormData();
 			// formData.append('title', title);
 			// formData.append('content', content);
@@ -146,10 +151,7 @@ export default {
 				boardId: '1',
 			};
 			try {
-				let res = await CommonService.fn_downloadFiles(
-					'/ysy/v1/admin/downloadYsyBoardFiles',
-					params,
-				);
+				let res = await CommonService.fn_downloadFiles('/ysy/v1/admin/downloadYsyBoardFiles', params);
 				// let res = await CommonService.fn_getDataList("?boardId=1&fileId=1&fileName=262832165620200_영업비밀1 - 복사본 (2).jpg" );
 			} catch (error) {}
 		},

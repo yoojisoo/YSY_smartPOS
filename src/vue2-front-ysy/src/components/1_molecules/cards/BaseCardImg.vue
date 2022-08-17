@@ -40,22 +40,23 @@
           </v-col>
       </v-row>-->
 	<v-card class="ma-0 pa-0" width="450" outlined>
-		<v-img class="cursor_finger" contain max-height="300" :src="info.img ? info.img : default_img" @click="detailMove('image')">
+		<v-img :src="info.attechFileCnt > 0 ? info.fileDtoList[0].fileFullPath : default_img" class="cursor_finger" contain max-height="300" @click="detailMove('image')">
+			<!--<v-img src="http://tboom.shop/images/2022_08_16/490071782569900_Screenshot_14.png" class="cursor_finger" contain max-height="300">-->
 			<v-btn absolute bottom right fab elevation="0" @click="detailMove('bookmark')">
 				<v-icon>mdi-bookmark-outline </v-icon>
 			</v-btn>
 		</v-img>
-		<v-card-title @click="detailMove('content')">
+		<v-card-title @click="detailMove('title')">
 			<v-icon left v-if="info.attechFileCnt > 0"> mdi-paperclip </v-icon>
 			<span>{{ info.title }}</span>
 		</v-card-title>
-		<v-card-subtitle style="text-align: start" @click="detailMove('content')">
-			<v-card-text v-if="info.content">
-				<div class="content_box" v-text="info.content" />
+		<v-card-subtitle style="text-align: start" @click="detailMove('subTitle')">
+			<v-card-text v-if="info.subTitle">
+				<div class="content_box" v-text="info.subTitle" />
 			</v-card-text>
 			<v-card-text v-else>
 				<div class="d-inline-block text-truncate cursor_finger" style="max-width: 100%">
-					{{ !info.content ? info.content : 'Data Not Found!' }}
+					{{ !info.subTitle ? info.subTitle : 'Data Not Found!' }}
 				</div>
 			</v-card-text>
 		</v-card-subtitle>
@@ -83,6 +84,11 @@ export default {
 		};
 	},
 	methods: {
+		/** HTML 형식의 content에서 tag 제거한 내용 리턴 */
+		//textChg(text) {
+		//	const extractTextPattern = /(<([^>]+)>)/gi;
+		//	return text.replace(extractTextPattern, '');
+		//},
 		detailMove(type) {
 			console.log('detailMove => ' + type);
 		},

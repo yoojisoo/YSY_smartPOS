@@ -10,71 +10,65 @@
 -->
 <template>
 	<div>
-
 		<!-- 제목 영역 -->
-		<v-row 
-			no-gutters class="pb-5" 
-			v-if="info && info.isTitle"
-		>
+		<v-row no-gutters class="pb-5" v-if="info && info.isTitle">
 			<v-col class="pt-3" cols="12">
-				<v-text-field class="px-3" v-model="title" outlined placeholder="제목 입력" hide-details @input="titleChange"/>
+				<v-text-field class="px-3" v-model="title" outlined placeholder="제목 입력" hide-details @input="titleChange" />
 			</v-col>
 		</v-row>
-		
+
+		<!-- 서브타이틀 영역 -->
+		<v-row no-gutters class="pb-5" v-if="info && info.isSubTitle">
+			<v-col class="pt-3" cols="12">
+				<v-text-field class="px-3" v-model="subTitle" outlined placeholder="설명 입력" hide-details @input="subTitleChange" />
+			</v-col>
+		</v-row>
+
 		<!-- content 영역 -->
 		<v-row no-gutters class="px-3">
-			<v-col  cols="12">
+			<v-col cols="12">
 				<div id="summernote"></div>
 			</v-col>
 		</v-row>
-
 	</div>
 </template>
 
 <script>
-
-import store from '@/store/index';
 export default {
 	props: ['info'],
 
 	data() {
 		return {
-			title:"",
-			content: "",
-			orgContent:"",
-
+			title: '',
+			subTitle: '',
+			content: '',
+			orgContent: '',
 		};
-	},
-	computed:{
-	
-	},
-	watch: {
-
 	},
 	mounted() {
 		$('#summernote').summernote({
-			height: "500",
+			height: '500',
 			minHeight: null,
 			maxHeight: null,
 			focus: false,
 			lang: 'ko-KR',
 			callbacks: {
-              onImageUpload: function(image) {
-					console.log("onImageUpload");
-                    
-					image.forEach(x=>{
+				onImageUpload: function (image) {
+					console.log('onImageUpload');
+
+					image.forEach(x => {
 						var reader = new FileReader();
 						reader.readAsDataURL(x);
-						reader.onloadend = function() {
-						console.log("2onImageUpload");
-                        var image = $('<img>').attr('src',  reader.result);
-                           image.attr('width','100%');
-                        $('#summernote').summernote("insertNode", image[0]);
-                    }
-					})
-              }
-           }
-		   
+						reader.onloadend = function () {
+							console.log('2onImageUpload');
+							var image = $('<img>').attr('src', reader.result);
+							image.attr('width', '100%');
+							$('#summernote').summernote('insertNode', image[0]);
+						};
+					});
+				},
+			},
+
 			// placeholder: '내용을 작성하세요.',
 			// toolbar: [
 			//   ['style', ['bold', 'italic', 'underline']],
@@ -87,21 +81,18 @@ export default {
 			// ]
 		});
 
-		this.title = this.info && this.info.orgTitle?this.info.orgTitle : "";
-		let orgContent = this.info && this.info.orgContent?this.info.orgContent : "";
+		this.title = this.info && this.info.orgTitle ? this.info.orgTitle : '';
+		this.subTitle = this.info && this.info.orgSubTitle ? this.info.orgSubTitle : '';
+		let orgContent = this.info && this.info.orgContent ? this.info.orgContent : '';
 		$('#summernote').summernote('editor.insertText', orgContent); //내용 넣기
 
-
-
-		$("#summernote").on("summernote.change",  (e) => {   // callback as jquery custom event 
-			console.log('1.it is changed' , $('#summernote').summernote('code'));
-			if(this.info && this.info.contentCallback){
+		$('#summernote').on('summernote.change', e => {
+			// callback as jquery custom event
+			console.log('1.it is changed', $('#summernote').summernote('code'));
+			if (this.info && this.info.contentCallback) {
 				this.info.contentCallback($('#summernote').summernote('code'));
 			}
-			
 		});
-
-
 
 		// let str = 'hello world';
 		// $('#summernote').summernote('code', str); //내용 넣기
@@ -114,13 +105,18 @@ export default {
 		// }
 	},
 	methods: {
-		titleChange(chgTitle){
-			if(this.info && this.info.titleCallback){
+		titleChange(chgTitle) {
+			if (this.info && this.info.titleCallback) {
 				this.info.titleCallback(chgTitle);
 			}
-			console.log("titleChange " , chgTitle);
-			
-		}
+			console.log('titleChange ', chgTitle);
+		},
+		subTitleChange(chgSubTitle) {
+			if (this.info && this.info.subTitleCallback) {
+				this.info.subTitleCallback(chgSubTitle);
+			}
+			console.log('subTitleChange ', chgSubTitle);
+		},
 	},
 };
 </script>
