@@ -19,6 +19,7 @@
 							</template>
 						</v-breadcrumbs>
 					</v-col>
+					<v-col cols="12"> gg </v-col>
 					<v-col
 						v-for="(card, idx) in cardList"
 						:key="idx"
@@ -32,9 +33,12 @@
 						<BaseCardImg :info="card" />
 					</v-col>
 				</v-row>
-				<v-row no-gutters style="height: inherit">
-					<v-col class="main_layout_col" cols="12">
-						<BasePagination :info="paginationInfo" />
+				<!--<v-row no-gutters style="height: inherit">-->
+				<v-row style="height: inherit; justify-content: center">
+					<!--<v-col class="main_layout_col" cols="12">-->
+					<v-col class="main_layout_col" cols="11">
+						<!--<BasePagination :info="paginationInfo" />-->
+						<v-btn v-if="dataList.length > cardList.length" block tile elevation="0" x-large @click="appendCard()"> 더보기 >> {{ dataList.length }} , {{ cardList.length }} </v-btn>
 					</v-col>
 				</v-row>
 			</v-col>
@@ -55,7 +59,7 @@ export default {
 	},
 	data() {
 		return {
-			dataCntInPage: 3, // 한 페이지에 표시 될 데이터 수
+			dataCntInPage: 6, // 한 페이지에 표시 될 데이터 수
 			paginationInfo: {
 				pageCnt: 0, // 총 페이지 수 ⭐
 				//totalVisible: 5, // 페이지 버튼 표시 사이즈
@@ -140,6 +144,19 @@ export default {
 		onScroll() {
 			this.scrollInvoked++;
 			console.log(this.scrollInvoked);
+		},
+
+		appendCard() {
+			console.log('cardList >> ', this.cardList);
+			let page = this.cardList.length / this.dataCntInPage + 1;
+			console.log('page >> ', page);
+			let start = (page - 1) * this.dataCntInPage;
+			let end = page * this.dataCntInPage;
+			console.log('start >> ', start);
+			console.log('end >> ', end);
+			console.log('dataList slice >> ', this.dataList.slice(start, end));
+			this.cardList = this.cardList.concat(this.dataList.slice(start, end));
+			console.log('cardList >> ', this.cardList);
 		},
 	},
 };

@@ -39,18 +39,17 @@
               </v-avatar>
           </v-col>
       </v-row>-->
-	<v-card class="ma-0 pa-0" width="450" outlined>
-		<v-img :src="info.attechFileCnt > 0 ? 'http://tboom.shop' + info.fileDtoList[0].fileFullPath : default_img" class="cursor_finger" contain max-height="300" @click="detailMove('image')">
-			<!--<v-img src="http://tboom.shop/images/2022_08_16/490071782569900_Screenshot_14.png" class="cursor_finger" contain max-height="300">-->
-			<v-btn absolute bottom right fab elevation="0" @click="detailMove('bookmark')">
+	<v-card class="ma-0 pa-0" width="450" height="490" outlined>
+		<v-img :src="getImgSrc()" class="cursor_finger" contain height="300" @click="detailMove(imgSrc)">
+			<v-btn absolute bottom right fab elevation="0">
 				<v-icon>mdi-bookmark-outline </v-icon>
 			</v-btn>
 		</v-img>
-		<v-card-title @click="detailMove('title')">
+		<v-card-title>
 			<v-icon left v-if="info.attechFileCnt > 0"> mdi-paperclip </v-icon>
 			<span>{{ info.title }}</span>
 		</v-card-title>
-		<v-card-subtitle style="text-align: start" @click="detailMove('subTitle')">
+		<v-card-subtitle style="text-align: start">
 			<v-card-text v-if="info.subTitle">
 				<div class="content_box" v-text="info.subTitle" />
 			</v-card-text>
@@ -68,7 +67,7 @@
 				</v-list-item-content>
 				<v-row align="center" justify="end">
 					<v-btn text> 조회수 {{ info.viewCnt }} </v-btn>
-					<v-btn text @click="detailMove('comment')"> 댓글수 {{ info.commentCnt }}</v-btn>
+					<v-btn text> 댓글수 {{ info.commentCnt }}</v-btn>
 				</v-row>
 			</v-list-item>
 		</v-card-actions>
@@ -76,11 +75,14 @@
 </template>
 
 <script>
+import CommonService from '@/service/CommonService';
 export default {
 	props: ['info', 'styleInfo'],
 	data() {
 		return {
 			default_img: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
+			base_url: 'http://tboom.shop',
+			imgSrc: '',
 		};
 	},
 	methods: {
@@ -89,8 +91,31 @@ export default {
 		//	const extractTextPattern = /(<([^>]+)>)/gi;
 		//	return text.replace(extractTextPattern, '');
 		//},
-		detailMove(type) {
-			console.log('detailMove => ' + type);
+		getImgSrc() {
+			if (this.info.attechFileCnt > 0) {
+				this.imgSrc = this.base_url + this.info.fileDtoList[0].fileFullPath;
+			} else this.imgSrc = this.default_img;
+
+			return this.imgSrc;
+		},
+		async detailMove(param) {
+			if (param === this.default_img) {
+				alert('다운로드 받을 파일이 없습니다.');
+			} else {
+				console.log('boardId >> ', this.info.boardId);
+				console.log('fileId >> ', this.info.fileDtoList[0].fileId);
+				console.log('fileName >> ', this.info.fileDtoList[0].newFileName);
+
+				let params = {
+					boardId: this.info.boardId,
+					fileId: this.info.fileDtoList[0].fileId,
+					fileName: this.info.fileDtoList[0].newFileName,
+				};
+
+				try {
+					await CommonService.fn_downloadFile('/ysy/v1/admin/downloadYsyBoardFile', params);
+				} catch (error) {}
+			}
 		},
 	},
 };
