@@ -40,7 +40,7 @@
           </v-col>
       </v-row>-->
 	<v-card class="ma-0 pa-0" width="450" outlined>
-		<v-img :src="info.attechFileCnt > 0 ? info.fileDtoList[0].fileFullPath : default_img" class="cursor_finger" contain max-height="300" @click="detailMove('image')">
+		<v-img :src="info.attechFileCnt > 0 ? 'http://tboom.shop' + info.fileDtoList[0].fileFullPath : default_img" class="cursor_finger" contain max-height="300" @click="detailMove('image')">
 			<!--<v-img src="http://tboom.shop/images/2022_08_16/490071782569900_Screenshot_14.png" class="cursor_finger" contain max-height="300">-->
 			<v-btn absolute bottom right fab elevation="0" @click="detailMove('bookmark')">
 				<v-icon>mdi-bookmark-outline </v-icon>

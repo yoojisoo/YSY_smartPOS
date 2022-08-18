@@ -56,7 +56,7 @@ public class YsyBoardMst extends BaseEntity implements Serializable {
     @Column(name = "TITLE",nullable = false)
     private String title;
     
-    @Column(name = "SUB_TITLE",nullable = false)
+    @Column(name = "SUB_TITLE")
     private String subTitle;
 
     @Comment(value="내용 이미지 포함됨.")
