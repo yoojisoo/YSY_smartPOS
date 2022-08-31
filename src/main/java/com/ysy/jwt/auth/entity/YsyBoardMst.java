@@ -33,7 +33,7 @@ import lombok.ToString;
  *  Desc : admin만 사용하는 자유 게시판
  */
 @Data
-@Builder
+//@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,6 +55,9 @@ public class YsyBoardMst extends BaseEntity implements Serializable {
 
     @Column(name = "TITLE",nullable = false)
     private String title;
+    
+    @Column(name = "SUB_TITLE")
+    private String subTitle;
 
     @Comment(value="내용 이미지 포함됨.")
     @Column(name = "CONTENT", nullable = false)

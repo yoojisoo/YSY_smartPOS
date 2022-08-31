@@ -16,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ysy.jwt.auth.config.SystemConfig;
 import com.ysy.jwt.auth.dto.BoardDto;
 import com.ysy.jwt.auth.dto.FileDto;
 
@@ -89,7 +90,13 @@ public class YsyFlieHandler {
       
                 // 프로젝트 디렉터리 내의 저장을 위한 절대 경로 설정
                 // 경로 구분자 File.separator 사용 
-                String absolutePath = new File("").getAbsolutePath() + File.separator + File.separator;
+                String absolutePath ="";
+                if(SystemConfig.SEVER_URL.indexOf("tboom") > -1) {
+                	absolutePath = SystemConfig.IMAGE_URL  + File.separator;
+                }else {
+                	absolutePath = new File("").getAbsolutePath() + File.separator;
+                }
+                
                 System.out.println("absolutePath => " + absolutePath);
 
                 // 파일을 저장할 세부 경로 지정
@@ -137,16 +144,21 @@ public class YsyFlieHandler {
                         
                         
                         saveFullPath = absolutePath + path + File.separator;
+                        System.out.println("fullPath = "+fullPath);
+                        
+                        String fileFullPath = "";
+                        if(SystemConfig.SEVER_URL.indexOf("tboom") > -1) {
+                        	fileFullPath = File.separator + filePath;
+                        } else fileFullPath = fullPath;
                         
                         FileDto fileDto = FileDto.builder()
-                        		.orgFileName(orgFileName)
-                        		.newFileName(new_file_name)
-                        		.folderName(current_date)
-                        		.filePath(filePath)
-                        		.fileFullPath(fullPath)
-                        		.fileSize(fileSize)
-                        		.build();
-                        
+				                        		.orgFileName(orgFileName)
+				                        		.newFileName(new_file_name)
+				                        		.folderName(current_date)
+				                        		.filePath(filePath)
+				                        		.fileFullPath(fileFullPath)
+				                        		.fileSize(fileSize)
+				                        		.build();
                         
       
                         // 업로드 한 파일 데이터를 지정한 파일에 저장

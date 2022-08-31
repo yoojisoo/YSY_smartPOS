@@ -89,13 +89,14 @@ public class YsyBoardService {
 			 	   ;
 		System.out.println("boardId = "+boardId);
 		int cnt = em.createNativeQuery("INSERT INTO "
-					+ "ysy_board_mst (board_id , user_id , title , content , reg_id , reg_dt)"
-					+ "       VALUES (       ? ,       ? ,     ? ,       ? ,      ? , now() )")
+					+ "ysy_board_mst (board_id , user_id , title , sub_title, content , reg_id , reg_dt)"
+					+ "       VALUES (       ? ,       ? ,     ? ,        ? ,       ? ,      ? , now() )")
 				    .setParameter(1, boardId)
 				    .setParameter(2, userId)
 				    .setParameter(3, boardDto.getTitle())
-				    .setParameter(4, boardDto.getContent())
-				  	.setParameter(5, userId)
+				    .setParameter(4, boardDto.getSubTitle())
+				    .setParameter(5, boardDto.getContent())
+				  	.setParameter(6, userId)
 				  	.executeUpdate();
 		
 		
@@ -213,6 +214,10 @@ public class YsyBoardService {
 		
 		
 		try {
+			//board master 삭제
+			query.delete(qYsyBoardMst)
+			 	 .where(qYsyBoardMst.boardId.eq(boardDto.getBoardId()))
+			 	 .execute();
 			//file info 삭제
 			List<YsyBoardFile> fileInfoList = 
 					query.select(qYsyBoardFile)
@@ -229,20 +234,21 @@ public class YsyBoardService {
 				{
 					return new ResponseAuthDto<String>("Eeal File Delete Error" , HttpStatus.INTERNAL_SERVER_ERROR);
 				}
-				//db에 저장된 file info 삭제
-				for(YsyBoardFile fileInfo :fileInfoList) {
-					query.delete(qYsyBoardFile)
-						 .where(qYsyBoardFile.fileId.eq(fileInfo.getFileId()))
-						 .execute();
-				}
+				//db에 저장된 file info 삭제 
+				/* 위에서 board 삭제시 fk의 정책으로 인해 qYsyBoardFile테이블의 데이터도 삭제됨
+				 	만약 삭제 안될경우에는 아래 구문을 풀어줘야함.
+					그리고 왜 삭제가 안되는지 이유를 찾아야함
+				 */
+//				for(YsyBoardFile fileInfo :fileInfoList) {
+//					query.delete(qYsyBoardFile)
+//						 .where(qYsyBoardFile.fileId.eq(fileInfo.getFileId()))
+//						 .execute();
+//				}
 			}
 			
 			//comment 삭제해야함.
 			
-			//board master 삭제
-			query.delete(qYsyBoardMst)
-			 	 .where(qYsyBoardMst.boardId.eq(boardDto.getBoardId()))
-			 	 .execute();
+			
 			return new ResponseAuthDto<String>("Save ok" , HttpStatus.OK);
 			
 			
