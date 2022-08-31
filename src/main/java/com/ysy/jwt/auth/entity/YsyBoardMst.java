@@ -77,7 +77,7 @@ public class YsyBoardMst extends BaseEntity implements Serializable {
 
     /** Comment 처리 관련 table */
     @OneToMany(
-    		mappedBy = "ysyUserMst",
+    		mappedBy = "ysyBoardMst",
     		cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
     		orphanRemoval = true
     		)
