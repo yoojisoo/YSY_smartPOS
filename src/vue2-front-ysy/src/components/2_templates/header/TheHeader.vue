@@ -56,7 +56,7 @@
 				</v-list-item>
 				<v-row class="mb-3" justify="space-between" no-gutters>
 					<v-col style="text-align-last: center">
-						<v-btn plain to="/userInfo">내프로필</v-btn>
+						<v-btn plain @click="myInfo">내프로필</v-btn>
 					</v-col>
 					<v-col style="text-align-last: center">
 						<v-btn plain @click="logout">로그아웃</v-btn>
@@ -170,6 +170,9 @@ export default {
 	methods: {
 		activeTab(index) {
 			this.active = index;
+		},
+		myInfo() {
+			this.$router.push({ name: 'myInfo' }).catch(() => {});
 		},
 		logout() {
 			this.$store.dispatch('authStore/clearUserInfo'); // 로그아웃 함수 실행

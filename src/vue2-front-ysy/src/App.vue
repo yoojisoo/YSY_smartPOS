@@ -28,7 +28,6 @@ export default {
 			parentPage: '',
 		};
 	},
-	mixins: [],
 	created() {
 		console.log('app.vue created');
 		//window.addEventListener('beforeunload', this.handler);

@@ -125,7 +125,7 @@ export default {
 	},
 	computed: {
 		getUser() {
-			return this.$store.authStore.loginData;
+			return this.$store.state.authStore.loginData;
 		},
 	},
 	mounted() {

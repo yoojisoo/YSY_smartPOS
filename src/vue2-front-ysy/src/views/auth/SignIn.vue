@@ -67,7 +67,7 @@
 									</v-col>
 								</v-row>
 								<v-row justify="center">
-									<v-col cols="4">
+									<v-col cols="6">
 										<!-- <v-btn
 													block
 													large
@@ -85,7 +85,7 @@
 											<h4 style="color: black">카카오 로그인</h4>
 										</v-btn>
 									</v-col>
-									<v-col cols="4">
+									<v-col cols="6">
 										<v-btn block large color="#03c75a" @click="naverLogin">
 											<v-img
 												contain
@@ -96,7 +96,7 @@
 											<h4 style="color: white">네이버 로그인</h4>
 										</v-btn>
 									</v-col>
-									<v-col cols="4">
+									<!-- <v-col cols="4">
 										<v-btn block large color="white" href="">
 											<v-img
 												contain
@@ -106,7 +106,7 @@
 											></v-img>
 											<h4 style="color: black">구글 로그인</h4>
 										</v-btn>
-									</v-col>
+									</v-col> -->
 								</v-row>
 							</v-card-text>
 						</v-card>
