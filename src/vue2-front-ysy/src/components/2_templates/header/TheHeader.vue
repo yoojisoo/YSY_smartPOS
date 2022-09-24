@@ -172,8 +172,10 @@ export default {
 			this.active = index;
 		},
 		logout() {
-			this.$store.commit('clearUserInfo');
-			this.$router.replace('/signIn');
+			this.$store.dispatch('authStore/clearUserInfo'); // 로그아웃 함수 실행
+			this.drawer = false; // drawer 닫아줌
+			this.$router.replace({ name: 'home' }).catch(() => { }); // home으로 이동
+			location.reload(); // 다시 drawer 켰을때 메뉴 reload를 위해서 미리 실행
 		},
 		// 화면 가로 사이즈가 변경될때 값 변경
 		viewResize() {
