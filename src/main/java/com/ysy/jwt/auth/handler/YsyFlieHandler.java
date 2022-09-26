@@ -120,6 +120,9 @@ public class YsyFlieHandler {
                         String contentType = multipartFile.getContentType();
 
                         // 확장자명이 존재하지 않을 경우 처리 x
+                        //cafe24 지원 포멧  *.jpg, *.gif, *.bmp, *.png
+                        //개별 이미지의 파일 사이즈는 20Mbyte를 초과할 수 없습니다.
+                        //FTP 접속 후 파일 업로드는 www 폴더에 하셔야 하며, www 폴더가 삭제된 경우에는 다시 생성하여 이용하시기 바랍니다.
                         if(ObjectUtils.isEmpty(contentType)) {
                             throw new Exception("error => 파일 확장자가 존재하지 않음!!!!");
                         }
@@ -162,7 +165,10 @@ public class YsyFlieHandler {
                         
       
                         // 업로드 한 파일 데이터를 지정한 파일에 저장
+//                        String tempPath = "https://ysy899.cdn1.cafe24.com/";
+//                        file = new File(tempPath+"/image1.jpg");
                         file = new File(fullPath);
+                        
                         multipartFile.transferTo(file);
                         
                         //exception 발생시 기존 저장했던 파일들 다 지우기 위해 

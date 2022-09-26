@@ -19,6 +19,7 @@ import com.ysy.jwt.auth.entity.QYsyBoardFile;
 import com.ysy.jwt.auth.entity.QYsyBoardMst;
 import com.ysy.jwt.auth.entity.YsyBoardFile;
 import com.ysy.jwt.auth.entity.YsyBoardMst;
+import com.ysy.jwt.auth.handler.YsyFtpHandler;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -43,6 +44,9 @@ public class YsyBoardService {
 	
 	@Autowired
 	private YsyFlieService ysyFlieService;
+	
+	@Autowired
+	private YsyFtpHandler ysyFtpHandler;
 	
 	/**
 	 * @Create by   : clubbboy@naver.com
@@ -101,6 +105,14 @@ public class YsyBoardService {
 		
 		
 		if(boardDto.getFiles().size() > 0) {
+			
+			try {
+				ysyFtpHandler.ftpFileUpload(boardDto.getFiles());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			int fileCnt = ysyFlieService.saveYsyBoardFile(boardDto, boardId, userId);
 			if(fileCnt <= 0) {
 				em.getTransaction().rollback();
@@ -261,7 +273,7 @@ public class YsyBoardService {
 	}
 	
 	
-	
+	@Transactional
 	public int updateYsyBoardViewCnt(long boardId) {
 		
 		YsyBoardMst ysyBoardMst = query.select(qYsyBoardMst)
