@@ -36,4 +36,9 @@ export default [
 		name: 'adminSchedule',
 		component: () => import('@/views/testPages/AdminSchedule.vue'),
 	},
+	{
+		path: '/chatingSample',
+		name: 'chatingSample',
+		component: () => import('@/views/testPages/ChatingSample.vue'),
+	},
 ];
