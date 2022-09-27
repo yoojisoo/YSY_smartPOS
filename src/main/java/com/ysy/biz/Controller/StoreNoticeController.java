@@ -24,4 +24,11 @@ public class StoreNoticeController {
 		if(size <= 0) size = 5;
 		return storeNoticeService.findStoreNotice(size);
 	}
+	
+	
+	@GetMapping("/getTest1")
+	public String getTest(@RequestParam String msg) {
+		System.out.println("msg ========================"+msg);
+		return msg;
+	}
 }

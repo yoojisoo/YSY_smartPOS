@@ -6,11 +6,21 @@
 
         <input type="button" :value="btnTxt" @click="socketConnect" />   
         서버에서 전송된 데이터 : {{serverData}}     
+         <div>
+            <input type="button" value="respApi" @click="respApi" />  
+            respApiData :  {{respApiData}}
+         </div>
+          <div>
+            <input type="button" value="disconnect" @click="disconnect" />  
+            respApiData :  {{respApiData}}
+         </div>
+
     </div>
 </template>
 
 <script setup>
 import {ref , onMounted , onUpdated } from "vue"
+import {  CommonService } from '@/assets/import/index.js';
 
 const btnTxt = ref("submit")
 
@@ -19,6 +29,9 @@ const logs = ref([])
 const serverData = ref("")
 const disabled = ref(false)
 let socket = null;
+let respApiData = ref("");
+
+
 const btnClick = ()=>{
     console.log("btnClickbtnClickbtnClickbtnClickbtnClick, " , btnTxt);
     if(btnTxt.value === "submit"){
@@ -28,7 +41,24 @@ const btnClick = ()=>{
     }
 }
 
+const  respApi = async ()=>{
+    console.log("respApi serverData.value = ",serverData.value);
+     const data = await CommonService.fn_getDataList('/ysy/v1/getTest1?msg=12345');
+     console.log("data =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " , data);
+     respApiData.value = data.data
+}
+
+const disconnect = ()=>{
+    console.log("socket ",socket);
+    
+    //  socket.send("12345");
+    socket.close();
+    socket = null;
+}
+
 const socketConnect = ()=>{
+    if(socket != null) return;
+
 
     socket = new WebSocket(address);
 
@@ -46,9 +76,16 @@ const socketConnect = ()=>{
         console.log("socket msg recive####################",data);
         logs.value.push({ type: 'RECV', msg: 'RECV:' + data })
     }
-    socket.onclose = (msg) => {
-        console.log("socket close####################",msg);
-        logs.value.push({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
+    socket.onclose = (event) => {
+        console.log("socket close####################",event);
+        if (event.wasClean) {
+            alert(`[close] 커넥션이 정상적으로 종료되었습니다(code=${event.code} reason=${event.reason})`);
+        } else {
+            // 예시: 프로세스가 죽거나 네트워크에 장애가 있는 경우
+            // event.code가 1006이 됩니다.
+            alert('[close] 커넥션이 죽었습니다.');
+        }
+        // logs.value.push({ type: 'ERROR', msg: 'Closed (Code: ' + msg.code + ', Message: ' + msg.reason + ')' })
     }
 }
 
