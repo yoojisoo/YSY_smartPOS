@@ -82,6 +82,11 @@
 			</div>
 
 			<v-divider class="ma-0" />
+			<v-row justify="center" no-gutters>
+				<v-btn v-if="getMode == 'user'" block elevation="0" @click="modeChange">관리자메뉴보기</v-btn>
+				<v-btn v-else-if="getMode == 'admin'" block elevation="0" @click="modeChange">사용자메뉴보기</v-btn>
+			</v-row>
+			<v-divider class="ma-0" />
 
 			<v-list>
 				<div v-for="item in headerMenu" :key="item.menu_nm">
@@ -115,7 +120,7 @@
 </template>
 
 <script>
-import { BaseButtonLogoSmall } from '@/assets/import/index.js';
+import { BaseButtonLogoSmall, YsyUtil } from '@/assets/import/index.js';
 import store from '@/store/index';
 import { eventBus } from '@/main.js';
 
@@ -249,12 +254,24 @@ export default {
 				url: 'ysy/v1/findMenuList',
 			};
 			await store.dispatch('menuStore/findMenuList', params);
-			if (this.getUserMenuList) {
-				this.menuList = this.getUserMenuList;
-				this.setHeaderMenu();
+			if (this.getMode == 'user') {
+				if (this.getUserMenuList) {
+					this.menuList = this.getUserMenuList;
+					this.setHeaderMenu();
+				} else {
+					alert(this.getErrorMsg);
+					console.log('this.findMenuList 실패 !!');
+				}
+			} else if (this.getMode == 'admin') {
+				if (this.getAdminMenuList) {
+					this.menuList = this.getAdminMenuList;
+					this.setHeaderMenu();
+				} else {
+					alert(this.getErrorMsg);
+					console.log('this.findMenuList 실패 !!');
+				}
 			} else {
-				alert(this.getErrorMsg);
-				console.log('this.findMenuList 실패 !!');
+				YsyUtil.log('🧨 TheHeader → findMenuList ERROR !! [this.getMode undefined]')
 			}
 		},
 		goPage(parent, child) {
