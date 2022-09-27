@@ -20,9 +20,9 @@
 									<v-col cols="2" class="ma-0 pa-0 hidden-md-and-up"></v-col>
 								</v-row>
 							</v-col>
-							<v-col cols="10" class="ma-0 pa-0 hidden-sm-and-down">
+							<v-col cols="9" class="ma-0 pa-0 hidden-sm-and-down">
 								<!-- 2022 06 02 smk : tab in menu가 안돼서 버튼으로 변경 -->
-								<v-tabs show-arrows v-model="active">
+								<v-tabs show-arrows v-model="active" :color=menuModeColor>
 									<v-menu offset-y transition="slide-y-transition" content-class="menu_content elevation-0" v-for="(item, index) in headerMenu" :key="index">
 										<template v-slot:activator="{ on }">
 											<v-tab v-on="on" v-text="item.menu_nm" @mouseover="activeTab(index)" />
@@ -34,6 +34,10 @@
 										</v-list>
 									</v-menu>
 								</v-tabs>
+							</v-col>
+							<v-col cols="1" class="ma-0 pa-0 hidden-sm-and-down">
+								<v-btn v-if="getMode == 'user'" text @click="modeChange">관리자메뉴보기</v-btn>
+								<v-btn v-else-if="getMode == 'admin'" text @click="modeChange">사용자메뉴보기</v-btn>
 							</v-col>
 						</v-row>
 					</v-col>
@@ -120,6 +124,7 @@ export default {
 	props: ['parentPage'],
 	components: { BaseButtonLogoSmall },
 	data: () => ({
+		menuModeColor: '',
 		active: null,
 		isOpen: false,
 		menuList: [],
@@ -160,12 +165,18 @@ export default {
 		getUserName() {
 			return this.$store.state.authStore.loginData.user_name;
 		},
-		getMenuList() {
-			return this.$store.state.menuStore.menuList;
+		getUserMenuList() {
+			return this.$store.state.menuStore.userMenuList;
+		},
+		getAdminMenuList() {
+			return this.$store.state.menuStore.adminMenuList;
 		},
 		getErrorMsg() {
 			return this.$store.state.menuStore.errorMsg;
 		},
+		getMode() {
+			return this.$store.state.menuStore.mode;
+		}
 	},
 	methods: {
 		activeTab(index) {
@@ -179,6 +190,18 @@ export default {
 			this.drawer = false; // drawer 닫아줌
 			this.$router.replace({ name: 'home' }).catch(() => { }); // home으로 이동
 			location.reload(); // 다시 drawer 켰을때 메뉴 reload를 위해서 미리 실행
+		},
+		modeChange() {
+			this.$store.dispatch('menuStore/modeChange');
+
+			if (this.getMode == 'user') {
+				this.menuModeColor = '';
+				this.menuList = this.getUserMenuList;
+			} else if (this.getMode == 'admin') {
+				this.menuModeColor = 'deep-orange';
+				this.menuList = this.getAdminMenuList;
+			}
+			this.setHeaderMenu();
 		},
 		// 화면 가로 사이즈가 변경될때 값 변경
 		viewResize() {
@@ -226,8 +249,8 @@ export default {
 				url: 'ysy/v1/findMenuList',
 			};
 			await store.dispatch('menuStore/findMenuList', params);
-			if (this.getMenuList) {
-				this.menuList = this.getMenuList;
+			if (this.getUserMenuList) {
+				this.menuList = this.getUserMenuList;
 				this.setHeaderMenu();
 			} else {
 				alert(this.getErrorMsg);

@@ -1,12 +1,11 @@
 <template>
-	<v-system-bar class="hidden-sm-and-down" app height="30">
+	<v-system-bar class="hidden-sm-and-down" app height="35">
 		<v-container class="ma-0 pa-0" fluid>
 			<v-row justify="center" no-gutters>
 				<v-col cols="10">
 					<v-row justify="end" no-gutters>
 						<v-btn-toggle tile group v-if="isLogin && isAdmin">
 							<v-btn v-if="getMyRole && getMyRole == 'ADMIN'" plain @click="fn_freeBoard"> admin 자유게시판 </v-btn>
-							<v-btn plain @click="myInfo">관리자페이지</v-btn>
 							<v-btn plain @click="myInfo">내프로필</v-btn>
 							<v-btn plain @click="logout">로그아웃</v-btn>
 							<BaseButtonThemeChange />

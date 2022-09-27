@@ -10,23 +10,23 @@ import YsyUtil from '@/mixin/YsyUtil';
 
 const menuStore = {
 	namespaced: true,
-
 	state: {
-		menuList: [],
+		mode: 'user',
+		userMenuList: [],
 		adminMenuList: [],
 		filterMenuList: [],
 		errorMsg: '',
 	},
 
 	getters: {
-		getMenuList: state => state.menuList,
+		getUserMenuList: state => state.userMenuList,
 		getAdminMenuList: state => state.adminMenuList,
 		getFilterMenuList: state => state.filterMenuList,
 	},
 
 	mutations: {
-		setMenuList(state, menuList) {
-			state.menuList = menuList;
+		setUserMenuList(state, menuList) {
+			state.userMenuList = menuList;
 		},
 		setAdminMenuList(state, menuList) {
 			state.adminMenuList = menuList;
@@ -37,32 +37,34 @@ const menuStore = {
 		setErrorMsg(state, errorMsg) {
 			state.errorMsg = errorMsg;
 		},
+		modeChange(state) {
+			if (state.mode == 'user') state.mode = 'admin';
+			else state.mode = 'user';
+		}
 	},
 
 	actions: {
 		async findMenuList({ commit }, params) {
 			try {
 				let res = await CommonService.fn_getDataList(params.url, null);
+				let adminMenuList = [];
+				let userMenuList = [];
 
 				if (res.data && res.data.status === 'OK' && res.data.objList !== null) {
 					YsyUtil.log('res.data.objList', res.data.objList);
-					commit('setMenuList', res.data.objList);
+
+					// 220927 mnew2m 찾아온 res.data.objList를 is_admin을 보고 관리자메뉴와 사용자메뉴를 구분시켜둠.
+					res.data.objList.forEach(menu => {
+						if (menu.is_admin == "Y") adminMenuList.push(menu);
+						else if (menu.is_admin == "N") userMenuList.push(menu);
+					});
+
+					commit('setUserMenuList', userMenuList);
+					commit('setAdminMenuList', adminMenuList);
 				} else {
 					commit('setErrorMsg', res.data.msg);
 					YsyUtil.log('❌ menuStore findMenuList ❌');
 				}
-
-				//if (menuList !== null && menuList !== undefined) {
-				//	if (menuList.length > 0) {
-				//		console.log('✅ menuStore findMenuList');
-				//		console.log(menuList);
-				//		commit('setMenuList', menuList);
-				//	} else {
-				//		console.log('Menu List Length 0');
-				//	}
-				//} else {
-				//	console.log('❌ menuStore findMenuList ❌');
-				//}
 			} catch (error) {
 				YsyUtil.log('❌❌❌ MenuStore findMenuList error => ', error);
 			}
@@ -80,6 +82,9 @@ const menuStore = {
 				console.log('UserStore findFilterMenuList error => ' + error);
 			}
 		},
+		modeChange({ commit }) {
+			commit('modeChange');
+		}
 	},
 };
 
