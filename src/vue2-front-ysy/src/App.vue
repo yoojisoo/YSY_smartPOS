@@ -12,7 +12,7 @@
 			<router-view :parentPageName="parentPage" />
 		</v-main>
 		<keep-alive>
-			<v-footer v-if="!isSignView" class="ma-0 pa-0" app fixed>
+			<v-footer v-if="!isSignView" class="ma-0 pa-0"> <!-- app fixed -->
 				<TheFooter />
 			</v-footer>
 		</keep-alive>
@@ -62,6 +62,7 @@ export default {
 	},
 	beforeDestroy() {
 		window.removeEventListener('beforeunload', this.onUnload);
+		localStorage.clear();
 	},
 };
 </script>

@@ -41,4 +41,9 @@ export default [
 		name: 'chatingSample',
 		component: () => import('@/views/testPages/ChatingSample.vue'),
 	},
+	{
+		path: '/templateSample',
+		name: 'templateSample',
+		component: () => import('@/views/testPages/TemplateSample.vue'),
+	},
 ];
