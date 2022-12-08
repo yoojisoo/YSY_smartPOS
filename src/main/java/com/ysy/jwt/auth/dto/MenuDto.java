@@ -28,6 +28,7 @@ public class MenuDto {
 	private Integer menu_seq;
 	private String is_admin;
 	private String menu_icon;
+	private String is_useable;
 
 	public MenuDto(YsyGrpMenuMap menu) {
 		this.p_menu_id = menu.getYsyMenuMst().getPMenuId();
@@ -38,5 +39,6 @@ public class MenuDto {
 		this.menu_seq = menu.getYsyMenuMst().getMenuSeq();
 		this.is_admin = menu.getYsyMenuMst().getIsAdmin();
 		this.menu_icon = menu.getYsyMenuMst().getMenuIcon();
+		this.is_useable = "Y";
 	}
 }

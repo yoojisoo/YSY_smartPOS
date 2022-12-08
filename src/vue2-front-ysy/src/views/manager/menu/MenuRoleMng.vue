@@ -7,7 +7,7 @@
 <template>
 	<v-container class="main_layout_container">
 		<v-row class="main_layout_row">
-			<v-col class="main_layout_col" clos="12" md="10" lg="10" xl="10">
+			<v-col class="main_layout_col" cols="12" md="10" lg="10" xl="10">
 				<v-row justify="center" no-gutters style="height: inherit">
 					<v-col cols="12">
 						<v-breadcrumbs :items="breadCrumbsInfo">
@@ -22,7 +22,11 @@
 								<v-autocomplete label="사용자선택" :items="users" :item-text="itemText" item-value="userId" @input="findFilterMenuList"></v-autocomplete>
 							</v-col>
 							<v-col cols="12">
-								<ysyGrid :gridInfo="gridInfo" />
+								<ysyGrid :gridInfo="gridInfo">
+									<template v-slot:item.isUseAble="{ item }">
+										<v-simple-checkbox v-model="item.isUseAble"> </v-simple-checkbox>
+									</template>
+								</ysyGrid>
 							</v-col>
 						</v-row>
 					</v-col>
