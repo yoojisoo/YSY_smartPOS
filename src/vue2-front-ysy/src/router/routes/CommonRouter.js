@@ -17,6 +17,12 @@ export default [
 		component: () => import('@/views/common/Home.vue'),
 	},
 
+	{
+		path: '/newArticles',
+		name: 'newArticles',
+		component: () => import('@/views/common/NewArticles.vue'),
+	},
+
 	/** Community */
 	{
 		// 시스템공지사항

@@ -12,7 +12,15 @@
 						</v-breadcrumbs>
 					</v-col>
 					<v-col cols="12">
-						<ysyGrid :gridInfo="qnaInfo" />
+						<!-- <ysyGrid :gridInfo="qnaInfo" /> -->
+						<v-card elevation="0">
+							<v-card-title>
+								Q&A
+								<v-spacer />
+								<v-btn depressed color="primary" @click="openCreate('qna')">글쓰기</v-btn>
+							</v-card-title>
+							<v-data-table :headers="qnaInfo.headers" hide-default-footer></v-data-table>
+						</v-card>
 					</v-col>
 				</v-row>
 			</v-col>
@@ -24,12 +32,12 @@
 </template>
 
 <script>
-import ysyGrid from '@/components/FGrid.vue';
+// import ysyGrid from '@/components/FGrid.vue';
 import boardDialog from '@/components/FDialog.vue';
 
 export default {
 	components: {
-		ysyGrid,
+		// ysyGrid,
 		boardDialog,
 	},
 	props: ['parentPageName'],
@@ -59,7 +67,7 @@ export default {
 			},
 			isPopup: false,
 			currentRow: {},
-			breadCrumbsInfo: [{ text: this.parentPageName }, { text: '스토어공지사항' }],
+			breadCrumbsInfo: [{ text: this.parentPageName }, { text: 'QnA' }],
 		};
 	},
 	mounted() {
@@ -91,6 +99,11 @@ export default {
 		dialogCallback(dialogObj) {
 			console.log('dialogObj.msg = ' + dialogObj.msg);
 			this.isPopup = false;
+		},
+		openCreate(type) {
+			if (type == 'qna') {
+				this.$router.push({ path: '/newArticles' });
+			}
 		},
 	},
 };

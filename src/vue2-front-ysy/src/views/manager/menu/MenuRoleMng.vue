@@ -18,15 +18,16 @@
 					</v-col>
 					<v-col cols="12">
 						<v-row align="start" justify="start" no-gutters>
-							<v-col cols="3">
+							<v-col cols="10" md="3" lg="3" xl="3">
 								<v-autocomplete label="사용자선택" :items="users" :item-text="itemText" item-value="userId" @input="findFilterMenuList"></v-autocomplete>
 							</v-col>
-							<v-col cols="12">
-								<ysyGrid :gridInfo="gridInfo">
+							<v-col cols="12" md="10" lg="10" xl="10">
+								<!-- <ysyGrid :gridInfo="gridInfo">
 									<template v-slot:item.isUseAble="{ item }">
 										<v-simple-checkbox v-model="item.isUseAble"> </v-simple-checkbox>
 									</template>
-								</ysyGrid>
+								</ysyGrid> -->
+								<v-data-table :headers="gridInfo.headers" :items="gridInfo.dataList"></v-data-table>
 							</v-col>
 						</v-row>
 					</v-col>
