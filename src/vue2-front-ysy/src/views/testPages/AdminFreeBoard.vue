@@ -19,18 +19,35 @@
 							</template>
 						</v-breadcrumbs>
 					</v-col>
-					<v-col cols="12"> gg </v-col>
-					<v-col
-						v-for="(card, idx) in cardList"
-						:key="idx"
-						:cols="grid_layout.default"
-						:sm="grid_layout.tablet"
-						:md="grid_layout.pc"
-						class="mt-0 pa-0"
-						:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
-						style="text-align: -webkit-center"
-					>
-						<BaseCardImg :info="card" />
+					<v-col cols="12">
+						<v-card class="ma-0 pa-0" width="100%" height="inherit" outlined>
+							<v-row no-gutters align="center" justify="start">
+								<v-col cols="12">
+									<v-card-text>
+										<!--<div class="pr-3">정렬</div>-->
+										<v-chip-group v-model="selection" active-class="primary white--text" column style="width: fit-content">
+											<v-chip v-for="(chip, idx) in chips" :key="idx" v-text="chip.text" @click="dataListSorting(chip.name)" />
+										</v-chip-group>
+									</v-card-text>
+								</v-col>
+							</v-row>
+						</v-card>
+					</v-col>
+					<v-col cols="12">
+						<v-row justify="start" no-gutters>
+							<v-col
+								v-for="(card, idx) in cardList"
+								:key="idx"
+								:cols="grid_layout.default"
+								:sm="grid_layout.tablet"
+								:md="grid_layout.pc"
+								class="ma-0 pa-0"
+								:class="info && info.bottomMargin ? info.bottomMargin : bottomMargin"
+								style="text-align: -webkit-center"
+							>
+								<BaseCardImg :info="card" />
+							</v-col>
+						</v-row>
 					</v-col>
 				</v-row>
 				<!--<v-row no-gutters style="height: inherit">-->
@@ -59,7 +76,8 @@ export default {
 	},
 	data() {
 		return {
-			dataCntInPage: 6, // 한 페이지에 표시 될 데이터 수
+			selection: 0,
+			dataCntInPage: 8, // 한 페이지에 표시 될 데이터 수
 			paginationInfo: {
 				pageCnt: 0, // 총 페이지 수 ⭐
 				//totalVisible: 5, // 페이지 버튼 표시 사이즈
@@ -72,14 +90,22 @@ export default {
 			grid_layout: {
 				default: 12,
 				tablet: 6,
-				pc: 4,
+				pc: 3,
 			},
 			default_img: 'https://cdn.vuetifyjs.com/images/cards/cooking.png',
-			selection: 1,
 			bottomMargin: 'mb-3',
 			dataList: [], // 초기에 조회된 모든 카드 데이터 리스트
 			cardList: [], // 페이징 처리 된 카드 데이터 리스트
 			breadCrumbsInfo: [{ text: this.parentPageName }, { text: 'Admin 자유게시판' }],
+			chips: [
+				{ name: 'date_desc', text: '등록일내림차순' },
+				{ name: 'date_asc', text: '등록일오름차순' },
+				{ name: 'writer', text: '작성자' },
+				//{ name: 'view_asc', text: '조회수오름차순' },
+				//{ name: 'view_asc', text: '조회수내림차순' },
+				//{ name: 'comment_asc', text: '댓글수오름차순' },
+				//{ name: 'comment_asc', text: '댓글수내림차순' },
+			],
 		};
 	},
 	mounted() {
@@ -126,17 +152,6 @@ export default {
 			}
 		},
 
-		updatePage(page) {
-			// Pagination을 눌렀을때 해당 페이지의 데이터를 보관
-			let start = (page - 1) * this.dataCntInPage;
-			let end = page * this.dataCntInPage;
-			this.cardList = this.dataList.slice(start, end);
-		},
-
-		cardClick() {
-			console.log('click');
-		},
-
 		detailMove(type) {
 			console.log('detailMove click = ' + type);
 		},
@@ -146,17 +161,46 @@ export default {
 			console.log(this.scrollInvoked);
 		},
 
-		appendCard() {
-			console.log('cardList >> ', this.cardList);
-			let page = this.cardList.length / this.dataCntInPage + 1;
-			console.log('page >> ', page);
+		/** Pagination 쓸 때, 페이지 변경시 CardList 업데이트 */
+		updatePage(page) {
+			// Pagination을 눌렀을때 해당 페이지의 데이터를 보관
 			let start = (page - 1) * this.dataCntInPage;
 			let end = page * this.dataCntInPage;
-			console.log('start >> ', start);
-			console.log('end >> ', end);
-			console.log('dataList slice >> ', this.dataList.slice(start, end));
+			this.cardList = this.dataList.slice(start, end);
+		},
+
+		/** 더보기 버튼 쓸 때, 버튼 클릭시 CardList ++ */
+		appendCard() {
+			let page = this.cardList.length / this.dataCntInPage + 1;
+			let start = (page - 1) * this.dataCntInPage;
+			let end = page * this.dataCntInPage;
 			this.cardList = this.cardList.concat(this.dataList.slice(start, end));
-			console.log('cardList >> ', this.cardList);
+		},
+
+		dataListSorting(chipName) {
+			switch (chipName) {
+				case 'date_desc':
+					console.log('switch case date_desc');
+					this.dataList.sort(function (a, b) {
+						return a.regDt > b.regDt ? -1 : a.regDt < b.regDt ? 1 : 0;
+					});
+					this.initPage();
+					break;
+				case 'date_asc':
+					console.log('switch case date_asc');
+					this.dataList.sort(function (a, b) {
+						return a.regDt < b.regDt ? -1 : a.regDt > b.regDt ? 1 : 0;
+					});
+					this.initPage();
+					break;
+				case 'writer':
+					console.log('switch case writer');
+					this.dataList.sort(function (a, b) {
+						return a.userName < b.userName ? -1 : a.userName > b.userName ? 1 : 0;
+					});
+					this.initPage();
+					break;
+			}
 		},
 	},
 };

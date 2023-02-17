@@ -11,65 +11,33 @@
     }
 -->
 <template>
-	<!--<v-card class="pa-3 ma-0 mx-2" outlined >
-      <v-row no-gutters>
-          <v-col cols="8" class="ma-0 pa-0">
-              <v-card-title class="pl-1 pt-0 ma-0 text-h5" @click="detailMove('content')" v-text="info.title" />
-              <v-card-subtitle @click="detailMove('content')"  class="pa-0 pr-3">
-
-                  <v-card-text v-if="info.contentList" class="pa-0">
-                      <div v-for="(content1, idx2) in info.contentList" :key="idx2">
-                          {{content1.title}} : {{content1.text}}
-                      </div>
-                  </v-card-text>
-                  <v-card-text v-else class="pa-0">
-                      <div
-                          class="d-inline-block text-truncate cursor_finger"
-                          style="max-width: 100%;">
-                          {{!info.content ? info.content : "Data Not Found!"}}
-                      </div>
-                  </v-card-text>
-              </v-card-subtitle>
-          </v-col>
-
-
-          <v-col cols="4"  class="ma-0 pa-0" style="text-align: center;"  @click="detailMove('content')">
-              <v-avatar size="110" :tile = "info && info.isTile? info.isTile : true">
-                  <v-img class="cursor_finger" :src="info.img? info.img : default_img" />
-              </v-avatar>
-          </v-col>
-      </v-row>-->
-	<v-card class="ma-0 pa-0" width="450" height="490" outlined>
-		<v-img :src="getImgSrc()" class="cursor_finger" contain height="300" @click="detailMove(imgSrc)">
-			<v-btn absolute bottom right fab elevation="0">
+	<v-card class="ma-0 pa-0" width="100%" height="470" outlined>
+		<!-- 이미지 최적화 사이즈 : 290 * 290 (정방형) -->
+		<v-img :src="getImgSrc()" class="cursor_finger" contain height="290" @click="detailMove(imgSrc)">
+			<v-chip v-if="isToday()" color="error" class="ma-3" style="float: left"> NEW </v-chip>
+			<!--<v-btn absolute bottom right fab elevation="0">
 				<v-icon>mdi-bookmark-outline </v-icon>
-			</v-btn>
+			</v-btn>-->
 		</v-img>
-		<v-card-title>
+		<v-divider class="ma-0 pa-1" />
+		<v-card-title class="content_box">
 			<v-icon left v-if="info.attechFileCnt > 0"> mdi-paperclip </v-icon>
 			<span>{{ info.title }}</span>
 		</v-card-title>
-		<v-card-subtitle style="text-align: start">
-			<v-card-text v-if="info.subTitle">
-				<div class="content_box" v-text="info.subTitle" />
-			</v-card-text>
-			<v-card-text v-else>
-				<div class="d-inline-block text-truncate cursor_finger" style="max-width: 100%">
-					{{ !info.subTitle ? info.subTitle : 'Data Not Found!' }}
-				</div>
-			</v-card-text>
-		</v-card-subtitle>
-		<v-card-actions>
-			<v-list-item class="grow">
-				<v-list-item-avatar color="grey darken-3"></v-list-item-avatar>
-				<v-list-item-content>
-					<v-list-item-title>{{ info.userName }}</v-list-item-title>
-				</v-list-item-content>
-				<v-row align="center" justify="end">
-					<v-btn text> 조회수 {{ info.viewCnt }} </v-btn>
-					<v-btn text> 댓글수 {{ info.commentCnt }}</v-btn>
-				</v-row>
-			</v-list-item>
+		<v-card-text class="content_box">
+			<div v-if="info.subTitle" v-text="info.subTitle" />
+			<div v-else>
+				{{ !info.subTitle ? info.subTitle : 'Data Not Found!' }}
+			</div>
+		</v-card-text>
+		<v-card-actions class="pa-3">
+			<v-row no-gutters align="center" justify="start">
+				<v-icon class="mr-2"> mdi-account </v-icon>
+				{{ info.userName }}
+				<v-spacer />
+				<v-btn text> 조회수 {{ info.viewCnt }} </v-btn>
+				<v-btn text> 댓글수 {{ info.commentCnt }}</v-btn>
+			</v-row>
 		</v-card-actions>
 	</v-card>
 </template>
@@ -98,6 +66,17 @@ export default {
 
 			return this.imgSrc;
 		},
+
+		isToday() {
+			let today = new Date();
+			let year = today.getFullYear();
+			let month = ('0' + (today.getMonth() + 1)).slice(-2);
+			let day = ('0' + today.getDate()).slice(-2);
+			let dateString = year + '-' + month + '-' + day;
+
+			return dateString === this.info.regDt;
+		},
+
 		async detailMove(param) {
 			if (param === this.default_img) {
 				alert('다운로드 받을 파일이 없습니다.');
@@ -128,6 +107,7 @@ export default {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	text-align: start;
 	/** 특정 단위로 텍스트를 자르는 css */
 	/*white-space: normal;
 	display: -webkit-box;
